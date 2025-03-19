@@ -117,8 +117,8 @@ public class UIBScrollable : PegUICustomBehavior
 	[CustomEditField(Sections = "Preferences")]
 	public bool m_ScrollDirectionReverse;
 
-	[CustomEditField(Sections = "Preferences")]
 	[Tooltip("If scrolling is active, all PegUI calls will be suppressed")]
+	[CustomEditField(Sections = "Preferences")]
 	public bool m_OverridePegUI;
 
 	[CustomEditField(Sections = "Preferences")]
@@ -130,8 +130,8 @@ public class UIBScrollable : PegUICustomBehavior
 	[CustomEditField(Sections = "Bounds Settings")]
 	public BoxCollider m_ScrollBounds;
 
-	[Tooltip("Determines full area finger is allowed continue scrolling once it has started. Position this behind/below the ScrollBounds.")]
 	[CustomEditField(Sections = "Optional Bounds Settings")]
+	[Tooltip("Determines full area finger is allowed continue scrolling once it has started. Position this behind/below the ScrollBounds.")]
 	public BoxCollider m_TouchDragFullArea;
 
 	[CustomEditField(Sections = "Thumb Settings")]
@@ -156,32 +156,32 @@ public class UIBScrollable : PegUICustomBehavior
 	[CustomEditField(Sections = "Preferences")]
 	public bool m_UseScrollContentsInHitTest = true;
 
-	[CustomEditField(Sections = "Touch Settings")]
 	[Tooltip("Drag distance required to initiate deck tile dragging (inches)")]
+	[CustomEditField(Sections = "Touch Settings")]
 	public float m_DeckTileDragThreshold = 0.04f;
 
 	[CustomEditField(Sections = "Touch Settings")]
 	[Tooltip("Drag distance required to initiate scroll dragging (inches)")]
 	public float m_ScrollDragThreshold = 0.04f;
 
-	[Tooltip("Stopping speed for scrolling after the user has let go")]
 	[CustomEditField(Sections = "Touch Settings")]
+	[Tooltip("Stopping speed for scrolling after the user has let go")]
 	public float m_MinKineticScrollSpeed = 0.01f;
 
-	[CustomEditField(Sections = "Touch Settings")]
 	[Tooltip("Resistance for slowing down scrolling after the user has let go")]
+	[CustomEditField(Sections = "Touch Settings")]
 	public float m_KineticScrollFriction = 6f;
 
-	[CustomEditField(Sections = "Touch Settings")]
 	[Tooltip("Strength of the boundary springs")]
+	[CustomEditField(Sections = "Touch Settings")]
 	public float m_ScrollBoundsSpringK = 700f;
 
-	[Tooltip("Distance at which the out-of-bounds scroll value will snapped to 0 or 1")]
 	[CustomEditField(Sections = "Touch Settings")]
+	[Tooltip("Distance at which the out-of-bounds scroll value will snapped to 0 or 1")]
 	public float m_MinOutOfBoundsScrollValue = 0.001f;
 
-	[Tooltip("Use this to match scaling issues.")]
 	[CustomEditField(Sections = "Touch Settings")]
+	[Tooltip("Use this to match scaling issues.")]
 	public float m_ScrollDeltaMultiplier = 1f;
 
 	[CustomEditField(Sections = "Touch Settings")]

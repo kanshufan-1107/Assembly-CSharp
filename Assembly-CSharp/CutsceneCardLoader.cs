@@ -18,8 +18,8 @@ public class CutsceneCardLoader : MonoBehaviour
 	[SerializeField]
 	private Card m_card;
 
-	[Header("Template Prefabs")]
 	[SerializeField]
+	[Header("Template Prefabs")]
 	private GameObject m_heroCardInPlayPrefab;
 
 	[SerializeField]
@@ -28,8 +28,8 @@ public class CutsceneCardLoader : MonoBehaviour
 	[SerializeField]
 	private GameObject m_heroPowerCardInPlayPrefab;
 
-	[Header("Actor Settings")]
 	[SerializeField]
+	[Header("Actor Settings")]
 	private ActorConfig m_actorConfig;
 
 	private GameObject m_loadedCardTemplate;

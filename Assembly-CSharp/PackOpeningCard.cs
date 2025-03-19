@@ -75,6 +75,8 @@ public class PackOpeningCard : MonoBehaviour
 
 	private int m_cardNumber;
 
+	private const int MAXIMUM_NUMBER_OF_CLASSES_TO_INDIVIDUALLY_LIST = 2;
+
 	public event EventHandler OnSpellFinishedEvent;
 
 	public event EventHandler<Spell> OnSpellStateFinishedEvent;
@@ -913,23 +915,15 @@ public class PackOpeningCard : MonoBehaviour
 
 	private string GetFamilyClassNames()
 	{
-		if (m_entityDef.HasTag(GAME_TAG.GRIMY_GOONS))
-		{
-			return GameStrings.Get("GLUE_GOONS_CLASS_NAMES");
-		}
-		if (m_entityDef.HasTag(GAME_TAG.JADE_LOTUS))
-		{
-			return GameStrings.Get("GLUE_LOTUS_CLASS_NAMES");
-		}
-		if (m_entityDef.HasTag(GAME_TAG.KABAL))
-		{
-			return GameStrings.Get("GLUE_KABAL_CLASS_NAMES");
-		}
 		List<TAG_CLASS> classes = new List<TAG_CLASS>();
 		m_entityDef.GetClasses(classes);
 		if (classes.Count() == 10)
 		{
 			return GameStrings.Get("GLUE_PACK_OPENING_ALL_CLASSES");
+		}
+		if (classes.Count() > 2)
+		{
+			return GameStrings.Format("GLOBAL_KEYWORD_MULTICLASS", classes.Count);
 		}
 		string className = "";
 		foreach (TAG_CLASS classTag in classes)

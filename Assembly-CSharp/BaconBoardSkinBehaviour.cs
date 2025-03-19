@@ -54,12 +54,12 @@ public class BaconBoardSkinBehaviour : MonoBehaviour
 	[UnityEngine.Tooltip("If checked apply a default lighting transition using the color and timing variables below.")]
 	public bool m_DefaultLightingEnabled = true;
 
-	[SerializeField]
 	[UnityEngine.Tooltip("If checked then this board has its own leaderboard frame and should hide the base one.")]
+	[SerializeField]
 	private bool m_HasOwnLeaderboardFrame;
 
-	[UnityEngine.Tooltip("If checked then this board has its own table top and should hide the base one.")]
 	[SerializeField]
+	[UnityEngine.Tooltip("If checked then this board has its own table top and should hide the base one.")]
 	private bool m_HasOwnTableTop;
 
 	[UnityEngine.Tooltip("Minimum minion damage required before it's considered a 'heavy hit' (exposed for designer tweaking).")]

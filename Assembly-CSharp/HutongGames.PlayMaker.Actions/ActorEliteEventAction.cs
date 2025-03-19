@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Send an event based on an Actor's Card's elite flag.")]
+[ActionCategory("Pegasus")]
 public class ActorEliteEventAction : ActorAction
 {
 	public FsmOwnerDefault m_ActorObject;

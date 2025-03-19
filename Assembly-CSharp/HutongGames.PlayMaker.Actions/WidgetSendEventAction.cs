@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Send an event to the chosen game object. (No payload)")]
 [ActionCategory("Pegasus")]
+[Tooltip("Send an event to the chosen game object. (No payload)")]
 public class WidgetSendEventAction : FsmStateAction
 {
 	[Tooltip("Specify which game object to send the event.")]
 	[RequiredField]
 	public FsmGameObject gameObject;
 
-	[Tooltip("Name of the event we're sending to the widget.")]
 	[RequiredField]
+	[Tooltip("Name of the event we're sending to the widget.")]
 	public FsmString eventName;
 
 	public override void Reset()

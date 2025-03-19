@@ -9,16 +9,16 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [WidgetBehaviorDescription(Path = "Hearthstone/Pack", UniqueWithinCategory = "asset")]
+[AddComponentMenu("")]
 public class Pack : CustomWidgetBehavior, IWidgetEventListener
 {
 	[Tooltip("This is the pack displayed by default. INVALID means nothing will be displayed.")]
 	[SerializeField]
 	private BoosterDbId m_defaultPack = BoosterDbId.CLASSIC;
 
-	[SerializeField]
 	[Tooltip("If true, it will use data model 'pack' whenever bound.")]
+	[SerializeField]
 	private bool m_useDataModel = true;
 
 	[SerializeField]

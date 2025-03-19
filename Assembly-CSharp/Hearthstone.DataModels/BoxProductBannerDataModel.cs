@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -142,8 +143,12 @@ public class BoxProductBannerDataModel : DataModelEventDispatcher, IDataModel, I
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = ((17 * 31 + ((m_HeaderText != null) ? m_HeaderText.GetHashCode() : 0)) * 31 + ((m_ButtonText != null) ? m_ButtonText.GetHashCode() : 0)) * 31;
 		_ = m_BannerColor;
 		return ((num + m_BannerColor.GetHashCode()) * 31 + ((m_ImageTexture != null) ? m_ImageTexture.GetHashCode() : 0)) * 31 + ((m_SecondaryImageTexture != null) ? m_SecondaryImageTexture.GetHashCode() : 0);

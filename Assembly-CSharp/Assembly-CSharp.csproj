@@ -12,194 +12,190 @@
   <ItemGroup />
   <ItemGroup>
     <Reference Include="Blizzard.T5.Core">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Core.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Core.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.Commerce.Wrapper">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Commerce.Wrapper.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Commerce.Wrapper.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="Blizzard.T5.AssetManager">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.AssetManager.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.AssetManager.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.AssetLoader">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.AssetLoader.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.AssetLoader.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.ServiceLocator">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.ServiceLocator.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.ServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.JobQueue">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.JobQueue.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.JobQueue.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.UberText.Runtime">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.UberText.Runtime.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.UberText.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="PlayMaker">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\PlayMaker.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\PlayMaker.dll</HintPath>
     </Reference>
     <Reference Include="blizzard.bgsclient">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\blizzard.bgsclient.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\blizzard.bgsclient.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.Game">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Game.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Game.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.iTween">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.iTween.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.iTween.dll</HintPath>
     </Reference>
     <Reference Include="blizzard.bgssdk">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\blizzard.bgssdk.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\blizzard.bgssdk.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.UI.Core">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.UI.Core.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.UI.Core.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VideoModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.Configuration">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Configuration.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.FontService">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.FontService.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.FontService.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.ErrorInterface">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.ErrorInterface.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.ErrorInterface.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.GraphicsManagerInterface">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.GraphicsManagerInterface.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.GraphicsManagerInterface.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.Logging">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Logging.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UniTask">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UniTask.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UniTask.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.Localization">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Localization.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Localization.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.MiniJSON">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.MiniJSON.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.MiniJSON.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.Timeline.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.DirectorModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.DirectorModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.DirectorModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.PlayMakerCustomActions.Runtime">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.PlayMakerCustomActions.Runtime.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.PlayMakerCustomActions.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.Network-Core">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Network-Core.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.Network-Core.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.Commerce.Model.CSharp">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Commerce.Model.CSharp.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Commerce.Model.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="com.blizzard.mobile-unity-auth-sdk">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\com.blizzard.mobile-unity-auth-sdk.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\com.blizzard.mobile-unity-auth-sdk.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.Telemetry.StandardProtos.BlizzPbc">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Telemetry.StandardProtos.BlizzPbc.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Telemetry.StandardProtos.BlizzPbc.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AndroidJNIModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Blizzard.T5.MaterialService">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.MaterialService.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.MaterialService.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ZombieObjectDetector.Runtime">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.ZombieObjectDetector.Runtime.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.ZombieObjectDetector.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.GameStringsInterface">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.GameStringsInterface.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.GameStringsInterface.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.Telemetry.Sdk">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Telemetry.Sdk.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Telemetry.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.Telemetry.Identity">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Telemetry.Identity.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.Telemetry.Identity.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.FXBuilder">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.FXBuilder.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.FXBuilder.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="AppsFlyer">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\AppsFlyer.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\System.Net.Http.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\AppsFlyer.dll</HintPath>
     </Reference>
     <Reference Include="Unity.SharpZipLib">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Google.Protobuf.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.Mathematics.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="Blizzard.T5.PlayMaker.Runtime">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.PlayMaker.Runtime.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\Blizzard.T5.PlayMaker.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
     </Reference>
     <Reference Include="QRCoderUnity">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\QRCoderUnity.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\QRCoderUnity.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ScreenCaptureModule">
-      <HintPath>..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Hearthstone\Hearthstone_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
 </Project>

@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Plays the Audio Clip on a Game Object or plays a one shot clip. Does not wait for the audio to finish.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioPlaythroughAction : FsmStateAction
 {
 	[CheckForComponent(typeof(AudioSource))]
@@ -13,8 +13,8 @@ public class AudioPlaythroughAction : FsmStateAction
 	[Tooltip("The GameObject with the AudioSource component.")]
 	public FsmOwnerDefault m_GameObject;
 
-	[Tooltip("Scales the volume of the AudioSource just for this Play call.")]
 	[HasFloatSlider(0f, 1f)]
+	[Tooltip("Scales the volume of the AudioSource just for this Play call.")]
 	public FsmFloat m_VolumeScale;
 
 	[ObjectType(typeof(AudioClip))]
@@ -23,8 +23,8 @@ public class AudioPlaythroughAction : FsmStateAction
 
 	public float m_Delay;
 
-	[ObjectType(typeof(SoundDef))]
 	[Tooltip("Optionally play a one shot AudioClip.")]
+	[ObjectType(typeof(SoundDef))]
 	public FsmObject m_OneShotSound;
 
 	[Tooltip("Event to send when the AudioSource finishes playing.")]

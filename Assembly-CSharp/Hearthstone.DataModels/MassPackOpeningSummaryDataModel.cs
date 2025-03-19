@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -238,11 +239,71 @@ public class MassPackOpeningSummaryDataModel : DataModelEventDispatcher, IDataMo
 		RegisterNestedDataModel(m_LegendariesOpenedFallback);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_NumPacksOpened;
-		int num2 = (((((((num + m_NumPacksOpened.GetHashCode()) * 31 + ((m_CommonsOpened != null) ? m_CommonsOpened.GetPropertiesHashCode() : 0)) * 31 + ((m_RaresOpened != null) ? m_RaresOpened.GetPropertiesHashCode() : 0)) * 31 + ((m_EpicsOpened != null) ? m_EpicsOpened.GetPropertiesHashCode() : 0)) * 31 + ((m_LegendariesOpened != null) ? m_LegendariesOpened.GetPropertiesHashCode() : 0)) * 31 + ((m_BannerTypeOrder != null) ? m_BannerTypeOrder.GetPropertiesHashCode() : 0)) * 31 + ((m_LegendariesOpenedFallback != null) ? m_LegendariesOpenedFallback.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_NumPacksOpened.GetHashCode();
+		if (m_CommonsOpened != null && !inspectedDataModels.Contains(m_CommonsOpened.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CommonsOpened.GetHashCode());
+			hash = hash * 31 + m_CommonsOpened.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_RaresOpened != null && !inspectedDataModels.Contains(m_RaresOpened.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RaresOpened.GetHashCode());
+			hash = hash * 31 + m_RaresOpened.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_EpicsOpened != null && !inspectedDataModels.Contains(m_EpicsOpened.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_EpicsOpened.GetHashCode());
+			hash = hash * 31 + m_EpicsOpened.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_LegendariesOpened != null && !inspectedDataModels.Contains(m_LegendariesOpened.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_LegendariesOpened.GetHashCode());
+			hash = hash * 31 + m_LegendariesOpened.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_BannerTypeOrder != null && !inspectedDataModels.Contains(m_BannerTypeOrder.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BannerTypeOrder.GetHashCode());
+			hash = hash * 31 + m_BannerTypeOrder.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_LegendariesOpenedFallback != null && !inspectedDataModels.Contains(m_LegendariesOpenedFallback.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_LegendariesOpenedFallback.GetHashCode());
+			hash = hash * 31 + m_LegendariesOpenedFallback.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_NumLegendariesOpened;
 		return num2 + m_NumLegendariesOpened.GetHashCode();
 	}

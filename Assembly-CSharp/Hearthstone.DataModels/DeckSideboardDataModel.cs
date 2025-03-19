@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -273,21 +274,43 @@ public class DeckSideboardDataModel : DataModelEventDispatcher, IDataModel, IDat
 		RegisterNestedDataModel(m_HeroClasses);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_OwnerCardId != null) ? m_OwnerCardId.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_OwnerCardId != null) ? m_OwnerCardId.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_Premium;
-		int num2 = (num + m_Premium.GetHashCode()) * 31;
+		hash = num + m_Premium.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_MaxCards;
-		int num3 = (num2 + m_MaxCards.GetHashCode()) * 31;
+		hash = num2 + m_MaxCards.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_CardCount;
-		int num4 = (num3 + m_CardCount.GetHashCode()) * 31;
+		hash = num3 + m_CardCount.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_HasInvalidCards;
-		int num5 = ((num4 + m_HasInvalidCards.GetHashCode()) * 31 + ((m_HeroClasses != null) ? m_HeroClasses.GetPropertiesHashCode() : 0)) * 31;
+		hash = num4 + m_HasInvalidCards.GetHashCode();
+		if (m_HeroClasses != null && !inspectedDataModels.Contains(m_HeroClasses.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_HeroClasses.GetHashCode());
+			hash = hash * 31 + m_HeroClasses.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num5 = hash * 31;
 		_ = m_EnableEditButton;
-		int num6 = (num5 + m_EnableEditButton.GetHashCode()) * 31;
+		hash = num5 + m_EnableEditButton.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_HighlightEditButton;
-		int num7 = ((num6 + m_HighlightEditButton.GetHashCode()) * 31 + ((m_ButtonLabelText != null) ? m_ButtonLabelText.GetHashCode() : 0)) * 31;
+		hash = num6 + m_HighlightEditButton.GetHashCode();
+		hash = hash * 31 + ((m_ButtonLabelText != null) ? m_ButtonLabelText.GetHashCode() : 0);
+		int num7 = hash * 31;
 		_ = m_MinCards;
 		return num7 + m_MinCards.GetHashCode();
 	}

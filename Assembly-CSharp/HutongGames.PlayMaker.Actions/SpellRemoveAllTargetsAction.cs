@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Removes all targets from a Spell.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Removes all targets from a Spell.")]
 public class SpellRemoveAllTargetsAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

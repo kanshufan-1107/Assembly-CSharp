@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -790,31 +791,184 @@ public class RewardItemDataModel : DataModelEventDispatcher, IDataModel, IDataMo
 		RegisterNestedDataModel(m_Deck);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_PmtLicenseId;
-		int num2 = (num + m_PmtLicenseId.GetHashCode()) * 31;
+		hash = num + m_PmtLicenseId.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_ItemType;
-		int num3 = (num2 + m_ItemType.GetHashCode()) * 31;
+		hash = num2 + m_ItemType.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_ItemId;
-		int num4 = (num3 + m_ItemId.GetHashCode()) * 31;
+		hash = num3 + m_ItemId.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_Quantity;
-		int num5 = ((((num4 + m_Quantity.GetHashCode()) * 31 + ((m_Booster != null) ? m_Booster.GetPropertiesHashCode() : 0)) * 31 + ((m_CardBack != null) ? m_CardBack.GetPropertiesHashCode() : 0)) * 31 + ((m_Currency != null) ? m_Currency.GetPropertiesHashCode() : 0)) * 31;
+		hash = num4 + m_Quantity.GetHashCode();
+		if (m_Booster != null && !inspectedDataModels.Contains(m_Booster.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Booster.GetHashCode());
+			hash = hash * 31 + m_Booster.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_CardBack != null && !inspectedDataModels.Contains(m_CardBack.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CardBack.GetHashCode());
+			hash = hash * 31 + m_CardBack.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Currency != null && !inspectedDataModels.Contains(m_Currency.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Currency.GetHashCode());
+			hash = hash * 31 + m_Currency.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num5 = hash * 31;
 		_ = m_AssetId;
-		int num6 = (((((((((((num5 + m_AssetId.GetHashCode()) * 31 + ((m_Card != null) ? m_Card.GetPropertiesHashCode() : 0)) * 31 + ((m_RandomCard != null) ? m_RandomCard.GetPropertiesHashCode() : 0)) * 31 + ((m_MercenaryCoin != null) ? m_MercenaryCoin.GetPropertiesHashCode() : 0)) * 31 + ((m_Mercenary != null) ? m_Mercenary.GetPropertiesHashCode() : 0)) * 31 + ((m_MercenaryEquip != null) ? m_MercenaryEquip.GetPropertiesHashCode() : 0)) * 31 + ((m_RandomMercenary != null) ? m_RandomMercenary.GetPropertiesHashCode() : 0)) * 31 + ((m_BGBoardSkin != null) ? m_BGBoardSkin.GetPropertiesHashCode() : 0)) * 31 + ((m_BGFinisher != null) ? m_BGFinisher.GetPropertiesHashCode() : 0)) * 31 + ((m_BGEmote != null) ? m_BGEmote.GetPropertiesHashCode() : 0)) * 31 + ((m_BGEmotePile != null) ? m_BGEmotePile.GetPropertiesHashCode() : 0)) * 31;
+		hash = num5 + m_AssetId.GetHashCode();
+		if (m_Card != null && !inspectedDataModels.Contains(m_Card.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Card.GetHashCode());
+			hash = hash * 31 + m_Card.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_RandomCard != null && !inspectedDataModels.Contains(m_RandomCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RandomCard.GetHashCode());
+			hash = hash * 31 + m_RandomCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_MercenaryCoin != null && !inspectedDataModels.Contains(m_MercenaryCoin.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MercenaryCoin.GetHashCode());
+			hash = hash * 31 + m_MercenaryCoin.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Mercenary != null && !inspectedDataModels.Contains(m_Mercenary.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Mercenary.GetHashCode());
+			hash = hash * 31 + m_Mercenary.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_MercenaryEquip != null && !inspectedDataModels.Contains(m_MercenaryEquip.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MercenaryEquip.GetHashCode());
+			hash = hash * 31 + m_MercenaryEquip.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_RandomMercenary != null && !inspectedDataModels.Contains(m_RandomMercenary.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RandomMercenary.GetHashCode());
+			hash = hash * 31 + m_RandomMercenary.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_BGBoardSkin != null && !inspectedDataModels.Contains(m_BGBoardSkin.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BGBoardSkin.GetHashCode());
+			hash = hash * 31 + m_BGBoardSkin.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_BGFinisher != null && !inspectedDataModels.Contains(m_BGFinisher.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BGFinisher.GetHashCode());
+			hash = hash * 31 + m_BGFinisher.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_BGEmote != null && !inspectedDataModels.Contains(m_BGEmote.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BGEmote.GetHashCode());
+			hash = hash * 31 + m_BGEmote.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_BGEmotePile != null && !inspectedDataModels.Contains(m_BGEmotePile.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BGEmotePile.GetHashCode());
+			hash = hash * 31 + m_BGEmotePile.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num6 = hash * 31;
 		_ = m_BattlegroundsBonusType;
-		int num7 = (num6 + m_BattlegroundsBonusType.GetHashCode()) * 31;
+		hash = num6 + m_BattlegroundsBonusType.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_IsMercenaryPortrait;
-		int num8 = (num7 + m_IsMercenaryPortrait.GetHashCode()) * 31;
+		hash = num7 + m_IsMercenaryPortrait.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_IsClaimed;
-		int num9 = (((num8 + m_IsClaimed.GetHashCode()) * 31 + ((m_BattlegroundsBattleBashHammer != null) ? m_BattlegroundsBattleBashHammer.GetPropertiesHashCode() : 0)) * 31 + ((m_Season != null) ? m_Season.GetHashCode() : 0)) * 31;
+		hash = num8 + m_IsClaimed.GetHashCode();
+		if (m_BattlegroundsBattleBashHammer != null && !inspectedDataModels.Contains(m_BattlegroundsBattleBashHammer.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BattlegroundsBattleBashHammer.GetHashCode());
+			hash = hash * 31 + m_BattlegroundsBattleBashHammer.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_Season != null) ? m_Season.GetHashCode() : 0);
+		int num9 = hash * 31;
 		_ = m_HeroClassId;
-		int num10 = (num9 + m_HeroClassId.GetHashCode()) * 31;
+		hash = num9 + m_HeroClassId.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_GameModeId;
-		int num11 = ((num10 + m_GameModeId.GetHashCode()) * 31 + ((m_Deck != null) ? m_Deck.GetPropertiesHashCode() : 0)) * 31;
+		hash = num10 + m_GameModeId.GetHashCode();
+		if (m_Deck != null && !inspectedDataModels.Contains(m_Deck.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Deck.GetHashCode());
+			hash = hash * 31 + m_Deck.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num11 = hash * 31;
 		_ = m_DeckTemplateId;
-		int num12 = ((num11 + m_DeckTemplateId.GetHashCode()) * 31 + ((m_StandaloneDescription != null) ? m_StandaloneDescription.GetHashCode() : 0)) * 31;
+		hash = num11 + m_DeckTemplateId.GetHashCode();
+		hash = hash * 31 + ((m_StandaloneDescription != null) ? m_StandaloneDescription.GetHashCode() : 0);
+		int num12 = hash * 31;
 		_ = m_HeroClassCount;
 		return num12 + m_HeroClassCount.GetHashCode();
 	}

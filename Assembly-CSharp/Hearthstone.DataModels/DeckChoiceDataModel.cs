@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -116,8 +117,12 @@ public class DeckChoiceDataModel : DataModelEventDispatcher, IDataModel, IDataMo
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_ChoiceClassID;
 		return (((num + m_ChoiceClassID.GetHashCode()) * 31 + ((m_ChoiceClassName != null) ? m_ChoiceClassName.GetHashCode() : 0)) * 31 + ((m_DeckDescription != null) ? m_DeckDescription.GetHashCode() : 0)) * 31 + ((m_ButtonClass != null) ? m_ButtonClass.GetHashCode() : 0);

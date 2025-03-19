@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -48,9 +49,19 @@ public class AchievementSectionListDataModel : DataModelEventDispatcher, IDataMo
 		RegisterNestedDataModel(m_Sections);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return 17 * 31 + ((m_Sections != null) ? m_Sections.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Sections != null && !inspectedDataModels.Contains(m_Sections.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Sections.GetHashCode());
+			return hash * 31 + m_Sections.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

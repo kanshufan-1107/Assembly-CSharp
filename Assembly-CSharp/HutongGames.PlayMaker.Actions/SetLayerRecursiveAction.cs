@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Sets the layer on a game object and its children.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Sets the layer on a game object and its children.")]
 public class SetLayerRecursiveAction : FsmStateAction
 {
 	[RequiredField]

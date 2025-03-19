@@ -1606,6 +1606,24 @@ public class TooltipPanelManager : MonoBehaviour
 			SetupTooltipPanel(name, text);
 			return true;
 		}
+		if (tag == GAME_TAG.BACON_YAMATO_CANNON_TOOLTIP || tag == GAME_TAG.BACON_LIBERATOR_TOOLTIP || tag == GAME_TAG.BACON_MEDIVAC_TOOLTIP)
+		{
+			string name2 = GameStrings.GetKeywordName(tag);
+			string text2 = GameStrings.Get(GameStrings.GetKeywordTextKey(tag));
+			int bonus2 = entityBase.GetTag(tag);
+			if (tag == GAME_TAG.BACON_YAMATO_CANNON_TOOLTIP && entityBase.HasTag(GAME_TAG.BACON_YAMATO_CANNON))
+			{
+				text2 = GameStrings.Get("GLOBAL_KEYWORD_YAMATO_CANNON_TEXT_ALT");
+			}
+			if (text2 == null)
+			{
+				Log.Gameplay.PrintError("TooltipPanelManager.SetupKeywordPanelIfNecessary(): Unable to load battlecruiser tooltip text.");
+				return false;
+			}
+			text2 = string.Format(text2, bonus2);
+			SetupTooltipPanel(name2, text2);
+			return true;
+		}
 		if (tag == GAME_TAG.LETTUCE_FACTION && (tagValue != 0 || referenceTagValue != 0))
 		{
 			TAG_LETTUCE_FACTION tAG_LETTUCE_FACTION = (TAG_LETTUCE_FACTION)tagValue;
@@ -1643,9 +1661,9 @@ public class TooltipPanelManager : MonoBehaviour
 				Entity[] array = children;
 				foreach (Entity child in array)
 				{
-					string name2 = child.GetName();
+					string name3 = child.GetName();
 					string transformedCardText = UberText.RemoveMarkupAndCollapseWhitespaces(child.GetCardTextInHand(), replaceCarriageReturnWithBreakHint: true, preserveBreakHint: true);
-					SetupTooltipPanel(name2, transformedCardText).SetLockVisibility(child.HasTag(GAME_TAG.LITERALLY_UNPLAYABLE));
+					SetupTooltipPanel(name3, transformedCardText).SetLockVisibility(child.HasTag(GAME_TAG.LITERALLY_UNPLAYABLE));
 				}
 				SetupKeywordPanel(tag);
 				return true;
@@ -1657,6 +1675,49 @@ public class TooltipPanelManager : MonoBehaviour
 				SetupKeywordPanel(tag);
 				return true;
 			}
+		}
+		if (tagValue != 0 && tag == GAME_TAG.HAS_DARK_GIFT && currentSceneMode == SceneMgr.Mode.GAMEPLAY)
+		{
+			if (entityBase.GetTag<TAG_ZONE>(GAME_TAG.ZONE) != TAG_ZONE.HAND)
+			{
+				return false;
+			}
+			int entityID2 = entityBase.GetEntityId();
+			Entity parent2 = GameState.Get().GetEntity(entityID2);
+			if (parent2 == null)
+			{
+				Log.Gameplay.PrintWarning("Unable to locate the parent entity for entityId {0}", entityID2);
+				return false;
+			}
+			List<Entity> displayedEnchantments = parent2.GetDisplayedEnchantments();
+			List<Entity> darkGifts = new List<Entity>();
+			foreach (Entity child2 in displayedEnchantments)
+			{
+				if (child2.GetTag(GAME_TAG.IS_NIGHTMARE_BONUS) == 1)
+				{
+					darkGifts.Add(child2);
+				}
+			}
+			if (darkGifts.Count == 0)
+			{
+				Log.Gameplay.PrintWarning("{0} claims to have dark gifts but doesn't have any dark gift enchantments attatched", entityBase);
+				return false;
+			}
+			if (darkGifts.Count > 2)
+			{
+				string name4 = GameStrings.Format("GLOBAL_KEYWORD_DARKGIFT_BONUS_MULTI");
+				string text3 = GameStrings.Format("GLOBAL_KEYWORD_DARKGIFT_BONUS_MULTI_TEXT", darkGifts.Count);
+				SetupTooltipPanel(name4, text3);
+			}
+			else
+			{
+				foreach (Entity child3 in darkGifts)
+				{
+					string name5 = GameStrings.Get("GLOBAL_KEYWORD_DARKGIFT_BONUS");
+					SetupTooltipPanel(name5, child3.GetCardTextInHand());
+				}
+			}
+			return true;
 		}
 		if (tagValue != 0 && tag == GAME_TAG.EXCAVATE && currentSceneMode == SceneMgr.Mode.GAMEPLAY)
 		{
@@ -1680,9 +1741,9 @@ public class TooltipPanelManager : MonoBehaviour
 				currentString = GameStrings.Get("GLOBAL_KEYWORD_EXCAVATE_LEGENDARY");
 				break;
 			}
-			string name3 = GameStrings.GetKeywordName(tag);
-			string text2 = GameStrings.Format("GLOBAL_KEYWORD_EXCAVATE_GAMEPLAY", maxString, currentString);
-			SetupTooltipPanel(name3, text2);
+			string name6 = GameStrings.GetKeywordName(tag);
+			string text4 = GameStrings.Format("GLOBAL_KEYWORD_EXCAVATE_GAMEPLAY", maxString, currentString);
+			SetupTooltipPanel(name6, text4);
 			return true;
 		}
 		if (keyWordRecord != null && !keyWordRecord.IsCollectionOnly)
@@ -1716,10 +1777,10 @@ public class TooltipPanelManager : MonoBehaviour
 					if (tag == spellpowerTag)
 					{
 						int spellPower = entityBase.GetTag(tag);
-						string text3 = string.Empty;
-						text3 = ((spellPower <= 0) ? GameStrings.Get(GameStrings.GetRefKeywordTextKey(tag)) : GameStrings.Format(GameStrings.GetKeywordTextKey(tag), spellPower));
-						string name4 = GameStrings.GetKeywordName(tag);
-						SetupTooltipPanel(name4, text3);
+						string text5 = string.Empty;
+						text5 = ((spellPower <= 0) ? GameStrings.Get(GameStrings.GetRefKeywordTextKey(tag)) : GameStrings.Format(GameStrings.GetKeywordTextKey(tag), spellPower));
+						string name7 = GameStrings.GetKeywordName(tag);
+						SetupTooltipPanel(name7, text5);
 						return true;
 					}
 				}
@@ -1758,20 +1819,20 @@ public class TooltipPanelManager : MonoBehaviour
 						return false;
 					}
 					EntityDef preTransformEntityDef = DefLoader.Get().GetEntityDef(cardDbId);
-					string text4 = GameStrings.Get(GameStrings.GetKeywordTextKey(tag));
+					string text6 = GameStrings.Get(GameStrings.GetKeywordTextKey(tag));
 					if (cardDbId == 102614)
 					{
-						text4 = text4 + " " + GameStrings.Get("GLOBAL_KEYWORD_SHIFTING_ADDS_STEALTH_TEXT");
+						text6 = text6 + " " + GameStrings.Get("GLOBAL_KEYWORD_SHIFTING_ADDS_STEALTH_TEXT");
 					}
 					if (cardDbId == 102564)
 					{
-						text4 = text4 + " " + GameStrings.Get("GLOBAL_KEYWORD_SHIFTING_ADDS_SPELL_DAMAGE_TEXT");
+						text6 = text6 + " " + GameStrings.Get("GLOBAL_KEYWORD_SHIFTING_ADDS_SPELL_DAMAGE_TEXT");
 					}
 					if (cardDbId == 102549)
 					{
-						text4 = text4 + " " + GameStrings.Get("GLOBAL_KEYWORD_SHIFTING_ADDS_POISONOUS_TEXT");
+						text6 = text6 + " " + GameStrings.Get("GLOBAL_KEYWORD_SHIFTING_ADDS_POISONOUS_TEXT");
 					}
-					SetupTooltipPanel(preTransformEntityDef.GetName(), text4);
+					SetupTooltipPanel(preTransformEntityDef.GetName(), text6);
 					return true;
 				}
 				if (tag == GAME_TAG.AI_MUST_PLAY && SceneMgr.Get().GetMode() == SceneMgr.Mode.GAMEPLAY)

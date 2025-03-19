@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -282,17 +283,63 @@ public class DeckDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 		RegisterNestedDataModel(m_CosmeticCoin);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31 + ((m_CardBack != null) ? m_CardBack.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		if (m_CardBack != null && !inspectedDataModels.Contains(m_CardBack.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CardBack.GetHashCode());
+			hash = hash * 31 + m_CardBack.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_RandomCardBackFavoritesOnly;
-		int num2 = ((num + m_RandomCardBackFavoritesOnly.GetHashCode()) * 31 + ((m_Hero != null) ? m_Hero.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_RandomCardBackFavoritesOnly.GetHashCode();
+		if (m_Hero != null && !inspectedDataModels.Contains(m_Hero.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Hero.GetHashCode());
+			hash = hash * 31 + m_Hero.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_HeroOverride;
-		int num3 = ((num2 + m_HeroOverride.GetHashCode()) * 31 + ((m_Cards != null) ? m_Cards.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_HeroOverride.GetHashCode();
+		if (m_Cards != null && !inspectedDataModels.Contains(m_Cards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Cards.GetHashCode());
+			hash = hash * 31 + m_Cards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_DraggingDeckAssignment;
-		int num4 = (num3 + m_DraggingDeckAssignment.GetHashCode()) * 31;
+		hash = num3 + m_DraggingDeckAssignment.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_RandomHeroFavoritesOnly;
-		int num5 = ((num4 + m_RandomHeroFavoritesOnly.GetHashCode()) * 31 + ((m_CosmeticCoin != null) ? m_CosmeticCoin.GetPropertiesHashCode() : 0)) * 31;
+		hash = num4 + m_RandomHeroFavoritesOnly.GetHashCode();
+		if (m_CosmeticCoin != null && !inspectedDataModels.Contains(m_CosmeticCoin.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CosmeticCoin.GetHashCode());
+			hash = hash * 31 + m_CosmeticCoin.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num5 = hash * 31;
 		_ = m_RandomCoinFavoritesOnly;
 		return num5 + m_RandomCoinFavoritesOnly.GetHashCode();
 	}

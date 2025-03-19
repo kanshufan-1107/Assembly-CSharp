@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -166,8 +167,12 @@ public class LettuceMercenaryCoinDataModel : DataModelEventDispatcher, IDataMode
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = (17 * 31 + ((m_MercenaryName != null) ? m_MercenaryName.GetHashCode() : 0)) * 31;
 		_ = m_Quantity;
 		int num2 = (num + m_Quantity.GetHashCode()) * 31;

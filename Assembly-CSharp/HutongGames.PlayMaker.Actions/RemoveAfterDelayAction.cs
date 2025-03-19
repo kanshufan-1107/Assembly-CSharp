@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory(ActionCategory.GameObject)]
 [Tooltip("Remove a list of GameObjects after a delay")]
+[ActionCategory(ActionCategory.GameObject)]
 public class RemoveAfterDelayAction : FsmStateAction
 {
+	[ArrayEditor(VariableType.GameObject, "", 0, 0, 65536)]
 	[Tooltip("GameObjects to remove")]
 	[UIHint(UIHint.Variable)]
-	[ArrayEditor(VariableType.GameObject, "", 0, 0, 65536)]
 	public FsmArray gameObjectList;
 
-	[RequiredField]
 	[Tooltip("Wait time before removal")]
+	[RequiredField]
 	public FsmFloat waitTime;
 
 	private MonoBehaviour coroutineParent;

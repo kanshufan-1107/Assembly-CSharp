@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets;
 using Hearthstone.UI;
 using PegasusLettuce;
@@ -603,35 +604,78 @@ public class MercenaryVillageTaskItemDataModel : DataModelEventDispatcher, IData
 		RegisterNestedDataModel(m_MercenaryCard);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (((17 * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0)) * 31 + ((m_MercShoutOut != null) ? m_MercShoutOut.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0);
+		hash = hash * 31 + ((m_MercShoutOut != null) ? m_MercShoutOut.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_Progress;
-		int num2 = (num + m_Progress.GetHashCode()) * 31;
+		hash = num + m_Progress.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_ProgressNeeded;
-		int num3 = (num2 + m_ProgressNeeded.GetHashCode()) * 31;
+		hash = num2 + m_ProgressNeeded.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_TaskStatus;
-		int num4 = (num3 + m_TaskStatus.GetHashCode()) * 31;
+		hash = num3 + m_TaskStatus.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_TaskStyle;
-		int num5 = ((num4 + m_TaskStyle.GetHashCode()) * 31 + ((m_RewardList != null) ? m_RewardList.GetPropertiesHashCode() : 0)) * 31;
+		hash = num4 + m_TaskStyle.GetHashCode();
+		if (m_RewardList != null && !inspectedDataModels.Contains(m_RewardList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RewardList.GetHashCode());
+			hash = hash * 31 + m_RewardList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num5 = hash * 31;
 		_ = m_MercenaryId;
-		int num6 = ((num5 + m_MercenaryId.GetHashCode()) * 31 + ((m_MercenaryCard != null) ? m_MercenaryCard.GetPropertiesHashCode() : 0)) * 31;
+		hash = num5 + m_MercenaryId.GetHashCode();
+		if (m_MercenaryCard != null && !inspectedDataModels.Contains(m_MercenaryCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MercenaryCard.GetHashCode());
+			hash = hash * 31 + m_MercenaryCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num6 = hash * 31;
 		_ = m_TaskId;
-		int num7 = (((num6 + m_TaskId.GetHashCode()) * 31 + ((m_ProgressMessage != null) ? m_ProgressMessage.GetHashCode() : 0)) * 31 + ((m_MercenaryName != null) ? m_MercenaryName.GetHashCode() : 0)) * 31;
+		hash = num6 + m_TaskId.GetHashCode();
+		hash = hash * 31 + ((m_ProgressMessage != null) ? m_ProgressMessage.GetHashCode() : 0);
+		hash = hash * 31 + ((m_MercenaryName != null) ? m_MercenaryName.GetHashCode() : 0);
+		int num7 = hash * 31;
 		_ = m_TaskType;
-		int num8 = (num7 + m_TaskType.GetHashCode()) * 31;
+		hash = num7 + m_TaskType.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_IsTimedEvent;
-		int num9 = ((num8 + m_IsTimedEvent.GetHashCode()) * 31 + ((m_RemainingEventTime != null) ? m_RemainingEventTime.GetHashCode() : 0)) * 31;
+		hash = num8 + m_IsTimedEvent.GetHashCode();
+		hash = hash * 31 + ((m_RemainingEventTime != null) ? m_RemainingEventTime.GetHashCode() : 0);
+		int num9 = hash * 31;
 		_ = m_TaskChainId;
-		int num10 = (num9 + m_TaskChainId.GetHashCode()) * 31;
+		hash = num9 + m_TaskChainId.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_TaskChainIndex;
-		int num11 = (num10 + m_TaskChainIndex.GetHashCode()) * 31;
+		hash = num10 + m_TaskChainIndex.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_TaskChainLength;
-		int num12 = ((num11 + m_TaskChainLength.GetHashCode()) * 31 + ((m_MercenaryShortName != null) ? m_MercenaryShortName.GetHashCode() : 0)) * 31;
+		hash = num11 + m_TaskChainLength.GetHashCode();
+		hash = hash * 31 + ((m_MercenaryShortName != null) ? m_MercenaryShortName.GetHashCode() : 0);
+		int num12 = hash * 31;
 		_ = m_MercenaryRole;
-		int num13 = (num12 + m_MercenaryRole.GetHashCode()) * 31;
+		hash = num12 + m_MercenaryRole.GetHashCode();
+		int num13 = hash * 31;
 		_ = m_MercenaryLevel;
-		int num14 = (num13 + m_MercenaryLevel.GetHashCode()) * 31;
+		hash = num13 + m_MercenaryLevel.GetHashCode();
+		int num14 = hash * 31;
 		_ = m_IsRenownOffer;
 		return num14 + m_IsRenownOffer.GetHashCode();
 	}

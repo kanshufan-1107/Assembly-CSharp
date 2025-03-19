@@ -538,15 +538,16 @@ public class InputManager : MonoBehaviour
 			deck.HideForgeableGlow();
 		}
 		GameEntity gameEntity = m_gameState.GetGameEntity();
-		if (!(TeammateBoardViewer.Get() == null) && gameEntity != null && !gameEntity.IsInBattlegroundsCombatPhase())
+		if (gameEntity != null && !gameEntity.IsInBattlegroundsCombatPhase() && gameEntity is TB_BaconShop)
 		{
+			TB_BaconShop baconGameEntity = (TB_BaconShop)gameEntity;
 			if (m_heldCard != null && (m_heldCard.GetZone() is ZoneHand || m_heldCard.IsInDeckActionArea()))
 			{
-				TeammateBoardViewer.Get().SetPortalGlow(m_heldCard, validOption);
+				baconGameEntity.SetPortalGlow(m_heldCard, validOption);
 			}
 			else
 			{
-				TeammateBoardViewer.Get().ClearPortalGlow();
+				baconGameEntity.ClearPortalGlow();
 			}
 		}
 	}
@@ -2857,7 +2858,7 @@ public class InputManager : MonoBehaviour
 		{
 			return;
 		}
-		if ((clickedEntity.IsHeroPower() || clickedEntity.IsGameModeButton()) && clickedCard != null && clickedCard.GetActor() != null)
+		if ((clickedEntity.IsHeroPower() || clickedEntity.IsGameModeButton() || clickedEntity.IsBattlegroundClickableButton()) && clickedCard != null && clickedCard.GetActor() != null)
 		{
 			clickedCard.GetActor().RemovePingAndNotifyTeammate();
 		}
@@ -2972,17 +2973,21 @@ public class InputManager : MonoBehaviour
 				}
 				if (!m_gameState.IsInTargetMode())
 				{
-					if (clickedEntity.IsCardButton())
+					if (!clickedEntity.IsCardButton())
 					{
-						if (!clickedEntity.HasSubCards())
-						{
-							ActivatePlaySpell(clickedCard);
-						}
-						if (clickedEntity.IsHeroPower() || clickedEntity.IsGameModeButton() || (clickedEntity.IsCoinBasedHeroBuddy() && clickedEntity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_ENT_2) == 0))
+						return;
+					}
+					if (!clickedEntity.HasSubCards())
+					{
+						ActivatePlaySpell(clickedCard);
+					}
+					if (clickedEntity.IsHeroPower() || clickedEntity.IsGameModeButton() || clickedEntity.IsBattlegroundClickableButton() || (clickedEntity.IsCoinBasedHeroBuddy() && clickedEntity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_ENT_2) == 0))
+					{
+						if (!clickedEntity.HasTag(GAME_TAG.HEROPOWER_UNLIMITED_USES))
 						{
 							clickedEntity.SetTagAndHandleChange(GAME_TAG.EXHAUSTED, 1);
-							PredictSpentMana(clickedEntity);
 						}
+						PredictSpentMana(clickedEntity);
 					}
 					return;
 				}
@@ -3475,7 +3480,10 @@ public class InputManager : MonoBehaviour
 		FinishSubOptions();
 		if (sourceEntity.IsHeroPower() || sourceEntity.IsGameModeButton())
 		{
-			sourceEntity.SetTagAndHandleChange(GAME_TAG.EXHAUSTED, 1);
+			if (!sourceEntity.HasTag(GAME_TAG.HEROPOWER_UNLIMITED_USES))
+			{
+				sourceEntity.SetTagAndHandleChange(GAME_TAG.EXHAUSTED, 1);
+			}
 			PredictSpentMana(sourceEntity);
 		}
 		m_gameState.SetSelectedOptionTarget(entityId);

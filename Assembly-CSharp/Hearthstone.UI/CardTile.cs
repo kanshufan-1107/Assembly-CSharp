@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [WidgetBehaviorDescription(Path = "Hearthstone/CardTile", UniqueWithinCategory = "asset")]
+[AddComponentMenu("")]
 public class CardTile : CustomWidgetBehavior
 {
 	private const string DEFAULT_CARD_ID = "EX1_009";

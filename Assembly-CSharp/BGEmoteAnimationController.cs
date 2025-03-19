@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class BGEmoteAnimationController : MonoBehaviour
 {
-	[SerializeField]
 	[Min(0f)]
 	[Tooltip("Number of seconds to wait between animating each emote in sequence (e.g. animate emote 1, pause, animate emote 2, pause...). If only 1 emote is shown, this wait is ignored")]
+	[SerializeField]
 	private float m_pauseBetweenEmoteAnimations;
 
 	[SerializeField]
@@ -17,8 +17,8 @@ public class BGEmoteAnimationController : MonoBehaviour
 	[Tooltip("Number of seconds to wait after animating each emote in sequence (e.g. if 3 emotes are shown, this pause happens after emote 3 finishes animating). If only 1 emote is shown, this wait happens after a single loop.")]
 	private float m_pauseBetweenEmoteCycles;
 
-	[Tooltip("Number of seconds to wait after the page is loaded and before playing an emote")]
 	[SerializeField]
+	[Tooltip("Number of seconds to wait after the page is loaded and before playing an emote")]
 	[Min(0f)]
 	private float m_emoteEntranceDelaySeconds;
 

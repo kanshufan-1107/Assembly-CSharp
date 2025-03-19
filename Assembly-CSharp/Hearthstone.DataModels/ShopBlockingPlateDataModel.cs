@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -41,8 +42,12 @@ public class ShopBlockingPlateDataModel : DataModelEventDispatcher, IDataModel, 
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_BlockingType;
 		return num + m_BlockingType.GetHashCode();

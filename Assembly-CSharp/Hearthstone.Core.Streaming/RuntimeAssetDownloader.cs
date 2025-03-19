@@ -683,10 +683,10 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 			{
 				string[] versionStrSplit = Application.version.Split('.');
 				m_installedVersionCode = int.Parse(versionStrSplit[2]);
-				if (m_installedVersionCode != 214839)
+				if (m_installedVersionCode != 216423)
 				{
 					Log.Downloader.PrintError("Application.version is different from our setting");
-					m_installedVersionCode = 214839;
+					m_installedVersionCode = 216423;
 				}
 			}
 			catch (Exception ex)
@@ -1863,7 +1863,7 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 			}
 			string region = GetNGDPRegion();
 			m_agentState = AgentState.WAIT_SERVICE;
-			Log.Downloader.PrintInfo("initialization: " + INSTALL_PATH + ", region: " + region);
+			Log.Downloader.PrintInfo("Initialization: ***, region: " + region);
 			if (!AgentEmbeddedAPI.Initialize(INSTALL_PATH, PlatformFilePaths.AgentLogPath, VersionToken, region, allowVersionRefresh: true))
 			{
 				Error.AddDevFatal("Failed to initialize Agent service");
@@ -2010,8 +2010,8 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 					CanRetryVersion(LiveVersion);
 					break;
 				}
-				string bundlePath = AssetBundleInfo.GetAssetBundlePath("dbf.unity3d");
-				Log.Downloader.PrintInfo("Try to extract DBF bundle - " + bundlePath);
+				AssetBundleInfo.GetAssetBundlePath("dbf.unity3d");
+				Log.Downloader.PrintInfo("Extracted DBF bundle");
 				Log.Downloader.PrintInfo("IsVersionStepCompleted set.");
 				IsVersionStepCompleted = true;
 				if (VersionRetryCount > 0)
@@ -2306,7 +2306,7 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 	private bool ShouldCheckBinaryUpdate(out bool hasNewBinary)
 	{
 		hasNewBinary = false;
-		int[] binaryVersionInt = new int[4] { 31, 4, 0, GetInstalledVersionCode };
+		int[] binaryVersionInt = new int[4] { 31, 6, 0, GetInstalledVersionCode };
 		int diff = 0;
 		try
 		{
@@ -2458,11 +2458,11 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 		{
 			if (!File.Exists(p) && !Directory.Exists(p))
 			{
-				Log.Downloader.PrintInfo("No file or directory: " + p);
+				Log.Downloader.PrintDebug("No file or directory: " + p);
 			}
 			else if (!UpdateUtils.addSkipBackupAttributeToItemAtPath(p))
 			{
-				Log.Downloader.PrintError("Failed to exclude from iCloud - " + p);
+				Log.Downloader.PrintError("Failed to exclude from iCloud - " + Path.GetFileName(p));
 			}
 		}
 		Log.Downloader.PrintInfo("Excluded game data folders from iCloud");
@@ -3313,10 +3313,10 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 
 	private bool IsDisabledAPKUpdateVersion()
 	{
-		bool disabled = m_disabledAPKUpdates != null && Array.Exists(m_disabledAPKUpdates, (int s) => s == 214839);
+		bool disabled = m_disabledAPKUpdates != null && Array.Exists(m_disabledAPKUpdates, (int s) => s == 216423);
 		if (disabled)
 		{
-			Log.Downloader.PrintInfo("The current version-{0} is disabled for APK update.", 214839);
+			Log.Downloader.PrintInfo("The current version-{0} is disabled for APK update.", 216423);
 		}
 		return disabled;
 	}

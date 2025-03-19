@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -116,8 +117,12 @@ public class LettuceRandomMercenaryDataModel : DataModelEventDispatcher, IDataMo
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_RestrictRarity;
 		int num2 = (num + m_RestrictRarity.GetHashCode()) * 31;

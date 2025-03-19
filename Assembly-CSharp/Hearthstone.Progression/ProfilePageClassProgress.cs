@@ -17,8 +17,8 @@ public class ProfilePageClassProgress : MonoBehaviour
 		public int m_maxClassIcons;
 	}
 
-	[Header("Each element defines max number of icons per row. Size is number of rows")]
 	[SerializeField]
+	[Header("Each element defines max number of icons per row. Size is number of rows")]
 	private List<ClassIconList> m_classIconLists;
 
 	private const string CLASS_ICON_CLICKED = "CLASS_ICON_CLICKED";

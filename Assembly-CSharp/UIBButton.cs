@@ -4,8 +4,8 @@ using Hearthstone.UI;
 using Hearthstone.UI.Core;
 using UnityEngine;
 
-[CustomEditClass]
 [RequireComponent(typeof(Collider))]
+[CustomEditClass]
 public class UIBButton : PegUIElement
 {
 	[CustomEditField(Sections = "Button Objects")]
@@ -59,8 +59,8 @@ public class UIBButton : PegUIElement
 	[CustomEditField(Sections = "Flip Enable Behavior")]
 	public float m_PostFlipWiggleTime = 0.5f;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Events")]
+	[SerializeField]
 	private string m_bubbleUpEvent;
 
 	[CustomEditField(Sections = "Events")]

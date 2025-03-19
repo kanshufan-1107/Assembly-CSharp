@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Enables an Animator and plays one of its states.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Enables an Animator and plays one of its states.")]
 public class AnimatorPlayAction : FsmStateAction
 {
-	[RequiredField]
 	[Tooltip("Game Object to play the animation on.")]
 	[CheckForComponent(typeof(Animator))]
+	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
 	public FsmString m_StateName;

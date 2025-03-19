@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -101,9 +102,29 @@ public class MessageModalDataModel : DataModelEventDispatcher, IDataModel, IData
 		RegisterNestedDataModel(m_PageArrowNext);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return ((17 * 31 + ((m_LayoutType != null) ? m_LayoutType.GetHashCode() : 0)) * 31 + ((m_PageArrowPrevious != null) ? m_PageArrowPrevious.GetPropertiesHashCode() : 0)) * 31 + ((m_PageArrowNext != null) ? m_PageArrowNext.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_LayoutType != null) ? m_LayoutType.GetHashCode() : 0);
+		if (m_PageArrowPrevious != null && !inspectedDataModels.Contains(m_PageArrowPrevious.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_PageArrowPrevious.GetHashCode());
+			hash = hash * 31 + m_PageArrowPrevious.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_PageArrowNext != null && !inspectedDataModels.Contains(m_PageArrowNext.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_PageArrowNext.GetHashCode());
+			return hash * 31 + m_PageArrowNext.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -92,8 +93,12 @@ public class ShopMessageContentDataModel : DataModelEventDispatcher, IDataModel,
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		return ((17 * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_BodyText != null) ? m_BodyText.GetHashCode() : 0)) * 31 + ((m_ImageTexture != null) ? m_ImageTexture.GetHashCode() : 0);
 	}
 

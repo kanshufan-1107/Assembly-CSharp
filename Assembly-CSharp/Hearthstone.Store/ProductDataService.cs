@@ -688,6 +688,28 @@ public class ProductDataService : IProductDataService, IService
 		return false;
 	}
 
+	public bool IsProductAvailable(long pmtId)
+	{
+		if (!HasStoreLoaded())
+		{
+			return false;
+		}
+		foreach (CatalogNetworkPage page in CatalogNetworkPages.Pages)
+		{
+			foreach (Network.ShopSection section in page.Sections)
+			{
+				foreach (Tuple<long, uint> item in section.ProductOrder)
+				{
+					if (item.Item1 == pmtId)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	public bool HasPendingTierChanges()
 	{
 		return Catalog.TiersChangeCount > 0;

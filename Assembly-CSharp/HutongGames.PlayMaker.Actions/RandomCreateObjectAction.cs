@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Randomly picks an object from a list and creates it. THE CREATED OBJECT MUST BE DESTROYED!")]
 [ActionCategory("Pegasus")]
+[Tooltip("Randomly picks an object from a list and creates it. THE CREATED OBJECT MUST BE DESTROYED!")]
 public class RandomCreateObjectAction : FsmStateAction
 {
 	[Tooltip("The created object gets stored in this variable.")]

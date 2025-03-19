@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Blizzard.BlizzardErrorMobile;
 using Blizzard.GameService.SDK.Client.Integration;
@@ -51,8 +49,7 @@ public class GIGateway
 		try
 		{
 			InitializeScopesIfNeeded(gateway);
-			using StringContent content = new StringContent(ConstructJsonContentString());
-			content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+			string content = ConstructJsonContentString();
 			string response = await gateway.PostRequestAsStringAsync("gi/liveservice/ed/eventdispatcher.Event/DispatchAll", content).ConfigureAwait(continueOnCapturedContext: false);
 			if (string.IsNullOrEmpty(response))
 			{

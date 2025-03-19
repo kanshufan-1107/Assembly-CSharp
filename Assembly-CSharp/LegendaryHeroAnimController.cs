@@ -109,8 +109,8 @@ public class LegendaryHeroAnimController : MonoBehaviour
 
 	public bool AllowSummonInterruption = true;
 
-	[SerializeField]
 	[HideInInspector]
+	[SerializeField]
 	private float[] m_transitionTimes = Enumerable.Repeat(0.25f, Enum.GetValues(typeof(InternalState)).Length).ToArray();
 
 	private Animator m_masterAnimator;

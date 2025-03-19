@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Plays a random AudioClip. An AudioSource for the clip is created automatically based on the parameters.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioPlayRandomClipAction : FsmStateAction
 {
 	[Tooltip("Optional. If specified, the generated Audio Source will use the same transform as this object.")]
 	public FsmOwnerDefault m_ParentObject;
 
-	[CompoundArray("Sounds", "SoundDef", "Weight")]
 	[RequiredField]
+	[CompoundArray("Sounds", "SoundDef", "Weight")]
 	public SoundDef[] m_Sounds;
 
 	[HasFloatSlider(0f, 1f)]

@@ -115,7 +115,7 @@ public sealed class Options : IOptions
 		switch (formatType)
 		{
 		case FormatType.FT_UNKNOWN:
-			RankMgr.LogMessage("Options.SetFormatType()  format type somehow got passed in as FT_UNKOWN", "SetFormatType", "D:\\p4Workspace\\31.4.0\\Pegasus\\Client\\Assets\\Shared\\Scripts\\Game\\Options.cs", 175);
+			RankMgr.LogMessage("Options.SetFormatType()  format type somehow got passed in as FT_UNKOWN", "SetFormatType", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Shared\\Scripts\\Game\\Options.cs", 175);
 			break;
 		case FormatType.FT_CLASSIC:
 			Get().SetEnum(Option.FORMAT_TYPE, FormatType.FT_STANDARD);

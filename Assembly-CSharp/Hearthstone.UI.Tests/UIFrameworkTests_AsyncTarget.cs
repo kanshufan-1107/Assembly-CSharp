@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI.Tests;
 
-[ExecuteAlways]
 [AddComponentMenu("")]
+[ExecuteAlways]
 public class UIFrameworkTests_AsyncTarget : MonoBehaviour, IAsyncInitializationBehavior
 {
 	private Action<object> m_callback;

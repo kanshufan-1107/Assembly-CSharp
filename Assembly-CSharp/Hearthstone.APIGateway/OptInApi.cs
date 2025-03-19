@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Blizzard.BlizzardErrorMobile;
 using Blizzard.GameService.SDK.Client.Integration;
@@ -272,8 +270,7 @@ public class OptInApi
 		try
 		{
 			InitializeScopesIfNeeded(APIGatewayService);
-			using StringContent content = new StringContent(ConstructGetAccountOptInsByAccountIdRequest());
-			content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+			string content = ConstructGetAccountOptInsByAccountIdRequest();
 			string response = await APIGatewayService.PostRequestAsStringAsync("OptInService/v1/GetAccountOptIns", content).ConfigureAwait(continueOnCapturedContext: false);
 			if (string.IsNullOrEmpty(response))
 			{
@@ -295,8 +292,7 @@ public class OptInApi
 		try
 		{
 			InitializeScopesIfNeeded(APIGatewayService);
-			using StringContent content = new StringContent(ConstructUpdateAccountOptInRequest(optInType, value));
-			content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+			string content = ConstructUpdateAccountOptInRequest(optInType, value);
 			string value2 = await APIGatewayService.PostRequestAsStringAsync("OptInService/v1/UpdateAccountOptIn", content).ConfigureAwait(continueOnCapturedContext: false);
 			Logger?.Log(Blizzard.T5.Core.LogLevel.Information, $"{optInType} opt-in updated to {value}.");
 			if (string.IsNullOrEmpty(value2))

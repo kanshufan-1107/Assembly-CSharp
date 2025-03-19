@@ -261,6 +261,7 @@ public class WidgetBehaviorState : IWidgetState
 			}
 		}
 		IEnumerator<IDataModel> dataModels = dataModelProvider.GetDataModels().GetEnumerator();
+		HashSet<int> inspectedDataModels = new HashSet<int>();
 		while (dataModels.MoveNext())
 		{
 			IDataModel dataModel = dataModels.Current;
@@ -293,8 +294,10 @@ public class WidgetBehaviorState : IWidgetState
 				}
 				else
 				{
-					shouldReevaluate |= m_dataModelToPropertyHash[dataModelId][propertyId] != dataModelPropertyValue.GetPropertiesHashCode();
-					m_dataModelToPropertyHash[dataModelId][propertyId] = dataModelPropertyValue.GetPropertiesHashCode();
+					inspectedDataModels.Clear();
+					shouldReevaluate |= m_dataModelToPropertyHash[dataModelId][propertyId] != dataModelPropertyValue.GetPropertiesHashCode(inspectedDataModels);
+					inspectedDataModels.Clear();
+					m_dataModelToPropertyHash[dataModelId][propertyId] = dataModelPropertyValue.GetPropertiesHashCode(inspectedDataModels);
 				}
 			}
 		}

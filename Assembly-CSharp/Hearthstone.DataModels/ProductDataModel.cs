@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -563,19 +564,92 @@ public class ProductDataModel : DataModelEventDispatcher, IDataModel, IDataModel
 		RegisterNestedDataModel(m_RewardList);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_PmtId;
-		int num2 = (((((((num + m_PmtId.GetHashCode()) * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0)) * 31 + ((m_Tags != null) ? m_Tags.GetPropertiesHashCode() : 0)) * 31 + ((m_Items != null) ? m_Items.GetPropertiesHashCode() : 0)) * 31 + ((m_Prices != null) ? m_Prices.GetPropertiesHashCode() : 0)) * 31 + ((m_Variants != null) ? m_Variants.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_PmtId.GetHashCode();
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0);
+		if (m_Tags != null && !inspectedDataModels.Contains(m_Tags.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Tags.GetHashCode());
+			hash = hash * 31 + m_Tags.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Items != null && !inspectedDataModels.Contains(m_Items.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Items.GetHashCode());
+			hash = hash * 31 + m_Items.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Prices != null && !inspectedDataModels.Contains(m_Prices.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Prices.GetHashCode());
+			hash = hash * 31 + m_Prices.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Variants != null && !inspectedDataModels.Contains(m_Variants.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Variants.GetHashCode());
+			hash = hash * 31 + m_Variants.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_Availability;
-		int num3 = (((num2 + m_Availability.GetHashCode()) * 31 + ((m_ShortName != null) ? m_ShortName.GetHashCode() : 0)) * 31 + ((m_FullDescription != null) ? m_FullDescription.GetHashCode() : 0)) * 31;
+		hash = num2 + m_Availability.GetHashCode();
+		hash = hash * 31 + ((m_ShortName != null) ? m_ShortName.GetHashCode() : 0);
+		hash = hash * 31 + ((m_FullDescription != null) ? m_FullDescription.GetHashCode() : 0);
+		int num3 = hash * 31;
 		_ = m_ShowMarketingImage;
-		int num4 = ((((((((num3 + m_ShowMarketingImage.GetHashCode()) * 31 + ((m_RequiredGamemodes != null) ? m_RequiredGamemodes.GetPropertiesHashCode() : 0)) * 31 + ((m_RewardList != null) ? m_RewardList.GetPropertiesHashCode() : 0)) * 31 + ((m_DescriptionHeader != null) ? m_DescriptionHeader.GetHashCode() : 0)) * 31 + ((m_VariantName != null) ? m_VariantName.GetHashCode() : 0)) * 31 + ((m_FlavorText != null) ? m_FlavorText.GetHashCode() : 0)) * 31 + ((m_ShopSwipeAnimDelay != null) ? m_ShopSwipeAnimDelay.GetHashCode() : 0)) * 31 + ((m_AdditionalBannerData != null) ? m_AdditionalBannerData.GetHashCode() : 0)) * 31;
+		hash = num3 + m_ShowMarketingImage.GetHashCode();
+		if (m_RequiredGamemodes != null && !inspectedDataModels.Contains(m_RequiredGamemodes.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RequiredGamemodes.GetHashCode());
+			hash = hash * 31 + m_RequiredGamemodes.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_RewardList != null && !inspectedDataModels.Contains(m_RewardList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RewardList.GetHashCode());
+			hash = hash * 31 + m_RewardList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_DescriptionHeader != null) ? m_DescriptionHeader.GetHashCode() : 0);
+		hash = hash * 31 + ((m_VariantName != null) ? m_VariantName.GetHashCode() : 0);
+		hash = hash * 31 + ((m_FlavorText != null) ? m_FlavorText.GetHashCode() : 0);
+		hash = hash * 31 + ((m_ShopSwipeAnimDelay != null) ? m_ShopSwipeAnimDelay.GetHashCode() : 0);
+		hash = hash * 31 + ((m_AdditionalBannerData != null) ? m_AdditionalBannerData.GetHashCode() : 0);
+		int num4 = hash * 31;
 		_ = m_IsScheduled;
-		int num5 = (num4 + m_IsScheduled.GetHashCode()) * 31;
+		hash = num4 + m_IsScheduled.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_DaysBeforeEnd;
-		int num6 = (num5 + m_DaysBeforeEnd.GetHashCode()) * 31;
+		hash = num5 + m_DaysBeforeEnd.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_HoursBeforeEnd;
 		return num6 + m_HoursBeforeEnd.GetHashCode();
 	}

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class ShopBrowserElement : MonoBehaviour
 {
-	[SerializeField]
 	[Header("Element Data")]
+	[SerializeField]
 	private Widget m_widget;
 
 	[SerializeField]

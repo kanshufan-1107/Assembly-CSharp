@@ -501,9 +501,9 @@ public abstract class EntityBase
 
 	public bool IsCardButton()
 	{
-		if (!IsHeroPower() && !IsLocation() && !IsGameModeButton() && !IsLettuceAbility())
+		if (!IsHeroPower() && !IsLocation() && !IsGameModeButton() && !IsLettuceAbility() && !IsCoinBasedHeroBuddy())
 		{
-			return IsCoinBasedHeroBuddy();
+			return IsBattlegroundClickableButton();
 		}
 		return true;
 	}
@@ -516,6 +516,11 @@ public abstract class EntityBase
 	public bool IsBattlegroundHeroBuddy()
 	{
 		return GetTag(GAME_TAG.CARDTYPE) == 24;
+	}
+
+	public bool IsBattlegroundClickableButton()
+	{
+		return GetTag(GAME_TAG.CARDTYPE) == 46;
 	}
 
 	public bool IsBattlegroundTrinket()

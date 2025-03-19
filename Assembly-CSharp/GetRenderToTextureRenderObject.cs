@@ -1,16 +1,16 @@
 using HutongGames.PlayMaker;
 using UnityEngine;
 
-[HutongGames.PlayMaker.Tooltip("Get the object being rendered to from RenderToTexture")]
 [ActionCategory("Pegasus")]
+[HutongGames.PlayMaker.Tooltip("Get the object being rendered to from RenderToTexture")]
 public class GetRenderToTextureRenderObject : FsmStateAction
 {
 	[CheckForComponent(typeof(RenderToTexture))]
 	[RequiredField]
 	public FsmOwnerDefault gameObject;
 
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
+	[UIHint(UIHint.Variable)]
 	public FsmGameObject renderObject;
 
 	[HutongGames.PlayMaker.Tooltip("Get the object being rendered to from RenderToTexture. This is used to get the procedurally generated render plane object.")]

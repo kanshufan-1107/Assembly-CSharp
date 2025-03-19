@@ -195,7 +195,7 @@ internal static class ZipUtil
 						.ToArray();
 				}
 				SafeAddToZip(zipStream, Encoding.UTF8.GetBytes(string.Join("\r\n", lines)), (string.IsNullOrEmpty(folder) ? string.Empty : (folder + "/")) + Path.GetFileName(log));
-				ExceptionLogger.LogInfo("Attached the log file: " + log);
+				ExceptionLogger.LogDebug("Attached the log file: " + log);
 			}
 		}
 		catch (Exception ex)

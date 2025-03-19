@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Shakes an object for a set duration.")]
+[ActionCategory("Pegasus")]
 public class ObjectShakerAction : FsmStateAction
 {
 	[RequiredField]

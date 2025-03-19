@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Trigger blur+vignette effects action.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Trigger blur+vignette effects action.")]
 public class BlurVignetteAction : FsmStateAction
 {
 	public enum ActionType

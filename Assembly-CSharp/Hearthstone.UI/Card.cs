@@ -12,8 +12,8 @@ using UnityEngine.Rendering;
 
 namespace Hearthstone.UI;
 
-[WidgetBehaviorDescription(Path = "Hearthstone/Card", UniqueWithinCategory = "asset")]
 [AddComponentMenu("")]
+[WidgetBehaviorDescription(Path = "Hearthstone/Card", UniqueWithinCategory = "asset")]
 public class Card : CustomWidgetBehavior
 {
 	private enum RenderObject
@@ -101,16 +101,16 @@ public class Card : CustomWidgetBehavior
 	[Tooltip("This is the ID of the card displayed by default.")]
 	private string m_defaultCardId = "BOT_914h";
 
-	[Tooltip("If true, it will use the card ID from the 'card' data model whenever bound.")]
 	[SerializeField]
+	[Tooltip("If true, it will use the card ID from the 'card' data model whenever bound.")]
 	private bool m_useCardIdFromDataModel = true;
 
-	[Tooltip("If true, it will use the premium tag from the 'card' data model whenever bound.")]
 	[SerializeField]
+	[Tooltip("If true, it will use the premium tag from the 'card' data model whenever bound.")]
 	private PremiumTag m_golden;
 
-	[Tooltip("If true, this will show the shadow object.")]
 	[SerializeField]
+	[Tooltip("If true, this will show the shadow object.")]
 	protected bool m_useShadow = true;
 
 	[SerializeField]
@@ -133,12 +133,12 @@ public class Card : CustomWidgetBehavior
 	[SerializeField]
 	private bool m_useStatsFromDataModel;
 
-	[Tooltip("If true, attempt to use the card's short name if it exists")]
 	[SerializeField]
+	[Tooltip("If true, attempt to use the card's short name if it exists")]
 	private bool m_useShortName;
 
-	[Tooltip("Bacon Reward's minion type")]
 	[SerializeField]
+	[Tooltip("Bacon Reward's minion type")]
 	private int m_baconRewardMinionType;
 
 	[Tooltip("Bacon Quest Reward is Completed")]
@@ -149,24 +149,24 @@ public class Card : CustomWidgetBehavior
 	[SerializeField]
 	private int m_baconRewardCardDatabaseID;
 
-	[Tooltip("Bacon Quest Progress Total")]
 	[SerializeField]
+	[Tooltip("Bacon Quest Progress Total")]
 	private int m_baconQuestProgressTotal;
 
-	[Tooltip("Bacon Quest Race 1")]
 	[SerializeField]
+	[Tooltip("Bacon Quest Race 1")]
 	private int m_baconQuestRace1;
 
-	[SerializeField]
 	[Tooltip("Bacon Quest Race 2")]
+	[SerializeField]
 	private int m_baconQuestRace2;
 
 	[SerializeField]
 	[Tooltip("Bacon Hero Buddy ID")]
 	private int m_baconHeroBuddyID;
 
-	[Tooltip("Bacon Hero Buddy Cost")]
 	[SerializeField]
+	[Tooltip("Bacon Hero Buddy Cost")]
 	private int m_baconHeroBuddyCost;
 
 	[SerializeField]

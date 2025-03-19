@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -298,25 +299,48 @@ public class ZilliaxDeckSideboardDataModel : DataModelEventDispatcher, IDataMode
 		RegisterNestedDataModel(m_ZilliaxPreviewCard);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_FunctionalModuleCardCount;
-		int num2 = (num + m_FunctionalModuleCardCount.GetHashCode()) * 31;
+		hash = num + m_FunctionalModuleCardCount.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_CosmeticModuleCardCount;
-		int num3 = (num2 + m_CosmeticModuleCardCount.GetHashCode()) * 31;
+		hash = num2 + m_CosmeticModuleCardCount.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_IsZilliaxAlreadyCrafted;
-		int num4 = (num3 + m_IsZilliaxAlreadyCrafted.GetHashCode()) * 31;
+		hash = num3 + m_IsZilliaxAlreadyCrafted.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_ShouldShowZilliaxPreview;
-		int num5 = (num4 + m_ShouldShowZilliaxPreview.GetHashCode()) * 31;
+		hash = num4 + m_ShouldShowZilliaxPreview.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_FunctionalModuleMaxCount;
-		int num6 = (num5 + m_FunctionalModuleMaxCount.GetHashCode()) * 31;
+		hash = num5 + m_FunctionalModuleMaxCount.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_CosmeticModuleMaxCount;
-		int num7 = ((num6 + m_CosmeticModuleMaxCount.GetHashCode()) * 31 + ((m_ZilliaxPreviewCard != null) ? m_ZilliaxPreviewCard.GetPropertiesHashCode() : 0)) * 31;
+		hash = num6 + m_CosmeticModuleMaxCount.GetHashCode();
+		if (m_ZilliaxPreviewCard != null && !inspectedDataModels.Contains(m_ZilliaxPreviewCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ZilliaxPreviewCard.GetHashCode());
+			hash = hash * 31 + m_ZilliaxPreviewCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num7 = hash * 31;
 		_ = m_IsDragging;
-		int num8 = ((num7 + m_IsDragging.GetHashCode()) * 31 + ((m_DraggingSource != null) ? m_DraggingSource.GetHashCode() : 0)) * 31;
+		hash = num7 + m_IsDragging.GetHashCode();
+		hash = hash * 31 + ((m_DraggingSource != null) ? m_DraggingSource.GetHashCode() : 0);
+		int num8 = hash * 31;
 		_ = m_DoesZilliaxMatchStart;
-		int num9 = (num8 + m_DoesZilliaxMatchStart.GetHashCode()) * 31;
+		hash = num8 + m_DoesZilliaxMatchStart.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_DoesZilliaxMatchASavedVersion;
 		return num9 + m_DoesZilliaxMatchASavedVersion.GetHashCode();
 	}

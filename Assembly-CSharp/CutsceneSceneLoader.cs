@@ -13,8 +13,8 @@ public class CutsceneSceneLoader : MonoBehaviour
 	[CustomEditField(T = EditType.GAME_OBJECT, Sections = "Scene Prefab To Load")]
 	public string m_CutsceneObject;
 
-	[CustomEditField(T = EditType.DEFAULT, Sections = "Optional Widget Trigger (Event=LOAD_CUTSCENE)")]
 	[Tooltip("Optional: When loading is triggered via widget events, reference the widget owner of this component so events can be listen for.")]
+	[CustomEditField(T = EditType.DEFAULT, Sections = "Optional Widget Trigger (Event=LOAD_CUTSCENE)")]
 	public Widget m_OwnerWidget;
 
 	private AssetHandle<GameObject> m_cutSceneAssetHandle;

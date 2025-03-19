@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using PegasusShared;
 
@@ -67,8 +68,12 @@ public class BattlegroundsMedalDataModel : DataModelEventDispatcher, IDataModel,
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_Rating;
 		int num2 = (num + m_Rating.GetHashCode()) * 31;

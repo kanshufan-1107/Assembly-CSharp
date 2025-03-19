@@ -13,16 +13,16 @@ public class DynamicVideoCaptionDriver : MonoBehaviour
 	[Tooltip("Ubertext that will display the caption titles.")]
 	private UberText m_CaptionTitleText;
 
-	[Tooltip("Ubertext that will display the caption Subtitles.")]
 	[SerializeField]
+	[Tooltip("Ubertext that will display the caption Subtitles.")]
 	private UberText m_CaptionDescText;
 
-	[SerializeField]
 	[Tooltip("Animation curve (range 0-1 for height and time) that drives fading in text. Should start at 0 and end at 1.")]
+	[SerializeField]
 	private AnimationCurve m_FadeInCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-	[SerializeField]
 	[Tooltip("Time for fade in transition for captions. If 0, transition is instant rather than fade.")]
+	[SerializeField]
 	private double m_FadeInSeconds = 0.2;
 
 	[SerializeField]

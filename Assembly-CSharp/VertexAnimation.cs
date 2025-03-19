@@ -24,8 +24,8 @@ public class VertexAnimation : MonoBehaviour
 
 	private const string TIME_OFFSET = "_TimeOffset";
 
-	[Tooltip("The animation's default speed. Even if the current speed is modified via Timeline or PlayMaker, this variable will not change.")]
 	[Min(0.0001f)]
+	[Tooltip("The animation's default speed. Even if the current speed is modified via Timeline or PlayMaker, this variable will not change.")]
 	public float AnimationSpeed;
 
 	public int VertexCount;

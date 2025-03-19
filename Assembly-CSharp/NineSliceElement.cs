@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
 [CustomEditClass]
+[ExecuteAlways]
 public class NineSliceElement : MonoBehaviour
 {
 	[CustomEditField(Sections = "Top Row")]

@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[DisallowMultipleComponent]
 [ExecuteAlways]
+[DisallowMultipleComponent]
 public sealed class WidgetTransform : MonoBehaviour, IWidgetTransform
 {
 	public enum LayoutBoundsMode

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.Progression;
 using Hearthstone.UI;
 
@@ -649,41 +650,78 @@ public class AchievementDataModel : DataModelEventDispatcher, IDataModel, IDataM
 		RegisterNestedDataModel(m_RewardList);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_Progress;
-		int num2 = (num + m_Progress.GetHashCode()) * 31;
+		hash = num + m_Progress.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_Quota;
-		int num3 = (((num2 + m_Quota.GetHashCode()) * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0)) * 31 + ((m_StyleName != null) ? m_StyleName.GetHashCode() : 0)) * 31;
+		hash = num2 + m_Quota.GetHashCode();
+		hash = hash * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0);
+		hash = hash * 31 + ((m_StyleName != null) ? m_StyleName.GetHashCode() : 0);
+		int num3 = hash * 31;
 		_ = m_Points;
-		int num4 = (num3 + m_Points.GetHashCode()) * 31;
+		hash = num3 + m_Points.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_Status;
-		int num5 = ((((num4 + m_Status.GetHashCode()) * 31 + ((m_CompletionDate != null) ? m_CompletionDate.GetHashCode() : 0)) * 31 + ((m_RewardList != null) ? m_RewardList.GetPropertiesHashCode() : 0)) * 31 + ((m_ProgressMessage != null) ? m_ProgressMessage.GetHashCode() : 0)) * 31;
+		hash = num4 + m_Status.GetHashCode();
+		hash = hash * 31 + ((m_CompletionDate != null) ? m_CompletionDate.GetHashCode() : 0);
+		if (m_RewardList != null && !inspectedDataModels.Contains(m_RewardList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RewardList.GetHashCode());
+			hash = hash * 31 + m_RewardList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_ProgressMessage != null) ? m_ProgressMessage.GetHashCode() : 0);
+		int num5 = hash * 31;
 		_ = m_ID;
-		int num6 = (num5 + m_ID.GetHashCode()) * 31;
+		hash = num5 + m_ID.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_NextTierID;
-		int num7 = (num6 + m_NextTierID.GetHashCode()) * 31;
+		hash = num6 + m_NextTierID.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_Tier;
-		int num8 = (num7 + m_Tier.GetHashCode()) * 31;
+		hash = num7 + m_Tier.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_MaxTier;
-		int num9 = (num8 + m_MaxTier.GetHashCode()) * 31;
+		hash = num8 + m_MaxTier.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_SortOrder;
-		int num10 = (((num9 + m_SortOrder.GetHashCode()) * 31 + ((m_RewardSummary != null) ? m_RewardSummary.GetHashCode() : 0)) * 31 + ((m_TierMessage != null) ? m_TierMessage.GetHashCode() : 0)) * 31;
+		hash = num9 + m_SortOrder.GetHashCode();
+		hash = hash * 31 + ((m_RewardSummary != null) ? m_RewardSummary.GetHashCode() : 0);
+		hash = hash * 31 + ((m_TierMessage != null) ? m_TierMessage.GetHashCode() : 0);
+		int num10 = hash * 31;
 		_ = m_RewardTrackXp;
-		int num11 = (num10 + m_RewardTrackXp.GetHashCode()) * 31;
+		hash = num10 + m_RewardTrackXp.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_RewardTrackXpBonusPercent;
-		int num12 = (num11 + m_RewardTrackXpBonusPercent.GetHashCode()) * 31;
+		hash = num11 + m_RewardTrackXpBonusPercent.GetHashCode();
+		int num12 = hash * 31;
 		_ = m_RewardTrackXpBonusAdjusted;
-		int num13 = (num12 + m_RewardTrackXpBonusAdjusted.GetHashCode()) * 31;
+		hash = num12 + m_RewardTrackXpBonusAdjusted.GetHashCode();
+		int num13 = hash * 31;
 		_ = m_AllowExceedQuota;
-		int num14 = (num13 + m_AllowExceedQuota.GetHashCode()) * 31;
+		hash = num13 + m_AllowExceedQuota.GetHashCode();
+		int num14 = hash * 31;
 		_ = m_DisplayMode;
-		int num15 = (num14 + m_DisplayMode.GetHashCode()) * 31;
+		hash = num14 + m_DisplayMode.GetHashCode();
+		int num15 = hash * 31;
 		_ = m_DisplayDelay;
-		int num16 = (num15 + m_DisplayDelay.GetHashCode()) * 31;
+		hash = num15 + m_DisplayDelay.GetHashCode();
+		int num16 = hash * 31;
 		_ = m_IsLocked;
-		return (num16 + m_IsLocked.GetHashCode()) * 31 + ((m_LockedMessage != null) ? m_LockedMessage.GetHashCode() : 0);
+		hash = num16 + m_IsLocked.GetHashCode();
+		return hash * 31 + ((m_LockedMessage != null) ? m_LockedMessage.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

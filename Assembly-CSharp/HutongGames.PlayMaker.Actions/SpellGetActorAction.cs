@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Put a Spell's Source or Target Actor into a GameObject variable.")]
+[ActionCategory("Pegasus")]
 public class SpellGetActorAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

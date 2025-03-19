@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Create a dummy hand actor from a database ID.")]
+[ActionCategory("Pegasus")]
 public class CreateHandActorFromDatabaseIDAction : FsmStateAction
 {
 	[RequiredField]
 	[Tooltip("GameObject(Spell) to retrieve a target info.")]
 	public FsmOwnerDefault m_OwnerObject;
 
-	[RequiredField]
 	[Tooltip("Database ID of the card definition to load. 0 = cardback")]
+	[RequiredField]
 	public FsmInt m_DatabaseID;
 
 	[Tooltip("Variable to store the newly created dummy actor.")]
-	[RequiredField]
 	[UIHint(UIHint.Variable)]
+	[RequiredField]
 	public FsmGameObject m_DummyActor;
 
 	[Tooltip("Match the premium of the owner. Set to false to use the next field instead.")]

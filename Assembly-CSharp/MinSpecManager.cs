@@ -89,7 +89,7 @@ public class MinSpecManager
 
 	public List<MinSpecKind> GetNotEnoughSpecs(bool isChangedVersion, string LiveVersion)
 	{
-		float version = 31.4f;
+		float version = 31.6f;
 		if (isChangedVersion)
 		{
 			if (UpdateUtils.GetSplitVersion(LiveVersion, out var versionInt))

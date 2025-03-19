@@ -253,6 +253,33 @@ public class RewardPopups : IDisposable
 		});
 	}
 
+	public void RemovePendingNotices(RewardData rewardData)
+	{
+		if (!rewardData.HasNotices())
+		{
+			return;
+		}
+		List<long> rewardDataNoticeIDs = rewardData.GetNoticeIDs();
+		for (int i = 0; i < m_rewards.Count; i++)
+		{
+			RewardData currentRewardData = m_rewards[i].Data;
+			if (!currentRewardData.HasNotices())
+			{
+				continue;
+			}
+			List<long> currentRewardDataNoticeIDs = currentRewardData.GetNoticeIDs();
+			if (currentRewardDataNoticeIDs.Count != rewardDataNoticeIDs.Count || currentRewardDataNoticeIDs.Intersect(rewardDataNoticeIDs).Count() != rewardDataNoticeIDs.Count)
+			{
+				continue;
+			}
+			m_rewards.RemoveAt(i--);
+			foreach (long noticeID in currentRewardDataNoticeIDs)
+			{
+				m_seenNotices.Remove(noticeID);
+			}
+		}
+	}
+
 	public bool UpdateNoticesSeen(RewardData rewardData)
 	{
 		if (!rewardData.HasNotices())
@@ -842,7 +869,7 @@ public class RewardPopups : IDisposable
 			{
 				SetIsShowing?.Invoke(obj: false);
 				Network.Get().AckNotice(profileNotice.NoticeID);
-				Network.Get().RenameDeck(profileNotice.OriginData, deckName, playerInitiated: false);
+				Network.Get().RenameDeck(profileNotice.OriginData, deckName, playerInitiated: false, DeckType.NORMAL_DECK, DeckSourceType.DECK_SOURCE_TYPE_REWARD_SYSTEM);
 			}
 		}, rewardData, displayTitle, displayDescription);
 		m_deckRewardIds.Add(profileNotice.OriginData);

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -48,9 +49,19 @@ public class LettuceExperienceTwoScoopDataModel : DataModelEventDispatcher, IDat
 		RegisterNestedDataModel(m_ExpRewards);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return 17 * 31 + ((m_ExpRewards != null) ? m_ExpRewards.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_ExpRewards != null && !inspectedDataModels.Contains(m_ExpRewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ExpRewards.GetHashCode());
+			return hash * 31 + m_ExpRewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

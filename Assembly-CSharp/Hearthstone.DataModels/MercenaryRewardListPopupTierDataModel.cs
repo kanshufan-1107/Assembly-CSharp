@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -91,8 +92,12 @@ public class MercenaryRewardListPopupTierDataModel : DataModelEventDispatcher, I
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = (17 * 31 + ((m_Rating != null) ? m_Rating.GetHashCode() : 0)) * 31;
 		_ = m_Earned;
 		int num2 = (num + m_Earned.GetHashCode()) * 31;

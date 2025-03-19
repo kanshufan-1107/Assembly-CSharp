@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -123,13 +124,29 @@ public class MercenaryVillageVisitorDataModel : DataModelEventDispatcher, IDataM
 		RegisterNestedDataModel(m_MercenaryCard);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_MercenaryId;
-		int num2 = ((num + m_MercenaryId.GetHashCode()) * 31 + ((m_MercenaryCard != null) ? m_MercenaryCard.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_MercenaryId.GetHashCode();
+		if (m_MercenaryCard != null && !inspectedDataModels.Contains(m_MercenaryCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MercenaryCard.GetHashCode());
+			hash = hash * 31 + m_MercenaryCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_NewlyArrived;
-		int num3 = (num2 + m_NewlyArrived.GetHashCode()) * 31;
+		hash = num2 + m_NewlyArrived.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_IsTimedEvent;
 		return num3 + m_IsTimedEvent.GetHashCode();
 	}

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -199,15 +200,31 @@ public class PrototypeDataModel : DataModelEventDispatcher, IDataModel, IDataMod
 		RegisterNestedDataModel(m_List1);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_Bool1;
-		int num2 = (num + m_Bool1.GetHashCode()) * 31;
+		hash = num + m_Bool1.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_Int1;
-		int num3 = (num2 + m_Int1.GetHashCode()) * 31;
+		hash = num2 + m_Int1.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_Float1;
-		return ((((num3 + m_Float1.GetHashCode()) * 31 + ((m_String1 != null) ? m_String1.GetHashCode() : 0)) * 31 + ((m_Texture1 != null) ? m_Texture1.GetHashCode() : 0)) * 31 + ((m_Material1 != null) ? m_Material1.GetHashCode() : 0)) * 31 + ((m_List1 != null) ? m_List1.GetPropertiesHashCode() : 0);
+		hash = num3 + m_Float1.GetHashCode();
+		hash = hash * 31 + ((m_String1 != null) ? m_String1.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Texture1 != null) ? m_Texture1.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Material1 != null) ? m_Material1.GetHashCode() : 0);
+		if (m_List1 != null && !inspectedDataModels.Contains(m_List1.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_List1.GetHashCode());
+			return hash * 31 + m_List1.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

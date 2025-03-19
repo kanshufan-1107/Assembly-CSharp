@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.Timeline;
 
-[TrackBindingType(typeof(AudioSource))]
 [TrackClipType(typeof(SoundTimelineAsset))]
+[TrackBindingType(typeof(AudioSource))]
 public class SoundTimelineTrack : TrackAsset
 {
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -282,17 +283,63 @@ public class ProductTierDataModel : DataModelEventDispatcher, IDataModel, IDataM
 		RegisterNestedDataModel(m_CurrenciesAvailable);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_Header != null) ? m_Header.GetHashCode() : 0)) * 31 + ((m_Tags != null) ? m_Tags.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Header != null) ? m_Header.GetHashCode() : 0);
+		if (m_Tags != null && !inspectedDataModels.Contains(m_Tags.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Tags.GetHashCode());
+			hash = hash * 31 + m_Tags.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_LayoutWidth;
-		int num2 = (num + m_LayoutWidth.GetHashCode()) * 31;
+		hash = num + m_LayoutWidth.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_LayoutHeight;
-		int num3 = ((num2 + m_LayoutHeight.GetHashCode()) * 31 + ((m_LayoutMap != null) ? m_LayoutMap.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_LayoutHeight.GetHashCode();
+		if (m_LayoutMap != null && !inspectedDataModels.Contains(m_LayoutMap.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_LayoutMap.GetHashCode());
+			hash = hash * 31 + m_LayoutMap.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_MaxLayoutCount;
-		int num4 = (((num3 + m_MaxLayoutCount.GetHashCode()) * 31 + ((m_BrowserButtons != null) ? m_BrowserButtons.GetPropertiesHashCode() : 0)) * 31 + ((m_CurrenciesAvailable != null) ? m_CurrenciesAvailable.GetPropertiesHashCode() : 0)) * 31;
+		hash = num3 + m_MaxLayoutCount.GetHashCode();
+		if (m_BrowserButtons != null && !inspectedDataModels.Contains(m_BrowserButtons.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BrowserButtons.GetHashCode());
+			hash = hash * 31 + m_BrowserButtons.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_CurrenciesAvailable != null && !inspectedDataModels.Contains(m_CurrenciesAvailable.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CurrenciesAvailable.GetHashCode());
+			hash = hash * 31 + m_CurrenciesAvailable.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num4 = hash * 31;
 		_ = m_DisplayDivder;
-		int num5 = (num4 + m_DisplayDivder.GetHashCode()) * 31;
+		hash = num4 + m_DisplayDivder.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_DisplayTierData;
 		return num5 + m_DisplayTierData.GetHashCode();
 	}

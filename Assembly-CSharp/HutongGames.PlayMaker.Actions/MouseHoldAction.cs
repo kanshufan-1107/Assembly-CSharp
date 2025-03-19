@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Fires events based on how long you hold the left mouse button over a GameObject.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Fires events based on how long you hold the left mouse button over a GameObject.")]
 public class MouseHoldAction : FsmStateAction
 {
 	[CheckForComponent(typeof(Collider))]

@@ -8,8 +8,8 @@ namespace Hearthstone.MarketingImages;
 
 public class ShopMarketingImageFitter : WidgetPositioningElement
 {
-	[Header("Corners")]
 	[SerializeField]
+	[Header("Corners")]
 	private SpriteRenderer m_topLeft;
 
 	[SerializeField]
@@ -34,12 +34,12 @@ public class ShopMarketingImageFitter : WidgetPositioningElement
 	[SerializeField]
 	private SpriteRenderer m_left;
 
-	[SerializeField]
 	[Header("Sprite renderer to set up")]
+	[SerializeField]
 	private SpriteRenderer m_spriteRenderer;
 
-	[SerializeField]
 	[Header("Padding")]
+	[SerializeField]
 	private float m_framedInflate;
 
 	[SerializeField]

@@ -15,8 +15,8 @@ public class VisualController : WidgetBehavior, IWidgetEventListener
 {
 	public delegate void OnStateChangedDelegate(VisualController controller);
 
-	[SerializeField]
 	[HideInInspector]
+	[SerializeField]
 	private string m_name;
 
 	[SerializeField]

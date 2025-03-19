@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets;
 using Hearthstone.UI;
 
@@ -274,13 +275,35 @@ public class SpecialEventDataModel : DataModelEventDispatcher, IDataModel, IData
 		RegisterNestedDataModel(m_RewardTracks);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_SpecialEventType;
-		int num2 = (((num + m_SpecialEventType.GetHashCode()) * 31 + ((m_ShortDescription != null) ? m_ShortDescription.GetHashCode() : 0)) * 31 + ((m_LongDescription != null) ? m_LongDescription.GetHashCode() : 0)) * 31;
+		hash = num + m_SpecialEventType.GetHashCode();
+		hash = hash * 31 + ((m_ShortDescription != null) ? m_ShortDescription.GetHashCode() : 0);
+		hash = hash * 31 + ((m_LongDescription != null) ? m_LongDescription.GetHashCode() : 0);
+		int num2 = hash * 31;
 		_ = m_ID;
-		int num3 = (((((num2 + m_ID.GetHashCode()) * 31 + ((m_RewardTracks != null) ? m_RewardTracks.GetPropertiesHashCode() : 0)) * 31 + ((m_ChooseTrackPrompt != null) ? m_ChooseTrackPrompt.GetHashCode() : 0)) * 31 + ((m_ShortConclusion != null) ? m_ShortConclusion.GetHashCode() : 0)) * 31 + ((m_LongConclusion != null) ? m_LongConclusion.GetHashCode() : 0)) * 31;
+		hash = num2 + m_ID.GetHashCode();
+		if (m_RewardTracks != null && !inspectedDataModels.Contains(m_RewardTracks.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RewardTracks.GetHashCode());
+			hash = hash * 31 + m_RewardTracks.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_ChooseTrackPrompt != null) ? m_ChooseTrackPrompt.GetHashCode() : 0);
+		hash = hash * 31 + ((m_ShortConclusion != null) ? m_ShortConclusion.GetHashCode() : 0);
+		hash = hash * 31 + ((m_LongConclusion != null) ? m_LongConclusion.GetHashCode() : 0);
+		int num3 = hash * 31;
 		_ = m_ActiveTrackId;
 		return num3 + m_ActiveTrackId.GetHashCode();
 	}

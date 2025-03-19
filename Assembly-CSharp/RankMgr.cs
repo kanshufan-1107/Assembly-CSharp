@@ -600,7 +600,11 @@ public class RankMgr
 			RankedPlaySeasonDbfRecord twistSeasonRecord = GameDbf.RankedPlaySeason.GetRecord((RankedPlaySeasonDbfRecord record) => record.Season == seasonId);
 			if (twistSeasonRecord != null)
 			{
-				m_twistRankedSeason = new RankedPlaySeason(twistSeasonRecord);
+				RankedPlaySeason twistRankedSeason = new RankedPlaySeason(twistSeasonRecord);
+				if (twistRankedSeason.GetScenario() != null)
+				{
+					m_twistRankedSeason = twistRankedSeason;
+				}
 			}
 		}
 		return m_twistRankedSeason;

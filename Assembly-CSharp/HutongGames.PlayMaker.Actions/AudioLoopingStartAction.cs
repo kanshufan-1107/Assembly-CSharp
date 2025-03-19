@@ -6,9 +6,9 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Plays the Audio Clip on a Game Object and sets it to loop.")]
 public class AudioLoopingStartAction : FsmStateAction
 {
-	[CheckForComponent(typeof(SoundDef))]
 	[RequiredField]
 	[CheckForComponent(typeof(AudioSource))]
+	[CheckForComponent(typeof(SoundDef))]
 	public FsmOwnerDefault m_GameObject;
 
 	public FsmFloat m_FadeInTime;

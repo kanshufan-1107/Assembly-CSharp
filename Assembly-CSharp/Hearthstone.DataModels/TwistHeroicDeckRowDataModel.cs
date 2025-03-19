@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -76,9 +77,28 @@ public class TwistHeroicDeckRowDataModel : DataModelEventDispatcher, IDataModel,
 		RegisterNestedDataModel(m_DeckRight);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (17 * 31 + ((m_DeckLeft != null) ? m_DeckLeft.GetPropertiesHashCode() : 0)) * 31 + ((m_DeckRight != null) ? m_DeckRight.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_DeckLeft != null && !inspectedDataModels.Contains(m_DeckLeft.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_DeckLeft.GetHashCode());
+			hash = hash * 31 + m_DeckLeft.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_DeckRight != null && !inspectedDataModels.Contains(m_DeckRight.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_DeckRight.GetHashCode());
+			return hash * 31 + m_DeckRight.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

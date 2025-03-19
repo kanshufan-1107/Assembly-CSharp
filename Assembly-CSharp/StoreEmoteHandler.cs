@@ -21,8 +21,8 @@ public class StoreEmoteHandler : MonoBehaviour
 	[SerializeField]
 	private bool m_shouldDefaultToShown;
 
-	[Tooltip("When the player hits an emote bubble, should they hide while that emote is playing?")]
 	[SerializeField]
+	[Tooltip("When the player hits an emote bubble, should they hide while that emote is playing?")]
 	private bool m_shouldEmotesHideOnPlay;
 
 	[SerializeField]

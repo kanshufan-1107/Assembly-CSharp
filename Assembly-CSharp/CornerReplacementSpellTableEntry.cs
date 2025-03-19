@@ -59,4 +59,6 @@ public class CornerReplacementSpellTableEntry
 
 	[CustomEditField(T = EditType.ACTOR)]
 	public string m_HeroPowerGoldenHandActorReplacement = "";
+
+	public MusicPlaylistType m_MulliganMusic;
 }

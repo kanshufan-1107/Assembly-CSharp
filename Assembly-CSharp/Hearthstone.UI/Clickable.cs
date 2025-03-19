@@ -10,9 +10,9 @@ using UnityEngine;
 namespace Hearthstone.UI;
 
 [HelpURL("https://confluence.blizzard.com/x/GYiGJ")]
-[AddComponentMenu("")]
-[ExecuteAlways]
 [DisallowMultipleComponent]
+[ExecuteAlways]
+[AddComponentMenu("")]
 public class Clickable : WidgetBehavior, IBoundsDependent, ILayerOverridable
 {
 	public enum VisualState
@@ -61,12 +61,12 @@ public class Clickable : WidgetBehavior, IBoundsDependent, ILayerOverridable
 
 	private readonly string RIGHTCLICKED = "rightclicked";
 
-	[SerializeField]
 	[HideInInspector]
+	[SerializeField]
 	private ColliderType m_colliderType;
 
-	[SerializeField]
 	[HideInInspector]
+	[SerializeField]
 	private GameObject[] m_geometryRoots;
 
 	[SerializeField]

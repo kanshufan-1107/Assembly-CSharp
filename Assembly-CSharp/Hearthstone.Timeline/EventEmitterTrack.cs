@@ -4,8 +4,8 @@ using UnityEngine.Timeline;
 
 namespace Hearthstone.Timeline;
 
-[TrackBindingType(typeof(GameObject))]
 [TrackClipType(typeof(EventEmitterAsset))]
+[TrackBindingType(typeof(GameObject))]
 public class EventEmitterTrack : FireAndForgetTrack
 {
 	public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)

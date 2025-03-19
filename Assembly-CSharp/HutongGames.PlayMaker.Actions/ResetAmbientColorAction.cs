@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Set scene ambient color")]
+[ActionCategory("Pegasus")]
 public class ResetAmbientColorAction : FsmStateAction
 {
 	private SetRenderSettings m_renderSettings;

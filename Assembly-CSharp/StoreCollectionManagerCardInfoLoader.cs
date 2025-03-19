@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class StoreCollectionManagerCardInfoLoader : MonoBehaviour
 {
-	[SerializeField]
 	[Tooltip("When provided will set parent to loaded card info, when empty will load to world position as set in loaded asset.")]
+	[SerializeField]
 	private BindLegendaryHeroToMaterial m_bindLegendaryToMaterial;
 
 	[SerializeField]

@@ -3238,7 +3238,7 @@ public class GameMgr : IService
 
 	private void OnGameSetup()
 	{
-		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Debug, "GameMgr.OnGameSetup()");
+		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, "GameMgr.OnGameSetup()");
 		if (SpectatorManager.Get().IsSpectatingOpposingSide() && m_gameSetup != null)
 		{
 			return;
@@ -3401,7 +3401,7 @@ public class GameMgr : IService
 
 	private bool ChangeFindGameState(FindGameState state, QueueEvent queueEvent, GameServerInfo serverInfo, Network.GameCancelInfo cancelInfo)
 	{
-		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Debug, $"GameMgr.ChangeFindGameState() - state: {state}, previous state: {m_findGameState}");
+		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, $"GameMgr.ChangeFindGameState() - state: {state}, previous state: {m_findGameState}");
 		FindGameState prevState = m_findGameState;
 		uint lastEnterGameError = m_lastEnterGameError;
 		m_findGameState = state;

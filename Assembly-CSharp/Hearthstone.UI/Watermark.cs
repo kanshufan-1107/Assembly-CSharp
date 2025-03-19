@@ -39,13 +39,13 @@ public class Watermark : CustomWidgetBehavior
 	[Tooltip("Base Material to texture with")]
 	private Material m_baseMaterial;
 
-	[Header("Mutually Exclusive")]
-	[Tooltip("If set, it will use this texture directly instead of deriving the texture from a bound data model.")]
 	[SerializeField]
+	[Tooltip("If set, it will use this texture directly instead of deriving the texture from a bound data model.")]
+	[Header("Mutually Exclusive")]
 	private string m_directTextureReference;
 
-	[SerializeField]
 	[Tooltip("If true, it will use data model adventure/pack/product/rewardItem whenever bound.")]
+	[SerializeField]
 	private bool m_useDataModel = true;
 
 	[Tooltip("Name of Adventure (AdventureDbId) to use the watermark from")]
@@ -449,6 +449,15 @@ public class Watermark : CustomWidgetBehavior
 			if (!string.IsNullOrEmpty(boosterCardSetRecord.WatermarkTextureOverride))
 			{
 				return boosterCardSetRecord.WatermarkTextureOverride;
+			}
+			if (boosterCardSetRecord.UseLatestExpansionSetWatermark)
+			{
+				BoosterDbId boosterDbId = GameUtils.GetLatestRewardableBooster();
+				BoosterDbfRecord boosterDbfRecord = GameDbf.Booster.GetRecord((int)boosterDbId);
+				if (boosterDbfRecord != null)
+				{
+					return boosterDbfRecord.CardSetRecord.CardWatermarkTexture;
+				}
 			}
 			if (boosterCardSetRecord.CardSetRecord == null)
 			{

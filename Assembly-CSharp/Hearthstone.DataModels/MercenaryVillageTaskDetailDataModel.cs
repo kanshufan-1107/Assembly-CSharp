@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -126,11 +127,35 @@ public class MercenaryVillageTaskDetailDataModel : DataModelEventDispatcher, IDa
 		RegisterNestedDataModel(m_CurrentRenownOfferData);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_RenownTradeData != null) ? m_RenownTradeData.GetPropertiesHashCode() : 0)) * 31 + ((m_CurrentRenownOfferData != null) ? m_CurrentRenownOfferData.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_RenownTradeData != null && !inspectedDataModels.Contains(m_RenownTradeData.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RenownTradeData.GetHashCode());
+			hash = hash * 31 + m_RenownTradeData.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_CurrentRenownOfferData != null && !inspectedDataModels.Contains(m_CurrentRenownOfferData.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CurrentRenownOfferData.GetHashCode());
+			hash = hash * 31 + m_CurrentRenownOfferData.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_ProcessingRequest;
-		int num2 = (num + m_ProcessingRequest.GetHashCode()) * 31;
+		hash = num + m_ProcessingRequest.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_HasRequestedRenownConversion;
 		return num2 + m_HasRequestedRenownConversion.GetHashCode();
 	}

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -173,15 +174,33 @@ public class LettuceTeamDataModel : DataModelEventDispatcher, IDataModel, IDataM
 		RegisterNestedDataModel(m_MercenaryList);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_TeamId;
-		int num2 = (((num + m_TeamId.GetHashCode()) * 31 + ((m_TeamName != null) ? m_TeamName.GetHashCode() : 0)) * 31 + ((m_MercenaryList != null) ? m_MercenaryList.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_TeamId.GetHashCode();
+		hash = hash * 31 + ((m_TeamName != null) ? m_TeamName.GetHashCode() : 0);
+		if (m_MercenaryList != null && !inspectedDataModels.Contains(m_MercenaryList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MercenaryList.GetHashCode());
+			hash = hash * 31 + m_MercenaryList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_Valid;
-		int num3 = (num2 + m_Valid.GetHashCode()) * 31;
+		hash = num2 + m_Valid.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_IsDisabled;
-		int num4 = (num3 + m_IsDisabled.GetHashCode()) * 31;
+		hash = num3 + m_IsDisabled.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_MythicLevel;
 		return num4 + m_MythicLevel.GetHashCode();
 	}

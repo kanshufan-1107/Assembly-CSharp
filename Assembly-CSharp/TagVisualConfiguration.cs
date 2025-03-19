@@ -582,7 +582,7 @@ internal class TagVisualConfiguration : MonoBehaviour
 			result = card.GetEntity() != null && card.GetEntity().IsEnchantment();
 			break;
 		case TagVisualActorCondition.IS_DISABLED_HERO_POWER:
-			result = card.GetEntity() != null && card.GetEntity().GetController() != null && card.GetEntity().GetController().HasTag(GAME_TAG.HERO_POWER_DISABLED);
+			result = card.GetEntity() != null && card.GetEntity().IsDisabledHeroPower();
 			break;
 		case TagVisualActorCondition.IS_FROM_SHOW_ENTITY:
 			result = fromShowEntity;

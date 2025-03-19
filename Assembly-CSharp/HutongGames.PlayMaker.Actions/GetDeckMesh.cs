@@ -1,15 +1,15 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Takes in a player and returns the gameobject for the deck mesh.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Takes in a player and returns the gameobject for the deck mesh.")]
 public class GetDeckMesh : FsmStateAction
 {
 	[Tooltip("Which player's deck are we querying the size of?")]
 	public Player.Side m_PlayerSide;
 
-	[RequiredField]
-	[UIHint(UIHint.FsmGameObject)]
 	[Tooltip("Output GameObject.")]
+	[UIHint(UIHint.FsmGameObject)]
+	[RequiredField]
 	public FsmGameObject m_DeckMesh;
 
 	public override void Reset()

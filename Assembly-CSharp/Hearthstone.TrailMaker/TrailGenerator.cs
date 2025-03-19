@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Hearthstone.TrailMaker;
 
-[AddComponentMenu("")]
 [DisallowMultipleComponent]
+[AddComponentMenu("")]
 public class TrailGenerator : MonoBehaviour
 {
 	private enum OriginMode
@@ -44,8 +44,8 @@ public class TrailGenerator : MonoBehaviour
 	[SerializeField]
 	private Vector3 m_angle;
 
-	[Min(0f)]
 	[SerializeField]
+	[Min(0f)]
 	private float m_extent;
 
 	[SerializeField]
@@ -57,8 +57,8 @@ public class TrailGenerator : MonoBehaviour
 	[SerializeField]
 	private Vector3 m_originB;
 
-	[Min(0f)]
 	[SerializeField]
+	[Min(0f)]
 	private float m_lifespan;
 
 	[SerializeField]

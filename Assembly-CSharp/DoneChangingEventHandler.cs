@@ -11,8 +11,8 @@ public class DoneChangingEventHandler : MonoBehaviour
 
 	public const string DONE_CHANGING = "CODE_DONE_CHANGING";
 
-	[Tooltip("Hide this widget visually until it is done changing states.")]
 	[SerializeField]
+	[Tooltip("Hide this widget visually until it is done changing states.")]
 	private bool m_isInvisibleWhileChanging = true;
 
 	[Tooltip("Blur the background behind this widget.")]

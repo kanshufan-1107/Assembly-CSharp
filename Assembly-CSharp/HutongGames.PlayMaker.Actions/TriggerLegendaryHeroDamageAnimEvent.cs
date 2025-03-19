@@ -2,16 +2,16 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Triggers an event on the FSM of the Legendary Hero object attached to an actor")]
 [ActionCategory("Pegasus")]
+[Tooltip("Triggers an event on the FSM of the Legendary Hero object attached to an actor")]
 public class TriggerLegendaryHeroDamageAnimEvent : FsmStateAction
 {
 	[Tooltip("Spells game object")]
 	public FsmOwnerDefault m_SpellObject;
 
-	[CheckForComponent(typeof(Actor))]
 	[RequiredField]
 	[Tooltip("Actors game object")]
+	[CheckForComponent(typeof(Actor))]
 	public FsmOwnerDefault m_HeroObject;
 
 	[Tooltip("The animation to play.")]

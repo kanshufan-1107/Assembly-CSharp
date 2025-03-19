@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Fires an event based on a screen category")]
+[ActionCategory("Pegasus")]
 public class SendEventBasedOnScreenAction : FsmStateAction
 {
 	public FsmEvent m_PhoneEvent;

@@ -28,13 +28,15 @@ public class ActorNames
 		PLAY_BATTLEGROUND_ANOMALY,
 		PLAY_BATTLEGROUND_SPELL,
 		PLAY_BATTLEGROUND_TRINKET,
+		PLAY_BATTLEGROUND_CLICKABLE_BUTTON,
 		HISTORY_HERO_POWER,
 		HISTORY_HERO_POWER_OPPONENT,
 		BIG_CARD_LETTUCE_ABILITY_SPELL,
 		BIG_CARD_LETTUCE_ABILITY_MINION,
 		BIG_CARD_LETTUCE_EQUIPMENT,
 		BIG_CARD_BG_ANOMALY,
-		BIG_CARD_BG_TRINKET
+		BIG_CARD_BG_TRINKET,
+		BIG_CARD_BG_CLICKABLE_CARD
 	}
 
 	public static readonly Dictionary<ACTOR_ASSET, string> s_actorAssets = new Dictionary<ACTOR_ASSET, string>
@@ -126,6 +128,10 @@ public class ActorNames
 		{
 			ACTOR_ASSET.PLAY_BATTLEGROUND_TRINKET,
 			"Card_Play_BattlegroundsTrinket.prefab:0fa31459018c057488eefd45fef95a9d"
+		},
+		{
+			ACTOR_ASSET.PLAY_BATTLEGROUND_CLICKABLE_BUTTON,
+			"Card_Play_BG_ClickableButton.prefab:aa16914e891d55d438164d5e1eb4241d"
 		},
 		{
 			ACTOR_ASSET.HISTORY_HERO_POWER,
@@ -242,6 +248,10 @@ public class ActorNames
 		{
 			ACTOR_ASSET.PLAY_BATTLEGROUND_TRINKET,
 			"Card_Play_BattlegroundsTrinket.prefab:0fa31459018c057488eefd45fef95a9d"
+		},
+		{
+			ACTOR_ASSET.PLAY_BATTLEGROUND_CLICKABLE_BUTTON,
+			"Card_Play_BG_ClickableButton.prefab:aa16914e891d55d438164d5e1eb4241d"
 		},
 		{
 			ACTOR_ASSET.HISTORY_HERO_POWER,
@@ -508,6 +518,8 @@ public class ActorNames
 				return GetNameWithPremiumType(ACTOR_ASSET.HAND_SPELL, premium);
 			case TAG_CARDTYPE.BATTLEGROUND_HERO_BUDDY:
 				return GetNameWithPremiumType(ACTOR_ASSET.HAND_SPELL, premium);
+			case TAG_CARDTYPE.BATTLEGROUND_CLICKABLE_BUTTON:
+				return GetNameWithPremiumType(ACTOR_ASSET.HAND_SPELL, premium, entityBase.GetCardId());
 			}
 			break;
 		}
@@ -564,6 +576,7 @@ public class ActorNames
 		case TAG_CARDTYPE.SPELL:
 		case TAG_CARDTYPE.BATTLEGROUND_QUEST_REWARD:
 		case TAG_CARDTYPE.BATTLEGROUND_SPELL:
+		case TAG_CARDTYPE.BATTLEGROUND_CLICKABLE_BUTTON:
 			return GetNameWithPremiumType(ACTOR_ASSET.HAND_SPELL, premiumType, cardId);
 		case TAG_CARDTYPE.HERO:
 			return GetNameWithPremiumType(ACTOR_ASSET.HAND_HERO, premiumType, cardId);
@@ -685,6 +698,8 @@ public class ActorNames
 			return GetNameWithPremiumType(ACTOR_ASSET.PLAY_BATTLEGROUND_SPELL, premiumType, entityBase.GetCardId());
 		case TAG_CARDTYPE.BATTLEGROUND_TRINKET:
 			return GetNameWithPremiumType(ACTOR_ASSET.PLAY_BATTLEGROUND_TRINKET, premiumType, entityBase.GetCardId());
+		case TAG_CARDTYPE.BATTLEGROUND_CLICKABLE_BUTTON:
+			return GetNameWithPremiumType(ACTOR_ASSET.PLAY_BATTLEGROUND_CLICKABLE_BUTTON, premiumType, entityBase.GetCardId());
 		case TAG_CARDTYPE.HERO:
 			if (entityBase.HasTag(GAME_TAG.BACON_IS_KEL_THUZAD) || entityBase.HasTag(GAME_TAG.BACON_PLAYER_RESULTS_HERO_OVERRIDE))
 			{

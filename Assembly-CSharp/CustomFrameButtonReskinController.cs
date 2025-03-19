@@ -38,8 +38,8 @@ public class CustomFrameButtonReskinController : MonoBehaviour, ISerializationCa
 
 	private readonly HashSet<Renderer> m_creditRenderers = new HashSet<Renderer>();
 
-	[SerializeField]
 	[HideInInspector]
+	[SerializeField]
 	private Vector3[] m_buttonPositions;
 
 	[HideInInspector]

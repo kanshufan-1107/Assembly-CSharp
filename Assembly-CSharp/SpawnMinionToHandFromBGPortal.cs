@@ -6,7 +6,16 @@ public class SpawnMinionToHandFromBGPortal : SpawnToHandSpell
 	{
 		if (TeammateBoardViewer.Get() == null)
 		{
-			return Vector3.zero;
+			if (GameState.Get() == null)
+			{
+				return Vector3.zero;
+			}
+			GameEntity gameEntity = GameState.Get().GetGameEntity();
+			if (gameEntity == null || !(gameEntity is TB_BaconShop))
+			{
+				return Vector3.zero;
+			}
+			return ((TB_BaconShop)gameEntity).GetPortalPosition();
 		}
 		return TeammateBoardViewer.Get().GetPortalOriginalPosition();
 	}

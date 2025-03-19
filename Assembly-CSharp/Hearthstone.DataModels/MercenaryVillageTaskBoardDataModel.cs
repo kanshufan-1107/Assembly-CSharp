@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -48,9 +49,19 @@ public class MercenaryVillageTaskBoardDataModel : DataModelEventDispatcher, IDat
 		RegisterNestedDataModel(m_TaskListRow);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return 17 * 31 + ((m_TaskListRow != null) ? m_TaskListRow.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_TaskListRow != null && !inspectedDataModels.Contains(m_TaskListRow.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TaskListRow.GetHashCode());
+			return hash * 31 + m_TaskListRow.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

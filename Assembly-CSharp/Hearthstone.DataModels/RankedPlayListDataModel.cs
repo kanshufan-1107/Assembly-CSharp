@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -73,9 +74,23 @@ public class RankedPlayListDataModel : DataModelEventDispatcher, IDataModel, IDa
 		RegisterNestedDataModel(m_Items);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Items != null) ? m_Items.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Items != null && !inspectedDataModels.Contains(m_Items.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Items.GetHashCode());
+			hash = hash * 31 + m_Items.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_TotalWins;
 		return num + m_TotalWins.GetHashCode();
 	}

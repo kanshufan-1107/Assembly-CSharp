@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
 [ExecuteInEditMode]
+[RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
 public class Tile9Mesh : MonoBehaviour
 {
 	public float width = 1f;

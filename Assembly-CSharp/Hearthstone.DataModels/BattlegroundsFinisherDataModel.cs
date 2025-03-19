@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets;
 using Hearthstone.UI;
 
@@ -417,8 +418,12 @@ public class BattlegroundsFinisherDataModel : DataModelEventDispatcher, IDataMod
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_FinisherDbiId;
 		int num2 = (((num + m_FinisherDbiId.GetHashCode()) * 31 + ((m_DisplayName != null) ? m_DisplayName.GetHashCode() : 0)) * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0)) * 31;

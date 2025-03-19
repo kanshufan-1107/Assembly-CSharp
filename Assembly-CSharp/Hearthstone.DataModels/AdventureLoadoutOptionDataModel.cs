@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -274,21 +275,40 @@ public class AdventureLoadoutOptionDataModel : DataModelEventDispatcher, IDataMo
 		RegisterNestedDataModel(m_DKRunes);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_Locked;
-		int num2 = (num + m_Locked.GetHashCode()) * 31;
+		hash = num + m_Locked.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_Completed;
-		int num3 = (num2 + m_Completed.GetHashCode()) * 31;
+		hash = num2 + m_Completed.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_NewlyUnlocked;
-		int num4 = (((num3 + m_NewlyUnlocked.GetHashCode()) * 31 + ((m_LockedText != null) ? m_LockedText.GetHashCode() : 0)) * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31;
+		hash = num3 + m_NewlyUnlocked.GetHashCode();
+		hash = hash * 31 + ((m_LockedText != null) ? m_LockedText.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		int num4 = hash * 31;
 		_ = m_IsSelectedOption;
-		int num5 = ((num4 + m_IsSelectedOption.GetHashCode()) * 31 + ((m_DisplayTexture != null) ? m_DisplayTexture.GetHashCode() : 0)) * 31;
+		hash = num4 + m_IsSelectedOption.GetHashCode();
+		hash = hash * 31 + ((m_DisplayTexture != null) ? m_DisplayTexture.GetHashCode() : 0);
+		int num5 = hash * 31;
 		_ = m_DisplayColor;
-		int num6 = (num5 + m_DisplayColor.GetHashCode()) * 31;
+		hash = num5 + m_DisplayColor.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_IsUpgraded;
-		return (num6 + m_IsUpgraded.GetHashCode()) * 31 + ((m_DKRunes != null) ? m_DKRunes.GetPropertiesHashCode() : 0);
+		hash = num6 + m_IsUpgraded.GetHashCode();
+		if (m_DKRunes != null && !inspectedDataModels.Contains(m_DKRunes.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_DKRunes.GetHashCode());
+			return hash * 31 + m_DKRunes.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

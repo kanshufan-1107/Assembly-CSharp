@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using PegasusGame;
 using UnityEngine;
@@ -14,9 +15,9 @@ public class TeammateHeroViewer : TeammateViewer
 
 	private Vector3 m_opposingHeroScale;
 
-	private Vector3 m_heroPowerPos;
+	private Vector3[] m_heroPowerPos;
 
-	private Vector3 m_heroPowerScale;
+	private Vector3[] m_heroPowerScale;
 
 	private Vector3 m_questRewardPos;
 
@@ -38,6 +39,10 @@ public class TeammateHeroViewer : TeammateViewer
 
 	private Vector3 m_trinketHeropowerScale;
 
+	private Vector3 m_clickableButtonPos;
+
+	private Vector3 m_clickableButtonScale;
+
 	private Entity m_teammateHero;
 
 	public override void InitZones(Vector3 teammateBoardPos)
@@ -49,12 +54,21 @@ public class TeammateHeroViewer : TeammateViewer
 		zone = ZoneMgr.Get().FindZonesOfType<ZoneHero>(Player.Side.OPPOSING).FirstOrDefault();
 		m_opposingHeroPos = zone.transform.position + m_teammateBoardPosition;
 		m_opposingHeroScale = zone.transform.localScale;
-		zone = ZoneMgr.Get().FindZonesOfType<ZoneHeroPower>(Player.Side.FRIENDLY).FirstOrDefault();
-		m_heroPowerPos = zone.transform.position + m_teammateBoardPosition;
-		m_heroPowerScale = zone.transform.localScale;
+		List<ZoneHeroPower> heroPowerZones = ZoneMgr.Get().FindZonesOfType<ZoneHeroPower>(Player.Side.FRIENDLY);
+		m_heroPowerPos = new Vector3[heroPowerZones.Count];
+		m_heroPowerScale = new Vector3[heroPowerZones.Count];
+		foreach (ZoneHeroPower zoneHeroPower in heroPowerZones)
+		{
+			int index = zoneHeroPower.m_heroPowerIndex;
+			m_heroPowerPos[index] = zoneHeroPower.transform.position + m_teammateBoardPosition;
+			m_heroPowerScale[index] = zoneHeroPower.transform.localScale;
+		}
 		zone = ZoneMgr.Get().FindZonesOfType<ZoneBattlegroundQuestReward>(Player.Side.FRIENDLY).FirstOrDefault();
 		m_questRewardPos = zone.transform.position + m_teammateBoardPosition;
 		m_questRewardScale = zone.transform.localScale;
+		zone = ZoneMgr.Get().FindZonesOfType<ZoneBattlegroundClickableButton>(Player.Side.FRIENDLY).FirstOrDefault();
+		m_clickableButtonPos = zone.transform.position + m_teammateBoardPosition;
+		m_clickableButtonScale = zone.transform.localScale;
 		zone = ZoneMgr.Get().FindZonesOfType<ZoneBattlegroundHeroBuddy>(Player.Side.FRIENDLY).FirstOrDefault();
 		m_buddyButtonPos = zone.transform.position + m_teammateBoardPosition;
 		m_buddyButtonScale = zone.transform.localScale;
@@ -133,8 +147,9 @@ public class TeammateHeroViewer : TeammateViewer
 		}
 		else if (actor.GetEntity().GetCardType() == TAG_CARDTYPE.HERO_POWER || (actor.GetEntity().GetCardType() == TAG_CARDTYPE.BATTLEGROUND_QUEST_REWARD && actor.GetEntity().HasTag(GAME_TAG.BACON_IS_HEROPOWER_QUESTREWARD)))
 		{
-			actor.GetCard().transform.position = m_heroPowerPos;
-			actor.GetCard().transform.localScale = m_heroPowerScale;
+			int index = actor.GetEntity().GetTag(GAME_TAG.ADDITIONAL_HERO_POWER_INDEX);
+			actor.GetCard().transform.position = m_heroPowerPos[index];
+			actor.GetCard().transform.localScale = m_heroPowerScale[index];
 		}
 		else if (actor.GetEntity().GetCardType() == TAG_CARDTYPE.BATTLEGROUND_QUEST_REWARD)
 		{

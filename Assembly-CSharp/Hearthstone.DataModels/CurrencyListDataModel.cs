@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -73,9 +74,23 @@ public class CurrencyListDataModel : DataModelEventDispatcher, IDataModel, IData
 		RegisterNestedDataModel(m_VCCurrency);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (17 * 31 + ((m_VCCurrency != null) ? m_VCCurrency.GetPropertiesHashCode() : 0)) * 31 + ((m_ISOCode != null) ? m_ISOCode.GetHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_VCCurrency != null && !inspectedDataModels.Contains(m_VCCurrency.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_VCCurrency.GetHashCode());
+			hash = hash * 31 + m_VCCurrency.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		return hash * 31 + ((m_ISOCode != null) ? m_ISOCode.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

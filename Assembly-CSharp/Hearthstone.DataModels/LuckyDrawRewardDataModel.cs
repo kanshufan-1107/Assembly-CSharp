@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -148,15 +149,32 @@ public class LuckyDrawRewardDataModel : DataModelEventDispatcher, IDataModel, ID
 		RegisterNestedDataModel(m_RewardList);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_Status;
-		int num2 = ((num + m_Status.GetHashCode()) * 31 + ((m_RewardList != null) ? m_RewardList.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_Status.GetHashCode();
+		if (m_RewardList != null && !inspectedDataModels.Contains(m_RewardList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RewardList.GetHashCode());
+			hash = hash * 31 + m_RewardList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_Style;
-		int num3 = (num2 + m_Style.GetHashCode()) * 31;
+		hash = num2 + m_Style.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_IsOwned;
-		int num4 = (num3 + m_IsOwned.GetHashCode()) * 31;
+		hash = num3 + m_IsOwned.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_RewardID;
 		return num4 + m_RewardID.GetHashCode();
 	}

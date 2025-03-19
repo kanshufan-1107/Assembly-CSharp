@@ -3,32 +3,32 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Basic setup for a custom spawn effect.\n\nSwitches Actor from being Owner's parent to being Owner's grandchild.\n\nNote: Only use this if you're animating the token. Otherwise, just use SpellInitActorVariables.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Basic setup for a custom spawn effect.\n\nSwitches Actor from being Owner's parent to being Owner's grandchild.\n\nNote: Only use this if you're animating the token. Otherwise, just use SpellInitActorVariables.")]
 public class InitializeCustomSpawn : FsmStateAction
 {
 	[Tooltip("Token root.")]
 	[RequiredField]
 	public FsmGameObject tokenRoot;
 
-	[UIHint(UIHint.FsmBool)]
 	[Tooltip("Whether or not to reset Actor's local position to 0,0,0 after parenting.")]
+	[UIHint(UIHint.FsmBool)]
 	public FsmBool resetActorPosition;
 
-	[UIHint(UIHint.FsmBool)]
 	[Tooltip("Whether or not to reset Actor's local rotation to 0,0,0 after parenting.")]
+	[UIHint(UIHint.FsmBool)]
 	public FsmBool resetActorRotation;
 
-	[UIHint(UIHint.FsmBool)]
 	[Tooltip("Whether or not to reset Actor's local scale to 1,1,1 after parenting.")]
+	[UIHint(UIHint.FsmBool)]
 	public FsmBool resetActorScale;
 
-	[UIHint(UIHint.Variable)]
 	[Tooltip("Optional: Store the actor in this variable.")]
+	[UIHint(UIHint.Variable)]
 	public FsmGameObject actorOutput;
 
-	[UIHint(UIHint.Variable)]
 	[Tooltip("Optional: Store the actorParent in this variable.")]
+	[UIHint(UIHint.Variable)]
 	public FsmGameObject actorParentOutput;
 
 	public override void Reset()

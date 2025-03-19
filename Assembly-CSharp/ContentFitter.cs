@@ -87,10 +87,10 @@ public class ContentFitter : WidgetPositioningElement
 		}
 	}
 
-	[SerializeField]
-	[FormerlySerializedAs("m_target")]
-	[Tooltip("The target which the attached gameobject will scale to")]
 	[Header("Fitter Data")]
+	[Tooltip("The target which the attached gameobject will scale to")]
+	[FormerlySerializedAs("m_target")]
+	[SerializeField]
 	private GameObject m_parent;
 
 	[Tooltip("The transform that will scale")]
@@ -116,8 +116,8 @@ public class ContentFitter : WidgetPositioningElement
 	[SerializeField]
 	private List<GameObject> m_ignoreObjects = new List<GameObject>();
 
-	[SerializeField]
 	[Header("Specified Components")]
+	[SerializeField]
 	private List<MeshFilter> m_targetMeshFilters;
 
 	[SerializeField]

@@ -597,6 +597,7 @@ public class Cheats : IService
 			cheatMgr.RegisterCheatHandler("getbgheroarmortierlist", OnProcessCheat_getBattlegroundHeroArmorTierList, "Get Battleground Hero Armor Tier List");
 			cheatMgr.RegisterCheatHandler("getbgplayeranomaly", OnProcessCheat_getBattlegroundsPlayerAnomaly, "Get Battleground Anomaly list for all players");
 			cheatMgr.RegisterCheatHandler("bgduosresettutorial", OnProcessCheat_resetBGDuosTutroialFlags, "Reset Battlegrounds Tutorial Flags");
+			cheatMgr.RegisterCheatHandler("combatTimer", OnProcessCheat_toggleBGCombatTimerDisplay, "Toggle BG combat timer debug display");
 			cheatMgr.RegisterCheatHandler("setbgbuddyprog", OnProcessCheat_SetBattlegroundHeroBuddyProgress, "Set the progress of Battleground Hero Buddy");
 			cheatMgr.RegisterCheatHandler("setbgbuddygained", OnProcessCheat_SetBattlegroundHeroBuddyGained, "Set number Battleground Hero Buddy Gained");
 			cheatMgr.RegisterCheatHandler("replacebghero", OnProcessCheat_ReplaceBattlegroundHero, "Replace Battleground Hero");
@@ -8639,6 +8640,20 @@ public class Cheats : IService
 			return false;
 		}
 		gamestate.SetPrintBattlegroundAnomalyOnUpdate(isPrinting: true);
+		return true;
+	}
+
+	private bool OnProcessCheat_toggleBGCombatTimerDisplay(string func, string[] args, string rawArgs)
+	{
+		if (GameState.Get() == null)
+		{
+			return false;
+		}
+		if (!(GameState.Get().GetGameEntity() is TB_BaconShop gameEnttiy))
+		{
+			return false;
+		}
+		gameEnttiy.ToggleDebugCombatTimer();
 		return true;
 	}
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -129,11 +130,40 @@ public class LettuceAbilityUpgradeDisplayDataModel : DataModelEventDispatcher, I
 		RegisterNestedDataModel(m_NextTierAbilityChanges);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_CurrentTierAbility != null) ? m_CurrentTierAbility.GetPropertiesHashCode() : 0)) * 31 + ((m_NextTierAbility != null) ? m_NextTierAbility.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_CurrentTierAbility != null && !inspectedDataModels.Contains(m_CurrentTierAbility.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CurrentTierAbility.GetHashCode());
+			hash = hash * 31 + m_CurrentTierAbility.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_NextTierAbility != null && !inspectedDataModels.Contains(m_NextTierAbility.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_NextTierAbility.GetHashCode());
+			hash = hash * 31 + m_NextTierAbility.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_IsMinion;
-		return (num + m_IsMinion.GetHashCode()) * 31 + ((m_NextTierAbilityChanges != null) ? m_NextTierAbilityChanges.GetPropertiesHashCode() : 0);
+		hash = num + m_IsMinion.GetHashCode();
+		if (m_NextTierAbilityChanges != null && !inspectedDataModels.Contains(m_NextTierAbilityChanges.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_NextTierAbilityChanges.GetHashCode());
+			return hash * 31 + m_NextTierAbilityChanges.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

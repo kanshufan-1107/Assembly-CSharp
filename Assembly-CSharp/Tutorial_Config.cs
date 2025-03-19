@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CustomEditClass]
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/TutorialConfig", order = 1)]
+[CustomEditClass]
 public class Tutorial_Config : ScriptableObject
 {
 	[CustomEditField(Sections = "Tutorial_Fight1")]

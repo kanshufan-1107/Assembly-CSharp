@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Send an event based on an Actor's Card's rarity.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Send an event based on an Actor's Card's rarity.")]
 public class ActorRarityEventAction : ActorAction
 {
 	public FsmOwnerDefault m_ActorObject;

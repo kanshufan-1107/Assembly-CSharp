@@ -252,7 +252,7 @@ public class HearthstoneApplication : MonoBehaviour
 		TracertReporter.SendTelemetry();
 		ExceptionReporterControl.Get().ExceptionReportInitialize();
 		TelemetryManager.Client().SendSystemDetail(TelemetryUtil.GetUnitySystemInfo());
-		HearthstonePerformance.Initialize(TestType, 4008765.ToString(), 214839);
+		HearthstonePerformance.Initialize(TestType, 4045224.ToString(), 216423);
 		HearthstonePerformance.Get()?.CaptureAppStartTime();
 		AppLaunchTracker.TrackAppLaunch();
 		yield return null;
@@ -305,7 +305,7 @@ public class HearthstoneApplication : MonoBehaviour
 	private void OnApplicationQuit()
 	{
 		IsHearthstoneClosing = true;
-		UberText.StoreCachedData(UberTextCacheFolderPath, UberTextCacheFilePath, 214839, Log.UberText);
+		UberText.StoreCachedData(UberTextCacheFolderPath, UberTextCacheFilePath, 216423, Log.UberText);
 		if (this.OnShutdown != null)
 		{
 			this.OnShutdown();
@@ -345,7 +345,7 @@ public class HearthstoneApplication : MonoBehaviour
 				this.Paused();
 			}
 			PreviousInstanceStatus.ClosedWithoutCrash = true;
-			UberText.StoreCachedData(UberTextCacheFolderPath, UberTextCacheFilePath, 214839, Log.UberText);
+			UberText.StoreCachedData(UberTextCacheFolderPath, UberTextCacheFilePath, 216423, Log.UberText);
 			Network.ApplicationPaused();
 			TelemetryManager.Client().SendAppPaused(pauseStatus: true, 0f);
 			TelemetryManager.NetworkComponent.FlushSamplers();
@@ -693,7 +693,7 @@ public class HearthstoneApplication : MonoBehaviour
 		JobDefinition loadStringsJob = new JobDefinition("GameStrings.LoadAll", GameStrings.Job_LoadAll(), readyToPlayDependency);
 		Processor.QueueJob("HearthstoneApplication.InitializeMode", Job_InitializeMode());
 		Processor.QueueJob(loadStringsJob);
-		Processor.QueueJob("UberText.LoadCachedData", UberText.Job_LoadCachedData(UberTextCacheFolderPath, UberTextCacheFilePath, PlatformFilePaths.PersistentDataPath, 214839, Log.UberText));
+		Processor.QueueJob("UberText.LoadCachedData", UberText.Job_LoadCachedData(UberTextCacheFolderPath, UberTextCacheFilePath, PlatformFilePaths.PersistentDataPath, 216423, Log.UberText));
 		Processor.QueueJob(HearthstoneJobs.CreateJobFromAction("HearthstoneApplication.SetWindowText", SetWindowText, loadStringsJob.CreateDependency()));
 		Processor.QueueJob(HearthstoneJobs.CreateJobFromDependency("Load_LogoAnimation", new LoadUIScreen("LogoAnimation.prefab:d2af09653759c2449b0426037b7fe9eb"), typeof(GameDownloadManager), typeof(IAssetLoader)));
 		Processor.QueueJob(HearthstoneJobs.CreateJobFromDependency("Load_OverlayUI", new LoadUIScreen("OverlayUI.prefab:af7221edeeba8412cb55e9d6b58bb8dc"), typeof(GameDownloadManager), typeof(IAssetLoader)));
@@ -876,7 +876,7 @@ public class HearthstoneApplication : MonoBehaviour
 		{
 			GameStrings.LoadNative();
 		}
-		Processor.QueueJob("UberText.LoadCachedData", UberText.Job_LoadCachedData(UberTextCacheFolderPath, UberTextCacheFilePath, PlatformFilePaths.PersistentDataPath, 214839, Log.UberText));
+		Processor.QueueJob("UberText.LoadCachedData", UberText.Job_LoadCachedData(UberTextCacheFolderPath, UberTextCacheFilePath, PlatformFilePaths.PersistentDataPath, 216423, Log.UberText));
 		if (ServiceManager.TryGet<IFontTable>(out var _))
 		{
 			ServiceManager.Get<IFontTable>().StartFontLoadingJob();

@@ -6,27 +6,27 @@ using UnityEngine;
 
 public class CutsceneTimeline : MonoBehaviour
 {
-	[SerializeField]
 	[Header("Interactable Elements")]
+	[SerializeField]
 	private CutsceneCaptionDriver m_captionDriver;
 
 	[SerializeField]
 	private CutsceneAttackSpellController m_attackSpellController;
 
-	[Header("Timeline Config")]
-	[Tooltip("Time (seconds) that the active action can run for before timing out. (Note: Action can override this value)")]
 	[Min(0f)]
 	[SerializeField]
+	[Tooltip("Time (seconds) that the active action can run for before timing out. (Note: Action can override this value)")]
+	[Header("Timeline Config")]
 	private float m_defaultActionTimeoutSeconds = 13f;
 
-	[Min(0f)]
 	[SerializeField]
+	[Min(0f)]
 	[Tooltip("Delay (seconds) between transitioned to next action and that action executing - e.g. hero power not firing straight away. (Note: Action can override this value)")]
 	private float m_defaultActionStartDelaySeconds = 1f;
 
 	[SerializeField]
-	[Tooltip("Delay (seconds) between action execution finishing and start of transition to next action. (Note: Action can override this value)")]
 	[Min(0f)]
+	[Tooltip("Delay (seconds) between action execution finishing and start of transition to next action. (Note: Action can override this value)")]
 	private float m_defaultActionFinishDelaySeconds = 2f;
 
 	private readonly List<TimelineAction> m_timelineActions = new List<TimelineAction>();

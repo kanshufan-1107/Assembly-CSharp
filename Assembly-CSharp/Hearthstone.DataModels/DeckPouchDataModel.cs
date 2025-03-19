@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -176,15 +177,41 @@ public class DeckPouchDataModel : DataModelEventDispatcher, IDataModel, IDataMod
 		RegisterNestedDataModel(m_Details);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Pouch != null) ? m_Pouch.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Pouch != null && !inspectedDataModels.Contains(m_Pouch.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Pouch.GetHashCode());
+			hash = hash * 31 + m_Pouch.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_RemainingDust;
-		int num2 = (num + m_RemainingDust.GetHashCode()) * 31;
+		hash = num + m_RemainingDust.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_TotalDust;
-		int num3 = ((num2 + m_TotalDust.GetHashCode()) * 31 + ((m_Details != null) ? m_Details.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_TotalDust.GetHashCode();
+		if (m_Details != null && !inspectedDataModels.Contains(m_Details.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Details.GetHashCode());
+			hash = hash * 31 + m_Details.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_Class;
-		int num4 = (num3 + m_Class.GetHashCode()) * 31;
+		hash = num3 + m_Class.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_DeckTemplateId;
 		return num4 + m_DeckTemplateId.GetHashCode();
 	}

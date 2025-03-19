@@ -808,7 +808,7 @@ public static class OfflineDataCache
 		string devVersion = "";
 		if (HearthstoneApplication.IsInternal())
 		{
-			devVersion = string.Format("_{0}", "31.4");
+			devVersion = string.Format("_{0}", "31.6");
 			devVersion = devVersion.Replace(".", "_");
 		}
 		return $"{folder}/offlineData_{user}_{region}{devVersion}.cache";

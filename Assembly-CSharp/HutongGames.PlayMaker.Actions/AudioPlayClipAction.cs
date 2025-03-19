@@ -5,15 +5,15 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Generates an AudioSource based on a template, then plays that source.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioPlayClipAction : FsmStateAction
 {
 	[Tooltip("Optional. If specified, the generated Audio Source will be placed at the same location as this object.")]
 	public FsmOwnerDefault m_ParentObject;
 
-	[ObjectType(typeof(SoundDef))]
 	[RequiredField]
+	[ObjectType(typeof(SoundDef))]
 	public FsmObject m_Sound;
 
 	[HasFloatSlider(0f, 1f)]

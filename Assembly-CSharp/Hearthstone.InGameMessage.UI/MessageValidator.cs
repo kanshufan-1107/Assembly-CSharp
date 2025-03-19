@@ -140,7 +140,7 @@ public class MessageValidator
 			Log.InGameMessage.PrintInfo($"Shop product {pmtId} is invalid as shop data was missing");
 			return false;
 		}
-		if (Shop.Get() != null && !Shop.Get().TryGetActiveShopSlot(product, out var _))
+		if (!dataService.IsProductAvailable(pmtId))
 		{
 			Log.InGameMessage.PrintInfo($"Shop product {pmtId} is not present in store. Considering message invalid");
 			return false;

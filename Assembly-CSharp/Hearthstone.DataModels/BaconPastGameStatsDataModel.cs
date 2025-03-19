@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -122,7 +123,11 @@ public class BaconPastGameStatsDataModel : DataModelEventDispatcher, IDataModel,
 
 	private int m_TeammateTrinketHeroPowerMinionType;
 
-	private DataModelProperty[] m_properties = new DataModelProperty[58]
+	private CardDataModel m_DualHeroPower;
+
+	private CardDataModel m_TeammateDualHeroPower;
+
+	private DataModelProperty[] m_properties = new DataModelProperty[60]
 	{
 		new DataModelProperty
 		{
@@ -471,6 +476,18 @@ public class BaconPastGameStatsDataModel : DataModelEventDispatcher, IDataModel,
 			PropertyId = 58,
 			PropertyDisplayName = "teammate_trinket_hero_power_minion_type",
 			Type = typeof(int)
+		},
+		new DataModelProperty
+		{
+			PropertyId = 59,
+			PropertyDisplayName = "dual_hero_power",
+			Type = typeof(CardDataModel)
+		},
+		new DataModelProperty
+		{
+			PropertyId = 60,
+			PropertyDisplayName = "teammate_dual_hero_power",
+			Type = typeof(CardDataModel)
 		}
 	};
 
@@ -1506,6 +1523,44 @@ public class BaconPastGameStatsDataModel : DataModelEventDispatcher, IDataModel,
 		}
 	}
 
+	public CardDataModel DualHeroPower
+	{
+		get
+		{
+			return m_DualHeroPower;
+		}
+		set
+		{
+			if (m_DualHeroPower != value)
+			{
+				RemoveNestedDataModel(m_DualHeroPower);
+				RegisterNestedDataModel(value);
+				m_DualHeroPower = value;
+				DispatchChangedListeners();
+				DataContext.DataVersion++;
+			}
+		}
+	}
+
+	public CardDataModel TeammateDualHeroPower
+	{
+		get
+		{
+			return m_TeammateDualHeroPower;
+		}
+		set
+		{
+			if (m_TeammateDualHeroPower != value)
+			{
+				RemoveNestedDataModel(m_TeammateDualHeroPower);
+				RegisterNestedDataModel(value);
+				m_TeammateDualHeroPower = value;
+				DispatchChangedListeners();
+				DataContext.DataVersion++;
+			}
+		}
+	}
+
 	public DataModelProperty[] Properties => m_properties;
 
 	public BaconPastGameStatsDataModel()
@@ -1531,81 +1586,328 @@ public class BaconPastGameStatsDataModel : DataModelEventDispatcher, IDataModel,
 		RegisterNestedDataModel(m_TeammateTrinket1);
 		RegisterNestedDataModel(m_TeammateTrinket2);
 		RegisterNestedDataModel(m_TeammateTrinketHeroPower);
+		RegisterNestedDataModel(m_DualHeroPower);
+		RegisterNestedDataModel(m_TeammateDualHeroPower);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_Hero != null) ? m_Hero.GetPropertiesHashCode() : 0)) * 31 + ((m_HeroPower != null) ? m_HeroPower.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Hero != null && !inspectedDataModels.Contains(m_Hero.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Hero.GetHashCode());
+			hash = hash * 31 + m_Hero.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_HeroPower != null && !inspectedDataModels.Contains(m_HeroPower.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_HeroPower.GetHashCode());
+			hash = hash * 31 + m_HeroPower.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_Place;
-		int num2 = (((((num + m_Place.GetHashCode()) * 31 + ((m_Minions != null) ? m_Minions.GetPropertiesHashCode() : 0)) * 31 + ((m_HeroName != null) ? m_HeroName.GetHashCode() : 0)) * 31 + ((m_Quest != null) ? m_Quest.GetPropertiesHashCode() : 0)) * 31 + ((m_Reward != null) ? m_Reward.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_Place.GetHashCode();
+		if (m_Minions != null && !inspectedDataModels.Contains(m_Minions.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Minions.GetHashCode());
+			hash = hash * 31 + m_Minions.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_HeroName != null) ? m_HeroName.GetHashCode() : 0);
+		if (m_Quest != null && !inspectedDataModels.Contains(m_Quest.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Quest.GetHashCode());
+			hash = hash * 31 + m_Quest.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Reward != null && !inspectedDataModels.Contains(m_Reward.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Reward.GetHashCode());
+			hash = hash * 31 + m_Reward.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_RewardCompleted;
-		int num3 = (num2 + m_RewardCompleted.GetHashCode()) * 31;
+		hash = num2 + m_RewardCompleted.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_HeroPowerRewardCardDatabaseID;
-		int num4 = (num3 + m_HeroPowerRewardCardDatabaseID.GetHashCode()) * 31;
+		hash = num3 + m_HeroPowerRewardCardDatabaseID.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_HeroPowerRewardMinionType;
-		int num5 = (num4 + m_HeroPowerRewardMinionType.GetHashCode()) * 31;
+		hash = num4 + m_HeroPowerRewardMinionType.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_RewardCardDatabaseID;
-		int num6 = (num5 + m_RewardCardDatabaseID.GetHashCode()) * 31;
+		hash = num5 + m_RewardCardDatabaseID.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_RewardMinionType;
-		int num7 = (num6 + m_RewardMinionType.GetHashCode()) * 31;
+		hash = num6 + m_RewardMinionType.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_QuestRace1;
-		int num8 = (num7 + m_QuestRace1.GetHashCode()) * 31;
+		hash = num7 + m_QuestRace1.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_QuestRace2;
-		int num9 = (num8 + m_QuestRace2.GetHashCode()) * 31;
+		hash = num8 + m_QuestRace2.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_QuestProgressTotal;
-		int num10 = (num9 + m_QuestProgressTotal.GetHashCode()) * 31;
+		hash = num9 + m_QuestProgressTotal.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_HeroPowerQuestRace1;
-		int num11 = (num10 + m_HeroPowerQuestRace1.GetHashCode()) * 31;
+		hash = num10 + m_HeroPowerQuestRace1.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_HeroPowerQuestRace2;
-		int num12 = (num11 + m_HeroPowerQuestRace2.GetHashCode()) * 31;
+		hash = num11 + m_HeroPowerQuestRace2.GetHashCode();
+		int num12 = hash * 31;
 		_ = m_HeroPowerQuestProgressTotal;
-		int num13 = ((num12 + m_HeroPowerQuestProgressTotal.GetHashCode()) * 31 + ((m_HeroBuddyMeter != null) ? m_HeroBuddyMeter.GetPropertiesHashCode() : 0)) * 31;
+		hash = num12 + m_HeroPowerQuestProgressTotal.GetHashCode();
+		if (m_HeroBuddyMeter != null && !inspectedDataModels.Contains(m_HeroBuddyMeter.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_HeroBuddyMeter.GetHashCode());
+			hash = hash * 31 + m_HeroBuddyMeter.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num13 = hash * 31;
 		_ = m_NumHeroBuddiesGained;
-		int num14 = ((num13 + m_NumHeroBuddiesGained.GetHashCode()) * 31 + ((m_HeroBuddy != null) ? m_HeroBuddy.GetPropertiesHashCode() : 0)) * 31;
+		hash = num13 + m_NumHeroBuddiesGained.GetHashCode();
+		if (m_HeroBuddy != null && !inspectedDataModels.Contains(m_HeroBuddy.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_HeroBuddy.GetHashCode());
+			hash = hash * 31 + m_HeroBuddy.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num14 = hash * 31;
 		_ = m_HeroBuddyDatabaseID;
-		int num15 = (num14 + m_HeroBuddyDatabaseID.GetHashCode()) * 31;
+		hash = num14 + m_HeroBuddyDatabaseID.GetHashCode();
+		int num15 = hash * 31;
 		_ = m_HeroBuddyCost;
-		int num16 = ((((((((num15 + m_HeroBuddyCost.GetHashCode()) * 31 + ((m_Anomaly != null) ? m_Anomaly.GetPropertiesHashCode() : 0)) * 31 + ((m_TeammateHero != null) ? m_TeammateHero.GetPropertiesHashCode() : 0)) * 31 + ((m_TeammateHeroPower != null) ? m_TeammateHeroPower.GetPropertiesHashCode() : 0)) * 31 + ((m_TeammateMinions != null) ? m_TeammateMinions.GetPropertiesHashCode() : 0)) * 31 + ((m_TeammateHeroName != null) ? m_TeammateHeroName.GetHashCode() : 0)) * 31 + ((m_TeammateQuest != null) ? m_TeammateQuest.GetPropertiesHashCode() : 0)) * 31 + ((m_TeammateReward != null) ? m_TeammateReward.GetPropertiesHashCode() : 0)) * 31;
+		hash = num15 + m_HeroBuddyCost.GetHashCode();
+		if (m_Anomaly != null && !inspectedDataModels.Contains(m_Anomaly.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Anomaly.GetHashCode());
+			hash = hash * 31 + m_Anomaly.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TeammateHero != null && !inspectedDataModels.Contains(m_TeammateHero.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateHero.GetHashCode());
+			hash = hash * 31 + m_TeammateHero.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TeammateHeroPower != null && !inspectedDataModels.Contains(m_TeammateHeroPower.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateHeroPower.GetHashCode());
+			hash = hash * 31 + m_TeammateHeroPower.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TeammateMinions != null && !inspectedDataModels.Contains(m_TeammateMinions.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateMinions.GetHashCode());
+			hash = hash * 31 + m_TeammateMinions.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_TeammateHeroName != null) ? m_TeammateHeroName.GetHashCode() : 0);
+		if (m_TeammateQuest != null && !inspectedDataModels.Contains(m_TeammateQuest.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateQuest.GetHashCode());
+			hash = hash * 31 + m_TeammateQuest.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TeammateReward != null && !inspectedDataModels.Contains(m_TeammateReward.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateReward.GetHashCode());
+			hash = hash * 31 + m_TeammateReward.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num16 = hash * 31;
 		_ = m_TeammateRewardCompleted;
-		int num17 = (num16 + m_TeammateRewardCompleted.GetHashCode()) * 31;
+		hash = num16 + m_TeammateRewardCompleted.GetHashCode();
+		int num17 = hash * 31;
 		_ = m_TeammateHeroPowerRewardCardDatabaseID;
-		int num18 = (num17 + m_TeammateHeroPowerRewardCardDatabaseID.GetHashCode()) * 31;
+		hash = num17 + m_TeammateHeroPowerRewardCardDatabaseID.GetHashCode();
+		int num18 = hash * 31;
 		_ = m_TeammateHeroPowerRewardMinionType;
-		int num19 = (num18 + m_TeammateHeroPowerRewardMinionType.GetHashCode()) * 31;
+		hash = num18 + m_TeammateHeroPowerRewardMinionType.GetHashCode();
+		int num19 = hash * 31;
 		_ = m_TeammateRewardCardDatabaseID;
-		int num20 = (num19 + m_TeammateRewardCardDatabaseID.GetHashCode()) * 31;
+		hash = num19 + m_TeammateRewardCardDatabaseID.GetHashCode();
+		int num20 = hash * 31;
 		_ = m_TeammateRewardMinionType;
-		int num21 = (num20 + m_TeammateRewardMinionType.GetHashCode()) * 31;
+		hash = num20 + m_TeammateRewardMinionType.GetHashCode();
+		int num21 = hash * 31;
 		_ = m_TeammateQuestRace1;
-		int num22 = (num21 + m_TeammateQuestRace1.GetHashCode()) * 31;
+		hash = num21 + m_TeammateQuestRace1.GetHashCode();
+		int num22 = hash * 31;
 		_ = m_TeammateQuestRace2;
-		int num23 = (num22 + m_TeammateQuestRace2.GetHashCode()) * 31;
+		hash = num22 + m_TeammateQuestRace2.GetHashCode();
+		int num23 = hash * 31;
 		_ = m_TeammateQuestProgressTotal;
-		int num24 = (num23 + m_TeammateQuestProgressTotal.GetHashCode()) * 31;
+		hash = num23 + m_TeammateQuestProgressTotal.GetHashCode();
+		int num24 = hash * 31;
 		_ = m_TeammateHeroPowerQuestRace1;
-		int num25 = (num24 + m_TeammateHeroPowerQuestRace1.GetHashCode()) * 31;
+		hash = num24 + m_TeammateHeroPowerQuestRace1.GetHashCode();
+		int num25 = hash * 31;
 		_ = m_TeammateHeroPowerQuestRace2;
-		int num26 = (num25 + m_TeammateHeroPowerQuestRace2.GetHashCode()) * 31;
+		hash = num25 + m_TeammateHeroPowerQuestRace2.GetHashCode();
+		int num26 = hash * 31;
 		_ = m_TeammateHeroPowerQuestProgressTotal;
-		int num27 = ((num26 + m_TeammateHeroPowerQuestProgressTotal.GetHashCode()) * 31 + ((m_TeammateHeroBuddyMeter != null) ? m_TeammateHeroBuddyMeter.GetPropertiesHashCode() : 0)) * 31;
+		hash = num26 + m_TeammateHeroPowerQuestProgressTotal.GetHashCode();
+		if (m_TeammateHeroBuddyMeter != null && !inspectedDataModels.Contains(m_TeammateHeroBuddyMeter.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateHeroBuddyMeter.GetHashCode());
+			hash = hash * 31 + m_TeammateHeroBuddyMeter.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num27 = hash * 31;
 		_ = m_TeammateNumHeroBuddiesGained;
-		int num28 = ((num27 + m_TeammateNumHeroBuddiesGained.GetHashCode()) * 31 + ((m_TeammateHeroBuddy != null) ? m_TeammateHeroBuddy.GetPropertiesHashCode() : 0)) * 31;
+		hash = num27 + m_TeammateNumHeroBuddiesGained.GetHashCode();
+		if (m_TeammateHeroBuddy != null && !inspectedDataModels.Contains(m_TeammateHeroBuddy.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateHeroBuddy.GetHashCode());
+			hash = hash * 31 + m_TeammateHeroBuddy.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num28 = hash * 31;
 		_ = m_TeammateHeroBuddyDatabaseID;
-		int num29 = (num28 + m_TeammateHeroBuddyDatabaseID.GetHashCode()) * 31;
+		hash = num28 + m_TeammateHeroBuddyDatabaseID.GetHashCode();
+		int num29 = hash * 31;
 		_ = m_TeammateHeroBuddyCost;
-		int num30 = (((((((num29 + m_TeammateHeroBuddyCost.GetHashCode()) * 31 + ((m_Trinket1 != null) ? m_Trinket1.GetPropertiesHashCode() : 0)) * 31 + ((m_Trinket2 != null) ? m_Trinket2.GetPropertiesHashCode() : 0)) * 31 + ((m_TrinketHeroPower != null) ? m_TrinketHeroPower.GetPropertiesHashCode() : 0)) * 31 + ((m_TeammateTrinket1 != null) ? m_TeammateTrinket1.GetPropertiesHashCode() : 0)) * 31 + ((m_TeammateTrinket2 != null) ? m_TeammateTrinket2.GetPropertiesHashCode() : 0)) * 31 + ((m_TeammateTrinketHeroPower != null) ? m_TeammateTrinketHeroPower.GetPropertiesHashCode() : 0)) * 31;
+		hash = num29 + m_TeammateHeroBuddyCost.GetHashCode();
+		if (m_Trinket1 != null && !inspectedDataModels.Contains(m_Trinket1.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Trinket1.GetHashCode());
+			hash = hash * 31 + m_Trinket1.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Trinket2 != null && !inspectedDataModels.Contains(m_Trinket2.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Trinket2.GetHashCode());
+			hash = hash * 31 + m_Trinket2.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TrinketHeroPower != null && !inspectedDataModels.Contains(m_TrinketHeroPower.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TrinketHeroPower.GetHashCode());
+			hash = hash * 31 + m_TrinketHeroPower.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TeammateTrinket1 != null && !inspectedDataModels.Contains(m_TeammateTrinket1.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateTrinket1.GetHashCode());
+			hash = hash * 31 + m_TeammateTrinket1.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TeammateTrinket2 != null && !inspectedDataModels.Contains(m_TeammateTrinket2.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateTrinket2.GetHashCode());
+			hash = hash * 31 + m_TeammateTrinket2.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TeammateTrinketHeroPower != null && !inspectedDataModels.Contains(m_TeammateTrinketHeroPower.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateTrinketHeroPower.GetHashCode());
+			hash = hash * 31 + m_TeammateTrinketHeroPower.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num30 = hash * 31;
 		_ = m_Trinket1MinionType;
-		int num31 = (num30 + m_Trinket1MinionType.GetHashCode()) * 31;
+		hash = num30 + m_Trinket1MinionType.GetHashCode();
+		int num31 = hash * 31;
 		_ = m_Trinket2MinionType;
-		int num32 = (num31 + m_Trinket2MinionType.GetHashCode()) * 31;
+		hash = num31 + m_Trinket2MinionType.GetHashCode();
+		int num32 = hash * 31;
 		_ = m_TrinketHeroPowerMinionType;
-		int num33 = (num32 + m_TrinketHeroPowerMinionType.GetHashCode()) * 31;
+		hash = num32 + m_TrinketHeroPowerMinionType.GetHashCode();
+		int num33 = hash * 31;
 		_ = m_TeammateTrinket1MinionType;
-		int num34 = (num33 + m_TeammateTrinket1MinionType.GetHashCode()) * 31;
+		hash = num33 + m_TeammateTrinket1MinionType.GetHashCode();
+		int num34 = hash * 31;
 		_ = m_TeammateTrinket2MinionType;
-		int num35 = (num34 + m_TeammateTrinket2MinionType.GetHashCode()) * 31;
+		hash = num34 + m_TeammateTrinket2MinionType.GetHashCode();
+		int num35 = hash * 31;
 		_ = m_TeammateTrinketHeroPowerMinionType;
-		return num35 + m_TeammateTrinketHeroPowerMinionType.GetHashCode();
+		hash = num35 + m_TeammateTrinketHeroPowerMinionType.GetHashCode();
+		if (m_DualHeroPower != null && !inspectedDataModels.Contains(m_DualHeroPower.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_DualHeroPower.GetHashCode());
+			hash = hash * 31 + m_DualHeroPower.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TeammateDualHeroPower != null && !inspectedDataModels.Contains(m_TeammateDualHeroPower.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TeammateDualHeroPower.GetHashCode());
+			return hash * 31 + m_TeammateDualHeroPower.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)
@@ -1785,6 +2087,12 @@ public class BaconPastGameStatsDataModel : DataModelEventDispatcher, IDataModel,
 			return true;
 		case 58:
 			value = m_TeammateTrinketHeroPowerMinionType;
+			return true;
+		case 59:
+			value = m_DualHeroPower;
+			return true;
+		case 60:
+			value = m_TeammateDualHeroPower;
 			return true;
 		default:
 			value = null;
@@ -1970,6 +2278,12 @@ public class BaconPastGameStatsDataModel : DataModelEventDispatcher, IDataModel,
 		case 58:
 			TeammateTrinketHeroPowerMinionType = ((value != null) ? ((int)value) : 0);
 			return true;
+		case 59:
+			DualHeroPower = ((value != null) ? ((CardDataModel)value) : null);
+			return true;
+		case 60:
+			TeammateDualHeroPower = ((value != null) ? ((CardDataModel)value) : null);
+			return true;
 		default:
 			return false;
 		}
@@ -2152,6 +2466,12 @@ public class BaconPastGameStatsDataModel : DataModelEventDispatcher, IDataModel,
 			return true;
 		case 58:
 			info = Properties[57];
+			return true;
+		case 59:
+			info = Properties[58];
+			return true;
+		case 60:
+			info = Properties[59];
 			return true;
 		default:
 			info = default(DataModelProperty);

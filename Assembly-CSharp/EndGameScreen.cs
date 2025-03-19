@@ -1059,6 +1059,7 @@ public class EndGameScreen : MonoBehaviour
 		}
 		foreach (RewardData rewardData in rewardsToLoad)
 		{
+			PopupDisplayManager.Get().RewardPopups.RemovePendingNotices(rewardData);
 			if (PopupDisplayManager.Get().RewardPopups.UpdateNoticesSeen(rewardData))
 			{
 				m_numRewardsToLoad++;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -348,27 +349,52 @@ public class LettuceBountyDataModel : DataModelEventDispatcher, IDataModel, IDat
 		RegisterNestedDataModel(m_AdventureMission);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_BountyId;
-		int num2 = (((num + m_BountyId.GetHashCode()) * 31 + ((m_AdventureMission != null) ? m_AdventureMission.GetPropertiesHashCode() : 0)) * 31 + ((m_ComingSoonText != null) ? m_ComingSoonText.GetHashCode() : 0)) * 31;
+		hash = num + m_BountyId.GetHashCode();
+		if (m_AdventureMission != null && !inspectedDataModels.Contains(m_AdventureMission.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_AdventureMission.GetHashCode());
+			hash = hash * 31 + m_AdventureMission.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_ComingSoonText != null) ? m_ComingSoonText.GetHashCode() : 0);
+		int num2 = hash * 31;
 		_ = m_Available;
-		int num3 = (num2 + m_Available.GetHashCode()) * 31;
+		hash = num2 + m_Available.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_Complete;
-		int num4 = ((num3 + m_Complete.GetHashCode()) * 31 + ((m_PosterText != null) ? m_PosterText.GetHashCode() : 0)) * 31;
+		hash = num3 + m_Complete.GetHashCode();
+		hash = hash * 31 + ((m_PosterText != null) ? m_PosterText.GetHashCode() : 0);
+		int num4 = hash * 31;
 		_ = m_IsDisabled;
-		int num5 = (num4 + m_IsDisabled.GetHashCode()) * 31;
+		hash = num4 + m_IsDisabled.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_IsLocked;
-		int num6 = (num5 + m_IsLocked.GetHashCode()) * 31;
+		hash = num5 + m_IsLocked.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_IsEventLocked;
-		int num7 = (num6 + m_IsEventLocked.GetHashCode()) * 31;
+		hash = num6 + m_IsEventLocked.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_IsNew;
-		int num8 = (num7 + m_IsNew.GetHashCode()) * 31;
+		hash = num7 + m_IsNew.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_IsComingSoon;
-		int num9 = (num8 + m_IsComingSoon.GetHashCode()) * 31;
+		hash = num8 + m_IsComingSoon.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_ComingSoonInDays;
-		int num10 = (num9 + m_ComingSoonInDays.GetHashCode()) * 31;
+		hash = num9 + m_ComingSoonInDays.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_BestMythicLevel;
 		return num10 + m_BestMythicLevel.GetHashCode();
 	}

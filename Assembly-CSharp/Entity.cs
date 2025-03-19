@@ -241,7 +241,7 @@ public class Entity : EntityBase
 					PlayerLeaderboardManager.Get().SetOddManOutOpponentHero(this);
 				}
 			}
-			else if (IsHeroPower())
+			else if (IsHeroPower() && !HasTag(GAME_TAG.ADDITIONAL_HERO_POWER_INDEX))
 			{
 				GetController().SetHeroPower(this);
 			}
@@ -351,8 +351,21 @@ public class Entity : EntityBase
 		return false;
 	}
 
+	private bool DoesChangeEntityNewCardTypeUseSameActor(Network.HistChangeEntity changeEntity)
+	{
+		if ((changeEntity.Entity.Tags.Find((Network.Entity.Tag currTag) => currTag.Name == 202)?.Value ?? 0) == 42 && m_realTimeCardType == TAG_CARDTYPE.SPELL)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	private bool ShouldUpdateActorOnChangeEntity(Network.HistChangeEntity changeEntity)
 	{
+		if (DoesChangeEntityNewCardTypeUseSameActor(changeEntity))
+		{
+			return false;
+		}
 		if (!IsTagChanged(changeEntity, GAME_TAG.CARDTYPE) && GetTag(GAME_TAG.CARDTYPE) == (int)m_realTimeCardType && !IsTagChanged(changeEntity, GAME_TAG.PREMIUM) && GetTag(GAME_TAG.PREMIUM) == (int)m_realTimePremium && !IsTagChanged(changeEntity, GAME_TAG.LETTUCE_MERCENARY))
 		{
 			return SignatureFrameWillChange(base.m_cardId, changeEntity.Entity.CardID);
@@ -914,6 +927,15 @@ public class Entity : EntityBase
 			if (plm != null && plm.IsEnabled() && !GetRealTimeBaconCombatPhaseHero())
 			{
 				plm.UpdatePlayerTileHeroPower(this, change.newValue);
+			}
+			break;
+		}
+		case GAME_TAG.ADDITIONAL_HERO_POWER_ENTITY_1:
+		{
+			PlayerLeaderboardManager plm = PlayerLeaderboardManager.Get();
+			if (plm != null && plm.IsEnabled() && !GetRealTimeBaconCombatPhaseHero())
+			{
+				plm.SetPlayerTileAdditionalHeroPowerDirty(this);
 			}
 			break;
 		}
@@ -1655,6 +1677,15 @@ public class Entity : EntityBase
 			return GetCard();
 		}
 		return GetController()?.GetHeroBuddyCard();
+	}
+
+	public virtual Card GetBaconClickableButtonCard()
+	{
+		if (IsBattlegroundClickableButton())
+		{
+			return GetCard();
+		}
+		return GetController()?.GetBaconClickableButtonCard();
 	}
 
 	public virtual Card GetQuestRewardFromHeroPowerCard()
@@ -2814,6 +2845,10 @@ public class Entity : EntityBase
 				{
 					m_card.ActivateStateSpells(forceActivate: true);
 				}
+				else if (data.fromChangeEntity && m_card.GetActor() != null && m_card.GetActor().UseTechLevelManaGem())
+				{
+					m_card.GetActor().ShowTavernTierSpell();
+				}
 				m_card.RefreshCardsInTooltip();
 				if (data.fromChangeEntity && IsMinion() && m_card.GetZone() is ZonePlay)
 				{
@@ -3137,6 +3172,23 @@ public class Entity : EntityBase
 		if ((IsForgeable() || HasTag(GAME_TAG.FORGE_REVEALED)) && IsHidden())
 		{
 			return IsControlledByConcealedPlayer();
+		}
+		return false;
+	}
+
+	public bool IsDisabledHeroPower()
+	{
+		if (!IsHeroPower())
+		{
+			return false;
+		}
+		if (HasTag(GAME_TAG.HERO_POWER_DISABLED))
+		{
+			return true;
+		}
+		if (GetController() != null && !HasTag(GAME_TAG.ADDITIONAL_HERO_POWER_INDEX))
+		{
+			return GetController().HasTag(GAME_TAG.HERO_POWER_DISABLED);
 		}
 		return false;
 	}

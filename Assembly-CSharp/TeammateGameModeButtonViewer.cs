@@ -179,7 +179,7 @@ public class TeammateGameModeButtonViewer : TeammateViewer
 		UpdateGameModeButton(m_freezeButtonDummyActor, 0, m_freezeEntityID);
 		UpdateGameModeButton(m_refreshButtonDummyActor, m_teammateRefreshCost, m_refreshEntityID);
 		UpdateGameModeButton(m_tavernButtonDummyActor, m_teammateTavernTierCost, m_tavernEntityID);
-		if (m_tavernButtonDummyActor != null && GetTeammateTechLevelInt() >= GetMaxTechLevel())
+		if (m_tavernButtonDummyActor != null && (GetTeammateTechLevelInt() >= GetMaxTechLevel() || IsTechLeveLDisabled()))
 		{
 			m_tavernButtonDummyActor.gameObject.SetActive(value: false);
 		}
@@ -394,6 +394,15 @@ public class TeammateGameModeButtonViewer : TeammateViewer
 			return 6;
 		}
 		return GameState.Get().GetFriendlySidePlayer().GetTag(GAME_TAG.BACON_MAX_PLAYER_TECH_LEVEL);
+	}
+
+	private bool IsTechLeveLDisabled()
+	{
+		if (GameState.Get() == null || GameState.Get().GetGameEntity() == null)
+		{
+			return false;
+		}
+		return GameState.Get().GetGameEntity().HasTag(GAME_TAG.BACON_NO_TIER_UP_BUTTON);
 	}
 
 	private int GetTeammateTechLevelInt()

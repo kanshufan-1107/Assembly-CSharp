@@ -23,8 +23,8 @@ public class BnetBarMenuButton : PegUIElement
 	[SerializeField]
 	private Transform m_phoneBarTwoElementBone;
 
-	[Header("Default")]
 	[SerializeField]
+	[Header("Default")]
 	private GameObject m_defaultHighlight;
 
 	[SerializeField]
@@ -49,8 +49,8 @@ public class BnetBarMenuButton : PegUIElement
 	[SerializeField]
 	private float m_inactiveArrowTextureOffset = 0.205f;
 
-	[SerializeField]
 	[Header("Offline")]
+	[SerializeField]
 	private GameObject m_offlineSection;
 
 	[SerializeField]

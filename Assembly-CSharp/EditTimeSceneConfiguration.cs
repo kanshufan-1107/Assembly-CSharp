@@ -34,8 +34,8 @@ public class EditTimeSceneConfiguration : MonoBehaviour
 
 	public List<SceneConfiguration> Configurations = new List<SceneConfiguration>();
 
-	[Header("Quick Links")]
 	[SerializeField]
+	[Header("Quick Links")]
 	private KeyboardFinisherSettings _authoringSettings;
 
 	[SerializeField]

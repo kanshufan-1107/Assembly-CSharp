@@ -1,4 +1,5 @@
 using System;
+using Blizzard.T5.Services;
 using Hearthstone.DataModels;
 using Hearthstone.UI;
 using UnityEngine;
@@ -78,6 +79,7 @@ public class RewardScroll : MonoBehaviour
 			UIContext.GetRoot().ShowPopup(base.gameObject);
 		}
 		m_widget.TriggerEvent("CODE_SHOW_REWARD", new TriggerEventParameters(null, null, noDownwardPropagation: true));
+		HandleCurrencyReward();
 		this.OnRewardScrollShown?.Invoke();
 	}
 
@@ -101,6 +103,22 @@ public class RewardScroll : MonoBehaviour
 			widget.GetComponentInChildren<RewardScroll>().Show();
 		}, null, callImmediatelyIfSet: true, doOnce: true);
 		return widget;
+	}
+
+	private void HandleCurrencyReward()
+	{
+		if (Shop.Get() == null || m_widget == null || !m_widget.GetDataModel(257, out var dataModel) || !(dataModel is RewardScrollDataModel rewardScrollDataModel))
+		{
+			return;
+		}
+		foreach (RewardItemDataModel item in rewardScrollDataModel.RewardList.Items)
+		{
+			if (item.ItemType == RewardItemType.CN_ARCANE_ORBS && ServiceManager.TryGet<CurrencyManager>(out var currencyManager))
+			{
+				currencyManager.MarkCurrencyDirty(CurrencyType.CN_ARCANE_ORBS);
+				break;
+			}
+		}
 	}
 
 	private void OnFatalError(FatalErrorMessage message, object userData)

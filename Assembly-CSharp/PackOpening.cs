@@ -136,8 +136,8 @@ public class PackOpening : MonoBehaviour
 
 	private int m_massPackOpeningHooverChunkSize;
 
-	[Tooltip("The PlayMaker script being used for hoovering")]
 	[Header("Mass Pack Opening Hoovering PlayMaker Variable Names")]
+	[Tooltip("The PlayMaker script being used for hoovering")]
 	public PlayMakerFSM m_hooveringPlayMaker;
 
 	[Tooltip("The PlayMaker script variable for the source stack")]
@@ -783,7 +783,10 @@ public class PackOpening : MonoBehaviour
 			response.PackContents.Components[0] = m_mockLettucePackComponent;
 			m_mockLettucePackComponent = null;
 		}
-		m_director.OnMercenariesBoosterOpened(response.PackContents.Components);
+		if (response?.PackContents?.Components != null)
+		{
+			m_director.OnMercenariesBoosterOpened(response.PackContents.Components);
+		}
 	}
 
 	private void OnDBAction()

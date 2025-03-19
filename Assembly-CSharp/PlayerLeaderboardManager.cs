@@ -282,6 +282,16 @@ public class PlayerLeaderboardManager : CardTileListDisplay
 		}
 	}
 
+	public void SetPlayerTileAdditionalHeroPowerDirty(Entity hero)
+	{
+		int playerId = hero.GetTag(GAME_TAG.PLAYER_ID);
+		PlayerLeaderboardCard tile = GetTileForPlayerId(playerId);
+		if (tile != null)
+		{
+			tile.SetAdditionalHeroPowersDirty();
+		}
+	}
+
 	public List<PlayerLeaderboardCard> GetAllTiles()
 	{
 		List<PlayerLeaderboardCard> allTiles = new List<PlayerLeaderboardCard>();

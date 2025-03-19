@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -42,8 +43,12 @@ public class MaterialDataModel : DataModelEventDispatcher, IDataModel, IDataMode
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		return 17 * 31 + ((m_Material != null) ? m_Material.GetHashCode() : 0);
 	}
 

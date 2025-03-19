@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -41,8 +42,12 @@ public class BoxDressingDataModel : DataModelEventDispatcher, IDataModel, IDataM
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		return 17 * 31 + ((m_Type != null) ? m_Type.GetHashCode() : 0);
 	}
 

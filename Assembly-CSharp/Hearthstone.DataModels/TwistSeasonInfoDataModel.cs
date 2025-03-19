@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -326,23 +327,52 @@ public class TwistSeasonInfoDataModel : DataModelEventDispatcher, IDataModel, ID
 		RegisterNestedDataModel(m_TwistHeroicDeckRow);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((((17 * 31 + ((m_RemainingSeasonTime != null) ? m_RemainingSeasonTime.GetHashCode() : 0)) * 31 + ((m_SeasonDescription != null) ? m_SeasonDescription.GetHashCode() : 0)) * 31 + ((m_SeasonTitle != null) ? m_SeasonTitle.GetHashCode() : 0)) * 31 + ((m_TwistValidSets != null) ? m_TwistValidSets.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_RemainingSeasonTime != null) ? m_RemainingSeasonTime.GetHashCode() : 0);
+		hash = hash * 31 + ((m_SeasonDescription != null) ? m_SeasonDescription.GetHashCode() : 0);
+		hash = hash * 31 + ((m_SeasonTitle != null) ? m_SeasonTitle.GetHashCode() : 0);
+		if (m_TwistValidSets != null && !inspectedDataModels.Contains(m_TwistValidSets.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TwistValidSets.GetHashCode());
+			hash = hash * 31 + m_TwistValidSets.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_HasSeenTwistNewSeasonLabel;
-		int num2 = (num + m_HasSeenTwistNewSeasonLabel.GetHashCode()) * 31;
+		hash = num + m_HasSeenTwistNewSeasonLabel.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_HasSeenTwistModeGlow;
-		int num3 = (num2 + m_HasSeenTwistModeGlow.GetHashCode()) * 31;
+		hash = num2 + m_HasSeenTwistModeGlow.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_ShouldShowTwistLoginPopup;
-		int num4 = (num3 + m_ShouldShowTwistLoginPopup.GetHashCode()) * 31;
+		hash = num3 + m_ShouldShowTwistLoginPopup.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_DoesCurrentPageHaveTwistHeader;
-		int num5 = (num4 + m_DoesCurrentPageHaveTwistHeader.GetHashCode()) * 31;
+		hash = num4 + m_DoesCurrentPageHaveTwistHeader.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_IsTwistSeasonEnabled;
-		int num6 = (num5 + m_IsTwistSeasonEnabled.GetHashCode()) * 31;
+		hash = num5 + m_IsTwistSeasonEnabled.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_ShowFormatPickerOnSeasonEnd;
-		int num7 = (num6 + m_ShowFormatPickerOnSeasonEnd.GetHashCode()) * 31;
+		hash = num6 + m_ShowFormatPickerOnSeasonEnd.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_DoesCurrentSeasonUseHeroicDecks;
-		return (num7 + m_DoesCurrentSeasonUseHeroicDecks.GetHashCode()) * 31 + ((m_TwistHeroicDeckRow != null) ? m_TwistHeroicDeckRow.GetPropertiesHashCode() : 0);
+		hash = num7 + m_DoesCurrentSeasonUseHeroicDecks.GetHashCode();
+		if (m_TwistHeroicDeckRow != null && !inspectedDataModels.Contains(m_TwistHeroicDeckRow.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TwistHeroicDeckRow.GetHashCode());
+			return hash * 31 + m_TwistHeroicDeckRow.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

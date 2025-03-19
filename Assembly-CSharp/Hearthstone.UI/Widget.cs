@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[HelpURL("https://confluence.blizzard.com/x/CgZuLQ")]
 [DisallowMultipleComponent]
+[HelpURL("https://confluence.blizzard.com/x/CgZuLQ")]
 public abstract class Widget : MonoBehaviour, IAsyncInitializationBehavior, IStatefulWidgetComponent, ILayerOverridable
 {
 	public enum InitializationState

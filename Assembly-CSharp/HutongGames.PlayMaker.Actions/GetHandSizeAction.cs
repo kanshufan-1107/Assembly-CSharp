@@ -1,15 +1,15 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Stores the size of a player's hand in passed int.")]
+[ActionCategory("Pegasus")]
 public class GetHandSizeAction : FsmStateAction
 {
 	[Tooltip("Which player's hand are we querying the size of?")]
 	public Player.Side m_PlayerSide;
 
+	[RequiredField]
 	[Tooltip("Output variable.")]
 	[UIHint(UIHint.Variable)]
-	[RequiredField]
 	public FsmInt m_HandSize;
 
 	public override void Reset()

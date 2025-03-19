@@ -17,8 +17,8 @@ public class DeckTrayCosmeticCoinContent : DeckTrayContent
 		public Vector3 OriginalPosition;
 	}
 
-	[SerializeField]
 	[Header("Positioning")]
+	[SerializeField]
 	private GameObject m_root;
 
 	[SerializeField]
@@ -27,8 +27,8 @@ public class DeckTrayCosmeticCoinContent : DeckTrayContent
 	[SerializeField]
 	private GameObject m_cosmeticCoinContainer;
 
-	[SerializeField]
 	[Header("Animation")]
+	[SerializeField]
 	private iTween.EaseType m_traySlideSlideInAnimation = iTween.EaseType.easeOutBounce;
 
 	[SerializeField]
@@ -40,8 +40,8 @@ public class DeckTrayCosmeticCoinContent : DeckTrayContent
 	[SerializeField]
 	private SpellType m_removalSpellType;
 
-	[SerializeField]
 	[Header("Sound")]
+	[SerializeField]
 	private WeakAssetReference m_appearanceSound;
 
 	[SerializeField]

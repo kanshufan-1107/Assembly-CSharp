@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Create a fake minion in play that is purely local and does not exist on the server.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Create a fake minion in play that is purely local and does not exist on the server.")]
 public class SpawnLettuceAbilityMinionPreviewInPlayAction : FsmStateAction
 {
 	public FsmGameObject m_FakeMinionGameObject;

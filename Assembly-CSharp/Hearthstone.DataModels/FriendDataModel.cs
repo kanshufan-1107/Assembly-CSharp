@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -266,8 +267,12 @@ public class FriendDataModel : DataModelEventDispatcher, IDataModel, IDataModelP
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = ((17 * 31 + ((m_PlayerName != null) ? m_PlayerName.GetHashCode() : 0)) * 31 + ((m_PlayerStatus != null) ? m_PlayerStatus.GetHashCode() : 0)) * 31;
 		_ = m_IsOnline;
 		int num2 = (num + m_IsOnline.GetHashCode()) * 31;

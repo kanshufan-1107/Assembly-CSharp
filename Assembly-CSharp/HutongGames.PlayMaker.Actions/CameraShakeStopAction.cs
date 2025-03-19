@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Stops a shaking camera, over time or immediately.")]
+[ActionCategory("Pegasus")]
 public class CameraShakeStopAction : CameraAction
 {
 	public WhichCamera m_WhichCamera;

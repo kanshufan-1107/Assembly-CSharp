@@ -70,30 +70,42 @@ public static class DownloadUtils
 
 	public static bool HasNecessaryModeInstalled(NetCache.NetCacheDisconnectedGame dcGame, out DownloadTags.Content missingTag)
 	{
+		Log.Downloader.PrintDebug($"Disconnected game: Type({dcGame.GameType}) Format({dcGame.FormatType}) Mission({dcGame.ServerInfo.Mission})");
+		missingTag = DownloadTags.Content.Unknown;
 		switch (dcGame.GameType)
 		{
 		case GameType.GT_MERCENARIES_PVP:
 		case GameType.GT_MERCENARIES_PVE:
 		case GameType.GT_MERCENARIES_PVE_COOP:
 		case GameType.GT_MERCENARIES_FRIENDLY:
-			if (!GameDownloadManagerProvider.Get().IsModuleReadyToPlay(DownloadTags.Content.Merc))
-			{
-				missingTag = DownloadTags.Content.Merc;
-				return false;
-			}
+			missingTag = DownloadTags.Content.Merc;
 			break;
 		case GameType.GT_VS_AI:
 		{
+			ScenarioDbId id = (ScenarioDbId)dcGame.ServerInfo.Mission;
+			if (id == ScenarioDbId.TB_BACONSHOP_Tutorial || id == ScenarioDbId.TB_BACONSHOP_VS_AI || id == ScenarioDbId.TB_BACONSHOP_DUOS_VS_AI || id == ScenarioDbId.TB_BACONSHOP_DUOS_1_PLAYER_VS_AI)
+			{
+				missingTag = DownloadTags.Content.Bgs;
+				break;
+			}
 			ScenarioDbfRecord scenario = GameDbf.Scenario.GetRecord(dcGame.ServerInfo.Mission);
-			if (scenario != null && scenario.AdventureRecord != null && scenario.AdventureRecord.AdventureDefPrefab != null && !GameDownloadManagerProvider.Get().IsModuleReadyToPlay(DownloadTags.Content.Adventure))
+			if (scenario != null && scenario.AdventureRecord != null && scenario.AdventureRecord.AdventureDefPrefab != null)
 			{
 				missingTag = DownloadTags.Content.Adventure;
-				return false;
 			}
 			break;
 		}
+		case GameType.GT_BATTLEGROUNDS:
+			if (!GameDownloadManagerProvider.Get().IsModuleReadyToPlay(DownloadTags.Content.Bgs))
+			{
+				missingTag = DownloadTags.Content.Bgs;
+			}
+			break;
 		}
-		missingTag = DownloadTags.Content.Unknown;
+		if (missingTag != 0)
+		{
+			return GameDownloadManagerProvider.Get().IsModuleReadyToPlay(missingTag);
+		}
 		return true;
 	}
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -166,8 +167,12 @@ public class AnomalyInfoDataModel : DataModelEventDispatcher, IDataModel, IDataM
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = (17 * 31 + ((m_RemainingTime != null) ? m_RemainingTime.GetHashCode() : 0)) * 31;
 		_ = m_HasSeenAnomalyModeGlow;
 		int num2 = ((num + m_HasSeenAnomalyModeGlow.GetHashCode()) * 31 + ((m_RulesText != null) ? m_RulesText.GetHashCode() : 0)) * 31;

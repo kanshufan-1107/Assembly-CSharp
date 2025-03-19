@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -76,9 +77,28 @@ public class LettuceMapAnomalyGrantDataModel : DataModelEventDispatcher, IDataMo
 		RegisterNestedDataModel(m_SourceNodePosition);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (17 * 31 + ((m_GrantedCard != null) ? m_GrantedCard.GetPropertiesHashCode() : 0)) * 31 + ((m_SourceNodePosition != null) ? m_SourceNodePosition.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_GrantedCard != null && !inspectedDataModels.Contains(m_GrantedCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_GrantedCard.GetHashCode());
+			hash = hash * 31 + m_GrantedCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_SourceNodePosition != null && !inspectedDataModels.Contains(m_SourceNodePosition.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_SourceNodePosition.GetHashCode());
+			return hash * 31 + m_SourceNodePosition.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

@@ -2,12 +2,12 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Randomly sets the volume of an AudioSource on a Game Object.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioSetRandomVolumeAction : FsmStateAction
 {
-	[RequiredField]
 	[CheckForComponent(typeof(AudioSource))]
+	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
 	[HasFloatSlider(0f, 1f)]

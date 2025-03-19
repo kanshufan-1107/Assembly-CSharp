@@ -16,12 +16,12 @@ public class CardBack : CustomWidgetBehavior
 	[SerializeField]
 	private int m_defaultCardBack;
 
-	[SerializeField]
 	[Tooltip("If true, it will use data model 'cardback' whenever bound.")]
+	[SerializeField]
 	private bool m_useDataModel = true;
 
-	[SerializeField]
 	[Tooltip("If true, this will show the shadow object.")]
+	[SerializeField]
 	private bool m_useShadow = true;
 
 	private static Dbf<CardBackDbfRecord> s_cardBacks;

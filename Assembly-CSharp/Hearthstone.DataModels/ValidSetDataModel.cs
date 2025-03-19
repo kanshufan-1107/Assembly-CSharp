@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -116,8 +117,12 @@ public class ValidSetDataModel : DataModelEventDispatcher, IDataModel, IDataMode
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		return (((17 * 31 + ((m_SetNameLeft != null) ? m_SetNameLeft.GetHashCode() : 0)) * 31 + ((m_SetIconNameLeft != null) ? m_SetIconNameLeft.GetHashCode() : 0)) * 31 + ((m_SetNameRight != null) ? m_SetNameRight.GetHashCode() : 0)) * 31 + ((m_SetIconNameRight != null) ? m_SetIconNameRight.GetHashCode() : 0);
 	}
 

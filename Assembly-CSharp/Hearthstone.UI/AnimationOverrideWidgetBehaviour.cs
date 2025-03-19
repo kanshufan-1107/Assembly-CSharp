@@ -8,16 +8,16 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [ExecuteAlways]
+[AddComponentMenu("")]
 public class AnimationOverrideWidgetBehaviour : CustomWidgetBehavior
 {
 	[Tooltip("The Animator component that owns the Animator Controller that will be overridden")]
 	[SerializeField]
 	private Animator m_animator;
 
-	[Tooltip("A data model script that needs to evaluate to the name and GUID of an Animator Controller.")]
 	[SerializeField]
+	[Tooltip("A data model script that needs to evaluate to the name and GUID of an Animator Controller.")]
 	private ScriptString m_valueScript;
 
 	private bool m_isLoading;

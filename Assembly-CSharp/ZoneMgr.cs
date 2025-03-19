@@ -287,6 +287,10 @@ public class ZoneMgr : MonoBehaviour
 		{
 			typeof(ZoneBattlegroundTrinket),
 			"ZoneBattlegroundTrinketUpdateLayout"
+		},
+		{
+			typeof(ZoneBattlegroundClickableButton),
+			"ZoneBattlegroundClickableButtonUpdateLayout"
 		}
 	};
 
@@ -1351,7 +1355,7 @@ public class ZoneMgr : MonoBehaviour
 		{
 			return;
 		}
-		if (destinationZone is ZoneWeapon || destinationZone is ZoneBattlegroundQuestReward)
+		if (destinationZone is ZoneWeapon || destinationZone is ZoneBattlegroundQuestReward || destinationZone is ZoneBattlegroundClickableButton)
 		{
 			List<Card> destinationCards = destinationZone.GetCards();
 			if (destinationCards.Count > 0)

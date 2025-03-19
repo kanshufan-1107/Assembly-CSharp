@@ -6,12 +6,12 @@ public class BigCardBoneLayout : MonoBehaviour
 	[Serializable]
 	public class ScaleSettings
 	{
-		[Tooltip("The scale this should appear when moused over while in play.")]
 		[Range(0.1f, 3f)]
+		[Tooltip("The scale this should appear when moused over while in play.")]
 		public float m_BigCardScale_Self = 1f;
 
-		[Range(0.1f, 3f)]
 		[Tooltip("The scale of the enchantment banner relative to the big card. Scaling the BigCardScale_Self parameter impacts this too. That parameter will scale the enchantment banner automatically with it. This one will scale the enchantment banner independent of the parent card.")]
+		[Range(0.1f, 3f)]
 		public float m_EnchantmentBannerScale = 1f;
 
 		[Tooltip("The scale factor used to scale the Big Card size based on the number of enchants on Mobile.")]
@@ -30,33 +30,37 @@ public class BigCardBoneLayout : MonoBehaviour
 		[Tooltip("If a secondary card is shown and a hero, use this scale value.")]
 		public float m_BigCardScale_Hero = 1f;
 
-		[Range(0.1f, 3f)]
 		[Tooltip("If a secondary card is shown and a spell, use this scale value.")]
+		[Range(0.1f, 3f)]
 		public float m_BigCardScale_Spell = 1f;
 
 		[Tooltip("If a secondary card is shown and a weapon, use this scale value.")]
 		[Range(0.1f, 3f)]
 		public float m_BigCardScale_Weapon = 1f;
 
-		[Tooltip("If a secondary card is shown and a hero power, use this scale value.")]
 		[Range(0.1f, 3f)]
+		[Tooltip("If a secondary card is shown and a hero power, use this scale value.")]
 		public float m_BigCardScale_HeroPower = 1f;
 
-		[Tooltip("If a secondary card is shown and a location, use this scale value.")]
 		[Range(0.1f, 3f)]
+		[Tooltip("If a secondary card is shown and a location, use this scale value.")]
 		public float m_BigCardScale_Location = 1f;
 
-		[Tooltip("If a secondary card is shown and a tavern spell, use this scale value.")]
 		[Range(0.1f, 3f)]
+		[Tooltip("If a secondary card is shown and a tavern spell, use this scale value.")]
 		public float m_BigCardScale_TavernSpell = 1f;
 
-		[Tooltip("If a secondary card is shown and a battlegrounds trinket, use this scale value.")]
 		[Range(0.1f, 3f)]
+		[Tooltip("If a secondary card is shown and a battlegrounds trinket, use this scale value.")]
 		public float m_BigCardScale_BaconTrinket = 1f;
 
 		[Tooltip("If a secondary card is shown and a battlegrounds trinket from hero power, use this scale value.")]
 		[Range(0.1f, 3f)]
 		public float m_BigCardScale_BaconTrinketHeropower = 1f;
+
+		[Tooltip("If a secondary card is shown and a battlegrounds anomaly, use this scale value.")]
+		[Range(0.1f, 3f)]
+		public float m_BigCardScale_BaconAnomaly = 1f;
 
 		[Range(0.1f, 3f)]
 		[Tooltip("If we want to increase the size of the tooltip attached to a big card, use this scale value.")]
@@ -89,6 +93,7 @@ public class BigCardBoneLayout : MonoBehaviour
 			ValidatePrefabSettings(ref m_scaleSettings.m_BigCardScale_Location, "m_BigCardScale_Location");
 			ValidatePrefabSettings(ref m_scaleSettings.m_BigCardScale_BaconTrinket, "m_BigCardScale_Location");
 			ValidatePrefabSettings(ref m_scaleSettings.m_BigCardScale_BaconTrinketHeropower, "m_BigCardScale_Location");
+			ValidatePrefabSettings(ref m_scaleSettings.m_BigCardScale_BaconAnomaly, "m_BigCardScale_BaconAnomaly");
 		}
 	}
 

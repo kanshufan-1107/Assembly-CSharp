@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CustomEditClass]
 [CreateAssetMenu(fileName = "ExtraTurnSpellConfigData", menuName = "ScriptableObjects/ExtraTurnSpellConfig")]
+[CustomEditClass]
 public class ExtraTurnSpellConfig : ScriptableObject
 {
 	public const string ExtraTurnSpellConfigReference = "Player_ExtraTurnSpell.asset:a5424188ac59cae478a912586323320b";

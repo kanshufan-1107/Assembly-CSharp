@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
+[WidgetBehaviorDescription(Path = "Hearthstone/PackLogo", UniqueWithinCategory = "asset")]
 [AddComponentMenu("")]
 [RequireComponent(typeof(Renderer))]
-[WidgetBehaviorDescription(Path = "Hearthstone/PackLogo", UniqueWithinCategory = "asset")]
 public class PackLogo : CustomWidgetBehavior
 {
 	public enum LogoTextureType
@@ -22,24 +22,24 @@ public class PackLogo : CustomWidgetBehavior
 
 	private const BoosterDbId FIRST_EXPANSION = BoosterDbId.GOBLINS_VS_GNOMES;
 
-	[SerializeField]
 	[Tooltip("This is the pack displayed by default. INVALID means nothing will be displayed.")]
+	[SerializeField]
 	private BoosterDbId m_defaultPack = BoosterDbId.GOBLINS_VS_GNOMES;
 
 	[Tooltip("If true, it will use data model 'pack' whenever bound.")]
 	[SerializeField]
 	private bool m_useDataModel = true;
 
-	[Tooltip("Which pack logo texture should get used?")]
 	[SerializeField]
+	[Tooltip("Which pack logo texture should get used?")]
 	private LogoTextureType m_textureType;
 
 	[SerializeField]
 	[Tooltip("Try to load the localized version of this texture first")]
 	private bool m_localizeTexture = true;
 
-	[SerializeField]
 	[Tooltip("Base Material to texture with")]
+	[SerializeField]
 	private Material m_baseMaterial;
 
 	private Renderer m_renderer;

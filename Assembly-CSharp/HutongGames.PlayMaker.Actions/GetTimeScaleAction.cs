@@ -2,12 +2,12 @@ using Blizzard.T5.Core.Time;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Gets the global time scale into a variable.")]
+[ActionCategory("Pegasus")]
 public class GetTimeScaleAction : FsmStateAction
 {
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
+	[UIHint(UIHint.Variable)]
 	public FsmFloat m_Scale;
 
 	public bool m_EveryFrame;

@@ -88,8 +88,8 @@ public class HSInputField : Selectable, IUpdateSelectedHandler, IEventSystemHand
 	[SerializeField]
 	private char m_AsteriskChar = '*';
 
-	[FormerlySerializedAs("keyboardType")]
 	[SerializeField]
+	[FormerlySerializedAs("keyboardType")]
 	private TouchScreenKeyboardType m_KeyboardType;
 
 	[SerializeField]
@@ -103,23 +103,23 @@ public class HSInputField : Selectable, IUpdateSelectedHandler, IEventSystemHand
 	[SerializeField]
 	private CharacterValidation m_CharacterValidation;
 
-	[FormerlySerializedAs("characterLimit")]
 	[SerializeField]
+	[FormerlySerializedAs("characterLimit")]
 	private int m_CharacterLimit;
 
-	[FormerlySerializedAs("onSubmit")]
 	[SerializeField]
 	[FormerlySerializedAs("m_EndEdit")]
+	[FormerlySerializedAs("onSubmit")]
 	[FormerlySerializedAs("m_OnSubmit")]
 	private SubmitEvent m_OnEndEdit = new SubmitEvent();
 
-	[FormerlySerializedAs("m_OnValueChange")]
 	[FormerlySerializedAs("onValueChange")]
+	[FormerlySerializedAs("m_OnValueChange")]
 	[SerializeField]
 	private OnChangeEvent m_OnValueChanged = new OnChangeEvent();
 
-	[FormerlySerializedAs("onValidateInput")]
 	[SerializeField]
+	[FormerlySerializedAs("onValidateInput")]
 	private OnValidateInput m_OnValidateInput;
 
 	[SerializeField]
@@ -136,8 +136,8 @@ public class HSInputField : Selectable, IUpdateSelectedHandler, IEventSystemHand
 	[FormerlySerializedAs("mValue")]
 	protected string m_Text = string.Empty;
 
-	[Range(0f, 4f)]
 	[SerializeField]
+	[Range(0f, 4f)]
 	private float m_CaretBlinkRate = 0.85f;
 
 	[SerializeField]

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Delays a state from finishing by the specified time, unless a mouse press interrupts it. NOTE: Other actions continue, but FINISHED can't happen before Time.")]
 [ActionCategory(ActionCategory.Time)]
+[Tooltip("Delays a state from finishing by the specified time, unless a mouse press interrupts it. NOTE: Other actions continue, but FINISHED can't happen before Time.")]
 public class WaitForTimeOrClick : FsmStateAction
 {
 	[Tooltip("The maximum time this will delay the FINISHED event, unless interrupted by a click.")]

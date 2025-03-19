@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets;
 using Hearthstone.Progression;
 using Hearthstone.UI;
@@ -653,41 +654,86 @@ public class QuestDataModel : DataModelEventDispatcher, IDataModel, IDataModelPr
 		RegisterNestedDataModel(m_Rewards);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_Progress;
-		int num2 = (num + m_Progress.GetHashCode()) * 31;
+		hash = num + m_Progress.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_Quota;
-		int num3 = (((num2 + m_Quota.GetHashCode()) * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0)) * 31 + ((m_Icon != null) ? m_Icon.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_Quota.GetHashCode();
+		hash = hash * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0);
+		if (m_Icon != null && !inspectedDataModels.Contains(m_Icon.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Icon.GetHashCode());
+			hash = hash * 31 + m_Icon.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_PoolType;
-		int num4 = ((num3 + m_PoolType.GetHashCode()) * 31 + ((m_TimeUntilNextQuest != null) ? m_TimeUntilNextQuest.GetHashCode() : 0)) * 31;
+		hash = num3 + m_PoolType.GetHashCode();
+		hash = hash * 31 + ((m_TimeUntilNextQuest != null) ? m_TimeUntilNextQuest.GetHashCode() : 0);
+		int num4 = hash * 31;
 		_ = m_RerollCount;
-		int num5 = ((num4 + m_RerollCount.GetHashCode()) * 31 + ((m_Rewards != null) ? m_Rewards.GetPropertiesHashCode() : 0)) * 31;
+		hash = num4 + m_RerollCount.GetHashCode();
+		if (m_Rewards != null && !inspectedDataModels.Contains(m_Rewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Rewards.GetHashCode());
+			hash = hash * 31 + m_Rewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num5 = hash * 31;
 		_ = m_QuestId;
-		int num6 = (num5 + m_QuestId.GetHashCode()) * 31;
+		hash = num5 + m_QuestId.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_RewardTrackXp;
-		int num7 = ((num6 + m_RewardTrackXp.GetHashCode()) * 31 + ((m_ProgressMessage != null) ? m_ProgressMessage.GetHashCode() : 0)) * 31;
+		hash = num6 + m_RewardTrackXp.GetHashCode();
+		hash = hash * 31 + ((m_ProgressMessage != null) ? m_ProgressMessage.GetHashCode() : 0);
+		int num7 = hash * 31;
 		_ = m_Status;
-		int num8 = (num7 + m_Status.GetHashCode()) * 31;
+		hash = num7 + m_Status.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_PoolId;
-		int num9 = (num8 + m_PoolId.GetHashCode()) * 31;
+		hash = num8 + m_PoolId.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_Abandonable;
-		int num10 = (num9 + m_Abandonable.GetHashCode()) * 31;
+		hash = num9 + m_Abandonable.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_NextInChain;
-		int num11 = ((num10 + m_NextInChain.GetHashCode()) * 31 + ((m_TimeUntilExpiration != null) ? m_TimeUntilExpiration.GetHashCode() : 0)) * 31;
+		hash = num10 + m_NextInChain.GetHashCode();
+		hash = hash * 31 + ((m_TimeUntilExpiration != null) ? m_TimeUntilExpiration.GetHashCode() : 0);
+		int num11 = hash * 31;
 		_ = m_DisplayMode;
-		int num12 = (num11 + m_DisplayMode.GetHashCode()) * 31;
+		hash = num11 + m_DisplayMode.GetHashCode();
+		int num12 = hash * 31;
 		_ = m_RewardTrackType;
-		int num13 = ((num12 + m_RewardTrackType.GetHashCode()) * 31 + ((m_DeepLink != null) ? m_DeepLink.GetHashCode() : 0)) * 31;
+		hash = num12 + m_RewardTrackType.GetHashCode();
+		hash = hash * 31 + ((m_DeepLink != null) ? m_DeepLink.GetHashCode() : 0);
+		int num13 = hash * 31;
 		_ = m_IsChainQuest;
-		int num14 = (num13 + m_IsChainQuest.GetHashCode()) * 31;
+		hash = num13 + m_IsChainQuest.GetHashCode();
+		int num14 = hash * 31;
 		_ = m_XPChangeStatus;
-		int num15 = (num14 + m_XPChangeStatus.GetHashCode()) * 31;
+		hash = num14 + m_XPChangeStatus.GetHashCode();
+		int num15 = hash * 31;
 		_ = m_QuotaChangeStatus;
-		int num16 = (num15 + m_QuotaChangeStatus.GetHashCode()) * 31;
+		hash = num15 + m_QuotaChangeStatus.GetHashCode();
+		int num16 = hash * 31;
 		_ = m_TriggerChangeStatus;
-		return (num16 + m_TriggerChangeStatus.GetHashCode()) * 31 + ((m_ToastDescription != null) ? m_ToastDescription.GetHashCode() : 0);
+		hash = num16 + m_TriggerChangeStatus.GetHashCode();
+		return hash * 31 + ((m_ToastDescription != null) ? m_ToastDescription.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

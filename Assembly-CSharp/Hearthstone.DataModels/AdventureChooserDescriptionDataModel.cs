@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -73,9 +74,23 @@ public class AdventureChooserDescriptionDataModel : DataModelEventDispatcher, ID
 		RegisterNestedDataModel(m_Heroes);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Heroes != null) ? m_Heroes.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Heroes != null && !inspectedDataModels.Contains(m_Heroes.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Heroes.GetHashCode());
+			hash = hash * 31 + m_Heroes.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_HasNewHero;
 		return num + m_HasNewHero.GetHashCode();
 	}

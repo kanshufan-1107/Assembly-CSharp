@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -326,25 +327,57 @@ public class ShopBrowserButtonDataModel : DataModelEventDispatcher, IDataModel, 
 		RegisterNestedDataModel(m_BlockingPlate);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_DisplayText != null) ? m_DisplayText.GetHashCode() : 0)) * 31 + ((m_DisplayProduct != null) ? m_DisplayProduct.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_DisplayText != null) ? m_DisplayText.GetHashCode() : 0);
+		if (m_DisplayProduct != null && !inspectedDataModels.Contains(m_DisplayProduct.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_DisplayProduct.GetHashCode());
+			hash = hash * 31 + m_DisplayProduct.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_SlotWidth;
-		int num2 = (num + m_SlotWidth.GetHashCode()) * 31;
+		hash = num + m_SlotWidth.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_SlotHeight;
-		int num3 = (num2 + m_SlotHeight.GetHashCode()) * 31;
+		hash = num2 + m_SlotHeight.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_SlotWidthPercentage;
-		int num4 = (num3 + m_SlotWidthPercentage.GetHashCode()) * 31;
+		hash = num3 + m_SlotWidthPercentage.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_SlotHeightPercentage;
-		int num5 = (num4 + m_SlotHeightPercentage.GetHashCode()) * 31;
+		hash = num4 + m_SlotHeightPercentage.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_SlotPositionX;
-		int num6 = (num5 + m_SlotPositionX.GetHashCode()) * 31;
+		hash = num5 + m_SlotPositionX.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_SlotPositionY;
-		int num7 = (num6 + m_SlotPositionY.GetHashCode()) * 31;
+		hash = num6 + m_SlotPositionY.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_Hovered;
-		int num8 = (num7 + m_Hovered.GetHashCode()) * 31;
+		hash = num7 + m_Hovered.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_IsFiller;
-		int num9 = ((num8 + m_IsFiller.GetHashCode()) * 31 + ((m_BlockingPlate != null) ? m_BlockingPlate.GetPropertiesHashCode() : 0)) * 31;
+		hash = num8 + m_IsFiller.GetHashCode();
+		if (m_BlockingPlate != null && !inspectedDataModels.Contains(m_BlockingPlate.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BlockingPlate.GetHashCode());
+			hash = hash * 31 + m_BlockingPlate.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num9 = hash * 31;
 		_ = m_ShowTierData;
 		return num9 + m_ShowTierData.GetHashCode();
 	}

@@ -132,4 +132,13 @@ public class CornerReplacementConfig : ScriptableObject
 		}
 		return null;
 	}
+
+	public MusicPlaylistType GetMulliganMusic(CornerReplacementSpellType spellType)
+	{
+		if (TryGetEntry(spellType, out var entry))
+		{
+			return entry.m_MulliganMusic;
+		}
+		return MusicPlaylistType.Invalid;
+	}
 }

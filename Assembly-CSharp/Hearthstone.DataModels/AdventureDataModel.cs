@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -423,31 +424,59 @@ public class AdventureDataModel : DataModelEventDispatcher, IDataModel, IDataMod
 		RegisterNestedDataModel(m_CompletionRewards);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_AnomalyActivated;
-		int num2 = (num + m_AnomalyActivated.GetHashCode()) * 31;
+		hash = num + m_AnomalyActivated.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_AllChaptersCompleted;
-		int num3 = (num2 + m_AllChaptersCompleted.GetHashCode()) * 31;
+		hash = num2 + m_AllChaptersCompleted.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_IsAdventureComplete;
-		int num4 = (num3 + m_IsAdventureComplete.GetHashCode()) * 31;
+		hash = num3 + m_IsAdventureComplete.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_AllChaptersOwned;
-		int num5 = (num4 + m_AllChaptersOwned.GetHashCode()) * 31;
+		hash = num4 + m_AllChaptersOwned.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_SelectedAdventure;
-		int num6 = (num5 + m_SelectedAdventure.GetHashCode()) * 31;
+		hash = num5 + m_SelectedAdventure.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_SelectedAdventureMode;
-		int num7 = (num6 + m_SelectedAdventureMode.GetHashCode()) * 31;
+		hash = num6 + m_SelectedAdventureMode.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_MapNewlyCompleted;
-		int num8 = ((num7 + m_MapNewlyCompleted.GetHashCode()) * 31 + ((m_CompletionRewards != null) ? m_CompletionRewards.GetPropertiesHashCode() : 0)) * 31;
+		hash = num7 + m_MapNewlyCompleted.GetHashCode();
+		if (m_CompletionRewards != null && !inspectedDataModels.Contains(m_CompletionRewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CompletionRewards.GetHashCode());
+			hash = hash * 31 + m_CompletionRewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num8 = hash * 31;
 		_ = m_CompletionRewardType;
-		int num9 = (num8 + m_CompletionRewardType.GetHashCode()) * 31;
+		hash = num8 + m_CompletionRewardType.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_CompletionRewardId;
-		int num10 = (((num9 + m_CompletionRewardId.GetHashCode()) * 31 + ((m_StoreDescriptionTextTimelockedTrue != null) ? m_StoreDescriptionTextTimelockedTrue.GetHashCode() : 0)) * 31 + ((m_StoreDescriptionTextTimelockedFalse != null) ? m_StoreDescriptionTextTimelockedFalse.GetHashCode() : 0)) * 31;
+		hash = num9 + m_CompletionRewardId.GetHashCode();
+		hash = hash * 31 + ((m_StoreDescriptionTextTimelockedTrue != null) ? m_StoreDescriptionTextTimelockedTrue.GetHashCode() : 0);
+		hash = hash * 31 + ((m_StoreDescriptionTextTimelockedFalse != null) ? m_StoreDescriptionTextTimelockedFalse.GetHashCode() : 0);
+		int num10 = hash * 31;
 		_ = m_ShouldSeeFirstTimeFlow;
-		int num11 = ((num10 + m_ShouldSeeFirstTimeFlow.GetHashCode()) * 31 + ((m_SelectedHeroId != null) ? m_SelectedHeroId.GetHashCode() : 0)) * 31;
+		hash = num10 + m_ShouldSeeFirstTimeFlow.GetHashCode();
+		hash = hash * 31 + ((m_SelectedHeroId != null) ? m_SelectedHeroId.GetHashCode() : 0);
+		int num11 = hash * 31;
 		_ = m_IsSelectedModeHeroic;
-		int num12 = (num11 + m_IsSelectedModeHeroic.GetHashCode()) * 31;
+		hash = num11 + m_IsSelectedModeHeroic.GetHashCode();
+		int num12 = hash * 31;
 		_ = m_IsDuelsAdventure;
 		return num12 + m_IsDuelsAdventure.GetHashCode();
 	}

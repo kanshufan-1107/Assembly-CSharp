@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -48,9 +49,19 @@ public class ItemPreviewOptionDataModel : DataModelEventDispatcher, IDataModel, 
 		RegisterNestedDataModel(m_PreviewItem);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return 17 * 31 + ((m_PreviewItem != null) ? m_PreviewItem.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_PreviewItem != null && !inspectedDataModels.Contains(m_PreviewItem.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_PreviewItem.GetHashCode());
+			return hash * 31 + m_PreviewItem.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

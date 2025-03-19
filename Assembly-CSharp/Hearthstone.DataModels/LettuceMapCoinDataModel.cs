@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using PegasusLettuce;
 
@@ -333,19 +334,64 @@ public class LettuceMapCoinDataModel : DataModelEventDispatcher, IDataModel, IDa
 		RegisterNestedDataModel(m_GrantedAnomalyCard);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_Id;
-		int num2 = (((num + m_Id.GetHashCode()) * 31 + ((m_CoinData != null) ? m_CoinData.GetPropertiesHashCode() : 0)) * 31 + ((m_NeighborIds != null) ? m_NeighborIds.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_Id.GetHashCode();
+		if (m_CoinData != null && !inspectedDataModels.Contains(m_CoinData.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CoinData.GetHashCode());
+			hash = hash * 31 + m_CoinData.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_NeighborIds != null && !inspectedDataModels.Contains(m_NeighborIds.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_NeighborIds.GetHashCode());
+			hash = hash * 31 + m_NeighborIds.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_NodeTypeId;
-		int num3 = (num2 + m_NodeTypeId.GetHashCode()) * 31;
+		hash = num2 + m_NodeTypeId.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_MercenaryRole;
-		int num4 = (num3 + m_MercenaryRole.GetHashCode()) * 31;
+		hash = num3 + m_MercenaryRole.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_CoinState;
-		int num5 = ((num4 + m_CoinState.GetHashCode()) * 31 + ((m_ParentIds != null) ? m_ParentIds.GetPropertiesHashCode() : 0)) * 31;
+		hash = num4 + m_CoinState.GetHashCode();
+		if (m_ParentIds != null && !inspectedDataModels.Contains(m_ParentIds.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ParentIds.GetHashCode());
+			hash = hash * 31 + m_ParentIds.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num5 = hash * 31;
 		_ = m_LineGlowVisible;
-		return ((((num5 + m_LineGlowVisible.GetHashCode()) * 31 + ((m_NodeVisualId != null) ? m_NodeVisualId.GetHashCode() : 0)) * 31 + ((m_HoverTooltipHeader != null) ? m_HoverTooltipHeader.GetHashCode() : 0)) * 31 + ((m_HoverTooltipBody != null) ? m_HoverTooltipBody.GetHashCode() : 0)) * 31 + ((m_GrantedAnomalyCard != null) ? m_GrantedAnomalyCard.GetPropertiesHashCode() : 0);
+		hash = num5 + m_LineGlowVisible.GetHashCode();
+		hash = hash * 31 + ((m_NodeVisualId != null) ? m_NodeVisualId.GetHashCode() : 0);
+		hash = hash * 31 + ((m_HoverTooltipHeader != null) ? m_HoverTooltipHeader.GetHashCode() : 0);
+		hash = hash * 31 + ((m_HoverTooltipBody != null) ? m_HoverTooltipBody.GetHashCode() : 0);
+		if (m_GrantedAnomalyCard != null && !inspectedDataModels.Contains(m_GrantedAnomalyCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_GrantedAnomalyCard.GetHashCode());
+			return hash * 31 + m_GrantedAnomalyCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

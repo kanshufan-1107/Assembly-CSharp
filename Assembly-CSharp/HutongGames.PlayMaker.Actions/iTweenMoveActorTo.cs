@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Move an object's actor.  Used for spells that are dynamically loaded.")]
+[ActionCategory("Pegasus")]
 public class iTweenMoveActorTo : iTweenFsmAction
 {
 	[RequiredField]

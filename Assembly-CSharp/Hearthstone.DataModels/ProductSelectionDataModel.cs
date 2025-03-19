@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -123,13 +124,29 @@ public class ProductSelectionDataModel : DataModelEventDispatcher, IDataModel, I
 		RegisterNestedDataModel(m_Variant);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Variant != null) ? m_Variant.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Variant != null && !inspectedDataModels.Contains(m_Variant.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Variant.GetHashCode());
+			hash = hash * 31 + m_Variant.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_VariantIndex;
-		int num2 = (num + m_VariantIndex.GetHashCode()) * 31;
+		hash = num + m_VariantIndex.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_Quantity;
-		int num3 = (num2 + m_Quantity.GetHashCode()) * 31;
+		hash = num2 + m_Quantity.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_MaxQuantity;
 		return num3 + m_MaxQuantity.GetHashCode();
 	}

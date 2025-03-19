@@ -12,8 +12,8 @@ public class TemporaryWidgetInstance : MonoBehaviour
 
 	private WidgetInstance m_instance;
 
-	[HideInInspector]
 	[SerializeField]
+	[HideInInspector]
 	private string m_prefabPath;
 
 	[Overridable]

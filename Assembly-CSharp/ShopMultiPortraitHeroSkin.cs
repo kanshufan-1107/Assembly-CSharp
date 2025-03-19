@@ -174,7 +174,19 @@ public class ShopMultiPortraitHeroSkin : MonoBehaviour
 		{
 			return false;
 		}
-		if (!m_product.Tags.Contains("illidan") || !TryGetCyclingCardIds("illidan", out cardIds))
+		string keyFound = string.Empty;
+		foreach (string tag in m_product.Tags)
+		{
+			foreach (DualPortraitSkin skin in m_dualPortraitSkins)
+			{
+				if (tag == skin.m_key)
+				{
+					keyFound = skin.m_key;
+					break;
+				}
+			}
+		}
+		if (string.IsNullOrEmpty(keyFound) || !TryGetCyclingCardIds(keyFound, out cardIds))
 		{
 			return false;
 		}

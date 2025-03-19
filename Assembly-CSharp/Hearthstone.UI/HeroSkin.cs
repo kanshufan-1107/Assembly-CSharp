@@ -5,28 +5,28 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [WidgetBehaviorDescription(Path = "Hearthstone/Hero Skin", UniqueWithinCategory = "asset")]
+[AddComponentMenu("")]
 public class HeroSkin : Card
 {
-	[SerializeField]
 	[Tooltip("This will show or hide the name in the hero")]
+	[SerializeField]
 	private bool m_showHeroName;
 
-	[SerializeField]
 	[Tooltip("This will show or hide the class icon in the hero")]
+	[SerializeField]
 	private bool m_showHeroClass;
 
 	[Tooltip("This will show or hide the hero tray when the bound hero card has a custom tray")]
 	[SerializeField]
 	private bool m_showCustomHeroTray;
 
-	[SerializeField]
 	[Tooltip("If this hero card has an associated replacement i.e. Cthun, then show that instead")]
+	[SerializeField]
 	private bool m_showHeroReplacementCard;
 
-	[Tooltip("Optional: Applies tint to custom hero tray when it is loaded in.")]
 	[SerializeField]
+	[Tooltip("Optional: Applies tint to custom hero tray when it is loaded in.")]
 	private Color m_customHeroTrayTint = Color.clear;
 
 	[SerializeField]

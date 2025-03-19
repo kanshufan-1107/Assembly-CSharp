@@ -69,6 +69,8 @@ public interface IProductDataService : IService
 
 	bool HasStoreLoaded();
 
+	bool IsProductAvailable(long pmtId);
+
 	bool HasPendingTierChanges();
 
 	bool HasReceivedAllShopTypeSections();

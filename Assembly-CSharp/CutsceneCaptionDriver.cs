@@ -9,12 +9,12 @@ public class CutsceneCaptionDriver : MonoBehaviour
 	[SerializeField]
 	private UberText m_captionText;
 
-	[SerializeField]
 	[Tooltip("Animation curve (range 0-1 for height and time) that drives fading in text. Should start at 0 and end at 1.")]
+	[SerializeField]
 	private AnimationCurve m_fadeInCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-	[SerializeField]
 	[Tooltip("Time for fade in transition for captions. If 0, transition is instant rather than fade.")]
+	[SerializeField]
 	private float m_fadeInSeconds = 0.2f;
 
 	[SerializeField]

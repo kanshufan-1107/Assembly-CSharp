@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -173,17 +174,35 @@ public class LettuceMercenaryArtVariationDataModel : DataModelEventDispatcher, I
 		RegisterNestedDataModel(m_Card);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_ArtVariationId;
-		int num2 = ((num + m_ArtVariationId.GetHashCode()) * 31 + ((m_Card != null) ? m_Card.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_ArtVariationId.GetHashCode();
+		if (m_Card != null && !inspectedDataModels.Contains(m_Card.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Card.GetHashCode());
+			hash = hash * 31 + m_Card.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_Selected;
-		int num3 = (num2 + m_Selected.GetHashCode()) * 31;
+		hash = num2 + m_Selected.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_Unlocked;
-		int num4 = (num3 + m_Unlocked.GetHashCode()) * 31;
+		hash = num3 + m_Unlocked.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_NewlyUnlocked;
-		return (num4 + m_NewlyUnlocked.GetHashCode()) * 31 + ((m_LockedText != null) ? m_LockedText.GetHashCode() : 0);
+		hash = num4 + m_NewlyUnlocked.GetHashCode();
+		return hash * 31 + ((m_LockedText != null) ? m_LockedText.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

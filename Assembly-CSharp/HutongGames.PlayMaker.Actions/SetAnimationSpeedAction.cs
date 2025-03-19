@@ -2,17 +2,17 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Sets the speed of an Animation.")]
+[ActionCategory("Pegasus")]
 public class SetAnimationSpeedAction : FsmStateAction
 {
 	[RequiredField]
-	[Tooltip("Game Object to play the animation on.")]
 	[CheckForComponent(typeof(Animation))]
+	[Tooltip("Game Object to play the animation on.")]
 	public FsmOwnerDefault m_GameObject;
 
-	[RequiredField]
 	[Tooltip("The name of the animation to play.")]
+	[RequiredField]
 	[UIHint(UIHint.Animation)]
 	public FsmString m_AnimName;
 

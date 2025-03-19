@@ -16,8 +16,6 @@ public class DraftManager : IService
 
 	private CollectionDeck m_draftDeck;
 
-	private CollectionDeck m_redraftDeck;
-
 	private bool m_hasReceivedSessionWinsLosses;
 
 	private int m_currentSlot;
@@ -45,8 +43,6 @@ public class DraftManager : IService
 	private Network.RewardChest m_chest;
 
 	private bool m_inRewards;
-
-	private bool m_inRedraft;
 
 	private ArenaSession m_currentSession;
 
@@ -315,8 +311,7 @@ public class DraftManager : IService
 		else if (m_validSlot == m_currentSlot)
 		{
 			m_validSlot++;
-			long deckId = (m_inRedraft ? m_redraftDeck.ID : m_draftDeck.ID);
-			Network.Get().MakeDraftChoice(deckId, m_currentSlot, choiceNum, (int)choicePremium, m_inRedraft);
+			Network.Get().MakeDraftChoice(m_draftDeck.ID, m_currentSlot, choiceNum, (int)choicePremium);
 		}
 	}
 
@@ -531,28 +526,6 @@ public class DraftManager : IService
 		return false;
 	}
 
-	public void SetShouldBeRedrafting(bool isRedrafting)
-	{
-		if (!IsRedraftOnLossEnabled())
-		{
-			m_inRedraft = false;
-		}
-		else
-		{
-			m_inRedraft = isRedrafting;
-		}
-	}
-
-	public bool IsRedrafting()
-	{
-		return m_inRedraft;
-	}
-
-	public bool IsRedraftOnLossEnabled()
-	{
-		return NetCache.Get().GetNetObject<NetCache.NetCacheFeatures>().ArenaRedraftOnLossEnabled;
-	}
-
 	private bool ShowSeasonEnding(Action popupClosedCallback)
 	{
 		int lastSeenEndingSeasonId = Options.Get().GetInt(Option.LATEST_SEEN_ARENA_SEASON_ENDING);
@@ -629,11 +602,6 @@ public class DraftManager : IService
 
 	private void OnBegin()
 	{
-		if (IsRedrafting())
-		{
-			OnRedraftBegin();
-			return;
-		}
 		Options.Get().SetBool(Option.HAS_SEEN_FREE_ARENA_WIN_DIALOG_THIS_DRAFT, val: false);
 		if (SceneMgr.Get().GetMode() == SceneMgr.Mode.DRAFT && (!SceneMgr.Get().IsTransitionNowOrPending() || SceneMgr.Get().GetPrevMode() != SceneMgr.Mode.DRAFT))
 		{
@@ -665,31 +633,6 @@ public class DraftManager : IService
 			Log.Arena.Print($"DraftManager.OnBegin - Got new draft deck with ID: {m_draftDeck.ID}");
 			InformDraftDisplayOfChoices(info.Heroes);
 			FireDraftDeckSetEvent();
-		}
-	}
-
-	private void OnRedraftBegin()
-	{
-		if (IsRedraftOnLossEnabled() && SceneMgr.Get().GetMode() == SceneMgr.Mode.DRAFT && (!SceneMgr.Get().IsTransitionNowOrPending() || SceneMgr.Get().GetPrevMode() != SceneMgr.Mode.DRAFT))
-		{
-			Network.BeginDraft info = Network.Get().GetBeginDraft();
-			if (info != null)
-			{
-				m_redraftDeck = new CollectionDeck
-				{
-					ID = info.DeckID,
-					Type = DeckType.DRAFT_DECK,
-					FormatType = FormatType.FT_WILD
-				};
-				m_currentSlot = 0;
-				m_currentSlotType = info.SlotType;
-				m_uniqueDraftSlotTypesForDeck = info.UniqueSlotTypesForDraft;
-				m_validSlot = 0;
-				m_maxSlot = info.MaxSlot;
-				Log.Arena.Print($"DraftManager.OnRedraftBegin - Got new redraft deck with ID: {m_redraftDeck.ID}");
-				InformDraftDisplayOfChoices(info.Heroes);
-				FireDraftDeckSetEvent();
-			}
 		}
 	}
 
@@ -792,19 +735,6 @@ public class DraftManager : IService
 			draft.SetDraftMode(DraftDisplay.DraftMode.IN_REWARDS);
 			return;
 		}
-		if (m_inRedraft)
-		{
-			draft.SetDraftMode(DraftDisplay.DraftMode.REDRAFTING);
-			if (!Options.Get().GetBool(Option.HAS_DISABLED_PREMIUMS_THIS_DRAFT) && GetSlotType() != DraftSlotType.DRAFT_SLOT_HERO_POWER)
-			{
-				foreach (NetCache.CardDefinition choice in choices)
-				{
-					choice.Premium = GetDraftPremium(choice.Name);
-				}
-			}
-			draft.AcceptNewChoices(choices);
-			return;
-		}
 		if (choices.Count == 0)
 		{
 			m_deckActiveDuringSession = true;
@@ -813,9 +743,9 @@ public class DraftManager : IService
 		}
 		if (!Options.Get().GetBool(Option.HAS_DISABLED_PREMIUMS_THIS_DRAFT) && GetSlotType() != DraftSlotType.DRAFT_SLOT_HERO_POWER)
 		{
-			foreach (NetCache.CardDefinition choice2 in choices)
+			foreach (NetCache.CardDefinition choice in choices)
 			{
-				choice2.Premium = GetDraftPremium(choice2.Name);
+				choice.Premium = GetDraftPremium(choice.Name);
 			}
 		}
 		draft.SetDraftMode(DraftDisplay.DraftMode.DRAFTING);
@@ -994,14 +924,6 @@ public class DraftManager : IService
 		Network.Get().DraftBegin();
 	}
 
-	public void RequestRedraftBegin()
-	{
-		if (IsRedraftOnLossEnabled())
-		{
-			Network.Get().RedraftBegin();
-		}
-	}
-
 	private void FireDraftDeckSetEvent()
 	{
 		DraftDeckSet[] array = m_draftDeckSetListeners.ToArray();
@@ -1041,10 +963,6 @@ public class DraftManager : IService
 			if (GetLosses() == 2)
 			{
 				NotifyOfFinalGame(wonFinalGame: false);
-			}
-			else if (IsRedraftOnLossEnabled())
-			{
-				SetShouldBeRedrafting(isRedrafting: true);
 			}
 			break;
 		}

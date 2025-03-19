@@ -102,18 +102,23 @@ public class PlayerLeaderboardMainCardActor : Actor
 
 	private void OnMulliganHeroRerollButtonReleased(UIEvent e)
 	{
-		if (InputManager.Get().PermitDecisionMakingInput())
+		if (!InputManager.Get().PermitDecisionMakingInput())
 		{
-			MulliganManager mulliganManager = MulliganManager.Get();
-			if (mulliganManager == null || !mulliganManager.IsMulliganActive())
-			{
-				Log.All.Print("Error: Mulligan Hero Reroll button pressed when mulligan is not active");
-				return;
-			}
-			mulliganManager.RequestHeroReroll(m_entity);
-			m_forcedDisabledAfterUse = true;
-			UpdateMulliganRerollButton(null);
+			return;
 		}
+		MulliganManager mulliganManager = MulliganManager.Get();
+		if (mulliganManager == null || !mulliganManager.IsMulliganActive())
+		{
+			Log.All.Print("Error: Mulligan Hero Reroll button pressed when mulligan is not active");
+			return;
+		}
+		if (m_entity != null && m_entity.GetCard() != null && m_entity.GetCard().GetActor() != null)
+		{
+			m_entity.GetCard().GetActor().RemovePing();
+		}
+		mulliganManager.RequestHeroReroll(m_entity);
+		m_forcedDisabledAfterUse = true;
+		UpdateMulliganRerollButton(null);
 	}
 
 	private void UpdateRerollButtonText()
@@ -163,11 +168,12 @@ public class PlayerLeaderboardMainCardActor : Actor
 
 	public void UpdateRerollButtonEnabledState(bool? overrideEnabled = null)
 	{
+		m_HeroRerollButtonEnabled = false;
 		if (overrideEnabled.HasValue)
 		{
 			m_HeroRerollButtonEnabled = overrideEnabled.Value;
 		}
-		else
+		else if (m_entity != null)
 		{
 			m_HeroRerollButtonEnabled = m_entity.ShouldEnableRerollButton(null, null) <= Entity.RerollButtonEnableResult.UNLOCK;
 		}

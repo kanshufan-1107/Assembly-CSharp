@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -254,17 +255,54 @@ public class LettuceTrainingHallPopupDataModel : DataModelEventDispatcher, IData
 		RegisterNestedDataModel(m_Slot2);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_MercenaryList != null) ? m_MercenaryList.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_MercenaryList != null && !inspectedDataModels.Contains(m_MercenaryList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MercenaryList.GetHashCode());
+			hash = hash * 31 + m_MercenaryList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_TrainingHallLevel;
-		int num2 = (num + m_TrainingHallLevel.GetHashCode()) * 31;
+		hash = num + m_TrainingHallLevel.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_IsPlayerDragging;
-		int num3 = (((num2 + m_IsPlayerDragging.GetHashCode()) * 31 + ((m_Slot1 != null) ? m_Slot1.GetPropertiesHashCode() : 0)) * 31 + ((m_Slot2 != null) ? m_Slot2.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_IsPlayerDragging.GetHashCode();
+		if (m_Slot1 != null && !inspectedDataModels.Contains(m_Slot1.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Slot1.GetHashCode());
+			hash = hash * 31 + m_Slot1.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Slot2 != null && !inspectedDataModels.Contains(m_Slot2.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Slot2.GetHashCode());
+			hash = hash * 31 + m_Slot2.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_IsMercOverTrainingWindow;
-		int num4 = ((num3 + m_IsMercOverTrainingWindow.GetHashCode()) * 31 + ((m_ErrorText != null) ? m_ErrorText.GetHashCode() : 0)) * 31;
+		hash = num3 + m_IsMercOverTrainingWindow.GetHashCode();
+		hash = hash * 31 + ((m_ErrorText != null) ? m_ErrorText.GetHashCode() : 0);
+		int num4 = hash * 31;
 		_ = m_MaxTrainingHours;
-		int num5 = (num4 + m_MaxTrainingHours.GetHashCode()) * 31;
+		hash = num4 + m_MaxTrainingHours.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_IsPopupVisible;
 		return num5 + m_IsPopupVisible.GetHashCode();
 	}

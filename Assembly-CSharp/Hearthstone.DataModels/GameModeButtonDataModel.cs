@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -266,8 +267,12 @@ public class GameModeButtonDataModel : DataModelEventDispatcher, IDataModel, IDa
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = (((17 * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0)) * 31 + ((m_ButtonState != null) ? m_ButtonState.GetHashCode() : 0)) * 31;
 		_ = m_GameModeRecordId;
 		int num2 = (num + m_GameModeRecordId.GetHashCode()) * 31;

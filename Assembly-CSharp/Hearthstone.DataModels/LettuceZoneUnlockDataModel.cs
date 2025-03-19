@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -92,8 +93,12 @@ public class LettuceZoneUnlockDataModel : DataModelEventDispatcher, IDataModel, 
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		return ((17 * 31 + ((m_ZoneTexture != null) ? m_ZoneTexture.GetHashCode() : 0)) * 31 + ((m_FooterText != null) ? m_FooterText.GetHashCode() : 0)) * 31 + ((m_ZoneNameText != null) ? m_ZoneNameText.GetHashCode() : 0);
 	}
 

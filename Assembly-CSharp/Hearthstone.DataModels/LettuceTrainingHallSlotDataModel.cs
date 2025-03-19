@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -348,29 +349,54 @@ public class LettuceTrainingHallSlotDataModel : DataModelEventDispatcher, IDataM
 		RegisterNestedDataModel(m_Mercenary);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_SlotIsEmpty;
-		int num2 = (num + m_SlotIsEmpty.GetHashCode()) * 31;
+		hash = num + m_SlotIsEmpty.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_MercIsMaxLevel;
-		int num3 = (num2 + m_MercIsMaxLevel.GetHashCode()) * 31;
+		hash = num2 + m_MercIsMaxLevel.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_TrainingIsComplete;
-		int num4 = (num3 + m_TrainingIsComplete.GetHashCode()) * 31;
+		hash = num3 + m_TrainingIsComplete.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_Progress;
-		int num5 = (num4 + m_Progress.GetHashCode()) * 31;
+		hash = num4 + m_Progress.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_MaxExp;
-		int num6 = ((num5 + m_MaxExp.GetHashCode()) * 31 + ((m_Mercenary != null) ? m_Mercenary.GetPropertiesHashCode() : 0)) * 31;
+		hash = num5 + m_MaxExp.GetHashCode();
+		if (m_Mercenary != null && !inspectedDataModels.Contains(m_Mercenary.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Mercenary.GetHashCode());
+			hash = hash * 31 + m_Mercenary.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num6 = hash * 31;
 		_ = m_Locked;
-		int num7 = (num6 + m_Locked.GetHashCode()) * 31;
+		hash = num6 + m_Locked.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_SlotIndex;
-		int num8 = (num7 + m_SlotIndex.GetHashCode()) * 31;
+		hash = num7 + m_SlotIndex.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_TotalTimeInTraining;
-		int num9 = (num8 + m_TotalTimeInTraining.GetHashCode()) * 31;
+		hash = num8 + m_TotalTimeInTraining.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_PreparationTime;
-		int num10 = ((num9 + m_PreparationTime.GetHashCode()) * 31 + ((m_PreparationText != null) ? m_PreparationText.GetHashCode() : 0)) * 31;
+		hash = num9 + m_PreparationTime.GetHashCode();
+		hash = hash * 31 + ((m_PreparationText != null) ? m_PreparationText.GetHashCode() : 0);
+		int num10 = hash * 31;
 		_ = m_IsNewlyUnlocked;
-		int num11 = (num10 + m_IsNewlyUnlocked.GetHashCode()) * 31;
+		hash = num10 + m_IsNewlyUnlocked.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_ShowAnimatedTraining;
 		return num11 + m_ShowAnimatedTraining.GetHashCode();
 	}

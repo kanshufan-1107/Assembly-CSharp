@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Use this to manually play death VO for an actor. Created for custom death override effects.")]
 [ActionCategory("Pegasus Audio")]
+[Tooltip("Use this to manually play death VO for an actor. Created for custom death override effects.")]
 public class AudioPlayActorDeathVOAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

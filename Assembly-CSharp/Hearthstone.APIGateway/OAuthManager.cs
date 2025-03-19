@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Blizzard.BlizzardErrorMobile;
 using Blizzard.GameService.SDK.Extensions;
 using Blizzard.T5.Core;
@@ -17,8 +15,6 @@ namespace Hearthstone.APIGateway;
 
 internal class OAuthManager
 {
-	private HttpClient m_httpClient;
-
 	private readonly ITelemetryClient m_telemetryClient;
 
 	private HashSet<string> m_requiredScopes = new HashSet<string>();
@@ -47,10 +43,9 @@ internal class OAuthManager
 
 	public ExceptionReporter ExceptionReporter { get; private set; }
 
-	public OAuthManager(HttpClient httpClient, ILogger logger, ExceptionReporter exceptionReporter, ITelemetryClient telemetryClient)
+	public OAuthManager(ILogger logger, ExceptionReporter exceptionReporter, ITelemetryClient telemetryClient)
 	{
 		Logger = logger;
-		m_httpClient = httpClient;
 		m_telemetryClient = telemetryClient;
 		ExceptionReporter = exceptionReporter;
 	}
@@ -164,60 +159,6 @@ internal class OAuthManager
 			Logger?.Log(LogLevel.Warning, "Updating OAuth token failed: " + ex.Message);
 			ExceptionReporter?.ReportCaughtException(ex);
 			return false;
-		}
-	}
-
-	private async Task<HttpResponseMessage> SafePostAsync(string url)
-	{
-		Logger?.Log(LogLevel.Information, "SafePostAsync " + url);
-		try
-		{
-			using HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
-			requestMessage.Headers.Add("Accept", "application/json");
-			HttpResponseMessage obj = await m_httpClient.SendAsync(requestMessage).ConfigureAwait(continueOnCapturedContext: false);
-			if (obj.StatusCode != HttpStatusCode.OK)
-			{
-				throw new Exception("Unexpected failure requesting oauth token for URL: " + url);
-			}
-			return obj;
-		}
-		catch (InvalidOperationException ex)
-		{
-			Logger?.Log(LogLevel.Warning, "Could not request oauth token. Invalid url. {0}", ex.Message);
-			Logger?.Log(LogLevel.Debug, url);
-			ReportResultToTelemetry(OAuthResult.AuthResult.FAILURE_INVALID_OP_EXCEPTION);
-			return null;
-		}
-		catch (HttpRequestException ex2)
-		{
-			Logger?.Log(LogLevel.Warning, "Oauth token request failed. {0}", ex2.Message);
-			LogInnerExceptions(LogLevel.Warning, ex2);
-			ReportResultToTelemetry(OAuthResult.AuthResult.FAILURE_HTTP_EXCEPTION);
-			return null;
-		}
-		catch (TaskCanceledException ex3)
-		{
-			Logger?.Log(LogLevel.Warning, "Oauth token request timed out. {0}", ex3.Message);
-			LogInnerExceptions(LogLevel.Warning, ex3);
-			ReportResultToTelemetry(OAuthResult.AuthResult.FAILURE_TIMEOUT);
-			return null;
-		}
-		catch (Exception ex4)
-		{
-			Logger?.Log(LogLevel.Error, "Unexpected failure requesting oauth token, message: " + ex4.Message);
-			LogInnerExceptions(LogLevel.Warning, ex4);
-			ExceptionReporter?.ReportCaughtException(ex4);
-			ReportResultToTelemetry(OAuthResult.AuthResult.FAILURE_EXCEPTION);
-			return null;
-		}
-	}
-
-	private void LogInnerExceptions(LogLevel level, Exception e)
-	{
-		if (e != null && e.InnerException != null)
-		{
-			Logger?.Log(level, "Inner exception: " + e.InnerException.Message);
-			LogInnerExceptions(level, e.InnerException);
 		}
 	}
 

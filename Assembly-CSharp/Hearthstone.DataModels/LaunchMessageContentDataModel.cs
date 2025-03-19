@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -199,9 +200,28 @@ public class LaunchMessageContentDataModel : DataModelEventDispatcher, IDataMode
 		RegisterNestedDataModel(m_LaunchEffect);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return ((((((17 * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_IconType != null) ? m_IconType.GetHashCode() : 0)) * 31 + ((m_LaunchEffect != null) ? m_LaunchEffect.GetPropertiesHashCode() : 0)) * 31 + ((m_ImageMaterial != null) ? m_ImageMaterial.GetHashCode() : 0)) * 31 + ((m_Texture != null) ? m_Texture.GetHashCode() : 0)) * 31 + ((m_SubLayout != null) ? m_SubLayout.GetHashCode() : 0)) * 31 + ((m_Url != null) ? m_Url.GetHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0);
+		hash = hash * 31 + ((m_IconType != null) ? m_IconType.GetHashCode() : 0);
+		if (m_LaunchEffect != null && !inspectedDataModels.Contains(m_LaunchEffect.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_LaunchEffect.GetHashCode());
+			hash = hash * 31 + m_LaunchEffect.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_ImageMaterial != null) ? m_ImageMaterial.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Texture != null) ? m_Texture.GetHashCode() : 0);
+		hash = hash * 31 + ((m_SubLayout != null) ? m_SubLayout.GetHashCode() : 0);
+		return hash * 31 + ((m_Url != null) ? m_Url.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

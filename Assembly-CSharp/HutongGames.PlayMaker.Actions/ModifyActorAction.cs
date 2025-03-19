@@ -4,9 +4,9 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Modify the stats/appearance of a display actor.  This should only be used for cards spawned in fx as actual game entities are managed by the server.")]
 public class ModifyActorAction : FsmStateAction
 {
-	[Tooltip("Actor to modify.")]
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
+	[UIHint(UIHint.Variable)]
+	[Tooltip("Actor to modify.")]
 	public FsmGameObject m_ActorObject;
 
 	[Tooltip("How much attack the actor should have.")]

@@ -22,8 +22,8 @@ public class ShopBrowser : MonoBehaviour, IPopupRendering
 	[SerializeField]
 	private Widget m_widget;
 
-	[SerializeField]
 	[FormerlySerializedAs("m_stackingMargins")]
+	[SerializeField]
 	private float m_sectionMargins;
 
 	[SerializeField]
@@ -37,12 +37,12 @@ public class ShopBrowser : MonoBehaviour, IPopupRendering
 	[Min(0f)]
 	private float m_timeBeforeSpinnerShowsSeconds = 0.5f;
 
-	[SerializeField]
 	[Min(0f)]
+	[SerializeField]
 	private float m_minTimeToDisplaySpinnerSeconds = 0.25f;
 
-	[Min(0f)]
 	[SerializeField]
+	[Min(0f)]
 	private int m_suppressUntilLoadedCount;
 
 	private List<ProductTierDataModel> m_currentTiers = new List<ProductTierDataModel>();

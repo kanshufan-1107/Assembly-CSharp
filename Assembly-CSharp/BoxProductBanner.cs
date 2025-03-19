@@ -4,7 +4,6 @@ using Assets;
 using Blizzard.T5.Services;
 using Hearthstone;
 using Hearthstone.DataModels;
-using Hearthstone.Progression;
 using Hearthstone.Store;
 using Hearthstone.UI;
 using UnityEngine;
@@ -103,11 +102,6 @@ public class BoxProductBanner : MonoBehaviour
 		m_box.AddTransitionFinishedListener(OnBoxTranstionFinished);
 		m_storeManager.RegisterStoreShownListener(OnShopOpened);
 		m_storeManager.RegisterStatusChangedListener(OnShopAvailable);
-		SpecialEventManager specialEventManager = SpecialEventManager.Get();
-		if (specialEventManager != null)
-		{
-			specialEventManager.OnCurrentEventChanged += OnCurrentEventChanged;
-		}
 		if (m_eventTimingManager.HasReceivedEventTimingsFromServer)
 		{
 			OnReceivedEventTimingsFromServer();
@@ -184,11 +178,6 @@ public class BoxProductBanner : MonoBehaviour
 		{
 			m_eventTimingManager.OnReceivedEventTimingsFromServer -= OnReceivedEventTimingsFromServer;
 		}
-		SpecialEventManager specialEventManager = SpecialEventManager.Get();
-		if (specialEventManager != null)
-		{
-			specialEventManager.OnCurrentEventChanged -= OnCurrentEventChanged;
-		}
 	}
 
 	private void OnBoxTransitionStarted()
@@ -207,13 +196,6 @@ public class BoxProductBanner : MonoBehaviour
 
 	private void OnReceivedEventTimingsFromServer()
 	{
-		UpdateProductFromEventTiming();
-		m_triedFindingEventTiming = true;
-		TryUnfurlBanner();
-	}
-
-	private void UpdateProductFromEventTiming()
-	{
 		m_productBannerDbfRecord = GetActiveProductBannerRecord();
 		if (m_productBannerDbfRecord != null)
 		{
@@ -223,6 +205,8 @@ public class BoxProductBanner : MonoBehaviour
 				m_productAlreadyOwned = IsProductOwned(m_productBannerDbfRecord.PmtProductId);
 			}
 		}
+		m_triedFindingEventTiming = true;
+		TryUnfurlBanner();
 	}
 
 	private void InitBannerDataModelFromRecord(BoxProductBannerDbfRecord record, Action OnImageLoaded = null)
@@ -314,8 +298,11 @@ public class BoxProductBanner : MonoBehaviour
 
 	private void OnShopOpened()
 	{
-		s_hasSeenBannerThisSession = true;
-		FurlBanner();
+		if (!Shop.DontFullyOpenShop)
+		{
+			s_hasSeenBannerThisSession = true;
+			FurlBanner();
+		}
 	}
 
 	private void TryUnfurlBanner()
@@ -419,22 +406,6 @@ public class BoxProductBanner : MonoBehaviour
 				ProductPageJobs.OpenToProductPageWhenReady(m_productBannerDbfRecord.PmtProductId);
 				break;
 			}
-		}
-	}
-
-	private void OnCurrentEventChanged(bool hasEnded)
-	{
-		if (m_isBannerUnfurled)
-		{
-			UpdateProductFromEventTiming();
-			if (m_productBannerDbfRecord == null)
-			{
-				FurlBanner();
-			}
-		}
-		else if (m_eventTimingManager != null && m_eventTimingManager.HasReceivedEventTimingsFromServer)
-		{
-			OnReceivedEventTimingsFromServer();
 		}
 	}
 

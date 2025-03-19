@@ -625,7 +625,12 @@ public class GameUtils
 
 	public static bool IsOnVFXDenylist(string spellPath)
 	{
-		foreach (string item in NetCache.Get().GetNetObject<NetCache.NetCacheFeatures>().VFXDenylist)
+		NetCache.NetCacheFeatures guardianVars = NetCache.Get().GetNetObject<NetCache.NetCacheFeatures>();
+		if (guardianVars == null)
+		{
+			return false;
+		}
+		foreach (string item in guardianVars.VFXDenylist)
 		{
 			string[] vfxNameAndGuid = item.Split(':');
 			string vfxGuid = "";
@@ -3833,5 +3838,14 @@ public class GameUtils
 		}
 		int discount = player.GetTag(GAME_TAG.STARSHIP_LAUNCH_COST_DISCOUNT);
 		return GetCardTagValue(STARSHIP_LAUNCH_CARD_ID, GAME_TAG.COST) - discount;
+	}
+
+	public static bool IsMythicHero(EntityDef entityDef)
+	{
+		if (entityDef == null)
+		{
+			return false;
+		}
+		return entityDef.GetTag<CornerReplacementSpellType>(GAME_TAG.CORNER_REPLACEMENT_TYPE) != CornerReplacementSpellType.NONE;
 	}
 }

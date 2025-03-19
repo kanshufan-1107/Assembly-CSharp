@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Adds a target to a Spell.")]
+[ActionCategory("Pegasus")]
 public class SpellAddTargetAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

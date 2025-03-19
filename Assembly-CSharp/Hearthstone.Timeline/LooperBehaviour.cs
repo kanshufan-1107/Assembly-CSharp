@@ -20,13 +20,13 @@ public class LooperBehaviour : PlayableBehaviour
 	[SerializeField]
 	private BreakoutMode m_breakoutMode;
 
-	[Range(0f, 1f)]
 	[Tooltip("How likely is it that the track will loop?\n0 = Never loop.\n1 = Always loop.")]
+	[Range(0f, 1f)]
 	[SerializeField]
 	private float m_chanceToLoop = 1f;
 
-	[SerializeField]
 	[Tooltip("The loop/breakout pattern.")]
+	[SerializeField]
 	private bool[] m_pattern = new bool[1];
 
 	public LooperAsset ClipAsset { get; set; }

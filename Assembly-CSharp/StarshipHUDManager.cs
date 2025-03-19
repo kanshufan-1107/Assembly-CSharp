@@ -49,8 +49,8 @@ public class StarshipHUDManager : MonoBehaviour
 	[SerializeField]
 	private UberText m_manaText;
 
-	[Header("HUD Mobile Only Variables")]
 	[SerializeField]
+	[Header("HUD Mobile Only Variables")]
 	private Vector3 m_showThreeStarshipPiecesBoneOffsetMobile;
 
 	[SerializeField]
@@ -95,8 +95,8 @@ public class StarshipHUDManager : MonoBehaviour
 	[SerializeField]
 	private float m_adjacentCardXOffsetMobile = 0.75f;
 
-	[SerializeField]
 	[Header("HUD Animation References")]
+	[SerializeField]
 	private Spell m_OpenCloseHudSpell;
 
 	[SerializeField]

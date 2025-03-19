@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Plays an audio clip dependent on a Spell's Card's ID.")]
+[ActionCategory("Pegasus Audio")]
 public class SpellCardIdAudioPlayAction : SpellCardIdAudioAction
 {
 	public FsmOwnerDefault m_SpellObject;
@@ -16,16 +16,16 @@ public class SpellCardIdAudioPlayAction : SpellCardIdAudioAction
 	[CheckForComponent(typeof(AudioSource))]
 	public FsmOwnerDefault m_AudioSourceObject;
 
-	[RequiredField]
 	[CompoundArray("Sounds", "Card Id", "Sound")]
+	[RequiredField]
 	public string[] m_CardIds;
 
 	public SoundDef[] m_Sounds;
 
 	public SoundDef m_DefaultSound;
 
-	[Tooltip("Scales the volume of the AudioSource just for this Play call.")]
 	[HasFloatSlider(0f, 1f)]
+	[Tooltip("Scales the volume of the AudioSource just for this Play call.")]
 	public FsmFloat m_VolumeScale;
 
 	public float m_Delay;

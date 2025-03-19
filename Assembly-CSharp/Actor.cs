@@ -4389,7 +4389,7 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 		}
 		bool entityIsQuest = m_entity != null && m_entity.IsQuest();
 		bool entityDefIsQuest = m_entityDef != null && m_entityDef.IsQuest();
-		bool useBaconQuestMesh = GameMgr.Get() != null && GameMgr.Get().IsBattlegrounds() && (entityIsQuest || entityDefIsQuest);
+		bool useBaconQuestMesh = (GameMgr.Get() != null && GameMgr.Get().IsBattlegrounds() && (entityIsQuest || entityDefIsQuest)) || (m_entity != null && m_entity.HasTag(GAME_TAG.IS_NIGHTMARE_BONUS));
 		if (m_descriptionMesh != null)
 		{
 			m_descriptionMesh.SetActive(!useBaconQuestMesh);
@@ -5173,7 +5173,9 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 		else if (m_entity != null)
 		{
 			cardType = m_entity.GetCardType();
-			classType = m_entity.GetClass();
+			List<TAG_CLASS> classes = new List<TAG_CLASS>();
+			m_entity.GetClasses(classes);
+			classType = ((classes.Count > 0) ? classes[0] : TAG_CLASS.INVALID);
 			roleType = (TAG_ROLE)m_entity.GetTag(GAME_TAG.LETTUCE_ROLE);
 			isMercenary = m_entity.IsLettuceMercenary();
 			isMinionAbility = m_entity.IsLettuceAbilityMinionSummoning();
@@ -6311,7 +6313,15 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 	public void ShowTavernTierSpell()
 	{
 		Spell techLevelSpell = GetSpell(SpellType.TECH_LEVEL_MANA_GEM);
-		int techLevel = GetEntityDef().GetTechLevel();
+		int techLevel = 0;
+		if (GetEntityDef() != null)
+		{
+			techLevel = GetEntityDef().GetTechLevel();
+		}
+		else if (m_entity != null)
+		{
+			techLevel = m_entity.GetTechLevel();
+		}
 		if (techLevelSpell != null)
 		{
 			techLevelSpell.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("TechLevel").Value = techLevel;

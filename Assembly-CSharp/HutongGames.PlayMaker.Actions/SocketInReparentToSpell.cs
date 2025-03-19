@@ -4,20 +4,20 @@ using UnityEngine.Playables;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Sets the Parent of a Game Object.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Sets the Parent of a Game Object.")]
 public class SocketInReparentToSpell : FsmStateAction
 {
-	[RequiredField]
 	[Tooltip("Spell object")]
+	[RequiredField]
 	public FsmOwnerDefault m_spellObject;
 
-	[RequiredField]
 	[Tooltip("Actor Object Output")]
+	[RequiredField]
 	public FsmGameObject m_actorObjectOutput;
 
-	[Tooltip("Root Object Output")]
 	[RequiredField]
+	[Tooltip("Root Object Output")]
 	public FsmGameObject m_rootObjectOutput;
 
 	[Tooltip("The Game Object to parent.")]

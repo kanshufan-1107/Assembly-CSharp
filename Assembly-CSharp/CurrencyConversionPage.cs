@@ -20,8 +20,8 @@ public class CurrencyConversionPage : ProductPage
 	[Tooltip("Widget event when the player can afford to convert")]
 	private string m_affordableEventName = "AFFORDABLE";
 
-	[SerializeField]
 	[Tooltip("Widget event when the player cannot afford conversion")]
+	[SerializeField]
 	private string m_unaffordableEventName = "UNAFFORDABLE";
 
 	private const int MINIMUM_SELECTION = 1;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -73,9 +74,23 @@ public class LettuceMapDataModel : DataModelEventDispatcher, IDataModel, IDataMo
 		RegisterNestedDataModel(m_Rows);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Rows != null) ? m_Rows.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Rows != null && !inspectedDataModels.Contains(m_Rows.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Rows.GetHashCode());
+			hash = hash * 31 + m_Rows.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_MapType;
 		return num + m_MapType.GetHashCode();
 	}

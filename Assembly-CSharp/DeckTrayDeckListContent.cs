@@ -220,7 +220,7 @@ public class DeckTrayDeckListContent : DeckTrayReorderableContent
 		FormatType ft = cmd.CurrentSetFilterFormatType;
 		if (ft == FormatType.FT_UNKNOWN)
 		{
-			RankMgr.LogMessage("Options.GetFormatType() = FT_UNKOWN", "StartCreateNewDeck", "D:\\p4Workspace\\31.4.0\\Pegasus\\Client\\Assets\\Shared\\Scripts\\Game\\DeckTrayDeckListContent.cs", 201);
+			RankMgr.LogMessage("Options.GetFormatType() = FT_UNKOWN", "StartCreateNewDeck", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Shared\\Scripts\\Game\\DeckTrayDeckListContent.cs", 201);
 			return;
 		}
 		s_PreHeroPickerFormat = ft;
@@ -559,7 +559,7 @@ public class DeckTrayDeckListContent : DeckTrayReorderableContent
 			editDeck.Name = newDeckName;
 			if (shouldValidateDeckName && RegionUtils.IsCNLegalRegion)
 			{
-				editDeck.SendDeckRenameChange(null, shouldValidateDeckName: true);
+				editDeck.SendDeckRenameChange(null, shouldValidateDeckName: true, DeckType.NORMAL_DECK, DeckSourceType.DECK_SOURCE_TYPE_NORMAL);
 			}
 		}
 		return editDeck;

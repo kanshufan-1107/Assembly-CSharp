@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -148,11 +149,28 @@ public class CoreRewardsDataModel : DataModelEventDispatcher, IDataModel, IDataM
 		RegisterNestedDataModel(m_NextReward);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_Class != null) ? m_Class.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Class != null) ? m_Class.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_NextLevel;
-		return (((num + m_NextLevel.GetHashCode()) * 31 + ((m_NextRewardId != null) ? m_NextRewardId.GetHashCode() : 0)) * 31 + ((m_NextReward != null) ? m_NextReward.GetPropertiesHashCode() : 0)) * 31 + ((m_DisplayContext != null) ? m_DisplayContext.GetHashCode() : 0);
+		hash = num + m_NextLevel.GetHashCode();
+		hash = hash * 31 + ((m_NextRewardId != null) ? m_NextRewardId.GetHashCode() : 0);
+		if (m_NextReward != null && !inspectedDataModels.Contains(m_NextReward.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_NextReward.GetHashCode());
+			hash = hash * 31 + m_NextReward.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		return hash * 31 + ((m_DisplayContext != null) ? m_DisplayContext.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

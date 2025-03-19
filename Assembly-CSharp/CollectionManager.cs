@@ -4618,7 +4618,7 @@ public class CollectionManager
 		Network.Get().SendDeckData(CollectionDeck.ChangeSource.Cheat, 0, deckId, contentChanges, new List<Network.SideboardCardUserData>(), -1, false, -1, TAG_PREMIUM.NORMAL, -1, null, -1, deck.FormatType, 0L, null, null, name);
 		string heroDesignerId = GameUtils.TranslateDbIdToCardId(deck.HeroCardDbId);
 		string className = GameStrings.GetClassName(DefLoader.Get().GetEntityDef(heroDesignerId).GetClass());
-		Network.Get().RenameDeck(deckId, "Custom " + className, playerInitiated: false);
+		Network.Get().RenameDeck(deckId, "Custom " + className, playerInitiated: false, DeckType.NORMAL_DECK, DeckSourceType.DECK_SOURCE_TYPE_PASTED_DECK);
 		if (m_decks.TryGetValue(deckId, out var cachedDeck))
 		{
 			cachedDeck.FillFromShareableDeck(deck);

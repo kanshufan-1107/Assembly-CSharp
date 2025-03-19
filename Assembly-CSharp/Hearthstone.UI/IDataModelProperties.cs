@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Hearthstone.UI;
 
 public interface IDataModelProperties
@@ -10,5 +12,5 @@ public interface IDataModelProperties
 
 	bool GetPropertyInfo(int id, out DataModelProperty info);
 
-	int GetPropertiesHashCode();
+	int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null);
 }

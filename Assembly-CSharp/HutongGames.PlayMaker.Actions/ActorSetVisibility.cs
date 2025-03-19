@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Show or Hide an Actor without messing up the game.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Show or Hide an Actor without messing up the game.")]
 public class ActorSetVisibility : ActorAction
 {
 	public FsmGameObject m_ActorObject;

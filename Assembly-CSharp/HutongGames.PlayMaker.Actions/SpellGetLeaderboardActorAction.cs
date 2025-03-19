@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Put a Spell's Source or Target Actor (that is on the leaderboard) into a GameObject variable.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Put a Spell's Source or Target Actor (that is on the leaderboard) into a GameObject variable.")]
 public class SpellGetLeaderboardActorAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

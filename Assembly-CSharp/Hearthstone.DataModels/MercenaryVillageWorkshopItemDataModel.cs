@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets;
 using Hearthstone.UI;
 
@@ -449,31 +450,60 @@ public class MercenaryVillageWorkshopItemDataModel : DataModelEventDispatcher, I
 		RegisterNestedDataModel(m_Price);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_BuildingID;
-		int num2 = (((num + m_BuildingID.GetHashCode()) * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0)) * 31;
+		hash = num + m_BuildingID.GetHashCode();
+		hash = hash * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0);
+		int num2 = hash * 31;
 		_ = m_BuildingType;
-		int num3 = (num2 + m_BuildingType.GetHashCode()) * 31;
+		hash = num2 + m_BuildingType.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_IsFullyUpgraded;
-		int num4 = (num3 + m_IsFullyUpgraded.GetHashCode()) * 31;
+		hash = num3 + m_IsFullyUpgraded.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_IsAchievementCompleted;
-		int num5 = (num4 + m_IsAchievementCompleted.GetHashCode()) * 31;
+		hash = num4 + m_IsAchievementCompleted.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_CanAffordUpgrade;
-		int num6 = (num5 + m_CanAffordUpgrade.GetHashCode()) * 31;
+		hash = num5 + m_CanAffordUpgrade.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_IsNewBuilding;
-		int num7 = ((num6 + m_IsNewBuilding.GetHashCode()) * 31 + ((m_TierDescription != null) ? m_TierDescription.GetHashCode() : 0)) * 31;
+		hash = num6 + m_IsNewBuilding.GetHashCode();
+		hash = hash * 31 + ((m_TierDescription != null) ? m_TierDescription.GetHashCode() : 0);
+		int num7 = hash * 31;
 		_ = m_CurrentTierId;
-		int num8 = (num7 + m_CurrentTierId.GetHashCode()) * 31;
+		hash = num7 + m_CurrentTierId.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_NextTierId;
-		int num9 = (((num8 + m_NextTierId.GetHashCode()) * 31 + ((m_Price != null) ? m_Price.GetPropertiesHashCode() : 0)) * 31 + ((m_AchievementDescription != null) ? m_AchievementDescription.GetHashCode() : 0)) * 31;
+		hash = num8 + m_NextTierId.GetHashCode();
+		if (m_Price != null && !inspectedDataModels.Contains(m_Price.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Price.GetHashCode());
+			hash = hash * 31 + m_Price.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_AchievementDescription != null) ? m_AchievementDescription.GetHashCode() : 0);
+		int num9 = hash * 31;
 		_ = m_Progress;
-		int num10 = (num9 + m_Progress.GetHashCode()) * 31;
+		hash = num9 + m_Progress.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_Quota;
-		int num11 = (num10 + m_Quota.GetHashCode()) * 31;
+		hash = num10 + m_Quota.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_Prewarm;
-		int num12 = (num11 + m_Prewarm.GetHashCode()) * 31;
+		hash = num11 + m_Prewarm.GetHashCode();
+		int num12 = hash * 31;
 		_ = m_ShowEmptySlot;
 		return num12 + m_ShowEmptySlot.GetHashCode();
 	}

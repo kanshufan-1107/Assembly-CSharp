@@ -35,8 +35,8 @@ public class BoardEventListener : MonoBehaviour
 	[SerializeField]
 	private Animator m_animator;
 
-	[SerializeField]
 	[Header("Animator Trigger Names (leave blank if not used)")]
+	[SerializeField]
 	private string m_friendlyHeroDamage = "";
 
 	[SerializeField]

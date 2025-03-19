@@ -297,12 +297,28 @@ public class DataModelList<T> : DataModelEventDispatcher, IDataModelList, IList,
 		}
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int hashCode = 17;
 		for (int i = 0; i < Count; i++)
 		{
-			hashCode += 31 * (this[i]?.GetHashCode() ?? 0);
+			T item = this[i];
+			if (item is IDataModelProperties)
+			{
+				if (item != null && !inspectedDataModels.Contains(item.GetHashCode()))
+				{
+					inspectedDataModels.Add(item.GetHashCode());
+					hashCode += 31 * ((item != null) ? (item as IDataModelProperties).GetPropertiesHashCode(inspectedDataModels) : 0);
+				}
+			}
+			else
+			{
+				hashCode += 31 * (item?.GetHashCode() ?? 0);
+			}
 		}
 		return hashCode;
 	}

@@ -25,16 +25,16 @@ public class ShakeMinionsAction : FsmStateAction
 	[RequiredField]
 	public MinionsToShakeEnum MinionsToShake;
 
-	[Tooltip("Shake Intensity")]
 	[RequiredField]
+	[Tooltip("Shake Intensity")]
 	public ShakeMinionIntensity shakeSize = ShakeMinionIntensity.SmallShake;
 
-	[Tooltip("Custom Shake Intensity 0-1. Used when Shake Size is Custom")]
 	[RequiredField]
+	[Tooltip("Custom Shake Intensity 0-1. Used when Shake Size is Custom")]
 	public FsmFloat customShakeIntensity;
 
-	[Tooltip("Radius - 0 = for all objects")]
 	[RequiredField]
+	[Tooltip("Radius - 0 = for all objects")]
 	public FsmFloat radius;
 
 	public override void Reset()

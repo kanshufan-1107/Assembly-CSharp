@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Set the actor's card's input as enabled or disabled.")]
+[ActionCategory("Pegasus")]
 public class SetCardInputEnabledAction : ActorAction
 {
 	public FsmOwnerDefault m_ActorObject;

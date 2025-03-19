@@ -48,8 +48,7 @@ public class ReferenceScriptDataNum1EntityCardTextBuilder : CardTextBuilder
 
 	public override string GetTargetingArrowText(Entity entity)
 	{
-		string value = entity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_NUM_1).ToString();
-		Entity referencedEntity = GameState.Get().GetEntity(entity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_ENT_1));
+		Entity referencedEntity = GameState.Get().GetEntity(entity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_NUM_1));
 		string name = ((referencedEntity != null && referencedEntity.HasValidDisplayName()) ? referencedEntity.GetName() : GameStrings.Get("GAMEPLAY_UNKNOWN_CREATED_BY"));
 		CardDbfRecord record = GameDbf.GetIndex().GetCardRecord(entity.GetCardId());
 		string builtText = string.Empty;
@@ -57,6 +56,7 @@ public class ReferenceScriptDataNum1EntityCardTextBuilder : CardTextBuilder
 		{
 			builtText = record.TargetArrowText.GetString();
 		}
+		string value = entity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_NUM_2).ToString();
 		return TextUtils.TransformCardText(TextUtils.TryFormat(builtText.Replace("@", value), name));
 	}
 }

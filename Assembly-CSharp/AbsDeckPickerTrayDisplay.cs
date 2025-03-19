@@ -606,7 +606,7 @@ public abstract class AbsDeckPickerTrayDisplay : MonoBehaviour
 	{
 		if (formatType == FormatType.FT_UNKNOWN)
 		{
-			RankMgr.LogMessage("formatType being passed in = FT_UNKOWN", "TransitionToFormatType", "D:\\p4Workspace\\31.4.0\\Pegasus\\Client\\Assets\\Game\\DeckPickerTray\\AbsDeckPickerTrayDisplay.cs", 731);
+			RankMgr.LogMessage("formatType being passed in = FT_UNKOWN", "TransitionToFormatType", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Game\\DeckPickerTray\\AbsDeckPickerTrayDisplay.cs", 731);
 			return;
 		}
 		Options.SetFormatType(formatType);
@@ -644,7 +644,7 @@ public abstract class AbsDeckPickerTrayDisplay : MonoBehaviour
 		string heroPowerID = GameUtils.GetHeroPowerCardIdFromHero(m_heroActor.GetEntityDef().GetCardId());
 		if (ShouldShowHeroPower() && !string.IsNullOrEmpty(heroPowerID))
 		{
-			if (IsMythicHero(m_heroActor.GetEntityDef()))
+			if (GameUtils.IsMythicHero(m_heroActor.GetEntityDef()))
 			{
 				ShowMythicHeroPower(heroPowerID);
 			}
@@ -1024,7 +1024,7 @@ public abstract class AbsDeckPickerTrayDisplay : MonoBehaviour
 		m_isMouseOverHeroPower = true;
 		EntityDef heroDef = m_heroActor.GetEntityDef();
 		TAG_PREMIUM premium = m_heroActor.GetPremium();
-		bool num = IsMythicHero(heroDef);
+		bool num = GameUtils.IsMythicHero(heroDef);
 		string heroPowerID = ((heroDef != null) ? GameUtils.GetHeroPowerCardIdFromHero(heroDef.GetCardId()) : null);
 		if (num && !string.IsNullOrEmpty(heroPowerID))
 		{
@@ -1702,15 +1702,6 @@ public abstract class AbsDeckPickerTrayDisplay : MonoBehaviour
 		return mythicHeroData;
 	}
 
-	protected bool IsMythicHero(EntityDef entityDef)
-	{
-		if (entityDef == null)
-		{
-			return false;
-		}
-		return entityDef.GetTag<CornerReplacementSpellType>(GAME_TAG.CORNER_REPLACEMENT_TYPE) != CornerReplacementSpellType.NONE;
-	}
-
 	protected void UpdateHeroPowerInfo(DefLoader.DisposableFullDef fullDef, DefLoader.DisposableFullDef heroPowerDef, TAG_PREMIUM premium)
 	{
 		SetHeroPowerActorColliderEnabled();
@@ -1728,7 +1719,7 @@ public abstract class AbsDeckPickerTrayDisplay : MonoBehaviour
 			m_goldenHeroPowerActor.UpdateAllComponents();
 			m_goldenHeroPowerActor.SetUnlit();
 		}
-		if (IsMythicHero(fullDef.EntityDef))
+		if (GameUtils.IsMythicHero(fullDef.EntityDef))
 		{
 			MythicHeroDeckData mythicData = LoadMythicHeroDeckData(fullDef.EntityDef, premium);
 			if (mythicData != null)

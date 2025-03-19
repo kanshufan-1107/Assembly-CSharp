@@ -74,13 +74,13 @@ public class ExceptionReporterControl
 		ExceptionSettings settings = new ExceptionSettings();
 		settings.m_projectID = 70;
 		settings.m_moduleName = "Hearthstone Client";
-		settings.m_version = "31.4";
+		settings.m_version = "31.6";
 		settings.m_branchName = Network.BranchName;
-		settings.m_buildNumber = 214839;
+		settings.m_buildNumber = 216423;
 		settings.m_locale = Localization.GetLocaleName();
 		settings.m_jiraProjectName = "HSTN";
 		settings.m_jiraComponent = "T5 Needs Triage";
-		settings.m_jiraVersion = "31.4 Patch";
+		settings.m_jiraVersion = "31.6 Patch";
 		settings.m_cnRegion = RegionUtils.IsCNLegalRegion;
 		settings.m_debugModules = "Branch=" + Network.BranchName + ",CN=" + (RegionUtils.IsCNLegalRegion ? "true" : "false") + ",Arch=" + SystemInfo.processorType;
 		settings.m_logLineLimits[ExceptionSettings.ReportType.BUG] = -1;

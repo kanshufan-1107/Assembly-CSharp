@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Get shadow color")]
+[ActionCategory("Pegasus")]
 public class GetShadowColor : FsmStateAction
 {
 	public FsmColor m_Color;

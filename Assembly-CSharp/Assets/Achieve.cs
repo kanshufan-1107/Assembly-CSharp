@@ -237,20 +237,20 @@ public static class Achieve
 		TIER2,
 		[Description("tier3")]
 		TIER3,
-		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx1_owned")]
+		[Obsolete("will be removed when the achievement system no longer requires it")]
 		NAXX1_OWNED,
 		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx2_owned")]
 		NAXX2_OWNED,
+		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx3_owned")]
-		[Obsolete("will be removed when the achievement system no longer requires it")]
 		NAXX3_OWNED,
+		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx4_owned")]
-		[Obsolete("will be removed when the achievement system no longer requires it")]
 		NAXX4_OWNED,
-		[Description("naxx5_owned")]
 		[Obsolete("will be removed when the achievement system no longer requires it")]
+		[Description("naxx5_owned")]
 		NAXX5_OWNED,
 		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx1_playable")]
@@ -261,11 +261,11 @@ public static class Achieve
 		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx3_playable")]
 		NAXX3_PLAYABLE,
-		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx4_playable")]
-		NAXX4_PLAYABLE,
 		[Obsolete("will be removed when the achievement system no longer requires it")]
+		NAXX4_PLAYABLE,
 		[Description("naxx5_playable")]
+		[Obsolete("will be removed when the achievement system no longer requires it")]
 		NAXX5_PLAYABLE,
 		[Description("vanilla_heroes")]
 		VANILLA_HEROES

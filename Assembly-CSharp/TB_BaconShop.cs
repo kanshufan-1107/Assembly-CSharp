@@ -37,6 +37,10 @@ public class TB_BaconShop : MissionEntity
 
 	protected Coroutine m_showOpposingHeroActorLegendaryVFXCoroutine;
 
+	private Coroutine m_combatSpeedUpCoroutine;
+
+	private bool m_debugShowCombatTimer;
+
 	private DuosPortal m_duosPortal;
 
 	private Notification m_techLevelCounter;
@@ -264,6 +268,15 @@ public class TB_BaconShop : MissionEntity
 		}
 	}
 
+	public override void OnTagChanged(TagDelta change)
+	{
+		if (change.tag == 3925 && m_duosPortal == null)
+		{
+			LoadDuosPortal();
+		}
+		base.OnTagChanged(change);
+	}
+
 	protected virtual string GetFavoriteBattlegroundsGuideSkinCardId()
 	{
 		return CollectionManager.Get().GetFavoriteBattlegroundsGuideSkinCardId();
@@ -375,7 +388,7 @@ public class TB_BaconShop : MissionEntity
 			return true;
 		}
 		default:
-			if (GameMgr.Get().IsBattlegroundDuoGame())
+			if (GameMgr.Get().IsBattlegroundDuoGame() || HasTag(GAME_TAG.BACON_PORTAL_IN_SOLO))
 			{
 				return GetFriendlyDeckTooltipContent(ref headline, ref description, index - 3);
 			}
@@ -437,6 +450,15 @@ public class TB_BaconShop : MissionEntity
 		};
 	}
 
+	public override Vector3 GetMulliganDetailTextPositionOverride()
+	{
+		if (GameState.Get().GetAvailableRacesInBattlegroundsExcludingAmalgam().Count > 5)
+		{
+			return new Vector3(0.02f, -0.036f, -0.019f);
+		}
+		return Vector3.zero;
+	}
+
 	public override string GetMulliganDetailText()
 	{
 		List<TAG_RACE> availableRaces = GameState.Get().GetAvailableRacesInBattlegroundsExcludingAmalgam();
@@ -448,10 +470,11 @@ public class TB_BaconShop : MissionEntity
 		_ = GameStrings.Get("GAMEPLAY_SEPARATOR") + " ";
 		string fullMulliganString = "";
 		int length = fullMulliganString.Length;
+		int lineLength = ((availableRaces.Count > 5) ? 40 : 20);
 		for (int x = 0; x < availableRaces.Count; x++)
 		{
 			TAG_RACE tag = availableRaces[x];
-			if (length > 20)
+			if (length > lineLength)
 			{
 				fullMulliganString += "\n";
 				length = 0;
@@ -511,6 +534,7 @@ public class TB_BaconShop : MissionEntity
 		if (m_optionsFailsafeCoroutine != null)
 		{
 			GameEntity.Coroutines.StopCoroutine(m_optionsFailsafeCoroutine);
+			m_optionsFailsafeCoroutine = null;
 		}
 		if (GameState.Get().IsMulliganManagerActive())
 		{
@@ -674,10 +698,10 @@ public class TB_BaconShop : MissionEntity
 
 	public override void NotifyOfMulliganEnded()
 	{
+		LoadDuosPortal();
 		if (TeammateBoardViewer.Get() != null && GameMgr.Get().IsBattlegroundDuoGame())
 		{
 			TeammateBoardViewer.Get().InitGameModeButtons();
-			LoadDuosPortal();
 			PlayDuosTutorial(DuosPopupTutoiral.DUOS_TUTORIALS.HEALTH, null, GetFriendlyHeroActor());
 		}
 	}
@@ -1239,7 +1263,7 @@ public class TB_BaconShop : MissionEntity
 	{
 		AchievementManager.Get().UnpauseToastNotifications();
 		PlayerLeaderboardManager.Get().UpdateLayout();
-		if (m_duosPortal != null)
+		if (m_duosPortal != null && TeammateBoardViewer.Get() != null)
 		{
 			if (TeammateBoardViewer.Get().IsViewingTeammate())
 			{
@@ -1336,6 +1360,7 @@ public class TB_BaconShop : MissionEntity
 			StopCoroutine(m_showOpposingHeroActorLegendaryVFXCoroutine);
 			m_showOpposingHeroActorLegendaryVFXCoroutine = null;
 		}
+		StopBGCombatSpeedManager();
 		TimeScaleMgr.Get().SetGameTimeScale(1f);
 		AchievementManager.Get().UnpauseToastNotifications();
 		yield return ShowPopup("Shop", expectStateChangeCallback);
@@ -1360,9 +1385,12 @@ public class TB_BaconShop : MissionEntity
 		GameState.Get().GetTimeTracker().ResetAccruedLostTime();
 		if ((bool)m_duosPortal)
 		{
-			m_duosPortal.SetPortalClickable(clickable: true);
 			m_duosPortal.Grow();
-			TeammateBoardViewer.Get().SetBlockViewingTeammate(block: false);
+			if (TeammateBoardViewer.Get() != null && GameMgr.Get().IsBattlegroundDuoGame())
+			{
+				m_duosPortal.SetPortalClickable(clickable: true);
+				TeammateBoardViewer.Get().SetBlockViewingTeammate(block: false);
+			}
 		}
 		if (TeammatePingWheelManager.Get() != null)
 		{
@@ -1376,14 +1404,17 @@ public class TB_BaconShop : MissionEntity
 		ZoneMgr.Get().AutoCorrectZones(ZoneMgr.Get().GetCancellationToken(), ignorePurePosChange: false);
 		if ((bool)m_duosPortal)
 		{
-			m_duosPortal.SetPortalClickable(clickable: true);
-			if (TeammateBoardViewer.Get().IsViewingOrTransitioningToTeammateView())
+			if (TeammateBoardViewer.Get() != null && GameMgr.Get().IsBattlegroundDuoGame())
 			{
-				m_duosPortal.PortalPushed();
+				m_duosPortal.SetPortalClickable(clickable: true);
+				if (TeammateBoardViewer.Get().IsViewingOrTransitioningToTeammateView())
+				{
+					m_duosPortal.PortalPushed();
+				}
+				TeammateBoardViewer.Get().SetBlockViewingTeammate(block: true);
+				m_duosPortal.ApplyTeammateHeroTexture();
 			}
-			TeammateBoardViewer.Get().SetBlockViewingTeammate(block: true);
 			m_duosPortal.SetPortalClickable(clickable: false);
-			m_duosPortal.ApplyTeammateHeroTexture();
 			yield return null;
 			m_duosPortal.Shrink();
 		}
@@ -1403,6 +1434,7 @@ public class TB_BaconShop : MissionEntity
 		Actor friendlyActor = GetFriendlyHeroActor();
 		TriggerCombatStartLegendaryVFX(friendlyActor);
 		m_showOpposingHeroActorLegendaryVFXCoroutine = GameEntity.Coroutines.StartCoroutine(WaitThenShowOpposingHeroActorLegendaryVFX());
+		StartBGCombatSpeedManager();
 	}
 
 	private IEnumerator WaitThenShowOpposingHeroActorLegendaryVFX()
@@ -1988,7 +2020,7 @@ public class TB_BaconShop : MissionEntity
 
 	private void LoadDuosPortal()
 	{
-		if (!GameMgr.Get().IsBattlegroundDuoGame())
+		if (!GameMgr.Get().IsBattlegroundDuoGame() && !HasTag(GAME_TAG.BACON_PORTAL_IN_SOLO))
 		{
 			return;
 		}
@@ -2010,14 +2042,18 @@ public class TB_BaconShop : MissionEntity
 				{
 					Log.Gameplay.PrintError("TB_BaconShop: failed to load DuosPortal from BaconFX_Duos_DeckPortal.prefab");
 				}
-				else if (!(TeammateBoardViewer.Get() == null))
+				else
 				{
 					m_duosPortal.gameObject.transform.position = TeammateBoardViewer.Get().transform.position;
-					TeammateBoardViewer.Get()?.SetDuosPortal(m_duosPortal);
+					if (TeammateBoardViewer.Get() != null)
+					{
+						TeammateBoardViewer.Get().SetDuosPortal(m_duosPortal);
+					}
 					DuosPopupTutoiral.Get()?.SetDuosPortal(m_duosPortal);
 					m_duosPortal.ApplyTeammateHeroTexture();
 					m_duosPortal.SetPortalClickedCallback(PortalClickedCallback);
 					m_duosPortal.SetPortaPingedCallback(PortalPingedCallback);
+					m_duosPortal.SetPortalClickable(GameMgr.Get().IsBattlegroundDuoGame());
 				}
 			}
 		});
@@ -2039,6 +2075,49 @@ public class TB_BaconShop : MissionEntity
 	private void PortalPingedCallback()
 	{
 		PlayDuosTutorial(DuosPopupTutoiral.DUOS_TUTORIALS.TEAMMATE_PINGED);
+	}
+
+	public void SetPortalGlow(Card heldCard, bool passable)
+	{
+		if (!(m_duosPortal == null))
+		{
+			m_duosPortal.ShowPortalGlow(heldCard, passable);
+		}
+	}
+
+	public void ClearPortalGlow()
+	{
+		if (!(m_duosPortal == null))
+		{
+			m_duosPortal.ClearPortalGlow();
+		}
+	}
+
+	public bool IsInPassActionArea(Vector3 pos)
+	{
+		if (m_duosPortal == null)
+		{
+			return false;
+		}
+		return m_duosPortal.GetComponent<BoxCollider>().bounds.Contains(pos);
+	}
+
+	public Vector3 GetPortalPosition()
+	{
+		if (m_duosPortal == null)
+		{
+			return Vector3.zero;
+		}
+		return m_duosPortal.transform.position;
+	}
+
+	public GameObject GetPortal()
+	{
+		if (m_duosPortal == null)
+		{
+			return null;
+		}
+		return m_duosPortal.gameObject;
 	}
 
 	public void NotifyPingWheelActive(GameObject pingObject)
@@ -2611,6 +2690,105 @@ public class TB_BaconShop : MissionEntity
 			{
 				friendlyHeroCard.GetActor().Show();
 			}
+		}
+	}
+
+	private void StartBGCombatSpeedManager()
+	{
+		if (!NetCache.Get().GetNetObject<NetCache.NetCacheFeatures>().BGCombatSpeedDisabled)
+		{
+			m_combatSpeedUpCoroutine = GameEntity.Coroutines.StartCoroutine(HandleCombatSpeedUp());
+		}
+	}
+
+	private void StopBGCombatSpeedManager()
+	{
+		StopCoroutine(m_combatSpeedUpCoroutine);
+	}
+
+	public void ToggleDebugCombatTimer()
+	{
+		m_debugShowCombatTimer = !m_debugShowCombatTimer;
+		if (m_debugShowCombatTimer)
+		{
+			UIStatus.Get().AddInfo("Combat Debug Timer On");
+		}
+		else
+		{
+			UIStatus.Get().AddInfo("Combat Debug Timer Off");
+		}
+	}
+
+	private void UpdateCombatSpeedDebugDisplay(float timeInCombat, int remainingAttacks)
+	{
+		if (m_debugShowCombatTimer)
+		{
+			string debugDisplayString = $"Combat Speed Up\n Time in combat: {timeInCombat:F2}\n Time Scale: {TimeScaleMgr.Get().GetGameTimeScale():F2}\n Remaining Attacks: {remainingAttacks}";
+			Vector3 drawPos = new Vector3(Screen.width, Screen.height, 0f);
+			DebugTextManager.Get().DrawDebugText(debugDisplayString, drawPos, 0f, screenSpace: true);
+		}
+	}
+
+	private int GetAttacksRemainingInCombat()
+	{
+		PowerProcessor powerProcessor = GameState.Get().GetPowerProcessor();
+		int remainingAttacks = 0;
+		powerProcessor.ForEachTaskList(delegate(int index, PowerTaskList taskList)
+		{
+			if (taskList.IsStartOfBlock() && taskList.GetBlockStart().BlockType == HistoryBlock.Type.ATTACK)
+			{
+				remainingAttacks++;
+			}
+		});
+		return remainingAttacks;
+	}
+
+	private IEnumerator HandleCombatSpeedUp()
+	{
+		int startTime = GetTag(GAME_TAG.BG_COMBAT_SPEED_START_TIME);
+		float acceleration = (float)GetTag(GAME_TAG.BG_COMBAT_SPEED_ACCELERATION) / 1000f;
+		float deceleration = (float)GetTag(GAME_TAG.BG_COMBAT_SPEED_DECELERATION) / 1000f;
+		float maxSpeed = (float)GetTag(GAME_TAG.BG_COMBAT_SPEED_MAX_SPEED) / 1000f;
+		int attacksRemainingMin = GetTag(GAME_TAG.BG_COMBAT_SPEED_ATTACKS_REMAINING_BEFORE_SLOW_DOWN_MIN);
+		int attacksRemainingMax = GetTag(GAME_TAG.BG_COMBAT_SPEED_ATTACKS_REMAINING_BEFORE_SLOW_DOWN_MAX);
+		int attacksRemainingBeforeSlowDown = UnityEngine.Random.Range(attacksRemainingMin, attacksRemainingMax);
+		int minAttacksRemainingToStart = GetTag(GAME_TAG.BG_COMBAT_SPEED_MIN_ATTACKS_REMAINING_TO_START);
+		float timer = 0f;
+		int remainingAttacks = 0;
+		while (timer < (float)startTime)
+		{
+			timer += Time.deltaTime;
+			remainingAttacks = GetAttacksRemainingInCombat();
+			UpdateCombatSpeedDebugDisplay(timer, remainingAttacks);
+			yield return null;
+		}
+		if (remainingAttacks < minAttacksRemainingToStart)
+		{
+			yield break;
+		}
+		float timeScale = TimeScaleMgr.Get().GetGameTimeScale();
+		while (timeScale < maxSpeed && remainingAttacks > attacksRemainingBeforeSlowDown)
+		{
+			timer += Time.deltaTime;
+			remainingAttacks = GetAttacksRemainingInCombat();
+			UpdateCombatSpeedDebugDisplay(timer, remainingAttacks);
+			timeScale += acceleration * Time.deltaTime;
+			timeScale = Mathf.Min(maxSpeed, timeScale);
+			TimeScaleMgr.Get().SetGameTimeScale(timeScale);
+			yield return null;
+		}
+		while (true)
+		{
+			timer += Time.deltaTime;
+			remainingAttacks = GetAttacksRemainingInCombat();
+			UpdateCombatSpeedDebugDisplay(timer, remainingAttacks);
+			if ((double)timeScale > 1.0 && remainingAttacks <= attacksRemainingBeforeSlowDown)
+			{
+				timeScale -= deceleration * Time.deltaTime;
+				timeScale = Mathf.Max(1f, timeScale);
+				TimeScaleMgr.Get().SetGameTimeScale(timeScale);
+			}
+			yield return null;
 		}
 	}
 }

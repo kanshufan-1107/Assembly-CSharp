@@ -682,7 +682,7 @@ public class Board : MonoBehaviour
 		}
 	}
 
-	private void OnHeroSkinManaGemTextureLoaded(AssetReference assetRef, AssetHandle<Texture> texture, object callbackData)
+	protected virtual void OnHeroSkinManaGemTextureLoaded(AssetReference assetRef, AssetHandle<Texture> texture, object callbackData)
 	{
 		using (texture)
 		{

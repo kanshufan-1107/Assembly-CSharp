@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -204,13 +205,45 @@ public class TwistHeroicDeckDataModel : DataModelEventDispatcher, IDataModel, ID
 		RegisterNestedDataModel(m_PassiveCard);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31 + ((m_HeroCard != null) ? m_HeroCard.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		if (m_HeroCard != null && !inspectedDataModels.Contains(m_HeroCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_HeroCard.GetHashCode());
+			hash = hash * 31 + m_HeroCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_IsDeckLocked;
-		int num2 = (((num + m_IsDeckLocked.GetHashCode()) * 31 + ((m_RequiredDescription != null) ? m_RequiredDescription.GetHashCode() : 0)) * 31 + ((m_RequiredCard != null) ? m_RequiredCard.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_IsDeckLocked.GetHashCode();
+		hash = hash * 31 + ((m_RequiredDescription != null) ? m_RequiredDescription.GetHashCode() : 0);
+		if (m_RequiredCard != null && !inspectedDataModels.Contains(m_RequiredCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RequiredCard.GetHashCode());
+			hash = hash * 31 + m_RequiredCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_CardCount;
-		return (num2 + m_CardCount.GetHashCode()) * 31 + ((m_PassiveCard != null) ? m_PassiveCard.GetPropertiesHashCode() : 0);
+		hash = num2 + m_CardCount.GetHashCode();
+		if (m_PassiveCard != null && !inspectedDataModels.Contains(m_PassiveCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_PassiveCard.GetHashCode());
+			return hash * 31 + m_PassiveCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

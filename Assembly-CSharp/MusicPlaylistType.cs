@@ -105,6 +105,9 @@ public enum MusicPlaylistType
 	InGame_TTN = 268,
 	InGame_WW = 269,
 	InGame_TOY = 270,
+	InGame_RagnarosTheFirelord_Mulligan = 271,
+	InGame_Kerrigan_Mulligan = 272,
+	InGame_Felfire_Ragnaros_Mulligan = 273,
 	UISolo_Practice = 300,
 	UISolo_Naxxramas = 301,
 	UISolo_BRM = 302,
@@ -188,6 +191,7 @@ public enum MusicPlaylistType
 	Store_PacksTTA = 431,
 	Store_PacksGDB = 432,
 	Store_PacksSC = 433,
+	Store_PacksEDR = 434,
 	Store_AdvNaxxramas = 450,
 	Store_AdvBRM = 451,
 	Store_AdvLOE = 452,
@@ -301,5 +305,8 @@ public enum MusicPlaylistType
 	Hero_FelfireRagnaros = 1005,
 	Hero_Artanis = 1006,
 	Hero_Raynor = 1007,
-	Hero_Kerrigan = 1008
+	Hero_Kerrigan = 1008,
+	Hero_GennGreymane = 1009,
+	Hero_VanessaVanCleef = 1010,
+	Hero_Ysera = 1011
 }

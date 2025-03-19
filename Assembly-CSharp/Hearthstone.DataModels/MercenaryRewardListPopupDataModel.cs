@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -73,9 +74,20 @@ public class MercenaryRewardListPopupDataModel : DataModelEventDispatcher, IData
 		RegisterNestedDataModel(m_Tiers);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (17 * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_Tiers != null) ? m_Tiers.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0);
+		if (m_Tiers != null && !inspectedDataModels.Contains(m_Tiers.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Tiers.GetHashCode());
+			return hash * 31 + m_Tiers.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Plays an animation from the Vertex Animation component on the diamond model.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Plays an animation from the Vertex Animation component on the diamond model.")]
 public class VATPlayAction : FsmStateAction
 {
-	[RequiredField]
 	[Tooltip("Game Object that has the VertexAnimation.")]
 	[CheckForComponent(typeof(VertexAnimation))]
+	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
 	[RequiredField]
@@ -20,8 +20,8 @@ public class VATPlayAction : FsmStateAction
 
 	public bool m_overwriteAnimationSpeed;
 
-	[Tooltip("Will use this speed instead of the one defined in VertexAnimation")]
 	[HideIf("ShouldHideAnimationSpeed")]
+	[Tooltip("Will use this speed instead of the one defined in VertexAnimation")]
 	public float m_animationSpeed = 1f;
 
 	private VertexAnimation m_vertexAnimation;

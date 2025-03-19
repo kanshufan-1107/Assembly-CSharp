@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("INTERNAL USE ONLY. Do not put this on your FSMs.")]
+[ActionCategory("Pegasus")]
 public abstract class CameraAction : FsmStateAction
 {
 	public enum WhichCamera

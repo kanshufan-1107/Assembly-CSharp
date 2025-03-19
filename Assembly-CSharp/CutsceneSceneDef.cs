@@ -36,10 +36,10 @@ public class CutsceneSceneDef : MonoBehaviour
 
 		public Player.Side TargetSide;
 
-		[CustomEditField(HidePredicate = "ShouldHideCustomSocketInSpell")]
+		[CustomEditField(T = EditType.SPELL, HidePredicate = "ShouldHideCustomSocketInSpell")]
 		public string CustomSocketInSpell;
 
-		[CustomEditField(HidePredicate = "ShouldHideCustomSocketInSpell")]
+		[CustomEditField(T = EditType.CARD_SOUND_SPELL, HidePredicate = "ShouldHideCustomSocketInSpell")]
 		public string CustomSoundSpell;
 	}
 

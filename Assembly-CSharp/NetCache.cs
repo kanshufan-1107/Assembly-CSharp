@@ -525,6 +525,8 @@ public class NetCache : IService, IHasUpdate
 
 		public int BGMinTurnsForProgressAfterConcede { get; set; }
 
+		public bool BGCombatSpeedDisabled { get; set; }
+
 		public bool EnablePlayingFromMiniHand { get; set; }
 
 		public bool BattlegroundsMedalFriendListDisplayEnabled { get; set; }
@@ -574,8 +576,6 @@ public class NetCache : IService, IHasUpdate
 		public bool AllowBGInviteWhileInNPPG { get; set; }
 
 		public int CardValueOverrideServerRegion { get; set; }
-
-		public bool ArenaRedraftOnLossEnabled { get; set; }
 
 		public int CallSDKInterval { get; set; }
 
@@ -4695,7 +4695,6 @@ public class NetCache : IService, IHasUpdate
 		result.Misc.AllowLiveFPSGathering = packet.HasAllowLiveFpsGathering && packet.AllowLiveFpsGathering;
 		result.CancelMatchmakingDuringLoanerDeckGrant = packet.HasCancelMatchmakingDuringLoanerDeckGrant && packet.CancelMatchmakingDuringLoanerDeckGrant;
 		result.AllowBGInviteWhileInNPPG = packet.HasAllowBgInviteInNppg && packet.AllowBgInviteInNppg;
-		result.ArenaRedraftOnLossEnabled = packet.HasArenaRedraftOnLossEnabled && packet.ArenaRedraftOnLossEnabled;
 		result.BoxProductBannerEnabled = packet.HasBoxProductBannerEnabled && packet.BoxProductBannerEnabled;
 		result.CaisEnabledNonMobile = !packet.HasCaisEnabledNonMobile || packet.CaisEnabledNonMobile;
 		result.CaisEnabledMobileChina = packet.HasCaisEnabledMobileChina && packet.CaisEnabledMobileChina;
@@ -4774,6 +4773,7 @@ public class NetCache : IService, IHasUpdate
 		result.MinTurnsForProgressAfterConcede = (packet.HasMinTurnsForProgressAfterConcede ? packet.MinTurnsForProgressAfterConcede : 0);
 		result.BGDuosLeaverRatingPenalty = (packet.HasBgDuosLeaverRatingPenalty ? packet.BgDuosLeaverRatingPenalty : 0f);
 		result.BGMinTurnsForProgressAfterConcede = (packet.HasBgMinTurnsForProgressAfterConcede ? packet.BgMinTurnsForProgressAfterConcede : 0);
+		result.BGCombatSpeedDisabled = packet.HasBgCombatSpeedDisabled && packet.BgCombatSpeedDisabled;
 		result.EnablePlayingFromMiniHand = packet.HasEnablePlayFromMiniHand && packet.EnablePlayFromMiniHand;
 		result.EnableUpgradeToGolden = packet.HasUpgradeToGoldenEnabled && packet.UpgradeToGoldenEnabled;
 		result.ShouldPrevalidatePastedDeckCodes = packet.HasPrevalidatePastedDeckCodesOnClient && packet.PrevalidatePastedDeckCodesOnClient;

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SoundOptionsMenu : MonoBehaviour
 {
-	[Header("Sound")]
 	[SerializeField]
+	[Header("Sound")]
 	private ScrollbarControl m_masterVolume;
 
 	[SerializeField]

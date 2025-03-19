@@ -55,15 +55,6 @@ public class MarketingImagesService : IService
 
 	private const int MAX_NUM_CONCURRENT_OPS = 5;
 
-	private readonly List<SceneMgr.Mode> m_loadImagesInModes = new List<SceneMgr.Mode>
-	{
-		SceneMgr.Mode.LOGIN,
-		SceneMgr.Mode.HUB,
-		SceneMgr.Mode.COLLECTIONMANAGER,
-		SceneMgr.Mode.PACKOPENING,
-		SceneMgr.Mode.BACON
-	};
-
 	private static readonly Type[] s_serviceDependencies = new Type[4]
 	{
 		typeof(NetCache),
@@ -71,6 +62,8 @@ public class MarketingImagesService : IService
 		typeof(AssetLoader),
 		typeof(SceneMgr)
 	};
+
+	private const int LOADING_TIMEOUT = 3;
 
 	private ContentStackConnect m_contentConnect;
 
@@ -87,12 +80,6 @@ public class MarketingImagesService : IService
 	private bool m_isDownloadingJobRunning;
 
 	private bool m_assetsDownloaded;
-
-	private bool m_isLoadingJobRunning;
-
-	private bool m_imagesLoaded;
-
-	private bool m_shouldHaveAssetsInMemory;
 
 	private bool m_isContentStackEnabled;
 
@@ -183,12 +170,7 @@ public class MarketingImagesService : IService
 		}
 		netCache.RegisterUpdatedListener(typeof(NetCache.NetCacheFeatures), HandleNetCacheFeaturesChanged);
 		HandleNetCacheFeaturesChanged();
-		SceneMgr sceneMgr = SceneMgr.Get();
-		if (sceneMgr != null)
-		{
-			sceneMgr.RegisterScenePreLoadEvent(OnBeforeSceneLoad);
-			OnBeforeSceneLoad(SceneMgr.Mode.INVALID, sceneMgr.GetMode(), null);
-		}
+		Processor.QueueJob("Register_Store_change", RegisterStoreManagerEventsWhenReady());
 		m_initialized = true;
 	}
 
@@ -203,14 +185,25 @@ public class MarketingImagesService : IService
 		{
 			netCache.RemoveUpdatedListener(typeof(NetCache.NetCacheFeatures), HandleNetCacheFeaturesChanged);
 		}
-		SceneMgr.Get()?.UnregisterScenePreLoadEvent(OnBeforeSceneLoad);
+		if (StoreManager.Get() != null)
+		{
+			StoreManager.Get().RemoveStoreHiddenListener(OnStoreHidden);
+		}
 		UnloadImages();
 	}
 
-	private void OnBeforeSceneLoad(SceneMgr.Mode curMode, SceneMgr.Mode nextMode, object userData)
+	private IEnumerator<IAsyncJobResult> RegisterStoreManagerEventsWhenReady()
 	{
-		m_shouldHaveAssetsInMemory = m_loadImagesInModes.Contains(nextMode);
-		HandleAssetLoading();
+		while (StoreManager.Get() == null)
+		{
+			yield return null;
+		}
+		StoreManager.Get().RegisterStoreHiddenListener(OnStoreHidden);
+	}
+
+	private void OnStoreHidden()
+	{
+		UnloadImages();
 	}
 
 	private void UnloadImages()
@@ -222,13 +215,12 @@ public class MarketingImagesService : IService
 				validConfig.DestroyCachedTexture();
 			}
 		}
-		m_imagesLoaded = false;
 	}
 
 	public bool TryGetConfig(long productId, MarketingImageSlot slotSize, out MarketingImageConfig imgConfig)
 	{
 		imgConfig = null;
-		if (m_initialized && m_imagesLoaded && m_imagesPerProductId.TryGetValue(productId, out var imgSet))
+		if (m_initialized && m_imagesPerProductId.TryGetValue(productId, out var imgSet))
 		{
 			switch (slotSize)
 			{
@@ -243,11 +235,7 @@ public class MarketingImagesService : IService
 				break;
 			}
 		}
-		if (imgConfig != null)
-		{
-			return imgConfig.Texture != null;
-		}
-		return false;
+		return imgConfig != null;
 	}
 
 	private void HandleNetCacheFeaturesChanged()
@@ -566,7 +554,6 @@ public class MarketingImagesService : IService
 			}
 			m_assetsDownloaded = true;
 			Log.Services.PrintInfo("[MarketingImagesService] Marketing images download complete");
-			HandleAssetLoading();
 		}
 		finally
 		{
@@ -574,199 +561,145 @@ public class MarketingImagesService : IService
 		}
 	}
 
-	private void HandleAssetLoading()
+	public IEnumerator LoadMarketingImage(long productID, MarketingImageSlot slotSize, Action<MarketingImageConfig> onComplete)
 	{
-		if (m_initialized && m_assetsDownloaded && !m_isLoadingJobRunning)
+		if (!m_initialized)
 		{
-			if (!Processor.QueueJob(new JobDefinition("MarketingImagesService:HandleAssetLoading", JobHandleAssetLoading())))
-			{
-				Log.Services.PrintError("[MarketingImagesService] Failed to start HandleAssetLoading job");
-			}
-			m_isLoadingJobRunning = true;
+			Log.Services.PrintError("[MarketingImagesService] MarketingImageService not initialized yet");
+			onComplete?.Invoke(null);
+			yield break;
 		}
-	}
-
-	private IEnumerator<IAsyncJobResult> JobHandleAssetLoading()
-	{
-		while (true)
+		MarketingImageConfig imgConfig = null;
+		if (!TryGetConfig(productID, slotSize, out imgConfig))
 		{
-			try
+			Log.Services.PrintDebug(string.Format("{0} could not find image for product ID {1}, Service state: assets downloaded: {2}", "[MarketingImagesService]", productID, m_assetsDownloaded));
+			onComplete?.Invoke(null);
+			yield break;
+		}
+		if (imgConfig.Texture != null)
+		{
+			onComplete?.Invoke(imgConfig);
+			yield break;
+		}
+		bool isDownloadedImage = false;
+		bool assetFound = false;
+		if (!string.IsNullOrEmpty(imgConfig.TextureUrl))
+		{
+			isDownloadedImage = true;
+			assetFound = true;
+		}
+		else if (!string.IsNullOrEmpty(imgConfig.TextureAsset))
+		{
+			isDownloadedImage = false;
+			assetFound = true;
+		}
+		if (!assetFound)
+		{
+			Log.Services.PrintError(string.Format("{0} could not find image ref in ImageConfig for product ID {1}", "[MarketingImagesService]", productID));
+			onComplete?.Invoke(null);
+			yield break;
+		}
+		Texture2D texture = null;
+		if (isDownloadedImage)
+		{
+			bool isDone = false;
+			Processor.RunCoroutine(LoadWebTexture(imgConfig.TextureUrl, delegate(Texture2D tex)
 			{
-				bool shouldHaveAssetsInMemory = m_shouldHaveAssetsInMemory;
-				if (shouldHaveAssetsInMemory)
-				{
-					if (!m_imagesLoaded)
-					{
-						m_imagesLoaded = true;
-						Dictionary<string, Texture2D> webImagesToLoad = new Dictionary<string, Texture2D>();
-						Dictionary<string, AssetHandle<Texture2D>> embImagesToLoad = new Dictionary<string, AssetHandle<Texture2D>>();
-						foreach (MarketingImageConfigSet value in m_imagesPerProductId.Values)
-						{
-							foreach (MarketingImageConfig imgConfig in value.GetValidConfigs())
-							{
-								if (!string.IsNullOrEmpty(imgConfig.TextureUrl))
-								{
-									webImagesToLoad[imgConfig.TextureUrl] = null;
-								}
-								else if (!string.IsNullOrEmpty(imgConfig.TextureAsset))
-								{
-									embImagesToLoad[imgConfig.TextureAsset] = null;
-								}
-							}
-						}
-						IEnumerator webImgOp = LoadWebTextures(webImagesToLoad);
-						IEnumerator embImgOp = LoadEmbeddedTextures(embImagesToLoad);
-						while (webImgOp.MoveNext() || embImgOp.MoveNext())
-						{
-							yield return null;
-						}
-						HashSet<string> usedHandles = new HashSet<string>();
-						foreach (MarketingImageConfigSet value2 in m_imagesPerProductId.Values)
-						{
-							foreach (MarketingImageConfig imgConfig2 in value2.GetValidConfigs())
-							{
-								AssetHandle<Texture2D> textureHandle;
-								if (!string.IsNullOrEmpty(imgConfig2.TextureUrl))
-								{
-									if (webImagesToLoad.TryGetValue(imgConfig2.TextureUrl, out var texture) && texture != null)
-									{
-										imgConfig2.Texture = texture;
-									}
-								}
-								else if (!string.IsNullOrEmpty(imgConfig2.TextureAsset) && embImagesToLoad.TryGetValue(imgConfig2.TextureAsset, out textureHandle) && textureHandle != null)
-								{
-									if (usedHandles.Add(imgConfig2.TextureAsset))
-									{
-										imgConfig2.TextureHandle = textureHandle;
-										imgConfig2.Texture = textureHandle.Asset;
-									}
-									else
-									{
-										imgConfig2.TextureHandle = textureHandle.Share();
-										imgConfig2.Texture = textureHandle.Asset;
-									}
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					UnloadImages();
-				}
-				if (shouldHaveAssetsInMemory != m_shouldHaveAssetsInMemory)
-				{
-					continue;
-				}
-				break;
-			}
-			finally
+				isDone = true;
+				texture = tex;
+			}));
+			SimpleTimer timer = new SimpleTimer(new TimeSpan(0, 0, 3));
+			while (!isDone && !timer.IsTimeout())
 			{
-				m_isLoadingJobRunning = false;
+				yield return null;
 			}
 		}
-	}
-
-	private IEnumerator LoadWebTextures(Dictionary<string, Texture2D> inOutWebImagesToLoad)
-	{
-		List<string> textureUrls = new List<string>(inOutWebImagesToLoad.Keys);
-		List<(string, UnityWebRequestAsyncOperation)> pendingOps = new List<(string, UnityWebRequestAsyncOperation)>();
-		int numProcessed = 0;
-		while (numProcessed < textureUrls.Count)
+		else
 		{
-			pendingOps.Clear();
-			int num = numProcessed;
-			int end = Math.Min(numProcessed + 5, textureUrls.Count);
-			for (int i = num; i < end; i++)
+			bool isDone2 = false;
+			Processor.RunCoroutine(LoadEmbeddedTexture(imgConfig.TextureAsset, delegate(Texture2D tex)
 			{
-				string textureUrl = textureUrls[i];
-				UnityWebRequestAsyncOperation op;
-				try
-				{
-					UnityWebRequest unityWebRequest = UnityWebRequest.Get(textureUrl);
-					unityWebRequest.downloadHandler = new DownloadHandlerTexture(readable: false);
-					op = unityWebRequest.SendWebRequest();
-				}
-				catch (Exception ex)
-				{
-					Log.Services.PrintError("[MarketingImagesService] Failed to load texture: url='" + textureUrl + "', error=" + ex.Message);
-					continue;
-				}
-				pendingOps.Add((textureUrl, op));
-				numProcessed++;
-			}
-			foreach (var (textureUrl2, op2) in pendingOps)
+				isDone2 = true;
+				texture = tex;
+			}));
+			SimpleTimer timer = new SimpleTimer(new TimeSpan(0, 0, 3));
+			while (!isDone2 && !timer.IsTimeout())
 			{
-				while (!op2.isDone)
-				{
-					yield return null;
-				}
-				UnityWebRequest req = op2.webRequest;
-				if (req.result != UnityWebRequest.Result.Success)
-				{
-					Log.Services.PrintError("[MarketingImagesService] Failed to load texture: " + $"url='{textureUrl2}', result={req.result}, error={req.error}");
-					continue;
-				}
-				try
-				{
-					Texture2D texture = DownloadHandlerTexture.GetContent(req);
-					texture.name = textureUrl2;
-					inOutWebImagesToLoad[textureUrl2] = texture;
-				}
-				catch (Exception ex2)
-				{
-					Log.Services.PrintError("[MarketingImagesService] Failed to load texture: url='" + textureUrl2 + "', error=" + ex2.Message);
-				}
+				yield return null;
 			}
 		}
+		imgConfig.Texture = texture;
+		onComplete?.Invoke(imgConfig);
 	}
 
-	private IEnumerator LoadEmbeddedTextures(Dictionary<string, AssetHandle<Texture2D>> inOutEmbImagesToLoad)
+	private IEnumerator LoadWebTexture(string textureUrl, Action<Texture2D> onComplete)
 	{
-		List<string> texturePaths = new List<string>(inOutEmbImagesToLoad.Keys);
+		UnityWebRequest req;
+		try
+		{
+			req = UnityWebRequest.Get(textureUrl);
+			req.downloadHandler = new DownloadHandlerTexture(readable: false);
+			req.timeout = 3;
+			req.SendWebRequest();
+		}
+		catch (Exception ex)
+		{
+			Log.Services.PrintError("[MarketingImagesService] Failed to load texture: url='" + textureUrl + "', error=" + ex.Message);
+			onComplete?.Invoke(null);
+			yield break;
+		}
+		while (!req.isDone)
+		{
+			yield return null;
+		}
+		if (req.result != UnityWebRequest.Result.Success)
+		{
+			Log.Services.PrintError("[MarketingImagesService] Failed to load texture: " + $"url='{textureUrl}', result={req.result}, error={req.error}");
+			onComplete?.Invoke(null);
+			yield break;
+		}
+		Texture2D texture;
+		try
+		{
+			texture = DownloadHandlerTexture.GetContent(req);
+			texture.name = textureUrl;
+		}
+		catch (Exception ex2)
+		{
+			Log.Services.PrintError("[MarketingImagesService] Failed to load texture: url='" + textureUrl + "', error=" + ex2.Message);
+			onComplete?.Invoke(null);
+			yield break;
+		}
+		onComplete?.Invoke(texture);
+	}
+
+	private IEnumerator LoadEmbeddedTexture(AssetReference assetRef, Action<Texture2D> onComplete)
+	{
 		while (!m_gameDownloadMgr.IsReadyToPlay)
 		{
 			yield return null;
 		}
-		int numProcessed = 0;
-		while (numProcessed < texturePaths.Count)
+		IAssetLoader assetLoader = AssetLoader.Get();
+		if (assetLoader == null)
 		{
-			IAssetLoader assetLoader = AssetLoader.Get();
-			if (assetLoader == null)
+			onComplete?.Invoke(null);
+			yield break;
+		}
+		AssetHandleCallback<Texture2D> callback = delegate(AssetReference assetRef, AssetHandle<Texture2D> assetHandle, object cbData)
+		{
+			if ((bool)assetHandle)
 			{
-				break;
+				onComplete?.Invoke(assetHandle.Asset);
 			}
-			int num = numProcessed;
-			int end = Math.Min(numProcessed + 5, texturePaths.Count);
-			int numWaiting = 0;
-			int numLoaded = 0;
-			for (int i = num; i < end; i++)
+			else
 			{
-				string texturePath = texturePaths[i];
-				AssetHandleCallback<Texture2D> callback = delegate(AssetReference assetRef, AssetHandle<Texture2D> assetHandle, object cbData)
-				{
-					if ((bool)assetHandle)
-					{
-						inOutEmbImagesToLoad[assetRef] = assetHandle;
-					}
-					else
-					{
-						Log.Services.PrintError("[MarketingImagesService] Failed to load texture with assetPath='" + texturePath + "'");
-					}
-					int num2 = numLoaded;
-					numLoaded = num2 + 1;
-				};
-				if (!assetLoader.LoadAsset(texturePath, callback))
-				{
-					callback(texturePath, null, null);
-				}
-				numWaiting++;
-				numProcessed++;
+				Log.Services.PrintError(string.Format("{0} Failed to load texture with assetPath='{1}'", "[MarketingImagesService]", assetRef));
+				onComplete?.Invoke(null);
 			}
-			while (numLoaded < numWaiting)
-			{
-				yield return null;
-			}
+		};
+		if (!assetLoader.LoadAsset(assetRef, callback))
+		{
+			callback(assetRef, null, null);
 		}
 	}
 }

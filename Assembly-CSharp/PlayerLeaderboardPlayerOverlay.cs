@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Blizzard.T5.Core;
 using Blizzard.T5.Core.Utils;
-using Hearthstone.UI;
 using PegasusGame;
 using UnityEngine;
 
@@ -74,6 +73,8 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 
 	private Actor m_heroPowerActor;
 
+	private Actor m_additionalHeroPowerActor;
+
 	private Actor m_heroBuddyActor;
 
 	private Actor m_heroPowerQuestRewardActor;
@@ -87,8 +88,6 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 	private Actor m_trinketActor2;
 
 	private Actor m_trinketActorHeroPower;
-
-	private VisualController m_recentCombatsPanelController;
 
 	public GameObject m_recentCombatsPanelInUse;
 
@@ -105,6 +104,8 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 	private bool m_racesDirty = true;
 
 	private bool m_recentCombatsDirty = true;
+
+	private bool m_additionalHeroPowerDirty = true;
 
 	private bool m_heroBuddyEnabledDirty = true;
 
@@ -135,6 +136,11 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 	public void SetBattlegroundHeroBuddyEnabledDirty()
 	{
 		m_heroBuddyEnabledDirty = true;
+	}
+
+	public void SetAdditionalHeroPowersDirty()
+	{
+		m_additionalHeroPowerDirty = true;
 	}
 
 	public void SetBGQuestRewardDirty()
@@ -214,7 +220,7 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 		{
 			desiredTechLevel = GameState.Get().GetPlayerInfoMap()[playerId].GetPlayerHero().GetRealTimePlayerTechLevel();
 		}
-		desiredTechLevel = Mathf.Clamp(desiredTechLevel, 1, 6);
+		desiredTechLevel = Mathf.Clamp(desiredTechLevel, 1, 7);
 		m_recentCombatsPanel.SetTechLevel(desiredTechLevel);
 		return true;
 	}
@@ -257,6 +263,15 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 				m_heroPowerActor.Hide();
 				m_heroPowerActor.gameObject.SetActive(value: false);
 			}
+		}
+	}
+
+	private void UpdateAdditionalHeroPowers()
+	{
+		if (m_additionalHeroPowerActor != null)
+		{
+			m_additionalHeroPowerActor.gameObject.SetActive(value: true);
+			m_additionalHeroPowerActor.Show();
 		}
 	}
 
@@ -452,6 +467,7 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 		bool isDUOsGame = GameMgr.Get()?.IsBattlegroundDuoGame() ?? false;
 		GameObject mainActorBone = m_boneContainerActor.FindBone(GetHeroActorBoneName(isDUOsGame, ShowOnLeft()) + PLATFORM_DEPENDENT_BONE_SUFFIX);
 		GameObject heroPowerActorBone = m_boneContainerActor.FindBone(GetHeroPowerActorBoneName(isDUOsGame) + PLATFORM_DEPENDENT_BONE_SUFFIX);
+		GameObject additionalHeroPowerActorBone = m_boneContainerActor.FindBone(GetCustomCardActorBoneName(isDUOsGame) + PLATFORM_DEPENDENT_BONE_SUFFIX);
 		GameObject heroBuddyActorBone = m_boneContainerActor.FindBone("CustomCardActorBone" + PLATFORM_DEPENDENT_BONE_SUFFIX);
 		GameObject historyActorBone = m_boneContainerActor.FindBone(GetHistoryActorBoneName(isDUOsGame) + PLATFORM_DEPENDENT_BONE_SUFFIX);
 		GameObject questRewardActorBone = m_boneContainerActor.FindBone("CustomCardActorBone" + PLATFORM_DEPENDENT_BONE_SUFFIX);
@@ -497,6 +513,15 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 			if (m_heroPowerActor.UseCoinManaGem())
 			{
 				m_heroPowerActor.ActivateSpellBirthState(SpellType.COIN_MANA_GEM);
+			}
+		}
+		if (m_additionalHeroPowerActor != null && m_additionalHeroPowerActor.IsShown())
+		{
+			m_additionalHeroPowerActor.transform.position = new Vector3(base.transform.position.x + additionalHeroPowerActorBone.transform.localPosition.x, base.transform.position.y + additionalHeroPowerActorBone.transform.localPosition.y, m_heroActor.transform.position.z + additionalHeroPowerActorBone.transform.localPosition.z);
+			m_additionalHeroPowerActor.transform.localScale = additionalHeroPowerActorBone.transform.localScale;
+			if (m_additionalHeroPowerActor.UseCoinManaGem())
+			{
+				m_additionalHeroPowerActor.ActivateSpellBirthState(SpellType.COIN_MANA_GEM);
 			}
 		}
 		if (m_heroBuddyActor != null && m_heroBuddyActor.IsShown())
@@ -604,6 +629,10 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 		else
 		{
 			UpdateHeroPower();
+			if (m_additionalHeroPowerDirty)
+			{
+				m_additionalHeroPowerDirty = !SetupAdditionalHeroPowers();
+			}
 			if (m_heroBuddyEnabledDirty)
 			{
 				SetupHeroBuddy();
@@ -616,6 +645,7 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 			{
 				m_trinketDirty = !SetupBGTrinket();
 			}
+			UpdateAdditionalHeroPowers();
 			UpdateBGQuestRewards();
 			UpdateBGTrinkets();
 			if (m_heroBuddyActor != null)
@@ -751,6 +781,7 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 			heroPowerActor.Hide();
 			SetHeroPower(HeroEntity);
 		}
+		m_additionalHeroPowerDirty = !SetupAdditionalHeroPowers();
 		SetupHeroBuddy();
 		m_questRewardDirty = !SetupBGQuestRewardCards();
 		m_trinketDirty = !SetupBGTrinket();
@@ -880,6 +911,56 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 			UpdateHoverStatePosition();
 		}
 		LayerUtils.SetLayer(actor, GameLayer.Tooltip);
+	}
+
+	private bool InitAditionalHeroPowerdActor(ref Actor actor, Entity heroPower)
+	{
+		if (heroPower != null)
+		{
+			using DefLoader.DisposableCardDef cardDef = heroPower.ShareDisposableCardDef();
+			GameObject heroPowerGO = AssetLoader.Get().InstantiatePrefab("History_HeroPower.prefab:e73edf8ccea2b11429093f7a448eef53", AssetLoadingOptions.IgnorePrefabPosition);
+			if (heroPowerGO == null)
+			{
+				Log.Spells.PrintError("PlayerLeaderboardCard.InitAditionalHeroPowerdActor(): Unable to load Hand Actor for entity def {0}.", cardDef);
+				return false;
+			}
+			actor = heroPowerGO.GetComponentInChildren<Actor>();
+			actor.Hide();
+			if (actor != null)
+			{
+				SetupActor(actor, heroPower, cardDef, null, heroPower.GetEntityDef());
+				return true;
+			}
+		}
+		return true;
+	}
+
+	private bool SetupAdditionalHeroPowers()
+	{
+		if (m_additionalHeroPowerActor != null)
+		{
+			UnityEngine.Object.Destroy(m_additionalHeroPowerActor.gameObject);
+			m_additionalHeroPowerActor = null;
+		}
+		if (GameState.Get() == null)
+		{
+			return true;
+		}
+		if (HeroEntity == null)
+		{
+			Debug.LogWarning("SetupAdditionalHeroPowers - Player Hero Entity is null");
+			return false;
+		}
+		Entity heroPower = null;
+		if (HeroEntity.HasTag(GAME_TAG.ADDITIONAL_HERO_POWER_ENTITY_1))
+		{
+			heroPower = GameState.Get().GetEntity(HeroEntity.GetTag(GAME_TAG.ADDITIONAL_HERO_POWER_ENTITY_1));
+		}
+		if (heroPower != null && heroPower.HasTag(GAME_TAG.BACON_DONT_DISPLAY_HP_IN_LEADERBOARD_OR_STATS))
+		{
+			return true;
+		}
+		return InitAditionalHeroPowerdActor(ref m_additionalHeroPowerActor, heroPower);
 	}
 
 	private bool InitQuestRewardActor(ref Actor actor, int cardId, int rewardMinionType = 0, int rewardCardDBID = 0)
@@ -1125,6 +1206,12 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 			m_heroPowerActor.Hide();
 			m_heroPowerActor.gameObject.SetActive(value: false);
 		}
+		if ((bool)m_additionalHeroPowerActor)
+		{
+			m_additionalHeroPowerActor.ActivateAllSpellsDeathStates();
+			m_additionalHeroPowerActor.Hide();
+			m_additionalHeroPowerActor.gameObject.SetActive(value: false);
+		}
 		if ((bool)m_heroBuddyActor)
 		{
 			m_heroBuddyActor.gameObject.SetActive(value: false);
@@ -1172,32 +1259,12 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 			Debug.LogWarningFormat("PlayerLeaderboardCard.LoadRecentCombatsPanel() - FAILED to load GameObject \"{0}\"", goPath);
 			return;
 		}
-		for (int i = 0; i < recentActionsPanelGameObject.transform.childCount; i++)
-		{
-			if (!(m_recentCombatsPanel == null))
-			{
-				break;
-			}
-			m_recentCombatsPanel = recentActionsPanelGameObject.transform.GetChild(i).GetComponent<PlayerLeaderboardRecentCombatsPanel>();
-		}
+		m_recentCombatsPanel = recentActionsPanelGameObject.GetComponentInChildren<PlayerLeaderboardRecentCombatsPanel>(includeInactive: true);
 		if (m_recentCombatsPanel == null)
 		{
 			Debug.Log("PlayerLeaderboardCard - LoadRecentCombatsPanel - recentCombatPanel not loaded");
 		}
 		m_recentCombatsPanelInUse = recentActionsPanelGameObject;
-		m_recentCombatsPanelController = recentActionsPanelGameObject.GetComponent<VisualController>();
-		if (m_recentCombatsPanelController == null)
-		{
-			Debug.LogWarningFormat("PlayerLeaderboardCard.LoadRecentCombatsPanel() - FAILED to find Visual Controller");
-		}
-		else if (m_useDamageCapPanel)
-		{
-			m_recentCombatsPanelController.SetState("DAMAGE_CAP");
-		}
-		else
-		{
-			m_recentCombatsPanelController.SetState("DEFAULT");
-		}
 		if (m_recentCombatsPanelInUse == null)
 		{
 			Debug.LogWarningFormat("PlayerLeaderboardCard.LoadRecentCombatsPanel() - ERROR GameObject \"{0}\" has no PlayerLeaderboardRecentCombatsPanel component", goPath);
@@ -1221,10 +1288,6 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 		}
 		if (m_useDamageCapPanel != prevPannelState)
 		{
-			if (m_recentCombatsPanelController != null)
-			{
-				m_recentCombatsPanelController.SetState(m_useDamageCapPanel ? "DAMAGE_CAP" : "DEFAULT");
-			}
 			SetTechLevelDirty();
 			SetRacesDirty();
 			SetRecentCombatsDirty();

@@ -4,12 +4,12 @@ using UnityEngine;
 [Serializable]
 public class TagVisualActorConditionConfiguration
 {
-	[CustomEditField(Sections = "Condition Configuration")]
 	[Tooltip("Condition to evaluate")]
+	[CustomEditField(Sections = "Condition Configuration")]
 	public TagVisualActorCondition m_Condition;
 
-	[CustomEditField(Sections = "Condition Configuration")]
 	[Tooltip("Evaluate this condition opposite to the initial result")]
+	[CustomEditField(Sections = "Condition Configuration")]
 	public bool m_InvertCondition;
 
 	[CustomEditField(Sections = "Condition Configuration", HidePredicate = "ShouldHideAllConditionParameters")]

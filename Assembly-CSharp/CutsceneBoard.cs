@@ -1,3 +1,4 @@
+using Blizzard.T5.AssetManager;
 using Blizzard.T5.MaterialService.Extensions;
 using UnityEngine;
 
@@ -89,5 +90,9 @@ public class CutsceneBoard : Board
 		}
 		Object.Destroy(m_FriendlyHeroTray);
 		m_FriendlyHeroTray = go;
+	}
+
+	protected override void OnHeroSkinManaGemTextureLoaded(AssetReference assetRef, AssetHandle<Texture> texture, object callbackData)
+	{
 	}
 }

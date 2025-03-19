@@ -7,10 +7,10 @@ namespace HutongGames.PlayMaker.Actions;
 [ActionCategory("Pegasus")]
 public class GetCardPortraitTextureAction : FsmStateAction
 {
-	[RequiredField]
-	[UIHint(UIHint.Variable)]
 	[Title("StoreTexture")]
 	[Tooltip("Store the portrait texture in a variable.")]
+	[UIHint(UIHint.Variable)]
+	[RequiredField]
 	public FsmTexture storedTexture;
 
 	public override void Reset()

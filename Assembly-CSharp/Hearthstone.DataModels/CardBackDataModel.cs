@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -66,8 +67,12 @@ public class CardBackDataModel : DataModelEventDispatcher, IDataModel, IDataMode
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_CardBackId;
 		return (num + m_CardBackId.GetHashCode()) * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);

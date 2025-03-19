@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[ExecuteAlways]
 [RequireComponent(typeof(WidgetTransform))]
+[ExecuteAlways]
 [AddComponentMenu("")]
 public class ThreeSliceGeometry : Geometry, IBoundsDependent
 {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -151,11 +152,36 @@ public class AchievementSectionDataModel : DataModelEventDispatcher, IDataModel,
 		RegisterNestedDataModel(m_DisplayedAchievements);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31 + ((m_Achievements != null) ? m_Achievements.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		if (m_Achievements != null && !inspectedDataModels.Contains(m_Achievements.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Achievements.GetHashCode());
+			hash = hash * 31 + m_Achievements.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_ID;
-		int num2 = ((num + m_ID.GetHashCode()) * 31 + ((m_DisplayedAchievements != null) ? m_DisplayedAchievements.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_ID.GetHashCode();
+		if (m_DisplayedAchievements != null && !inspectedDataModels.Contains(m_DisplayedAchievements.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_DisplayedAchievements.GetHashCode());
+			hash = hash * 31 + m_DisplayedAchievements.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_DisplayDelay;
 		return num2 + m_DisplayDelay.GetHashCode();
 	}

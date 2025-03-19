@@ -110,6 +110,9 @@ public class CardColorSwitcher : MonoBehaviour
 	[CustomEditField(Sections = "Battlegrounds Trinkets", T = EditType.TEXTURE)]
 	public List<string> battlegroundsTrinketCardTextures;
 
+	[CustomEditField(Sections = "Battlegrounds Anomalies", T = EditType.TEXTURE)]
+	public List<string> battlegroundsAnomalyCardTextures;
+
 	private void Awake()
 	{
 		s_instance = this;
@@ -307,6 +310,7 @@ public class CardColorSwitcher : MonoBehaviour
 			textures = locationCardTextures;
 			break;
 		case TAG_CARDTYPE.SPELL:
+		case TAG_CARDTYPE.BATTLEGROUND_CLICKABLE_BUTTON:
 			textures = spellCardTextures;
 			break;
 		case TAG_CARDTYPE.HERO:
@@ -323,6 +327,9 @@ public class CardColorSwitcher : MonoBehaviour
 			break;
 		case TAG_CARDTYPE.BATTLEGROUND_TRINKET:
 			textures = battlegroundsTrinketCardTextures;
+			break;
+		case TAG_CARDTYPE.BATTLEGROUND_ANOMALY:
+			textures = battlegroundsAnomalyCardTextures;
 			break;
 		case TAG_CARDTYPE.INVALID:
 		case TAG_CARDTYPE.BATTLEGROUND_QUEST_REWARD:

@@ -70,6 +70,14 @@ public class MobileChatLogFrame : MonoBehaviour
 
 	private Widget m_selectableMedalWidget;
 
+	private const int ADJUST_CLOSE_BTN_COLLIDER_DELAY = 2;
+
+	private const int CLOSE_BTN_COLLIDER_Y = 4;
+
+	private const int CLOSE_BTN_COLLIDER_X_OFFSET = 5;
+
+	private const int CLOSE_BTN_COLLIDER_X_FACTOR = 2;
+
 	public bool HasFocus => inputTextField.Active;
 
 	public BnetPlayer Receiver

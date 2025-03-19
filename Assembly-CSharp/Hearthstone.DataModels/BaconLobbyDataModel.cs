@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -323,29 +324,53 @@ public class BaconLobbyDataModel : DataModelEventDispatcher, IDataModel, IDataMo
 		RegisterNestedDataModel(m_LuckyDraw);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_Rating;
-		int num2 = (num + m_Rating.GetHashCode()) * 31;
+		hash = num + m_Rating.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_FirstPlaceFinishes;
-		int num3 = (num2 + m_FirstPlaceFinishes.GetHashCode()) * 31;
+		hash = num2 + m_FirstPlaceFinishes.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_Top4Finishes;
-		int num4 = (num3 + m_Top4Finishes.GetHashCode()) * 31;
+		hash = num3 + m_Top4Finishes.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_ShopOpen;
-		int num5 = (num4 + m_ShopOpen.GetHashCode()) * 31;
+		hash = num4 + m_ShopOpen.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_BattlegroundsSkinsEnabled;
-		int num6 = (num5 + m_BattlegroundsSkinsEnabled.GetHashCode()) * 31;
+		hash = num5 + m_BattlegroundsSkinsEnabled.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_HasNewProducts;
-		int num7 = (num6 + m_HasNewProducts.GetHashCode()) * 31;
+		hash = num6 + m_HasNewProducts.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_HasNewSkins;
-		int num8 = (num7 + m_HasNewSkins.GetHashCode()) * 31;
+		hash = num7 + m_HasNewSkins.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_BattlegroundsRewardTrackEnabled;
-		int num9 = ((num8 + m_BattlegroundsRewardTrackEnabled.GetHashCode()) * 31 + ((m_LuckyDraw != null) ? m_LuckyDraw.GetPropertiesHashCode() : 0)) * 31;
+		hash = num8 + m_BattlegroundsRewardTrackEnabled.GetHashCode();
+		if (m_LuckyDraw != null && !inspectedDataModels.Contains(m_LuckyDraw.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_LuckyDraw.GetHashCode());
+			hash = hash * 31 + m_LuckyDraw.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num9 = hash * 31;
 		_ = m_BattlegroundsInDuosMode;
-		int num10 = (num9 + m_BattlegroundsInDuosMode.GetHashCode()) * 31;
+		hash = num9 + m_BattlegroundsInDuosMode.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_FullyLoaded;
-		int num11 = (num10 + m_FullyLoaded.GetHashCode()) * 31;
+		hash = num10 + m_FullyLoaded.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_HasNewRules;
 		return num11 + m_HasNewRules.GetHashCode();
 	}

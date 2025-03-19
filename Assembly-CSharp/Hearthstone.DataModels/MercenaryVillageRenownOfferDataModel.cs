@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -66,8 +67,12 @@ public class MercenaryVillageRenownOfferDataModel : DataModelEventDispatcher, ID
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = (17 * 31 + ((m_OfferName != null) ? m_OfferName.GetHashCode() : 0)) * 31;
 		_ = m_RenownCost;
 		return num + m_RenownCost.GetHashCode();

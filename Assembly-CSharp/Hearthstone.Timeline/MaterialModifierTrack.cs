@@ -4,8 +4,8 @@ using UnityEngine.Timeline;
 
 namespace Hearthstone.Timeline;
 
-[TrackClipType(typeof(MaterialModifierAsset))]
 [TrackBindingType(typeof(Renderer))]
+[TrackClipType(typeof(MaterialModifierAsset))]
 public class MaterialModifierTrack : TrackAsset
 {
 	public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)

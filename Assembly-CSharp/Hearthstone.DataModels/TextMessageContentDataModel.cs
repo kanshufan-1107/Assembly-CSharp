@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -227,9 +228,37 @@ public class TextMessageContentDataModel : DataModelEventDispatcher, IDataModel,
 		RegisterNestedDataModel(m_TextMessageItemBountyDisplay);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (((((((17 * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_IconType != null) ? m_IconType.GetHashCode() : 0)) * 31 + ((m_BodyText != null) ? m_BodyText.GetHashCode() : 0)) * 31 + ((m_ImageMaterial != null) ? m_ImageMaterial.GetHashCode() : 0)) * 31 + ((m_TextMessageItemDisplay != null) ? m_TextMessageItemDisplay.GetPropertiesHashCode() : 0)) * 31 + ((m_ImageTexture != null) ? m_ImageTexture.GetHashCode() : 0)) * 31 + ((m_TextMessageItemBountyDisplay != null) ? m_TextMessageItemBountyDisplay.GetPropertiesHashCode() : 0)) * 31 + ((m_Url != null) ? m_Url.GetHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0);
+		hash = hash * 31 + ((m_IconType != null) ? m_IconType.GetHashCode() : 0);
+		hash = hash * 31 + ((m_BodyText != null) ? m_BodyText.GetHashCode() : 0);
+		hash = hash * 31 + ((m_ImageMaterial != null) ? m_ImageMaterial.GetHashCode() : 0);
+		if (m_TextMessageItemDisplay != null && !inspectedDataModels.Contains(m_TextMessageItemDisplay.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TextMessageItemDisplay.GetHashCode());
+			hash = hash * 31 + m_TextMessageItemDisplay.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_ImageTexture != null) ? m_ImageTexture.GetHashCode() : 0);
+		if (m_TextMessageItemBountyDisplay != null && !inspectedDataModels.Contains(m_TextMessageItemBountyDisplay.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TextMessageItemBountyDisplay.GetHashCode());
+			hash = hash * 31 + m_TextMessageItemBountyDisplay.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		return hash * 31 + ((m_Url != null) ? m_Url.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

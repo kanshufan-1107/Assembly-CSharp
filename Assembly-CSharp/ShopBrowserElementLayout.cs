@@ -34,8 +34,8 @@ public class ShopBrowserElementLayout : MonoBehaviour
 	[SerializeField]
 	private WidgetTransform m_centerWidgetTransform;
 
-	[SerializeField]
 	[Header("Corners")]
+	[SerializeField]
 	private BoundData m_topLeftCorner;
 
 	[SerializeField]
@@ -47,8 +47,8 @@ public class ShopBrowserElementLayout : MonoBehaviour
 	[SerializeField]
 	private BoundData m_bottomLeftCorner;
 
-	[Header("Edges")]
 	[SerializeField]
+	[Header("Edges")]
 	private BoundData m_topEdge;
 
 	[SerializeField]
@@ -60,8 +60,8 @@ public class ShopBrowserElementLayout : MonoBehaviour
 	[SerializeField]
 	private BoundData m_leftEdge;
 
-	[Header("Positioning")]
 	[SerializeField]
+	[Header("Positioning")]
 	private List<WidgetPositioningElement> m_positioningElements;
 
 	public void UpdateLayout(WidgetTransform target)

@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Create a dummy hand actor from a spell target.")]
+[ActionCategory("Pegasus")]
 public class CreateHandActorFromTargetAction : FsmStateAction
 {
 	[RequiredField]

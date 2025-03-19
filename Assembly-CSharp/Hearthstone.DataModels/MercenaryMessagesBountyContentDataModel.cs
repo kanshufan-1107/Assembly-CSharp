@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -123,9 +124,25 @@ public class MercenaryMessagesBountyContentDataModel : DataModelEventDispatcher,
 		RegisterNestedDataModel(m_Bounties);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (((17 * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_BodyText != null) ? m_BodyText.GetHashCode() : 0)) * 31 + ((m_Bounties != null) ? m_Bounties.GetPropertiesHashCode() : 0)) * 31 + ((m_Url != null) ? m_Url.GetHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0);
+		hash = hash * 31 + ((m_BodyText != null) ? m_BodyText.GetHashCode() : 0);
+		if (m_Bounties != null && !inspectedDataModels.Contains(m_Bounties.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Bounties.GetHashCode());
+			hash = hash * 31 + m_Bounties.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		return hash * 31 + ((m_Url != null) ? m_Url.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

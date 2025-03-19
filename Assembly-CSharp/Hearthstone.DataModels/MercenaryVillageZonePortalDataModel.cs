@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -242,8 +243,12 @@ public class MercenaryVillageZonePortalDataModel : DataModelEventDispatcher, IDa
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = (((17 * 31 + ((m_SelectedZoneTexture != null) ? m_SelectedZoneTexture.GetHashCode() : 0)) * 31 + ((m_SelectedZoneName != null) ? m_SelectedZoneName.GetHashCode() : 0)) * 31 + ((m_SelectedZoneDescription != null) ? m_SelectedZoneDescription.GetHashCode() : 0)) * 31;
 		_ = m_IsSelectedModeComingSoon;
 		int num2 = (num + m_IsSelectedModeComingSoon.GetHashCode()) * 31;

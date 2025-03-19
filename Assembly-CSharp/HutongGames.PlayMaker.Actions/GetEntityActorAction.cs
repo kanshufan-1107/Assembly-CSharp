@@ -7,8 +7,8 @@ public class GetEntityActorAction : FsmStateAction
 	public FsmInt m_EntityId;
 
 	[RequiredField]
-	[UIHint(UIHint.Variable)]
 	[Tooltip("Stores the Entity's actor in this output variable.")]
+	[UIHint(UIHint.Variable)]
 	public FsmGameObject m_EntityActor;
 
 	public override void Reset()

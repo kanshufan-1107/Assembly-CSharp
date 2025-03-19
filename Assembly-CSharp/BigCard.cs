@@ -522,7 +522,7 @@ public class BigCard : MonoBehaviour
 	private BigCardDisplay_RelativeBoardPosition GetBoardPositionOfPlayZoneCard()
 	{
 		Zone zone = m_card.GetZone();
-		if ((zone is ZonePlay || zone is ZoneHeroPower || zone is ZoneWeapon || zone is ZoneBattlegroundTrinket || m_card.GetEntity().IsBattlegroundTrinket()) && !m_card.GetEntity().IsLocation() && !m_card.GetEntity().IsMinion() && !m_card.GetEntity().IsBaconSpell())
+		if ((zone is ZonePlay || zone is ZoneHeroPower || zone is ZoneWeapon || zone is ZoneBattlegroundTrinket || m_card.GetEntity().IsBattlegroundTrinket() || m_card.GetEntity().IsAnomaly()) && !m_card.GetEntity().IsLocation() && !m_card.GetEntity().IsMinion() && !m_card.GetEntity().IsBaconSpell())
 		{
 			return BigCardDisplay_RelativeBoardPosition.IRRELEVANT;
 		}
@@ -604,6 +604,10 @@ public class BigCard : MonoBehaviour
 			{
 				scalar = platformScale.m_BigCardScale_TavernSpell;
 			}
+			else if (ent2.IsAnomaly())
+			{
+				scalar = platformScale.m_BigCardScale_BaconAnomaly;
+			}
 			else if (ent2.IsBattlegroundTrinket())
 			{
 				scalar = ((ent2.GetTag(GAME_TAG.TAG_SCRIPT_DATA_NUM_6) != 3) ? platformScale.m_BigCardScale_BaconTrinket : platformScale.m_BigCardScale_BaconTrinketHeropower);
@@ -659,16 +663,21 @@ public class BigCard : MonoBehaviour
 		keywordArgs.boneSource = boneSource;
 		KeywordArgs keywordArgs2 = keywordArgs;
 		BigCardDisplayBones bigCardBones = m_card.GetActor().GetComponentInChildren<BigCardDisplayBones>();
-		if (!(bigCardBones == null))
+		if (bigCardBones == null)
 		{
-			bigCardBones.GetRigForCurrentPlatform(out var _, out var platformScale);
-			float? overrideKeywordScale = null;
-			if (m_card.GetEntity().IsHeroPower())
-			{
-				overrideKeywordScale = 0.6f * platformScale.m_BigCardScale_Tooltip;
-			}
-			TooltipPanelManager.Get().UpdateKeywordHelp(keywordArgs2.card, keywordArgs2.actor, keywordArgs2.boneSource, overrideKeywordScale, null);
+			return;
 		}
+		bigCardBones.GetRigForCurrentPlatform(out var _, out var platformScale);
+		float? overrideKeywordScale = null;
+		if (m_card.GetEntity().IsHeroPower())
+		{
+			overrideKeywordScale = 0.6f;
+			if ((bool)UniversalInputManager.UsePhoneUI)
+			{
+				overrideKeywordScale *= platformScale.m_BigCardScale_Tooltip;
+			}
+		}
+		TooltipPanelManager.Get().UpdateKeywordHelp(keywordArgs2.card, keywordArgs2.actor, keywordArgs2.boneSource, overrideKeywordScale, null);
 	}
 
 	private void BigCardBones_ShowStateSpells()
@@ -815,6 +824,12 @@ public class BigCard : MonoBehaviour
 					extraBigCardBone = boneLayout.m_OuterRightBone;
 					tooltipBoneSource = TooltipPanelManager.TooltipBoneSource.TOP_LEFT;
 				}
+			}
+			else if (ent.IsAnomaly())
+			{
+				mainCardBone = boneLayout.m_InnerLeftBone;
+				extraBigCardBone = boneLayout.m_OuterLeftBone;
+				tooltipBoneSource = TooltipPanelManager.TooltipBoneSource.TOP_LEFT;
 			}
 			else
 			{
@@ -1165,7 +1180,7 @@ public class BigCard : MonoBehaviour
 			costHealthToBuy = true;
 			bigCardActor.ActivateSpellBirthState(SpellType.COST_HEALTH_TO_BUY);
 		}
-		if (!cardActor.UseCoinManaGem() || (entity != null && entity.IsAnomaly()) || (cardActor.GetEntity() != null && cardActor.GetEntity().IsBaconSpell() && costHealthToBuy))
+		if (!cardActor.UseCoinManaGem() || (cardActor.GetEntity() != null && cardActor.GetEntity().IsAnomaly()) || (cardActor.GetEntity() != null && cardActor.GetEntity().IsBaconSpell() && costHealthToBuy))
 		{
 			return;
 		}

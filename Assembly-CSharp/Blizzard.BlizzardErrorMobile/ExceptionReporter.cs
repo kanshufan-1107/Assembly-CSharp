@@ -165,7 +165,7 @@ public class ExceptionReporter : ILogHandler
 				return;
 			}
 		}
-		ExceptionLogger.LogInfo("ScreenshotPath: {0}", string.IsNullOrEmpty(ScreenshotPathName) ? Screenshot.ScreenshotPath : ScreenshotPathName);
+		ExceptionLogger.LogDebug("ScreenshotPath: {0}", string.IsNullOrEmpty(ScreenshotPathName) ? Screenshot.ScreenshotPath : ScreenshotPathName);
 		CleanScreenshotFiles();
 		DeserializeRecordedExceptions();
 		CallbackManager.RegisterExceptionHandler();
@@ -533,7 +533,7 @@ public class ExceptionReporter : ILogHandler
 				});
 				File.Delete(ExceptionReporterDataPath);
 				MergeRecordedExceptions();
-				ExceptionLogger.LogInfo("Loaded exception data from '" + ExceptionReporterDataPath + "'");
+				ExceptionLogger.LogInfo("Loaded exception data");
 			}
 		}
 		catch (Exception ex)
@@ -550,7 +550,7 @@ public class ExceptionReporter : ILogHandler
 			{
 				string json = JsonUtility.ToJson(m_recordedExceptions);
 				File.WriteAllText(ExceptionReporterDataPath, json);
-				ExceptionLogger.LogInfo("Saved exception data(Count: {0}) to '{1}'", m_recordedExceptions.m_records.Count, ExceptionReporterDataPath);
+				ExceptionLogger.LogInfo($"Saved exception data(Count: {m_recordedExceptions.m_records.Count})");
 			}
 		}
 		catch (Exception ex)

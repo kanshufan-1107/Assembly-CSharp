@@ -723,7 +723,7 @@ public class SceneDebugger : IService, IHasUpdate
 		float height = 3f * lineHeight + boxPadding;
 		GUI.Box(new Rect(space.xMin, space.yMin, m_GUISize.x, height), m_fpsText);
 		space.yMin += height;
-		string statStr = string.Format("Build: {0}.{1}\nServer: {2}", "31.4", 214839, Network.GetVersion());
+		string statStr = string.Format("Build: {0}.{1}\nServer: {2}", "31.6", 216423, Network.GetVersion());
 		height = 2f * lineHeight + boxPadding;
 		IGameDownloadManager downloadMgr = GameDownloadManagerProvider.Get();
 		if ((PlatformSettings.IsMobileRuntimeOS || (Application.isEditor && PlatformSettings.IsEmulating)) && downloadMgr != null)

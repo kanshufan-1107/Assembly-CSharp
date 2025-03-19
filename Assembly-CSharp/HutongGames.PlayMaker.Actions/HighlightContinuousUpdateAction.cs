@@ -10,8 +10,8 @@ public class HighlightContinuousUpdateAction : FsmStateAction
 	[Tooltip("GameObject to send highlight states to")]
 	public FsmOwnerDefault m_gameObj;
 
-	[RequiredField]
 	[Tooltip("Amount of time to render")]
+	[RequiredField]
 	public FsmFloat m_updateTime = 1f;
 
 	private DelayedEvent delayedEvent;

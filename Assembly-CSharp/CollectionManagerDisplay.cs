@@ -107,16 +107,16 @@ public class CollectionManagerDisplay : CollectibleDisplay
 	[CustomEditField(Sections = "CM Customization Ref")]
 	public GameObject m_bookBack;
 
-	[CustomEditField(Sections = "CM Customization Ref")]
 	[FormerlySerializedAs("m_tavernBrawlBookBackMesh")]
+	[CustomEditField(Sections = "CM Customization Ref")]
 	public Mesh m_customBookBackMesh;
 
-	[FormerlySerializedAs("m_tavernBrawlObjectsToSwap")]
 	[CustomEditField(Sections = "CM Customization Ref")]
+	[FormerlySerializedAs("m_tavernBrawlObjectsToSwap")]
 	public List<GameObject> m_customObjectsToSwap = new List<GameObject>();
 
-	[FormerlySerializedAs("m_corkBackTexture")]
 	[CustomEditField(Sections = "Tavern Brawl Changes", T = EditType.TEXTURE)]
+	[FormerlySerializedAs("m_corkBackTexture")]
 	public string m_tbCorkBackTexture;
 
 	[CustomEditField(Sections = "Tavern Brawl Changes")]
@@ -2620,7 +2620,7 @@ public class CollectionManagerDisplay : CollectibleDisplay
 			PegasusShared.FormatType ft = Options.GetFormatType();
 			if (ft == PegasusShared.FormatType.FT_UNKNOWN)
 			{
-				RankMgr.LogMessage("Options.GetFormatType() = FT_UNKOWN", "CreateDeckFromClipboard", "D:\\p4Workspace\\31.4.0\\Pegasus\\Client\\Assets\\Game\\CollectionManager\\CollectionManagerDisplay.cs", 3396);
+				RankMgr.LogMessage("Options.GetFormatType() = FT_UNKOWN", "CreateDeckFromClipboard", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Game\\CollectionManager\\CollectionManagerDisplay.cs", 3396);
 				return;
 			}
 			CollectionManager.s_PreHeroPickerFormat = ft;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -76,9 +77,28 @@ public class AdventureTreasureSatchelDataModel : DataModelEventDispatcher, IData
 		RegisterNestedDataModel(m_LoadoutOptions);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (17 * 31 + ((m_Cards != null) ? m_Cards.GetPropertiesHashCode() : 0)) * 31 + ((m_LoadoutOptions != null) ? m_LoadoutOptions.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Cards != null && !inspectedDataModels.Contains(m_Cards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Cards.GetHashCode());
+			hash = hash * 31 + m_Cards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_LoadoutOptions != null && !inspectedDataModels.Contains(m_LoadoutOptions.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_LoadoutOptions.GetHashCode());
+			return hash * 31 + m_LoadoutOptions.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

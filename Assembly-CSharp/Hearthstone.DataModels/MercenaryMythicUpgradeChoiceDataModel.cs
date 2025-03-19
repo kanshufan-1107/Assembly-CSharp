@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -151,15 +152,37 @@ public class MercenaryMythicUpgradeChoiceDataModel : DataModelEventDispatcher, I
 		RegisterNestedDataModel(m_NextTierAbilityChanges);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_MythicLevel;
-		int num2 = (num + m_MythicLevel.GetHashCode()) * 31;
+		hash = num + m_MythicLevel.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_LevelCount;
-		int num3 = (num2 + m_LevelCount.GetHashCode()) * 31;
+		hash = num2 + m_LevelCount.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_Cost;
-		return ((num3 + m_Cost.GetHashCode()) * 31 + ((m_UpgradeCard != null) ? m_UpgradeCard.GetPropertiesHashCode() : 0)) * 31 + ((m_NextTierAbilityChanges != null) ? m_NextTierAbilityChanges.GetPropertiesHashCode() : 0);
+		hash = num3 + m_Cost.GetHashCode();
+		if (m_UpgradeCard != null && !inspectedDataModels.Contains(m_UpgradeCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_UpgradeCard.GetHashCode());
+			hash = hash * 31 + m_UpgradeCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_NextTierAbilityChanges != null && !inspectedDataModels.Contains(m_NextTierAbilityChanges.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_NextTierAbilityChanges.GetHashCode());
+			return hash * 31 + m_NextTierAbilityChanges.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

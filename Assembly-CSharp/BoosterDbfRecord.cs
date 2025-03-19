@@ -90,6 +90,8 @@ public class BoosterDbfRecord : DbfRecord
 	[DbfField("CARD_SET_ID")]
 	public int CardSetId => m_cardSetId;
 
+	public CardSetDbfRecord CardSetRecord => GameDbf.CardSet.GetRecord(m_cardSetId);
+
 	[DbfField("LATEST_EXPANSION_ORDER")]
 	public int LatestExpansionOrder => m_latestExpansionOrder;
 

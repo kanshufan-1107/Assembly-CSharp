@@ -38,12 +38,12 @@ public class AdventureLogo : CustomWidgetBehavior
 
 	private const AdventureDbId FIRST_ADVENTURE = AdventureDbId.NAXXRAMAS;
 
-	[SerializeField]
 	[Tooltip("This is the adventure displayed by default. INVALID means nothing will be displayed.")]
+	[SerializeField]
 	private AdventureDbId m_defaultAdventure = AdventureDbId.NAXXRAMAS;
 
-	[SerializeField]
 	[Tooltip("Try to load the localized version of this texture first.")]
+	[SerializeField]
 	private bool m_localizeTexture = true;
 
 	[Tooltip("Display a shadow.")]
@@ -54,8 +54,8 @@ public class AdventureLogo : CustomWidgetBehavior
 	[SerializeField]
 	private Material m_logoBaseMaterial;
 
-	[SerializeField]
 	[Tooltip("Shadow Material to texture with.")]
+	[SerializeField]
 	private Material m_shadowBaseMaterial;
 
 	private AdventureLogoRenderData m_logoRenderData = new AdventureLogoRenderData();

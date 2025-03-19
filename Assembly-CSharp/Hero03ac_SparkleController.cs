@@ -28,8 +28,8 @@ public class Hero03ac_SparkleController : MonoBehaviour, ISerializationCallbackR
 
 	public AnimState[] StateWhitelist;
 
-	[Header("Glint Animation")]
 	[Min(0.1f)]
+	[Header("Glint Animation")]
 	public float GlintTime;
 
 	public float RotationRate;

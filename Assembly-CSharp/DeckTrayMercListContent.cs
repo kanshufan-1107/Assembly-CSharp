@@ -31,9 +31,9 @@ public class DeckTrayMercListContent : DeckTrayReorderableContent
 	[CustomEditField(Sections = "Other Objects")]
 	public PlayMakerFSM m_doneButtonPlayMaker;
 
+	[CustomEditField(Sections = "Interaction Settings")]
 	[Range(-1f, 1f)]
 	[Tooltip("Sensitivity of dragging towards the left direction that the merc would be removed from the list content")]
-	[CustomEditField(Sections = "Interaction Settings")]
 	public float m_dragRemoveDirectionSensitivity = 0.9f;
 
 	private VisualController m_mercLoadoutVisualController;

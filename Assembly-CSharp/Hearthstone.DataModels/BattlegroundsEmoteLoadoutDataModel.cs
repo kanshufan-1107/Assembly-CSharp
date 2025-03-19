@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -48,9 +49,19 @@ public class BattlegroundsEmoteLoadoutDataModel : DataModelEventDispatcher, IDat
 		RegisterNestedDataModel(m_EmoteList);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return 17 * 31 + ((m_EmoteList != null) ? m_EmoteList.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_EmoteList != null && !inspectedDataModels.Contains(m_EmoteList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_EmoteList.GetHashCode());
+			return hash * 31 + m_EmoteList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

@@ -17,16 +17,16 @@ public class AdventureChooserTray : AccordionMenuTray
 	[CustomEditField(Sections = "Sub Scene")]
 	public AdventureSubScene m_ParentSubScene;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Choose Frame")]
+	[SerializeField]
 	public GameObject m_ComingSoonCoverUpSign;
 
 	[SerializeField]
 	[CustomEditField(Sections = "Choose Frame")]
 	public UberText m_ComingSoonCoverUpSignHeaderText;
 
-	[CustomEditField(Sections = "Choose Frame")]
 	[SerializeField]
+	[CustomEditField(Sections = "Choose Frame")]
 	public UberText m_ComingSoonCoverUpSignDescriptionText;
 
 	public WidgetInstance m_replayableTutorialWidgetInstance;

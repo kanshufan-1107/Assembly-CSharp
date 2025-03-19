@@ -8,9 +8,9 @@ public class GetActorTagValueAction : FsmStateAction
 
 	public GAME_TAG m_tagToCheck;
 
-	[RequiredField]
-	[UIHint(UIHint.Variable)]
 	[Tooltip("Output variable.")]
+	[UIHint(UIHint.Variable)]
+	[RequiredField]
 	public FsmInt m_TagValue;
 
 	public override void Reset()

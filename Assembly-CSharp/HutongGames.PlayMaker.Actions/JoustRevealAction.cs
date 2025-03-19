@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Animate a card object out of the deck like joust")]
+[ActionCategory("Pegasus")]
 public class JoustRevealAction : FsmStateAction
 {
-	[RequiredField]
 	[Tooltip("Time it takes to reveal animation to finish")]
+	[RequiredField]
 	public float m_AnimateTime = 1.2f;
 
-	[RequiredField]
 	[Tooltip("Dummy card object to move")]
+	[RequiredField]
 	public FsmGameObject m_DummyCardObject;
 
 	[RequiredField]
@@ -23,8 +23,8 @@ public class JoustRevealAction : FsmStateAction
 	[Tooltip("In-deck position offset")]
 	public FsmVector3 m_DeckLocationOffset = new Vector3(0.15f, 0f, 0f);
 
-	[Tooltip("In-deck rotation offset")]
 	[RequiredField]
+	[Tooltip("In-deck rotation offset")]
 	public FsmVector3 m_DeckRotationOffset = new Vector3(0f, 0f, 180f);
 
 	[Tooltip("Initial delay")]

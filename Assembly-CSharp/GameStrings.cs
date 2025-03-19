@@ -634,6 +634,10 @@ public class GameStrings
 		{
 			TAG_CARD_SET.SPACE,
 			"GLOBAL_CARD_SET_GDB"
+		},
+		{
+			TAG_CARD_SET.EMERALD_DREAM,
+			"GLOBAL_CARD_SET_EDR"
 		}
 	};
 
@@ -838,6 +842,10 @@ public class GameStrings
 		{
 			TAG_CARD_SET.SPACE,
 			"GLOBAL_CARD_SET_GDB_SHORT"
+		},
+		{
+			TAG_CARD_SET.EMERALD_DREAM,
+			"GLOBAL_CARD_SET_EDR_SHORT"
 		}
 	};
 
@@ -986,6 +994,10 @@ public class GameStrings
 		{
 			TAG_CARD_SET.SPACE,
 			"GLOBAL_CARD_SET_GDB_SEARCHABLE_SHORTHAND_NAMES"
+		},
+		{
+			TAG_CARD_SET.EMERALD_DREAM,
+			"GLOBAL_CARD_SET_EDR_SEARCHABLE_SHORTHAND_NAMES"
 		}
 	};
 
@@ -1114,6 +1126,10 @@ public class GameStrings
 		{
 			TAG_SPELL_SCHOOL.GREATER_TRINKET,
 			"GLOBAL_SPELL_SCHOOL_GREATER_TRINKET"
+		},
+		{
+			TAG_SPELL_SCHOOL.UPGRADE,
+			"GLOBAL_SPELL_SCHOOL_UPGRADE"
 		}
 	};
 

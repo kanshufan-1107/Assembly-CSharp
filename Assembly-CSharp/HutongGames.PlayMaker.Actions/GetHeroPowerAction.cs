@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Use the spell to find the hero power")]
+[ActionCategory("Pegasus")]
 public class GetHeroPowerAction : FsmStateAction
 {
 	[Tooltip("FSM Object to store the Hero Power in when retrieved")]

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -433,25 +434,77 @@ public class LettuceMapDisplayDataModel : DataModelEventDispatcher, IDataModel, 
 		RegisterNestedDataModel(m_VisitorSelectionData);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (((17 * 31 + ((m_BossCard != null) ? m_BossCard.GetPropertiesHashCode() : 0)) * 31 + ((m_BossName != null) ? m_BossName.GetHashCode() : 0)) * 31 + ((m_FinalBossRewardList != null) ? m_FinalBossRewardList.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_BossCard != null && !inspectedDataModels.Contains(m_BossCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BossCard.GetHashCode());
+			hash = hash * 31 + m_BossCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_BossName != null) ? m_BossName.GetHashCode() : 0);
+		if (m_FinalBossRewardList != null && !inspectedDataModels.Contains(m_FinalBossRewardList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_FinalBossRewardList.GetHashCode());
+			hash = hash * 31 + m_FinalBossRewardList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_MapSeed;
-		int num2 = (num + m_MapSeed.GetHashCode()) * 31;
+		hash = num + m_MapSeed.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_RunEnded;
-		int num3 = ((num2 + m_RunEnded.GetHashCode()) * 31 + ((m_TreasureSelectionData != null) ? m_TreasureSelectionData.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_RunEnded.GetHashCode();
+		if (m_TreasureSelectionData != null && !inspectedDataModels.Contains(m_TreasureSelectionData.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TreasureSelectionData.GetHashCode());
+			hash = hash * 31 + m_TreasureSelectionData.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_SelectedTreasureChoices;
-		int num4 = (num3 + m_SelectedTreasureChoices.GetHashCode()) * 31;
+		hash = num3 + m_SelectedTreasureChoices.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_RunLost;
-		int num5 = (num4 + m_RunLost.GetHashCode()) * 31;
+		hash = num4 + m_RunLost.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_Heroic;
-		int num6 = (num5 + m_Heroic.GetHashCode()) * 31;
+		hash = num5 + m_Heroic.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_Tutorial;
-		int num7 = ((num6 + m_Tutorial.GetHashCode()) * 31 + ((m_BountySetWatermark != null) ? m_BountySetWatermark.GetHashCode() : 0)) * 31;
+		hash = num6 + m_Tutorial.GetHashCode();
+		hash = hash * 31 + ((m_BountySetWatermark != null) ? m_BountySetWatermark.GetHashCode() : 0);
+		int num7 = hash * 31;
 		_ = m_CurrentTurns;
-		int num8 = (num7 + m_CurrentTurns.GetHashCode()) * 31;
+		hash = num7 + m_CurrentTurns.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_FewestTurns;
-		int num9 = (((num8 + m_FewestTurns.GetHashCode()) * 31 + ((m_ZoneIdentifier != null) ? m_ZoneIdentifier.GetHashCode() : 0)) * 31 + ((m_VisitorSelectionData != null) ? m_VisitorSelectionData.GetPropertiesHashCode() : 0)) * 31;
+		hash = num8 + m_FewestTurns.GetHashCode();
+		hash = hash * 31 + ((m_ZoneIdentifier != null) ? m_ZoneIdentifier.GetHashCode() : 0);
+		if (m_VisitorSelectionData != null && !inspectedDataModels.Contains(m_VisitorSelectionData.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_VisitorSelectionData.GetHashCode());
+			hash = hash * 31 + m_VisitorSelectionData.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num9 = hash * 31;
 		_ = m_BonusRewardsActive;
 		return num9 + m_BonusRewardsActive.GetHashCode();
 	}

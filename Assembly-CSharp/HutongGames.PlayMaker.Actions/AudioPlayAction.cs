@@ -18,8 +18,8 @@ public class AudioPlayAction : FsmStateAction
 
 	public float m_Delay;
 
-	[Tooltip("Optionally play a one shot AudioClip.")]
 	[ObjectType(typeof(SoundDef))]
+	[Tooltip("Optionally play a one shot AudioClip.")]
 	public FsmObject m_OneShotSound;
 
 	[Tooltip("Event to send when the AudioSource finishes playing.")]

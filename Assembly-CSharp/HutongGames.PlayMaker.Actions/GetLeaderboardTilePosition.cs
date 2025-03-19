@@ -4,14 +4,14 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Stores the position of a player's leaderboard tile.")]
 public class GetLeaderboardTilePosition : FsmStateAction
 {
-	[RequiredField]
-	[UIHint(UIHint.Variable)]
 	[Tooltip("Which player's tile are we looking for?")]
+	[UIHint(UIHint.Variable)]
+	[RequiredField]
 	public FsmInt m_PlayerId;
 
 	[UIHint(UIHint.Variable)]
-	[Tooltip("Output variable.")]
 	[RequiredField]
+	[Tooltip("Output variable.")]
 	public FsmVector3 m_TilePosition;
 
 	public override void Reset()

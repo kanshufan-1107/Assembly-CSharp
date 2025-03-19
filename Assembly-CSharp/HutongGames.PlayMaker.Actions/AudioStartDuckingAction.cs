@@ -7,8 +7,8 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Start ducking one or more category of sounds.")]
 public class AudioStartDuckingAction : FsmStateAction
 {
-	[Tooltip("Game Object to responsible for ducking.")]
 	[RequiredField]
+	[Tooltip("Game Object to responsible for ducking.")]
 	public FsmOwnerDefault m_GameObject;
 
 	public SoundDuckedCategoryDef[] m_DuckedCategoryDefs;

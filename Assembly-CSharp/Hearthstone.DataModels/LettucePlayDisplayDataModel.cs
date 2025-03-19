@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -166,8 +167,12 @@ public class LettucePlayDisplayDataModel : DataModelEventDispatcher, IDataModel,
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_ChestCurrentWins;
 		int num2 = (num + m_ChestCurrentWins.GetHashCode()) * 31;

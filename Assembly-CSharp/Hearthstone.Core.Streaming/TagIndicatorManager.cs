@@ -131,7 +131,7 @@ public class TagIndicatorManager
 		string[] array = tagIndicatorFiles;
 		foreach (string tagIndicator in array)
 		{
-			Log.Downloader.PrintInfo("Delete the indicator - " + tagIndicator);
+			Log.Downloader.PrintInfo("Delete the indicator - " + Path.GetFileName(tagIndicator));
 			try
 			{
 				File.Delete(tagIndicator);

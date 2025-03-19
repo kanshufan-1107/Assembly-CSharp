@@ -190,7 +190,10 @@ public class TeammateDiscoverViewer : TeammateViewer
 	public void ChooseEntitySelected(TeammatesEntitiesChosen entityChosen)
 	{
 		m_chosenActor = m_entityActors[entityChosen.EntityID];
-		m_chosenActor.gameObject.SetActive(value: true);
+		if (m_chosenActor != null)
+		{
+			m_chosenActor.gameObject.SetActive(value: true);
+		}
 		ToggleTrinketShopActive(active: false);
 		SetToggleButtonActive(m_discoverToggleButton, active: false);
 		DeleteEntities(includeChosen: false);

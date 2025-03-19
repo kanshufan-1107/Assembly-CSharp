@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -76,9 +77,28 @@ public class LettuceVisitorSelectionDataModel : DataModelEventDispatcher, IDataM
 		RegisterNestedDataModel(m_TaskOptions);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (17 * 31 + ((m_VisitorOptions != null) ? m_VisitorOptions.GetPropertiesHashCode() : 0)) * 31 + ((m_TaskOptions != null) ? m_TaskOptions.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_VisitorOptions != null && !inspectedDataModels.Contains(m_VisitorOptions.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_VisitorOptions.GetHashCode());
+			hash = hash * 31 + m_VisitorOptions.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TaskOptions != null && !inspectedDataModels.Contains(m_TaskOptions.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TaskOptions.GetHashCode());
+			return hash * 31 + m_TaskOptions.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

@@ -19,8 +19,8 @@ public class WidgetTransformAnchor : WidgetPositioningElement
 		BottomRight
 	}
 
-	[Header("Components")]
 	[SerializeField]
+	[Header("Components")]
 	private WidgetTransform m_targetWidgetTransform;
 
 	[SerializeField]
@@ -36,8 +36,8 @@ public class WidgetTransformAnchor : WidgetPositioningElement
 	[SerializeField]
 	private bool m_stretchY;
 
-	[SerializeField]
 	[Header("Anchor Offsets")]
+	[SerializeField]
 	private Vector2 m_originOffset;
 
 	[Header("Stretch Offsets")]

@@ -264,6 +264,11 @@ public class TimeUtils
 			timeType = ElapsedTimeType.MONTH_AGO;
 			time = months + 1;
 		}
+		else if ((double)days <= 14.5)
+		{
+			timeType = ElapsedTimeType.DAYS;
+			time = days;
+		}
 		else if (weeks > 0)
 		{
 			timeType = ElapsedTimeType.WEEKS;

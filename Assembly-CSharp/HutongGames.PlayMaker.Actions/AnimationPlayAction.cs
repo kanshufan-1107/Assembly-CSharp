@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Plays an Animation on a Game Object and waits for the animation to finish.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Plays an Animation on a Game Object and waits for the animation to finish.")]
 public class AnimationPlayAction : FsmStateAction
 {
-	[Tooltip("Game Object to play the animation on.")]
 	[RequiredField]
+	[Tooltip("Game Object to play the animation on.")]
 	[CheckForComponent(typeof(Animation))]
 	public FsmOwnerDefault m_GameObject;
 
-	[UIHint(UIHint.Animation)]
 	[Tooltip("The name of the animation to play.")]
+	[UIHint(UIHint.Animation)]
 	public FsmString m_AnimName;
 
 	public FsmString m_PhoneAnimName;
@@ -22,8 +22,8 @@ public class AnimationPlayAction : FsmStateAction
 	[Tooltip("How to treat previously playing animations.")]
 	public PlayMode m_PlayMode;
 
-	[HasFloatSlider(0f, 5f)]
 	[Tooltip("Time taken to cross fade to this animation.")]
+	[HasFloatSlider(0f, 5f)]
 	public FsmFloat m_CrossFadeSec;
 
 	[Tooltip("Event to send when the animation is finished playing. NOTE: Not sent with Loop or PingPong wrap modes!")]

@@ -642,6 +642,7 @@ public class RewardFactory
 				return null;
 			}
 			dataModel.ItemType = record.RewardType.ToRewardItemType();
+			dataModel.ItemId = record.RandomCardBoosterCardSet;
 			dataModel.RandomCard = new RandomCardDataModel
 			{
 				Premium = (TAG_PREMIUM)record.CardPremiumLevel,

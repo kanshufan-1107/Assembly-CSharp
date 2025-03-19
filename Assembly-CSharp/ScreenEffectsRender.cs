@@ -3,7 +3,7 @@ using UnityEngine;
 [ExecuteAlways]
 public class ScreenEffectsRender : MonoBehaviour
 {
-	private const int GLOW_RANDER_BUFFER_RESOLUTION = 256;
+	private const int GLOW_RANDER_BUFFER_RESOLUTION = 512;
 
 	public Camera m_EffectsObjectsCamera;
 
@@ -36,8 +36,8 @@ public class ScreenEffectsRender : MonoBehaviour
 			return;
 		}
 		float ratio = (float)Screen.width / (float)Screen.height;
-		int glowWidth = (int)(256f * ratio);
-		int glowHeight = 256;
+		int glowWidth = (int)(512f * ratio);
+		int glowHeight = 512;
 		if (glowWidth != m_previousWidth || glowHeight != m_previousHeight)
 		{
 			RenderTextureTracker.Get().DestroyRenderTexture(m_MaskRenderTexture);

@@ -95,7 +95,7 @@ internal abstract class BaseContextData
 	public BaseContextData()
 	{
 		m_connectionType = ((!GetTelemetryHost.Equals(ProductionUrl, StringComparison.InvariantCultureIgnoreCase)) ? TelemetryConnectionType.Internal : TelemetryConnectionType.Production);
-		m_programVersion = $"{31}.{4}.{0}.{214839}";
+		m_programVersion = $"{31}.{6}.{0}.{216423}";
 		m_battleNetId = BnetUtils.TryGetBnetAccountId();
 		m_battleNetRegion = (int?)BnetUtils.TryGetGameRegion();
 		m_telemetryDisabled = Vars.Key("Telemetry.Enabled").GetBool(def: true);

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Shakes a camera over time.")]
+[ActionCategory("Pegasus")]
 public class CameraShakerAction : CameraAction
 {
 	public WhichCamera m_WhichCamera;

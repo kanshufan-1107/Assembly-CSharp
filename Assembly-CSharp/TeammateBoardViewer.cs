@@ -579,52 +579,9 @@ public class TeammateBoardViewer : MonoBehaviour
 		}
 	}
 
-	public void SetPortalGlow(Card heldCard, bool passable)
-	{
-		if (!(m_duosPortal == null))
-		{
-			m_duosPortal.ShowPortalGlow(heldCard, passable);
-		}
-	}
-
-	public void ClearPortalGlow()
-	{
-		if (!(m_duosPortal == null))
-		{
-			m_duosPortal.ClearPortalGlow();
-		}
-	}
-
-	public bool IsInPassActionArea(Vector3 pos)
-	{
-		if (m_duosPortal == null)
-		{
-			return false;
-		}
-		return m_duosPortal.GetComponent<BoxCollider>().bounds.Contains(pos);
-	}
-
-	public Vector3 GetPortalPosition()
-	{
-		if (m_duosPortal == null)
-		{
-			return Vector3.zero;
-		}
-		return m_duosPortal.transform.position;
-	}
-
 	public Vector3 GetPortalOriginalPosition()
 	{
 		return m_duosPortalSwap.GetOriginalPosition();
-	}
-
-	public GameObject GetPortal()
-	{
-		if (m_duosPortal == null)
-		{
-			return null;
-		}
-		return m_duosPortal.gameObject;
 	}
 
 	public Vector3 GetTeammateBoardPosition()

@@ -2,12 +2,12 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Used to control the state of the Pegasus Highlight system")]
+[ActionCategory("Pegasus")]
 public class HighlightUpdateAction : FsmStateAction
 {
-	[RequiredField]
 	[Tooltip("GameObject to send highlight states to")]
+	[RequiredField]
 	public FsmOwnerDefault m_gameObj;
 
 	private DelayedEvent delayedEvent;

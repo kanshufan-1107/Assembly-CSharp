@@ -235,7 +235,7 @@ public class Banner : MonoBehaviour
 		}
 	}
 
-	public void SetBaconAnomalyBannerText(string text, string desc, int anomalyDBID)
+	public void SetBaconAnomalyBannerText(string text, string desc, int anomalyDBID, Vector3 descPosition)
 	{
 		m_bannerDefault.SetActive(value: false);
 		m_bannerBaconAnomaly.SetActive(value: true);
@@ -243,6 +243,10 @@ public class Banner : MonoBehaviour
 		if (desc != null)
 		{
 			m_captionBaconAnomaly.Text = desc;
+		}
+		if (descPosition != Vector3.zero)
+		{
+			m_captionBaconAnomaly.transform.localPosition = descPosition;
 		}
 		LoadBGAnomalyActors(anomalyDBID);
 	}
@@ -357,15 +361,24 @@ public class Banner : MonoBehaviour
 		using (DefLoader.DisposableFullDef entityfullDef = DefLoader.Get().GetFullDef(databaseID))
 		{
 			actor.SetFullDef(entityfullDef);
-			if (entityfullDef != null && entityfullDef.EntityDef.GetTag(GAME_TAG.TECH_LEVEL) != 0)
+			if (entityfullDef != null)
 			{
-				actor.m_manaObject.SetActive(value: false);
-				Spell techLevelSpell = actor.GetSpell(SpellType.TECH_LEVEL_MANA_GEM);
-				if (techLevelSpell != null)
+				if (entityfullDef.EntityDef.GetTag(GAME_TAG.TECH_LEVEL) != 0)
 				{
-					techLevelSpell.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("TechLevel").Value = actor.GetEntityDef().GetTechLevel();
-					techLevelSpell.ActivateState(SpellStateType.BIRTH);
+					actor.m_manaObject.SetActive(value: false);
+					actor.SetShowCostOverride(-1);
+					Spell techLevelSpell = actor.GetSpell(SpellType.TECH_LEVEL_MANA_GEM);
+					if (techLevelSpell != null)
+					{
+						techLevelSpell.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("TechLevel").Value = actor.GetEntityDef().GetTechLevel();
+						techLevelSpell.ActivateState(SpellStateType.BIRTH);
+					}
 				}
+				else
+				{
+					actor.ShowCoinManaGem();
+				}
+				actor.SetUnlit();
 			}
 		}
 		GameObject EvolutionVFX = GameObjectUtils.FindChildBySubstring(go, "EvolutionVFX");

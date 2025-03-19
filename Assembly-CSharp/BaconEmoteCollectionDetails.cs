@@ -15,16 +15,16 @@ public class BaconEmoteCollectionDetails : BaconCollectionDetails
 	private float m_entranceDelaySeconds;
 
 	[SerializeField]
-	[Min(0f)]
 	[Tooltip("Number of seconds to wait in between consecutive loops of the emote")]
+	[Min(0f)]
 	private float m_intervalDelaySeconds;
 
 	[SerializeField]
 	[Tooltip("If true, emote will pause on the first frame before starting. If false, emote will pause on the animation's configured display frame before starting")]
 	private bool m_shouldStartOnFirstFrame;
 
-	[Tooltip("If true, emote will transition to the first frame before starting the interval delay between loops (if one exists). If false, stay on last frame")]
 	[SerializeField]
+	[Tooltip("If true, emote will transition to the first frame before starting the interval delay between loops (if one exists). If false, stay on last frame")]
 	private bool m_shouldFinishOnFirstFrame;
 
 	private BattlegroundsEmoteDataModel m_dataModel;

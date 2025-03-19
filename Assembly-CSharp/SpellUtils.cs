@@ -93,6 +93,8 @@ public class SpellUtils
 			return zm.FindZonesOfType<Zone, ZoneGraveyard>();
 		case SpellZoneTag.SECRET:
 			return zm.FindZonesOfType<Zone, ZoneSecret>();
+		case SpellZoneTag.BACON_CLICKABLE_BUTTON:
+			return zm.FindZonesOfType<Zone, ZoneBattlegroundClickableButton>();
 		default:
 			Debug.LogWarning($"SpellUtils.FindZonesFromTag() - unhandled zoneTag {zoneTag}");
 			return null;
@@ -138,6 +140,8 @@ public class SpellUtils
 				return ZoneMgr.Get().FindZonesOfType<Zone, ZoneGraveyard>(playerSide);
 			case SpellZoneTag.SECRET:
 				return ZoneMgr.Get().FindZonesOfType<Zone, ZoneSecret>(playerSide);
+			case SpellZoneTag.BACON_CLICKABLE_BUTTON:
+				return ZoneMgr.Get().FindZonesOfType<Zone, ZoneBattlegroundClickableButton>(playerSide);
 			default:
 				Debug.LogWarning($"SpellUtils.FindZonesFromTag() - Unhandled zoneTag {zoneTag}. spellSide={spellSide} playerSide={playerSide}");
 				return null;
@@ -507,9 +511,9 @@ public class SpellUtils
 				locationObject = weaponCard2.gameObject;
 			}
 		}
-		else if (location == SpellLocation.FRIENDLY_HERO_BUDDY)
+		else if (location == SpellLocation.FRIENDLY_HERO_BUDDY || location == SpellLocation.OPPONENT_HERO_BUDDY)
 		{
-			Player player7 = FindFriendlyPlayer(spell);
+			Player player7 = ((location == SpellLocation.FRIENDLY_BACON_CLICKABLE_BUTTON) ? FindFriendlyPlayer(spell) : FindOpponentPlayer(spell));
 			if (player7 == null)
 			{
 				return null;
@@ -529,26 +533,26 @@ public class SpellUtils
 				locationObject = heroBuddyCard.gameObject;
 			}
 		}
-		else if (location == SpellLocation.OPPONENT_HERO_BUDDY)
+		else if (location == SpellLocation.FRIENDLY_BACON_CLICKABLE_BUTTON || location == SpellLocation.OPPONENT_BACON_CLICKABLE_BUTTON)
 		{
-			Player player8 = FindOpponentPlayer(spell);
+			Player player8 = ((location == SpellLocation.FRIENDLY_BACON_CLICKABLE_BUTTON) ? FindFriendlyPlayer(spell) : FindOpponentPlayer(spell));
 			if (player8 == null)
 			{
 				return null;
 			}
-			Card heroBuddyCard2 = player8.GetHeroBuddyCard();
-			if (!heroBuddyCard2)
+			Card baconClickableButtonCard = player8.GetBaconClickableButtonCard();
+			if (!baconClickableButtonCard)
 			{
-				ZoneBattlegroundHeroBuddy zoneHeroBuddy2 = ZoneMgr.Get().FindZoneOfType<ZoneBattlegroundHeroBuddy>(player8.GetSide());
-				if (!zoneHeroBuddy2)
+				ZoneBattlegroundClickableButton zoneBaconClickableButton = ZoneMgr.Get().FindZoneOfType<ZoneBattlegroundClickableButton>(player8.GetSide());
+				if (zoneBaconClickableButton == null)
 				{
 					return null;
 				}
-				locationObject = zoneHeroBuddy2.gameObject;
+				locationObject = zoneBaconClickableButton.gameObject;
 			}
 			else
 			{
-				locationObject = heroBuddyCard2.gameObject;
+				locationObject = baconClickableButtonCard.gameObject;
 			}
 		}
 		else if (location == SpellLocation.FRIENDLY_QUEST_REWARD || location == SpellLocation.FRIENDLY_QUEST_REWARD_HERO_POWER || location == SpellLocation.OPPONENT_QUEST_REWARD || location == SpellLocation.OPPONENT_QUEST_REWARD_HERO_POWER)
@@ -1105,7 +1109,16 @@ public class SpellUtils
 		}
 		case TAG_CARDTYPE.HERO_POWER:
 		{
-			Card heroPowerCard = entity.GetController().GetHeroPowerCard();
+			Player player = entity.GetController();
+			if (entity.HasTag(GAME_TAG.ADDITIONAL_HERO_POWER_INDEX))
+			{
+				Card hpCard = player.GetHeroPowerCardWithIndex(entity.GetTag(GAME_TAG.ADDITIONAL_HERO_POWER_INDEX));
+				if (hpCard != null)
+				{
+					return hpCard.gameObject;
+				}
+			}
+			Card heroPowerCard = player.GetHeroPowerCard();
 			if (heroPowerCard == null)
 			{
 				return card.gameObject;

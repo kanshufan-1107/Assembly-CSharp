@@ -6,17 +6,17 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Enables an Animator and plays one of its states and waits for it to complete.")]
 public class AnimatorPlaythroughAction : FsmStateAction
 {
-	[RequiredField]
 	[CheckForComponent(typeof(Animator))]
 	[Tooltip("Game Object to play the animation on.")]
+	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
 	public FsmString m_StateName;
 
 	public FsmString m_LayerName;
 
-	[Tooltip("Percent of time into the animation at which to start playing.")]
 	[HasFloatSlider(0f, 100f)]
+	[Tooltip("Percent of time into the animation at which to start playing.")]
 	public FsmFloat m_StartTimePercent;
 
 	private AnimatorStateInfo m_currentAnimationState;

@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[ExecuteAlways]
 [CustomEditClass]
+[ExecuteAlways]
 public class UIBFollowObject : MonoBehaviour
 {
 	public GameObject m_rootObject;

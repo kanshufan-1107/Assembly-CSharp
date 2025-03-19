@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -98,11 +99,26 @@ public class BattlegroundsDuosTeamBuilderPlayerDataModel : DataModelEventDispatc
 		RegisterNestedDataModel(m_GameAccountId);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_BattlegroundsDuosRating;
-		return ((num + m_BattlegroundsDuosRating.GetHashCode()) * 31 + ((m_GameAccountId != null) ? m_GameAccountId.GetPropertiesHashCode() : 0)) * 31 + ((m_DisplayName != null) ? m_DisplayName.GetHashCode() : 0);
+		hash = num + m_BattlegroundsDuosRating.GetHashCode();
+		if (m_GameAccountId != null && !inspectedDataModels.Contains(m_GameAccountId.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_GameAccountId.GetHashCode());
+			hash = hash * 31 + m_GameAccountId.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		return hash * 31 + ((m_DisplayName != null) ? m_DisplayName.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -151,13 +152,38 @@ public class TavernGuideDataModel : DataModelEventDispatcher, IDataModel, IDataM
 		RegisterNestedDataModel(m_SelectedTavernGuideQuestSet);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_TavernGuideQuestSetCategories != null) ? m_TavernGuideQuestSetCategories.GetPropertiesHashCode() : 0)) * 31 + ((m_SelectedTavernGuideQuestSet != null) ? m_SelectedTavernGuideQuestSet.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_TavernGuideQuestSetCategories != null && !inspectedDataModels.Contains(m_TavernGuideQuestSetCategories.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TavernGuideQuestSetCategories.GetHashCode());
+			hash = hash * 31 + m_TavernGuideQuestSetCategories.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_SelectedTavernGuideQuestSet != null && !inspectedDataModels.Contains(m_SelectedTavernGuideQuestSet.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_SelectedTavernGuideQuestSet.GetHashCode());
+			hash = hash * 31 + m_SelectedTavernGuideQuestSet.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_SelectedCategoryIndex;
-		int num2 = (num + m_SelectedCategoryIndex.GetHashCode()) * 31;
+		hash = num + m_SelectedCategoryIndex.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_SelectedQuestSetIndex;
-		int num3 = (num2 + m_SelectedQuestSetIndex.GetHashCode()) * 31;
+		hash = num2 + m_SelectedQuestSetIndex.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_IsOpening;
 		return num3 + m_IsOpening.GetHashCode();
 	}

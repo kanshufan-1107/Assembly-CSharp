@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class DeckOptionsMenu : MonoBehaviour
 {
-	[Header("Tray")]
 	[SerializeField]
+	[Header("Tray")]
 	private GameObject m_root;
 
 	[SerializeField]
@@ -17,8 +17,8 @@ public class DeckOptionsMenu : MonoBehaviour
 	[SerializeField]
 	private GameObject m_bottom;
 
-	[Header("Buttons")]
 	[SerializeField]
+	[Header("Buttons")]
 	private PegUIElement m_renameButton;
 
 	[SerializeField]

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Loads and Plays a Sound Prefab.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioLoadAndPlayAction : FsmStateAction
 {
 	[Tooltip("Optional. If specified, the generated Audio Source will be attached to this object.")]
@@ -12,8 +12,8 @@ public class AudioLoadAndPlayAction : FsmStateAction
 	[RequiredField]
 	public FsmString m_PrefabName;
 
-	[Tooltip("Optional. Scales the volume of the loaded sound.")]
 	[HasFloatSlider(0f, 1f)]
+	[Tooltip("Optional. Scales the volume of the loaded sound.")]
 	public FsmFloat m_VolumeScale;
 
 	public override void Reset()

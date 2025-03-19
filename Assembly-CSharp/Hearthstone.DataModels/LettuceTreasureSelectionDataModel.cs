@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -235,13 +236,65 @@ public class LettuceTreasureSelectionDataModel : DataModelEventDispatcher, IData
 		RegisterNestedDataModel(m_ChoiceMercenaryTreasure);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (((((17 * 31 + ((m_TreasureOptions != null) ? m_TreasureOptions.GetPropertiesHashCode() : 0)) * 31 + ((m_Mercenaries != null) ? m_Mercenaries.GetPropertiesHashCode() : 0)) * 31 + ((m_MercenaryTreasure != null) ? m_MercenaryTreasure.GetPropertiesHashCode() : 0)) * 31 + ((m_ChoiceMercenary != null) ? m_ChoiceMercenary.GetPropertiesHashCode() : 0)) * 31 + ((m_ChoiceMercenaryTreasure != null) ? m_ChoiceMercenaryTreasure.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_TreasureOptions != null && !inspectedDataModels.Contains(m_TreasureOptions.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TreasureOptions.GetHashCode());
+			hash = hash * 31 + m_TreasureOptions.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Mercenaries != null && !inspectedDataModels.Contains(m_Mercenaries.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Mercenaries.GetHashCode());
+			hash = hash * 31 + m_Mercenaries.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_MercenaryTreasure != null && !inspectedDataModels.Contains(m_MercenaryTreasure.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MercenaryTreasure.GetHashCode());
+			hash = hash * 31 + m_MercenaryTreasure.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_ChoiceMercenary != null && !inspectedDataModels.Contains(m_ChoiceMercenary.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ChoiceMercenary.GetHashCode());
+			hash = hash * 31 + m_ChoiceMercenary.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_ChoiceMercenaryTreasure != null && !inspectedDataModels.Contains(m_ChoiceMercenaryTreasure.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ChoiceMercenaryTreasure.GetHashCode());
+			hash = hash * 31 + m_ChoiceMercenaryTreasure.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_ChoiceMercenaryHasTreasure;
-		int num2 = (num + m_ChoiceMercenaryHasTreasure.GetHashCode()) * 31;
+		hash = num + m_ChoiceMercenaryHasTreasure.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_ChoiceMercenaryHasUpgrade;
-		int num3 = (num2 + m_ChoiceMercenaryHasUpgrade.GetHashCode()) * 31;
+		hash = num2 + m_ChoiceMercenaryHasUpgrade.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_TreasureSelected;
 		return num3 + m_TreasureSelected.GetHashCode();
 	}

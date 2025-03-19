@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Hides a widget on a game object.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Hides a widget on a game object.")]
 public class WidgetHideAction : FsmStateAction
 {
 	[Tooltip("Game object containing the widget to hide.")]

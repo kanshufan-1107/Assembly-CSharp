@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -619,33 +620,124 @@ public class BaconStatsPageDataModel : DataModelEventDispatcher, IDataModel, IDa
 		RegisterNestedDataModel(m_PastGames);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_TriplesCreated;
-		int num2 = (num + m_TriplesCreated.GetHashCode()) * 31;
+		hash = num + m_TriplesCreated.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_Top4Finishes;
-		int num3 = (num2 + m_Top4Finishes.GetHashCode()) * 31;
+		hash = num2 + m_Top4Finishes.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_MinionsDestroyed;
-		int num4 = (num3 + m_MinionsDestroyed.GetHashCode()) * 31;
+		hash = num3 + m_MinionsDestroyed.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_FirstPlaceFinishes;
-		int num5 = (num4 + m_FirstPlaceFinishes.GetHashCode()) * 31;
+		hash = num4 + m_FirstPlaceFinishes.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_TavernUpgrades;
-		int num6 = (num5 + m_TavernUpgrades.GetHashCode()) * 31;
+		hash = num5 + m_TavernUpgrades.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_PlayersEliminated;
-		int num7 = (num6 + m_PlayersEliminated.GetHashCode()) * 31;
+		hash = num6 + m_PlayersEliminated.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_DamageInOneTurn;
-		int num8 = ((num7 + m_DamageInOneTurn.GetHashCode()) * 31 + ((m_BiggestMinionId != null) ? m_BiggestMinionId.GetPropertiesHashCode() : 0)) * 31;
+		hash = num7 + m_DamageInOneTurn.GetHashCode();
+		if (m_BiggestMinionId != null && !inspectedDataModels.Contains(m_BiggestMinionId.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BiggestMinionId.GetHashCode());
+			hash = hash * 31 + m_BiggestMinionId.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num8 = hash * 31;
 		_ = m_BiggestMinionAttack;
-		int num9 = (num8 + m_BiggestMinionAttack.GetHashCode()) * 31;
+		hash = num8 + m_BiggestMinionAttack.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_BiggestMinionHealth;
-		int num10 = (num9 + m_BiggestMinionHealth.GetHashCode()) * 31;
+		hash = num9 + m_BiggestMinionHealth.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_SecondsPlayed;
-		int num11 = (num10 + m_SecondsPlayed.GetHashCode()) * 31;
+		hash = num10 + m_SecondsPlayed.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_LongestWinStreak;
-		int num12 = ((((((((((num11 + m_LongestWinStreak.GetHashCode()) * 31 + ((m_MostBoughtMinionsCardIds != null) ? m_MostBoughtMinionsCardIds.GetPropertiesHashCode() : 0)) * 31 + ((m_MostBoughtMinionsCount != null) ? m_MostBoughtMinionsCount.GetPropertiesHashCode() : 0)) * 31 + ((m_TopHeroesByWinCardIds != null) ? m_TopHeroesByWinCardIds.GetPropertiesHashCode() : 0)) * 31 + ((m_TopHeroesByWinCount != null) ? m_TopHeroesByWinCount.GetPropertiesHashCode() : 0)) * 31 + ((m_TopHeroesByGamesPlayedCardIds != null) ? m_TopHeroesByGamesPlayedCardIds.GetPropertiesHashCode() : 0)) * 31 + ((m_TopHeroesByGamesPlayedCount != null) ? m_TopHeroesByGamesPlayedCount.GetPropertiesHashCode() : 0)) * 31 + ((m_TimePlayedString != null) ? m_TimePlayedString.GetHashCode() : 0)) * 31 + ((m_BiggestMinionString != null) ? m_BiggestMinionString.GetHashCode() : 0)) * 31 + ((m_PastGames != null) ? m_PastGames.GetPropertiesHashCode() : 0)) * 31;
+		hash = num11 + m_LongestWinStreak.GetHashCode();
+		if (m_MostBoughtMinionsCardIds != null && !inspectedDataModels.Contains(m_MostBoughtMinionsCardIds.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MostBoughtMinionsCardIds.GetHashCode());
+			hash = hash * 31 + m_MostBoughtMinionsCardIds.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_MostBoughtMinionsCount != null && !inspectedDataModels.Contains(m_MostBoughtMinionsCount.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MostBoughtMinionsCount.GetHashCode());
+			hash = hash * 31 + m_MostBoughtMinionsCount.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TopHeroesByWinCardIds != null && !inspectedDataModels.Contains(m_TopHeroesByWinCardIds.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TopHeroesByWinCardIds.GetHashCode());
+			hash = hash * 31 + m_TopHeroesByWinCardIds.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TopHeroesByWinCount != null && !inspectedDataModels.Contains(m_TopHeroesByWinCount.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TopHeroesByWinCount.GetHashCode());
+			hash = hash * 31 + m_TopHeroesByWinCount.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TopHeroesByGamesPlayedCardIds != null && !inspectedDataModels.Contains(m_TopHeroesByGamesPlayedCardIds.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TopHeroesByGamesPlayedCardIds.GetHashCode());
+			hash = hash * 31 + m_TopHeroesByGamesPlayedCardIds.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_TopHeroesByGamesPlayedCount != null && !inspectedDataModels.Contains(m_TopHeroesByGamesPlayedCount.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TopHeroesByGamesPlayedCount.GetHashCode());
+			hash = hash * 31 + m_TopHeroesByGamesPlayedCount.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_TimePlayedString != null) ? m_TimePlayedString.GetHashCode() : 0);
+		hash = hash * 31 + ((m_BiggestMinionString != null) ? m_BiggestMinionString.GetHashCode() : 0);
+		if (m_PastGames != null && !inspectedDataModels.Contains(m_PastGames.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_PastGames.GetHashCode());
+			hash = hash * 31 + m_PastGames.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num12 = hash * 31;
 		_ = m_CardsPassed;
-		int num13 = (num12 + m_CardsPassed.GetHashCode()) * 31;
+		hash = num12 + m_CardsPassed.GetHashCode();
+		int num13 = hash * 31;
 		_ = m_PingsSent;
 		return num13 + m_PingsSent.GetHashCode();
 	}

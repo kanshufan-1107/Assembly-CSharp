@@ -7,20 +7,20 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Basic cleanup for a custom spawn effect.\n\nMakes Actor a sibling of Owner. (Switches Actor back to its original parent.).\n\nNote: Only use this if you also used InitializeCustomSpawn.")]
 public class FinalizeCustomSpawn : FsmStateAction
 {
-	[Tooltip("Actor.")]
 	[RequiredField]
+	[Tooltip("Actor.")]
 	public FsmGameObject actor;
 
 	[Tooltip("Whether or not to reset Actor's local position to 0,0,0 after parenting.")]
 	[UIHint(UIHint.FsmBool)]
 	public FsmBool resetActorPosition;
 
-	[Tooltip("Whether or not to reset Actor's local rotation to 0,0,0 after parenting.")]
 	[UIHint(UIHint.FsmBool)]
+	[Tooltip("Whether or not to reset Actor's local rotation to 0,0,0 after parenting.")]
 	public FsmBool resetActorRotation;
 
-	[Tooltip("Whether or not to reset Actor's local scale to 1,1,1 after parenting.")]
 	[UIHint(UIHint.FsmBool)]
+	[Tooltip("Whether or not to reset Actor's local scale to 1,1,1 after parenting.")]
 	public FsmBool resetActorScale;
 
 	public override void Reset()

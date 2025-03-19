@@ -70,8 +70,8 @@ public class LegendaryHeroMagicEffectMaterial : ScriptableObject
 
 		public Vector3 MipMapHash;
 
-		[Header("Position and Size")]
 		[Range(0f, 1f)]
+		[Header("Position and Size")]
 		public float VerticalSpread;
 
 		[Range(0f, 1f)]
@@ -82,8 +82,8 @@ public class LegendaryHeroMagicEffectMaterial : ScriptableObject
 		[Min(0f)]
 		public float HorizontalSpacing;
 
-		[Range(0f, 1f)]
 		[Header("Offsets From Primary")]
+		[Range(0f, 1f)]
 		public float Offset1;
 
 		[Range(0f, 1f)]

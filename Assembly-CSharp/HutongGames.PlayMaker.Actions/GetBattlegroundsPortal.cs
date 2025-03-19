@@ -21,20 +21,24 @@ public class GetBattlegroundsPortal : FsmStateAction
 		{
 			global::Log.Gameplay.PrintError("{0}.OnEnter() - No variable hooked up to store portal position!", this);
 			Finish();
+			return;
 		}
-		else if (GameState.Get() == null)
+		if (GameState.Get() == null)
 		{
 			global::Log.Gameplay.PrintError("{0}.OnEnter() - GameState is null!", this);
 			Finish();
+			return;
 		}
-		else if (TeammateBoardViewer.Get() == null)
+		GameEntity gameEntity = GameState.Get().GetGameEntity();
+		if (gameEntity == null || !(gameEntity is TB_BaconShop))
 		{
-			global::Log.Gameplay.PrintError("{0}.OnEnter() - TeammateBoardViewer is null!", this);
+			global::Log.Gameplay.PrintError("{0}.OnEnter() - game entity is null or not BG!", this);
 			Finish();
 		}
 		else
 		{
-			m_Portal.Value = TeammateBoardViewer.Get().GetPortal();
+			TB_BaconShop baconGameEntity = (TB_BaconShop)gameEntity;
+			m_Portal.Value = baconGameEntity.GetPortal();
 			Finish();
 		}
 	}

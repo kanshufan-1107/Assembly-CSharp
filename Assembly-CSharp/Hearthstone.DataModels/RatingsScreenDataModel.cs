@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -41,8 +42,12 @@ public class RatingsScreenDataModel : DataModelEventDispatcher, IDataModel, IDat
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		return 17 * 31 + ((m_Url != null) ? m_Url.GetHashCode() : 0);
 	}
 

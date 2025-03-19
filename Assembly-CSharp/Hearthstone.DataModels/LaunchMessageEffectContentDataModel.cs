@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -92,8 +93,12 @@ public class LaunchMessageEffectContentDataModel : DataModelEventDispatcher, IDa
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = (17 * 31 + ((m_EffectID != null) ? m_EffectID.GetHashCode() : 0)) * 31;
 		_ = m_EffectColor;
 		return (num + m_EffectColor.GetHashCode()) * 31 + ((m_EffectSoundID != null) ? m_EffectSoundID.GetHashCode() : 0);

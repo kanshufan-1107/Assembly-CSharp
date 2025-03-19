@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -98,9 +99,24 @@ public class LettuceMercenaryExpRewardDataModel : DataModelEventDispatcher, IDat
 		RegisterNestedDataModel(m_Mercenary);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_Mercenary != null) ? m_Mercenary.GetPropertiesHashCode() : 0)) * 31 + ((m_ExperienceDeltaText != null) ? m_ExperienceDeltaText.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Mercenary != null && !inspectedDataModels.Contains(m_Mercenary.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Mercenary.GetHashCode());
+			hash = hash * 31 + m_Mercenary.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_ExperienceDeltaText != null) ? m_ExperienceDeltaText.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_LeveledUp;
 		return num + m_LeveledUp.GetHashCode();
 	}

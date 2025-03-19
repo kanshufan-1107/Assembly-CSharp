@@ -5,8 +5,8 @@ using UnityEngine.Timeline;
 namespace Hearthstone.Timeline;
 
 [TrackBindingType(typeof(ParticleSystem))]
-[TrackClipType(typeof(ParticleEmitterAsset))]
 [TrackColor(0.08f, 0.4f, 0.54f)]
+[TrackClipType(typeof(ParticleEmitterAsset))]
 public class ParticleEmitterTrack : FireAndForgetTrack
 {
 	public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)

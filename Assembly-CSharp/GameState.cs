@@ -4105,7 +4105,7 @@ public class GameState
 		if (powerList.Count == 1)
 		{
 			string telemetryString = "Game Created without entries:";
-			telemetryString += $" BuildNumber={214839}";
+			telemetryString += $" BuildNumber={216423}";
 			telemetryString += $" GameType={GameMgr.Get().GetGameType()}";
 			telemetryString += $" FormatType={GameMgr.Get().GetFormatType()}";
 			telemetryString += $" ScenarioID={GameMgr.Get().GetMissionId()}";
@@ -5231,7 +5231,7 @@ public class GameState
 		{
 			return;
 		}
-		Log.Power.Print($"GameState.DebugPrintGame() - BuildNumber={214839}");
+		Log.Power.Print($"GameState.DebugPrintGame() - BuildNumber={216423}");
 		Log.Power.Print($"GameState.DebugPrintGame() - GameType={GameMgr.Get().GetGameType()}");
 		Log.Power.Print($"GameState.DebugPrintGame() - FormatType={GameMgr.Get().GetFormatType()}");
 		Log.Power.Print($"GameState.DebugPrintGame() - ScenarioID={GameMgr.Get().GetMissionId()}");

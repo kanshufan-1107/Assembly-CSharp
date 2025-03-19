@@ -1045,9 +1045,9 @@ public class HearthstoneCheckout : blz_commerce_log_hook, ISceneEventObserver, I
 
 	private string GetTitleVersionString()
 	{
-		string version = "31.4";
+		string version = "31.6";
 		string revision = "0";
-		int build = 214839;
+		int build = 216423;
 		string platform = GetPlatformString();
 		return $"{version}.{revision}.{build}-{platform}";
 	}

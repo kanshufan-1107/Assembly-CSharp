@@ -13,8 +13,8 @@ public class SpellImpactInfo : ISpellImpactInfo
 	[SerializeField]
 	private Spell m_Prefab;
 
-	[SerializeField]
 	[Tooltip("If the card deals damage, the spell in the appropriate damage range will be chosen. If the damage exceeds all ranges, we pick the one with the highest maximum range. If the damage number is not within any specified range, we will use the default spell (see above)")]
+	[SerializeField]
 	private SpellValueRange[] m_damageAmountImpactSpells;
 
 	[SerializeField]

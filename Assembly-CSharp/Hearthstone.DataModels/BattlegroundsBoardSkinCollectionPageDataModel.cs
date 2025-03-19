@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -48,9 +49,19 @@ public class BattlegroundsBoardSkinCollectionPageDataModel : DataModelEventDispa
 		RegisterNestedDataModel(m_BoardSkinList);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return 17 * 31 + ((m_BoardSkinList != null) ? m_BoardSkinList.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_BoardSkinList != null && !inspectedDataModels.Contains(m_BoardSkinList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BoardSkinList.GetHashCode());
+			return hash * 31 + m_BoardSkinList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

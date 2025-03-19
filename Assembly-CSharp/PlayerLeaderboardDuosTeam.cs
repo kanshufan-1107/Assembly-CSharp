@@ -2,8 +2,8 @@ using UnityEngine;
 
 internal class PlayerLeaderboardDuosTeam : PlayerLeaderboardTeam
 {
-	[SerializeField]
 	[Header("Duos Team Items")]
+	[SerializeField]
 	private GameObject m_TopTileBone;
 
 	[SerializeField]

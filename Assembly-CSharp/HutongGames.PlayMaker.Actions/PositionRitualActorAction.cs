@@ -14,8 +14,8 @@ public class PositionRitualActorAction : FsmStateAction
 	[Tooltip("GameObject to retrieve controller side.")]
 	public FsmInt m_OwnerEntityId;
 
-	[Tooltip("GameObject to reposition")]
 	[RequiredField]
+	[Tooltip("GameObject to reposition")]
 	public FsmGameObject m_actorObject;
 
 	[Tooltip("Progress text for DMF C'thun")]

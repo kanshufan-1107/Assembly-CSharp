@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -323,19 +324,43 @@ public class LoanerDecksInfoDataModel : DataModelEventDispatcher, IDataModel, ID
 		RegisterNestedDataModel(m_DeckChoices);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_RemainingDeckTrialTime != null) ? m_RemainingDeckTrialTime.GetHashCode() : 0)) * 31 + ((m_DeckChoices != null) ? m_DeckChoices.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_RemainingDeckTrialTime != null) ? m_RemainingDeckTrialTime.GetHashCode() : 0);
+		if (m_DeckChoices != null && !inspectedDataModels.Contains(m_DeckChoices.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_DeckChoices.GetHashCode());
+			hash = hash * 31 + m_DeckChoices.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_DeckChoiceClassId;
-		int num2 = (num + m_DeckChoiceClassId.GetHashCode()) * 31;
+		hash = num + m_DeckChoiceClassId.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_DeckChoiceTemplateId;
-		int num3 = (((num2 + m_DeckChoiceTemplateId.GetHashCode()) * 31 + ((m_DeckChoiceName != null) ? m_DeckChoiceName.GetHashCode() : 0)) * 31 + ((m_DeckChoiceFlavourText != null) ? m_DeckChoiceFlavourText.GetHashCode() : 0)) * 31;
+		hash = num2 + m_DeckChoiceTemplateId.GetHashCode();
+		hash = hash * 31 + ((m_DeckChoiceName != null) ? m_DeckChoiceName.GetHashCode() : 0);
+		hash = hash * 31 + ((m_DeckChoiceFlavourText != null) ? m_DeckChoiceFlavourText.GetHashCode() : 0);
+		int num3 = hash * 31;
 		_ = m_IsLoanerDeckAvailable;
-		int num4 = (num3 + m_IsLoanerDeckAvailable.GetHashCode()) * 31;
+		hash = num3 + m_IsLoanerDeckAvailable.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_IsSelectedDeckLoaner;
-		int num5 = (num4 + m_IsSelectedDeckLoaner.GetHashCode()) * 31;
+		hash = num4 + m_IsSelectedDeckLoaner.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_IsCurrentPageLoaner;
-		int num6 = (((num5 + m_IsCurrentPageLoaner.GetHashCode()) * 31 + ((m_CurrentSceneMode != null) ? m_CurrentSceneMode.GetHashCode() : 0)) * 31 + ((m_DeckChoiceClassName != null) ? m_DeckChoiceClassName.GetHashCode() : 0)) * 31;
+		hash = num5 + m_IsCurrentPageLoaner.GetHashCode();
+		hash = hash * 31 + ((m_CurrentSceneMode != null) ? m_CurrentSceneMode.GetHashCode() : 0);
+		hash = hash * 31 + ((m_DeckChoiceClassName != null) ? m_DeckChoiceClassName.GetHashCode() : 0);
+		int num6 = hash * 31;
 		_ = m_HasSeenLoanerDeckFTUE;
 		return num6 + m_HasSeenLoanerDeckFTUE.GetHashCode();
 	}

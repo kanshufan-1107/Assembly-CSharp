@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CardNerfGlows : MonoBehaviour
 {
-	[Header("Buff/Nerf Group 1")]
 	[SerializeField]
+	[Header("Buff/Nerf Group 1")]
 	private Material m_buffMaterial;
 
 	[SerializeField]

@@ -7,10 +7,10 @@ namespace Hearthstone.TrailMaker;
 
 [ExecuteAlways]
 [DisallowMultipleComponent]
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
 [AddComponentMenu("Hearthstone/HearthTrail")]
 [RequireComponent(typeof(TrailGenerator))]
+[RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshFilter))]
 public class TrailMakerRenderer : MonoBehaviour
 {
 	private const string MAIN_COLOR_SHADER_PROPERTY = "_Color";

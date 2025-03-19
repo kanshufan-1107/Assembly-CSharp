@@ -30,14 +30,14 @@ public class ShopMultiClassIcons : MonoBehaviour
 
 	private void Start()
 	{
-		Initialize();
-		ShowClassIcons();
-	}
-
-	private void OnEnable()
-	{
-		Initialize();
-		ShowClassIcons();
+		if (!(m_widget == null))
+		{
+			m_widget.RegisterDoneChangingStatesListener(delegate
+			{
+				Initialize();
+				ShowClassIcons();
+			});
+		}
 	}
 
 	private void OnDisable()

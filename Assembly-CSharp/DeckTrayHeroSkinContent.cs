@@ -20,8 +20,8 @@ public class DeckTrayHeroSkinContent : DeckTrayContent
 	[SerializeField]
 	private UberText m_currentHeroSkinName;
 
-	[SerializeField]
 	[Header("Positioning")]
+	[SerializeField]
 	private GameObject m_root;
 
 	[SerializeField]
@@ -33,8 +33,8 @@ public class DeckTrayHeroSkinContent : DeckTrayContent
 	[SerializeField]
 	private Vector3 m_missingCardEffectScale;
 
-	[Header("Animation")]
 	[SerializeField]
+	[Header("Animation")]
 	private iTween.EaseType m_traySlideSlideInAnimation = iTween.EaseType.easeOutBounce;
 
 	[SerializeField]
@@ -46,8 +46,8 @@ public class DeckTrayHeroSkinContent : DeckTrayContent
 	[SerializeField]
 	private SpellType m_removalSpellType;
 
-	[Header("Sound")]
 	[SerializeField]
+	[Header("Sound")]
 	private WeakAssetReference m_appearanceSound;
 
 	[SerializeField]

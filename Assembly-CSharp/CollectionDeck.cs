@@ -1582,8 +1582,8 @@ public class CollectionDeck
 		{
 			randomHeroChange = RandomHeroUseFavorite;
 		}
-		SendDeckRenameChange(baseDeck, shouldValidateDeckName: false);
 		Network.Get();
+		SendDeckRenameChange(baseDeck, shouldValidateDeckName: false, Type, SourceType);
 		string pastedDeckString = null;
 		if (m_createdFromShareableDeck != null)
 		{
@@ -1602,7 +1602,7 @@ public class CollectionDeck
 		}
 	}
 
-	public void SendDeckRenameChange(CollectionDeck baseDeck, bool shouldValidateDeckName)
+	public void SendDeckRenameChange(CollectionDeck baseDeck, bool shouldValidateDeckName, DeckType deckType, DeckSourceType sourceType)
 	{
 		if (baseDeck == null)
 		{
@@ -1621,7 +1621,7 @@ public class CollectionDeck
 		if (deckName != null)
 		{
 			m_isSavingNameChanges = true;
-			Network.Get().RenameDeck(ID, deckName, shouldValidateDeckName);
+			Network.Get().RenameDeck(ID, deckName, shouldValidateDeckName, baseDeck.Type, baseDeck.SourceType);
 		}
 	}
 

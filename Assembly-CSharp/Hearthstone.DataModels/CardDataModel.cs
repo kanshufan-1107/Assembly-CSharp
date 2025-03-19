@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -426,23 +427,59 @@ public class CardDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 		RegisterNestedDataModel(m_GameTagOverrides);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_CardId != null) ? m_CardId.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_CardId != null) ? m_CardId.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_Premium;
-		int num2 = ((num + m_Premium.GetHashCode()) * 31 + ((m_FlavorText != null) ? m_FlavorText.GetHashCode() : 0)) * 31;
+		hash = num + m_Premium.GetHashCode();
+		hash = hash * 31 + ((m_FlavorText != null) ? m_FlavorText.GetHashCode() : 0);
+		int num2 = hash * 31;
 		_ = m_Attack;
-		int num3 = (num2 + m_Attack.GetHashCode()) * 31;
+		hash = num2 + m_Attack.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_Health;
-		int num4 = (num3 + m_Health.GetHashCode()) * 31;
+		hash = num3 + m_Health.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_Mana;
-		int num5 = (num4 + m_Mana.GetHashCode()) * 31;
+		hash = num4 + m_Mana.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_Cooldown;
-		int num6 = (((num5 + m_Cooldown.GetHashCode()) * 31 + ((m_SpellTypes != null) ? m_SpellTypes.GetPropertiesHashCode() : 0)) * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31;
+		hash = num5 + m_Cooldown.GetHashCode();
+		if (m_SpellTypes != null && !inspectedDataModels.Contains(m_SpellTypes.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_SpellTypes.GetHashCode());
+			hash = hash * 31 + m_SpellTypes.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		int num6 = hash * 31;
 		_ = m_Owned;
-		int num7 = (((((num6 + m_Owned.GetHashCode()) * 31 + ((m_GameTagOverrides != null) ? m_GameTagOverrides.GetPropertiesHashCode() : 0)) * 31 + ((m_ArtistCredit != null) ? m_ArtistCredit.GetHashCode() : 0)) * 31 + ((m_Rarity != null) ? m_Rarity.GetHashCode() : 0)) * 31 + ((m_CardText != null) ? m_CardText.GetHashCode() : 0)) * 31;
+		hash = num6 + m_Owned.GetHashCode();
+		if (m_GameTagOverrides != null && !inspectedDataModels.Contains(m_GameTagOverrides.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_GameTagOverrides.GetHashCode());
+			hash = hash * 31 + m_GameTagOverrides.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_ArtistCredit != null) ? m_ArtistCredit.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Rarity != null) ? m_Rarity.GetHashCode() : 0);
+		hash = hash * 31 + ((m_CardText != null) ? m_CardText.GetHashCode() : 0);
+		int num7 = hash * 31;
 		_ = m_IsShopPremiumHeroSkin;
-		int num8 = (num7 + m_IsShopPremiumHeroSkin.GetHashCode()) * 31;
+		hash = num7 + m_IsShopPremiumHeroSkin.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_Class;
 		return num8 + m_Class.GetHashCode();
 	}

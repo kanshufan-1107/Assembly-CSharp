@@ -296,7 +296,7 @@ public class QueueDispatcher : IDispatcher
 			byte[] data = EncodePacket(packetId, body);
 			if (!IsConnectedToGameServer())
 			{
-				Network.Get()?.GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Debug, $"Trying to send a packet while disconnected. ID {packetId}");
+				Network.Get()?.GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, $"Trying to send a packet while disconnected. ID {packetId} , {body.ToString()}");
 			}
 			m_gameRpcController.SendData(data);
 			Processor.MainThreadContext.Send(delegate

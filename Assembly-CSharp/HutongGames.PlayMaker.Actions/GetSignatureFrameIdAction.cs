@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Store the requested signature frameId in an FSM int variable for later use.")]
+[ActionCategory("Pegasus")]
 public class GetSignatureFrameIdAction : FsmStateAction
 {
-	[RequiredField]
 	[UIHint(UIHint.Variable)]
-	[Title("FrameIdInt")]
+	[RequiredField]
 	[Tooltip("Store the requested frameId in specified int variable.")]
+	[Title("FrameIdInt")]
 	public FsmInt targetFrameId;
 
 	public override void Reset()

@@ -18,8 +18,8 @@ public abstract class ChooserButton : AdventureGenericButton
 
 	private const string s_EventButtonContract = "Contract";
 
-	[SerializeField]
 	[CustomEditField(Sections = "Button State Table")]
+	[SerializeField]
 	public StateEventTable m_ButtonStateTable;
 
 	[SerializeField]
@@ -35,16 +35,16 @@ public abstract class ChooserButton : AdventureGenericButton
 	[SerializeField]
 	private float m_SubButtonContainerBtmPadding = 0.1f;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Sub Button Settings")]
+	[SerializeField]
 	public iTween.EaseType m_ActivateEaseType = iTween.EaseType.easeOutBounce;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Sub Button Settings")]
+	[SerializeField]
 	public iTween.EaseType m_DeactivateEaseType = iTween.EaseType.easeOutSine;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Sub Button Settings")]
+	[SerializeField]
 	public float m_SubButtonVisibilityPadding = 5f;
 
 	[SerializeField]

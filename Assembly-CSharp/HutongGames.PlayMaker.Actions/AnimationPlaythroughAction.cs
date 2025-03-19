@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Plays an Animation on a Game Object. Does not wait for the animation to finish.")]
+[ActionCategory("Pegasus")]
 public class AnimationPlaythroughAction : FsmStateAction
 {
+	[CheckForComponent(typeof(Animation))]
 	[Tooltip("Game Object to play the animation on.")]
 	[RequiredField]
-	[CheckForComponent(typeof(Animation))]
 	public FsmOwnerDefault m_GameObject;
 
 	[UIHint(UIHint.Animation)]
@@ -20,8 +20,8 @@ public class AnimationPlaythroughAction : FsmStateAction
 	[Tooltip("How to treat previously playing animations.")]
 	public PlayMode m_PlayMode;
 
-	[HasFloatSlider(0f, 5f)]
 	[Tooltip("Time taken to cross fade to this animation.")]
+	[HasFloatSlider(0f, 5f)]
 	public FsmFloat m_CrossFadeSec;
 
 	public override void Reset()

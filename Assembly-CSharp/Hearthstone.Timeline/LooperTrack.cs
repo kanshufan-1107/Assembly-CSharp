@@ -4,8 +4,8 @@ using UnityEngine.Timeline;
 
 namespace Hearthstone.Timeline;
 
-[TrackColor(0.8f, 0.5f, 0.1f)]
 [TrackClipType(typeof(LooperAsset))]
+[TrackColor(0.8f, 0.5f, 0.1f)]
 public class LooperTrack : TrackAsset
 {
 	public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)

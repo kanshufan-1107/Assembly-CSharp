@@ -1,21 +1,28 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Blizzard.BlizzardErrorMobile;
 using Blizzard.GameService.SDK.Client.Integration;
 using Blizzard.T5.Configuration;
 using Blizzard.T5.Core;
+using Blizzard.T5.Core.Utils;
 using Blizzard.T5.Jobs;
 using Blizzard.T5.Services;
 using Hearthstone.Core;
+using UnityEngine.Networking;
 
 namespace Hearthstone.APIGateway;
 
 public class APIGatewayService : IService
 {
-	private HttpClient m_httpClient;
+	private enum webRequestMethod
+	{
+		GET,
+		POST
+	}
+
+	private const int WEB_REQUEST_TIMEOUT_SECONDS = 5;
 
 	private OAuthManager OAuthManager { get; set; }
 
@@ -33,8 +40,7 @@ public class APIGatewayService : IService
 
 	public IEnumerator<IAsyncJobResult> Initialize(ServiceLocator serviceLocator)
 	{
-		m_httpClient = new HttpClient();
-		OAuthManager = new OAuthManager(m_httpClient, Logger, ExceptionReporter.Get(), TelemetryManager.Client());
+		OAuthManager = new OAuthManager(Logger, ExceptionReporter.Get(), TelemetryManager.Client());
 		yield break;
 	}
 
@@ -46,8 +52,6 @@ public class APIGatewayService : IService
 
 	public void Shutdown()
 	{
-		m_httpClient?.Dispose();
-		m_httpClient = null;
 		OAuthManager = null;
 	}
 
@@ -62,131 +66,79 @@ public class APIGatewayService : IService
 		OAuthManager.ClearAccessToken();
 	}
 
-	public Task<HttpResponseMessage> PostRequestAsync(string endpoint, HttpContent content = null)
+	public async Task<string> PostRequestAsStringAsync(string endpoint, string content = null)
 	{
-		return SafeSendAsync(HttpMethod.Post, endpoint, content);
-	}
-
-	public async Task<string> PostRequestAsStringAsync(string endpoint, HttpContent content = null)
-	{
-		using HttpResponseMessage response = await PostRequestAsync(endpoint, content).ConfigureAwait(continueOnCapturedContext: false);
-		if (response == null)
+		string response = await SafeSendAsync(webRequestMethod.POST, endpoint, content).ConfigureAwait(continueOnCapturedContext: false);
+		if (string.IsNullOrEmpty(response))
 		{
 			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, "Failed to get post response to grab string");
 			return null;
 		}
-		if (!response.IsSuccessStatusCode)
-		{
-			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, $"Error on api gateway post {response.StatusCode}: {response.ReasonPhrase}");
-			return null;
-		}
-		return await (response.Content?.ReadAsStringAsync());
+		return response;
 	}
 
-	public async Task<byte[]> PostRequestAsBytesAsync(string endpoint, HttpContent content = null)
+	private async Task<string> SafeSendAsync(webRequestMethod method, string endpoint, string content = null)
 	{
-		using HttpResponseMessage response = await PostRequestAsync(endpoint, content).ConfigureAwait(continueOnCapturedContext: false);
-		if (response == null)
+		string authToken = await GetAuthenticationTokenAsync().ConfigureAwait(continueOnCapturedContext: false);
+		if (method == webRequestMethod.POST)
 		{
-			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, "Failed to get post request to grab string");
-			return null;
-		}
-		if (!response.IsSuccessStatusCode)
-		{
-			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, $"Error getting api gateway post {response.StatusCode}: {response.ReasonPhrase}");
-			return null;
-		}
-		return await (response.Content?.ReadAsByteArrayAsync());
-	}
-
-	public Task<HttpResponseMessage> GetRequestAsync(string endpoint)
-	{
-		return SafeSendAsync(HttpMethod.Get, endpoint);
-	}
-
-	public async Task<string> GetRequestAsStringAsync(string endpoint)
-	{
-		using HttpResponseMessage response = await GetRequestAsync(endpoint).ConfigureAwait(continueOnCapturedContext: false);
-		if (response == null)
-		{
-			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, "Failed to get get request to grab string");
-			return null;
-		}
-		if (!response.IsSuccessStatusCode)
-		{
-			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, $"Error getting api gateway get {response.StatusCode}: {response.ReasonPhrase}");
-			return null;
-		}
-		return await (response.Content?.ReadAsStringAsync());
-	}
-
-	public async Task<byte[]> GetRequestAsBytesAsync(string endpoint)
-	{
-		using HttpResponseMessage response = await GetRequestAsync(endpoint).ConfigureAwait(continueOnCapturedContext: false);
-		if (response == null)
-		{
-			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, "Failed to get get request to grab string");
-			return null;
-		}
-		if (!response.IsSuccessStatusCode)
-		{
-			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, $"Error getting api gateway get {response.StatusCode}: {response.ReasonPhrase}");
-			return null;
-		}
-		return await (response.Content?.ReadAsByteArrayAsync());
-	}
-
-	private async Task<HttpResponseMessage> SafeSendAsync(HttpMethod method, string endpoint, HttpContent content = null)
-	{
-		_ = 1;
-		try
-		{
-			string authToken = await GetAuthenticationTokenAsync().ConfigureAwait(continueOnCapturedContext: false);
-			if (string.IsNullOrEmpty(authToken))
+			string response = null;
+			JobDefinition job = Processor.QueueJob("APIGateway SendUnityWebRequest", SendUnityWebRequest("POST", authToken, endpoint, content, delegate(string x)
 			{
-				return null;
-			}
-			using HttpRequestMessage request = new HttpRequestMessage();
-			request.Method = method;
-			request.RequestUri = new Uri(ConstructGatewayUrl(endpoint));
-			request.Content = content;
-			request.Headers.Add("Accept", "application/json");
-			request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
-			return await m_httpClient.SendAsync(request).ConfigureAwait(continueOnCapturedContext: false);
-		}
-		catch (InvalidOperationException ex)
-		{
-			Logger.Log(Blizzard.T5.Core.LogLevel.Warning, "APIGateway Request failed, invalid url: {0}", ex.Message);
-			return null;
-		}
-		catch (HttpRequestException ex2)
-		{
-			Logger.Log(Blizzard.T5.Core.LogLevel.Warning, "APIGateway Request failed: {0}", ex2.Message);
-			if (ex2.InnerException != null)
+				response = x;
+			}));
+			WaitForJob dep = job.CreateDependency();
+			while (!dep.IsReady())
 			{
-				Logger.Log(Blizzard.T5.Core.LogLevel.Warning, ex2.InnerException.Message);
+				await Task.Yield();
 			}
-			return null;
+			return response;
 		}
-		catch (TaskCanceledException ex3)
+		Logger?.Log(Blizzard.T5.Core.LogLevel.Error, "APIGateway Request HttpMethod not supported");
+		return null;
+	}
+
+	public IEnumerator<IAsyncJobResult> SendUnityWebRequest(string method, string authToken, string endpoint, string content = null, Action<string> onComplete = null)
+	{
+		if (string.IsNullOrEmpty(authToken) || string.IsNullOrEmpty(endpoint))
 		{
-			Logger.Log(Blizzard.T5.Core.LogLevel.Warning, "APIGateway Request timed out. {0}", ex3.Message);
-			if (ex3.InnerException != null)
-			{
-				Logger.Log(Blizzard.T5.Core.LogLevel.Warning, ex3.InnerException.Message);
-			}
-			return null;
+			yield break;
 		}
-		catch (Exception ex4)
+		UnityWebRequest request = new UnityWebRequest(new Uri(ConstructGatewayUrl(endpoint)));
+		request.method = method;
+		request.SetRequestHeader("Content-Type", "application/json");
+		request.SetRequestHeader("Accept", "application/json");
+		request.SetRequestHeader("Authorization", "Bearer " + authToken);
+		request.downloadHandler = new DownloadHandlerBuffer();
+		if (content != null)
 		{
-			Logger.Log(Blizzard.T5.Core.LogLevel.Warning, "Unexpected failure with APIGateway request " + ex4.Message);
-			if (ex4.InnerException != null)
-			{
-				Logger.Log(Blizzard.T5.Core.LogLevel.Warning, ex4.InnerException.Message);
-			}
-			ExceptionReporter.Get()?.ReportCaughtException(ex4);
-			return null;
+			request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(content));
 		}
+		SimpleTimer requestTimer = new SimpleTimer(new TimeSpan(0, 0, 5));
+		request.SendWebRequest();
+		while (!request.isDone)
+		{
+			if (requestTimer.IsTimeout())
+			{
+				Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, "APIGateway Request timed out");
+				onComplete?.Invoke(null);
+				yield break;
+			}
+			yield return null;
+		}
+		if (request.result != UnityWebRequest.Result.Success)
+		{
+			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, "APIGateway Request error: " + request.error);
+		}
+		else if (string.IsNullOrEmpty(request.downloadHandler.text))
+		{
+			Logger?.Log(Blizzard.T5.Core.LogLevel.Warning, "Could not complete oauth: response null or empty");
+		}
+		string response = request.downloadHandler.text;
+		onComplete?.Invoke(response);
+		request.disposeDownloadHandlerOnDispose = true;
+		request.disposeUploadHandlerOnDispose = true;
+		request.Dispose();
 	}
 
 	private string ConstructGatewayUrl(string endpoint)

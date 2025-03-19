@@ -1,8 +1,8 @@
 using Blizzard.T5.AssetManager;
 using UnityEngine;
 
-[CustomEditClass]
 [CreateAssetMenu]
+[CustomEditClass]
 public class Portrait : ScriptableObject
 {
 	[CustomEditField(Sections = "Portrait", T = EditType.CARD_TEXTURE)]

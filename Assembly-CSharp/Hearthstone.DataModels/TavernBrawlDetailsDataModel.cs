@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using PegasusShared;
 
@@ -342,8 +343,12 @@ public class TavernBrawlDetailsDataModel : DataModelEventDispatcher, IDataModel,
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_BrawlType;
 		int num2 = (num + m_BrawlType.GetHashCode()) * 31;

@@ -2,12 +2,12 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Fades out a looping audio clip.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioLoopingEndAction : FsmStateAction
 {
-	[RequiredField]
 	[CheckForComponent(typeof(AudioSource))]
+	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
 	public FsmFloat m_FadeOutTime;

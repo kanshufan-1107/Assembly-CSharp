@@ -5,6 +5,7 @@ using Blizzard.Commerce;
 using Blizzard.T5.Services;
 using Blizzard.Telemetry.WTCG.Client;
 using Game.Shop;
+using Hearthstone.Core;
 using Hearthstone.DataModels;
 using Hearthstone.MarketingImages;
 using Hearthstone.Store;
@@ -13,8 +14,8 @@ using UnityEngine;
 
 public class ShopSlot : ShopBrowserElement
 {
-	[Header("Slot Data")]
 	[SerializeField]
+	[Header("Slot Data")]
 	private BoxCollider m_boxCollider;
 
 	[SerializeField]
@@ -415,12 +416,17 @@ public class ShopSlot : ShopBrowserElement
 			return;
 		}
 		MarketingImageSlot preferredSlotSize = ((BrowserButtonDataModel.SlotWidth > 6) ? MarketingImageSlot.FullRow : MarketingImageSlot.HalfRow);
-		if (!m_mimgService.TryGetConfig(productId, preferredSlotSize, out var mimgConfig))
+		Processor.RunCoroutine(m_mimgService.LoadMarketingImage(productId, preferredSlotSize, delegate(MarketingImageConfig config)
 		{
-			productDataModel.ShowMarketingImage = false;
-			return;
-		}
-		m_marketingImageFitter.SetTexture(mimgConfig);
-		productDataModel.ShowMarketingImage = true;
+			if (config == null || config.Texture == null)
+			{
+				productDataModel.ShowMarketingImage = false;
+			}
+			else
+			{
+				m_marketingImageFitter.SetTexture(config);
+				productDataModel.ShowMarketingImage = true;
+			}
+		}));
 	}
 }

@@ -2,17 +2,17 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Triggers a generic event in the 3D Portrait Scene. This can be handled with generic event handlers")]
 [ActionCategory("Pegasus")]
+[Tooltip("Triggers a generic event in the 3D Portrait Scene. This can be handled with generic event handlers")]
 public class TriggerLegendaryHeroGenericEvent : FsmStateAction
 {
-	[RequiredField]
 	[CheckForComponent(typeof(Actor))]
 	[Tooltip("Actors game object")]
+	[RequiredField]
 	public FsmOwnerDefault m_HeroObject;
 
-	[RequiredField]
 	[Tooltip("The name of the event to trigger.")]
+	[RequiredField]
 	public string m_EventName;
 
 	[Tooltip("Any data to send with the event.")]

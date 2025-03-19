@@ -20,15 +20,15 @@ public class BattlegroundsEmoteNotification : Notification
 	[SerializeField]
 	private AsyncReference m_asyncImageWidgetColliderReference;
 
-	[Tooltip("Delay at the start of the animation loop, after scaling up, holding the first frame of animation")]
 	[Min(0f)]
 	[Header("-PlayMaker Parameters-")]
 	[SerializeField]
+	[Tooltip("Delay at the start of the animation loop, after scaling up, holding the first frame of animation")]
 	private float m_entranceDelaySeconds;
 
+	[SerializeField]
 	[Tooltip("Delay after the final loop of animation is played, before scaling down, holding the last frame of animation")]
 	[Min(0f)]
-	[SerializeField]
 	private float m_exitDelaySeconds;
 
 	[Tooltip("If true, emote will pause on the first frame before starting. If false, emote will pause on the animation's configured display frame before starting")]

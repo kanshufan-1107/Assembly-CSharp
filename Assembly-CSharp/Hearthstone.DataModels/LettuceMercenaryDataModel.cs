@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -1344,85 +1345,205 @@ public class LettuceMercenaryDataModel : DataModelEventDispatcher, IDataModel, I
 		RegisterNestedDataModel(m_MythicTreasureList);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_MercenaryId;
-		int num2 = (((num + m_MercenaryId.GetHashCode()) * 31 + ((m_MercenaryName != null) ? m_MercenaryName.GetHashCode() : 0)) * 31 + ((m_MercenaryShortName != null) ? m_MercenaryShortName.GetHashCode() : 0)) * 31;
+		hash = num + m_MercenaryId.GetHashCode();
+		hash = hash * 31 + ((m_MercenaryName != null) ? m_MercenaryName.GetHashCode() : 0);
+		hash = hash * 31 + ((m_MercenaryShortName != null) ? m_MercenaryShortName.GetHashCode() : 0);
+		int num2 = hash * 31;
 		_ = m_MercenaryRole;
-		int num3 = (num2 + m_MercenaryRole.GetHashCode()) * 31;
+		hash = num2 + m_MercenaryRole.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_MercenaryLevel;
-		int num4 = (num3 + m_MercenaryLevel.GetHashCode()) * 31;
+		hash = num3 + m_MercenaryLevel.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_MercenaryRarity;
-		int num5 = (num4 + m_MercenaryRarity.GetHashCode()) * 31;
+		hash = num4 + m_MercenaryRarity.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_ReadyForCrafting;
-		int num6 = (((num5 + m_ReadyForCrafting.GetHashCode()) * 31 + ((m_MercenaryCoin != null) ? m_MercenaryCoin.GetPropertiesHashCode() : 0)) * 31 + ((m_AbilityList != null) ? m_AbilityList.GetPropertiesHashCode() : 0)) * 31;
+		hash = num5 + m_ReadyForCrafting.GetHashCode();
+		if (m_MercenaryCoin != null && !inspectedDataModels.Contains(m_MercenaryCoin.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MercenaryCoin.GetHashCode());
+			hash = hash * 31 + m_MercenaryCoin.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_AbilityList != null && !inspectedDataModels.Contains(m_AbilityList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_AbilityList.GetHashCode());
+			hash = hash * 31 + m_AbilityList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num6 = hash * 31;
 		_ = m_EquipmentSlotIndex;
-		int num7 = (num6 + m_EquipmentSlotIndex.GetHashCode()) * 31;
+		hash = num6 + m_EquipmentSlotIndex.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_DeadInMapRun;
-		int num8 = (num7 + m_DeadInMapRun.GetHashCode()) * 31;
+		hash = num7 + m_DeadInMapRun.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_AbilitySlotUnlockThreshold;
-		int num9 = ((num8 + m_AbilitySlotUnlockThreshold.GetHashCode()) * 31 + ((m_EquipmentList != null) ? m_EquipmentList.GetPropertiesHashCode() : 0)) * 31;
+		hash = num8 + m_AbilitySlotUnlockThreshold.GetHashCode();
+		if (m_EquipmentList != null && !inspectedDataModels.Contains(m_EquipmentList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_EquipmentList.GetHashCode());
+			hash = hash * 31 + m_EquipmentList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num9 = hash * 31;
 		_ = m_MercenarySelected;
-		int num10 = (num9 + m_MercenarySelected.GetHashCode()) * 31;
+		hash = num9 + m_MercenarySelected.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_Owned;
-		int num11 = (num10 + m_Owned.GetHashCode()) * 31;
+		hash = num10 + m_Owned.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_ExperienceInitial;
-		int num12 = (num11 + m_ExperienceInitial.GetHashCode()) * 31;
+		hash = num11 + m_ExperienceInitial.GetHashCode();
+		int num12 = hash * 31;
 		_ = m_ExperienceFinal;
-		int num13 = (num12 + m_ExperienceFinal.GetHashCode()) * 31;
+		hash = num12 + m_ExperienceFinal.GetHashCode();
+		int num13 = hash * 31;
 		_ = m_FullyUpgradedInitial;
-		int num14 = (num13 + m_FullyUpgradedInitial.GetHashCode()) * 31;
+		hash = num13 + m_FullyUpgradedInitial.GetHashCode();
+		int num14 = hash * 31;
 		_ = m_FullyUpgradedFinal;
-		int num15 = (num14 + m_FullyUpgradedFinal.GetHashCode()) * 31;
+		hash = num14 + m_FullyUpgradedFinal.GetHashCode();
+		int num15 = hash * 31;
 		_ = m_InCurrentTeam;
-		int num16 = (num15 + m_InCurrentTeam.GetHashCode()) * 31;
+		hash = num15 + m_InCurrentTeam.GetHashCode();
+		int num16 = hash * 31;
 		_ = m_ChildUpgradeAvailable;
-		int num17 = (num16 + m_ChildUpgradeAvailable.GetHashCode()) * 31;
+		hash = num16 + m_ChildUpgradeAvailable.GetHashCode();
+		int num17 = hash * 31;
 		_ = m_IsAffectedBySlottedEquipment;
-		int num18 = (num17 + m_IsAffectedBySlottedEquipment.GetHashCode()) * 31;
+		hash = num17 + m_IsAffectedBySlottedEquipment.GetHashCode();
+		int num18 = hash * 31;
 		_ = m_IsDisabled;
-		int num19 = (((num18 + m_IsDisabled.GetHashCode()) * 31 + ((m_Card != null) ? m_Card.GetPropertiesHashCode() : 0)) * 31 + ((m_ArtVariationList != null) ? m_ArtVariationList.GetPropertiesHashCode() : 0)) * 31;
+		hash = num18 + m_IsDisabled.GetHashCode();
+		if (m_Card != null && !inspectedDataModels.Contains(m_Card.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Card.GetHashCode());
+			hash = hash * 31 + m_Card.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_ArtVariationList != null && !inspectedDataModels.Contains(m_ArtVariationList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ArtVariationList.GetHashCode());
+			hash = hash * 31 + m_ArtVariationList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num19 = hash * 31;
 		_ = m_ArtVariationPageIndex;
-		int num20 = ((num19 + m_ArtVariationPageIndex.GetHashCode()) * 31 + ((m_ArtVariationPageList != null) ? m_ArtVariationPageList.GetPropertiesHashCode() : 0)) * 31;
+		hash = num19 + m_ArtVariationPageIndex.GetHashCode();
+		if (m_ArtVariationPageList != null && !inspectedDataModels.Contains(m_ArtVariationPageList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ArtVariationPageList.GetHashCode());
+			hash = hash * 31 + m_ArtVariationPageList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num20 = hash * 31;
 		_ = m_CraftingCost;
-		int num21 = (num20 + m_CraftingCost.GetHashCode()) * 31;
+		hash = num20 + m_CraftingCost.GetHashCode();
+		int num21 = hash * 31;
 		_ = m_IsAcquiredByCrafting;
-		int num22 = ((num21 + m_IsAcquiredByCrafting.GetHashCode()) * 31 + ((m_TreasureCard != null) ? m_TreasureCard.GetPropertiesHashCode() : 0)) * 31;
+		hash = num21 + m_IsAcquiredByCrafting.GetHashCode();
+		if (m_TreasureCard != null && !inspectedDataModels.Contains(m_TreasureCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TreasureCard.GetHashCode());
+			hash = hash * 31 + m_TreasureCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num22 = hash * 31;
 		_ = m_HideXp;
-		int num23 = (num22 + m_HideXp.GetHashCode()) * 31;
+		hash = num22 + m_HideXp.GetHashCode();
+		int num23 = hash * 31;
 		_ = m_HideWatermark;
-		int num24 = (num23 + m_HideWatermark.GetHashCode()) * 31;
+		hash = num23 + m_HideWatermark.GetHashCode();
+		int num24 = hash * 31;
 		_ = m_HideStats;
-		int num25 = ((num24 + m_HideStats.GetHashCode()) * 31 + ((m_Label != null) ? m_Label.GetHashCode() : 0)) * 31;
+		hash = num24 + m_HideStats.GetHashCode();
+		hash = hash * 31 + ((m_Label != null) ? m_Label.GetHashCode() : 0);
+		int num25 = hash * 31;
 		_ = m_AcquireType;
-		int num26 = (num25 + m_AcquireType.GetHashCode()) * 31;
+		hash = num25 + m_AcquireType.GetHashCode();
+		int num26 = hash * 31;
 		_ = m_ShowLevelInList;
-		int num27 = (num26 + m_ShowLevelInList.GetHashCode()) * 31;
+		hash = num26 + m_ShowLevelInList.GetHashCode();
+		int num27 = hash * 31;
 		_ = m_ShowAbilityText;
-		int num28 = ((num27 + m_ShowAbilityText.GetHashCode()) * 31 + ((m_AbilityText != null) ? m_AbilityText.GetHashCode() : 0)) * 31;
+		hash = num27 + m_ShowAbilityText.GetHashCode();
+		hash = hash * 31 + ((m_AbilityText != null) ? m_AbilityText.GetHashCode() : 0);
+		int num28 = hash * 31;
 		_ = m_XPBarPercentage;
-		int num29 = ((num28 + m_XPBarPercentage.GetHashCode()) * 31 + ((m_CustomAcquireText != null) ? m_CustomAcquireText.GetHashCode() : 0)) * 31;
+		hash = num28 + m_XPBarPercentage.GetHashCode();
+		hash = hash * 31 + ((m_CustomAcquireText != null) ? m_CustomAcquireText.GetHashCode() : 0);
+		int num29 = hash * 31;
 		_ = m_ShowCustomAcquireText;
-		int num30 = (num29 + m_ShowCustomAcquireText.GetHashCode()) * 31;
+		hash = num29 + m_ShowCustomAcquireText.GetHashCode();
+		int num30 = hash * 31;
 		_ = m_IsMaxLevel;
-		int num31 = (num30 + m_IsMaxLevel.GetHashCode()) * 31;
+		hash = num30 + m_IsMaxLevel.GetHashCode();
+		int num31 = hash * 31;
 		_ = m_ShowAsNew;
-		int num32 = (num31 + m_ShowAsNew.GetHashCode()) * 31;
+		hash = num31 + m_ShowAsNew.GetHashCode();
+		int num32 = hash * 31;
 		_ = m_NumNewPortraits;
-		int num33 = (num32 + m_NumNewPortraits.GetHashCode()) * 31;
+		hash = num32 + m_NumNewPortraits.GetHashCode();
+		int num33 = hash * 31;
 		_ = m_IsRemote;
-		int num34 = ((num33 + m_IsRemote.GetHashCode()) * 31 + ((m_MythicTreasureList != null) ? m_MythicTreasureList.GetPropertiesHashCode() : 0)) * 31;
+		hash = num33 + m_IsRemote.GetHashCode();
+		if (m_MythicTreasureList != null && !inspectedDataModels.Contains(m_MythicTreasureList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MythicTreasureList.GetHashCode());
+			hash = hash * 31 + m_MythicTreasureList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num34 = hash * 31;
 		_ = m_MythicLevel;
-		int num35 = (num34 + m_MythicLevel.GetHashCode()) * 31;
+		hash = num34 + m_MythicLevel.GetHashCode();
+		int num35 = hash * 31;
 		_ = m_MythicModifier;
-		int num36 = (num35 + m_MythicModifier.GetHashCode()) * 31;
+		hash = num35 + m_MythicModifier.GetHashCode();
+		int num36 = hash * 31;
 		_ = m_MythicView;
-		int num37 = (num36 + m_MythicView.GetHashCode()) * 31;
+		hash = num36 + m_MythicView.GetHashCode();
+		int num37 = hash * 31;
 		_ = m_IsMythicFirstUnlock;
-		int num38 = (num37 + m_IsMythicFirstUnlock.GetHashCode()) * 31;
+		hash = num37 + m_IsMythicFirstUnlock.GetHashCode();
+		int num38 = hash * 31;
 		_ = m_MythicToggleEnable;
-		int num39 = (num38 + m_MythicToggleEnable.GetHashCode()) * 31;
+		hash = num38 + m_MythicToggleEnable.GetHashCode();
+		int num39 = hash * 31;
 		_ = m_MythicToggle;
 		return num39 + m_MythicToggle.GetHashCode();
 	}

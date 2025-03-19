@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets;
 using Hearthstone.UI;
 
@@ -617,8 +618,12 @@ public class RewardTrackDataModel : DataModelEventDispatcher, IDataModel, IDataM
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = 17 * 31;
 		_ = m_RewardTrackId;
 		int num2 = (num + m_RewardTrackId.GetHashCode()) * 31;

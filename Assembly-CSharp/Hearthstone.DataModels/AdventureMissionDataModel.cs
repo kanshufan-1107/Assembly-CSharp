@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using UnityEngine;
 
@@ -249,19 +250,40 @@ public class AdventureMissionDataModel : DataModelEventDispatcher, IDataModel, I
 		RegisterNestedDataModel(m_Rewards);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_ScenarioId;
-		int num2 = (num + m_ScenarioId.GetHashCode()) * 31;
+		hash = num + m_ScenarioId.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_MissionState;
-		int num3 = (((num2 + m_MissionState.GetHashCode()) * 31 + ((m_CoinPortraitMaterial != null) ? m_CoinPortraitMaterial.GetHashCode() : 0)) * 31 + ((m_SecondaryCoinPortraitMaterial != null) ? m_SecondaryCoinPortraitMaterial.GetHashCode() : 0)) * 31;
+		hash = num2 + m_MissionState.GetHashCode();
+		hash = hash * 31 + ((m_CoinPortraitMaterial != null) ? m_CoinPortraitMaterial.GetHashCode() : 0);
+		hash = hash * 31 + ((m_SecondaryCoinPortraitMaterial != null) ? m_SecondaryCoinPortraitMaterial.GetHashCode() : 0);
+		int num3 = hash * 31;
 		_ = m_CoinPortraitMaterialCount;
-		int num4 = (num3 + m_CoinPortraitMaterialCount.GetHashCode()) * 31;
+		hash = num3 + m_CoinPortraitMaterialCount.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_Selected;
-		int num5 = ((num4 + m_Selected.GetHashCode()) * 31 + ((m_Rewards != null) ? m_Rewards.GetPropertiesHashCode() : 0)) * 31;
+		hash = num4 + m_Selected.GetHashCode();
+		if (m_Rewards != null && !inspectedDataModels.Contains(m_Rewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Rewards.GetHashCode());
+			hash = hash * 31 + m_Rewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num5 = hash * 31;
 		_ = m_NewlyUnlocked;
-		int num6 = (num5 + m_NewlyUnlocked.GetHashCode()) * 31;
+		hash = num5 + m_NewlyUnlocked.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_NewlyCompleted;
 		return num6 + m_NewlyCompleted.GetHashCode();
 	}

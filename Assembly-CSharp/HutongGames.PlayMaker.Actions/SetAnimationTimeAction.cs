@@ -2,18 +2,18 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Sets the speed of an Animation.")]
+[ActionCategory("Pegasus")]
 public class SetAnimationTimeAction : FsmStateAction
 {
-	[Tooltip("Game Object to play the animation on.")]
 	[CheckForComponent(typeof(Animation))]
+	[Tooltip("Game Object to play the animation on.")]
 	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
-	[Tooltip("The name of the animation to play.")]
-	[UIHint(UIHint.Animation)]
 	[RequiredField]
+	[UIHint(UIHint.Animation)]
+	[Tooltip("The name of the animation to play.")]
 	public FsmString m_AnimName;
 
 	public FsmString m_PhoneAnimName;

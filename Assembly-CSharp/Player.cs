@@ -483,6 +483,11 @@ public class Player : Entity
 
 	public virtual void SetHero(Entity hero)
 	{
+		if (m_hero != null && hero.HasTag(GAME_TAG.KEEP_HERO_CLASS))
+		{
+			hero.SetTag(GAME_TAG.CLASS, m_hero.GetTag(GAME_TAG.CLASS));
+			hero.SetTag(GAME_TAG.MULTIPLE_CLASSES, m_hero.GetTag(GAME_TAG.MULTIPLE_CLASSES));
+		}
 		m_hero = hero;
 		if (ShouldUseHeroName())
 		{
@@ -490,7 +495,7 @@ public class Player : Entity
 		}
 		foreach (Card card in GetHandZone().GetCards())
 		{
-			if (card.GetEntity().IsMultiClass())
+			if (card.GetEntity() != hero && card.GetEntity().IsMultiClass())
 			{
 				card.UpdateActorComponents();
 			}
@@ -570,6 +575,19 @@ public class Player : Entity
 		return m_heroPower.GetCard();
 	}
 
+	public Card GetHeroPowerCardWithIndex(int index)
+	{
+		foreach (ZoneHeroPower item in ZoneMgr.Get().FindZonesOfType<ZoneHeroPower>(GetSide()))
+		{
+			Card card = item.GetFirstCard();
+			if (!(card == null) && card.GetEntity() != null && card.GetEntity().GetTag(GAME_TAG.ADDITIONAL_HERO_POWER_INDEX) == index)
+			{
+				return card;
+			}
+		}
+		return null;
+	}
+
 	public bool IsHeroPowerAffectedByBonusDamage()
 	{
 		Card heroPowerCard = GetHeroPowerCard();
@@ -593,6 +611,11 @@ public class Player : Entity
 	public override Card GetHeroBuddyCard()
 	{
 		return ZoneMgr.Get().FindZoneOfType<ZoneBattlegroundHeroBuddy>(GetSide()).GetFirstCard();
+	}
+
+	public override Card GetBaconClickableButtonCard()
+	{
+		return ZoneMgr.Get().FindZoneOfType<ZoneBattlegroundClickableButton>(GetSide()).GetFirstCard();
 	}
 
 	public override Card GetQuestRewardFromHeroPowerCard()
@@ -1364,6 +1387,7 @@ public class Player : Entity
 				if (card.GetEntity().IsLaunchpad())
 				{
 					card.GetActor().UpdateMeshComponents();
+					card.UpdateActorState();
 					break;
 				}
 			}

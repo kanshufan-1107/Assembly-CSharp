@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -207,13 +208,53 @@ public class RewardTrackNodeDataModel : DataModelEventDispatcher, IDataModel, ID
 		RegisterNestedDataModel(m_PaidPremiumRewards);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_Level;
-		int num2 = ((((num + m_Level.GetHashCode()) * 31 + ((m_StyleName != null) ? m_StyleName.GetHashCode() : 0)) * 31 + ((m_FreeRewards != null) ? m_FreeRewards.GetPropertiesHashCode() : 0)) * 31 + ((m_PaidRewards != null) ? m_PaidRewards.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_Level.GetHashCode();
+		hash = hash * 31 + ((m_StyleName != null) ? m_StyleName.GetHashCode() : 0);
+		if (m_FreeRewards != null && !inspectedDataModels.Contains(m_FreeRewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_FreeRewards.GetHashCode());
+			hash = hash * 31 + m_FreeRewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_PaidRewards != null && !inspectedDataModels.Contains(m_PaidRewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_PaidRewards.GetHashCode());
+			hash = hash * 31 + m_PaidRewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_CumulativeXpNeeded;
-		return ((num2 + m_CumulativeXpNeeded.GetHashCode()) * 31 + ((m_AdditionalRewards != null) ? m_AdditionalRewards.GetPropertiesHashCode() : 0)) * 31 + ((m_PaidPremiumRewards != null) ? m_PaidPremiumRewards.GetPropertiesHashCode() : 0);
+		hash = num2 + m_CumulativeXpNeeded.GetHashCode();
+		if (m_AdditionalRewards != null && !inspectedDataModels.Contains(m_AdditionalRewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_AdditionalRewards.GetHashCode());
+			hash = hash * 31 + m_AdditionalRewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_PaidPremiumRewards != null && !inspectedDataModels.Contains(m_PaidPremiumRewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_PaidPremiumRewards.GetHashCode());
+			return hash * 31 + m_PaidPremiumRewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

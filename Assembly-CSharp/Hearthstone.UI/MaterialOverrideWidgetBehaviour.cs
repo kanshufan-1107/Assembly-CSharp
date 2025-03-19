@@ -12,8 +12,8 @@ namespace Hearthstone.UI;
 [AddComponentMenu("")]
 public class MaterialOverrideWidgetBehaviour : CustomWidgetBehavior
 {
-	[SerializeField]
 	[Tooltip("The index of the material that will be overridden")]
+	[SerializeField]
 	private int m_materialIndex;
 
 	[Tooltip("The renderer that owns the material that will be overridden")]
@@ -28,8 +28,8 @@ public class MaterialOverrideWidgetBehaviour : CustomWidgetBehavior
 	[SerializeField]
 	private ScriptString m_valueScript;
 
-	[SerializeField]
 	[Tooltip("Optional link to a set render que component. If present, render que will often apply its settings too early, before materials are loaded. Set this field to make the render que apply its settings after load.")]
+	[SerializeField]
 	private SetRenderQue m_optionalSetRenderQue;
 
 	private bool m_isLoading;

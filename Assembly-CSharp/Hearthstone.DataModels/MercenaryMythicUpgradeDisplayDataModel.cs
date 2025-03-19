@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -251,21 +252,50 @@ public class MercenaryMythicUpgradeDisplayDataModel : DataModelEventDispatcher, 
 		RegisterNestedDataModel(m_UpgradeChoices);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_UpgradeType;
-		int num2 = (num + m_UpgradeType.GetHashCode()) * 31;
+		hash = num + m_UpgradeType.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_UpgradeId;
-		int num3 = (num2 + m_UpgradeId.GetHashCode()) * 31;
+		hash = num2 + m_UpgradeId.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_CurrentMythicLevel;
-		int num4 = (num3 + m_CurrentMythicLevel.GetHashCode()) * 31;
+		hash = num3 + m_CurrentMythicLevel.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_CurrentRenown;
-		int num5 = (((num4 + m_CurrentRenown.GetHashCode()) * 31 + ((m_CurrentCard != null) ? m_CurrentCard.GetPropertiesHashCode() : 0)) * 31 + ((m_UpgradeChoices != null) ? m_UpgradeChoices.GetPropertiesHashCode() : 0)) * 31;
+		hash = num4 + m_CurrentRenown.GetHashCode();
+		if (m_CurrentCard != null && !inspectedDataModels.Contains(m_CurrentCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CurrentCard.GetHashCode());
+			hash = hash * 31 + m_CurrentCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_UpgradeChoices != null && !inspectedDataModels.Contains(m_UpgradeChoices.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_UpgradeChoices.GetHashCode());
+			hash = hash * 31 + m_UpgradeChoices.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num5 = hash * 31;
 		_ = m_CurrentChoice;
-		int num6 = (num5 + m_CurrentChoice.GetHashCode()) * 31;
+		hash = num5 + m_CurrentChoice.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_IsMinion;
-		return (num6 + m_IsMinion.GetHashCode()) * 31 + ((m_MercUpgradeText != null) ? m_MercUpgradeText.GetHashCode() : 0);
+		hash = num6 + m_IsMinion.GetHashCode();
+		return hash * 31 + ((m_MercUpgradeText != null) ? m_MercUpgradeText.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

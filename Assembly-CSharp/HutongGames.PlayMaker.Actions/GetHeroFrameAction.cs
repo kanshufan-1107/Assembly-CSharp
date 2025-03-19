@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Put an Actor's cost data into variables.")]
+[ActionCategory("Pegasus")]
 public class GetHeroFrameAction : FsmStateAction
 {
 	public Player.Side m_side;

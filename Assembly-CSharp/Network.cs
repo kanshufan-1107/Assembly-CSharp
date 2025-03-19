@@ -52,7 +52,7 @@ public class Network : IHasUpdate, IService
 		public string GetUserAgent()
 		{
 			string userAgent = "Hearthstone/";
-			userAgent = userAgent + "31.4." + 214839 + " (";
+			userAgent = userAgent + "31.6." + 216423 + " (";
 			userAgent = ((PlatformSettings.OS == OSCategory.iOS) ? (userAgent + "iOS;") : ((PlatformSettings.OS == OSCategory.Android) ? (userAgent + "Android;") : ((PlatformSettings.OS == OSCategory.PC) ? (userAgent + "PC;") : ((PlatformSettings.OS != OSCategory.Mac) ? (userAgent + "UNKNOWN;") : (userAgent + "Mac;")))));
 			userAgent = userAgent + CleanUserAgentString(SystemInfo.deviceModel) + ";" + SystemInfo.deviceType.ToString() + ";" + CleanUserAgentString(SystemInfo.deviceUniqueIdentifier) + ";" + SystemInfo.graphicsDeviceID + ";" + CleanUserAgentString(SystemInfo.graphicsDeviceName) + ";" + CleanUserAgentString(SystemInfo.graphicsDeviceVendor) + ";" + SystemInfo.graphicsDeviceVendorID + ";" + CleanUserAgentString(SystemInfo.graphicsDeviceVersion) + ";" + SystemInfo.graphicsMemorySize + ";" + SystemInfo.graphicsShaderLevel + ";" + SystemInfo.npotSupport.ToString() + ";" + CleanUserAgentString(SystemInfo.operatingSystem) + ";" + SystemInfo.processorCount + ";" + CleanUserAgentString(SystemInfo.processorType) + ";" + SystemInfo.supportedRenderTargetCount + ";" + SystemInfo.supports3DTextures + ";" + SystemInfo.supportsAccelerometer + ";" + SystemInfo.supportsComputeShaders + ";" + SystemInfo.supportsGyroscope + ";" + SystemInfo.supportsImageEffects + ";" + SystemInfo.supportsInstancing + ";" + SystemInfo.supportsRenderTextures + ";" + SystemInfo.supportsRenderToCubemap + ";" + SystemInfo.supportsShadows + ";" + SystemInfo.supportsSparseTextures + ";" + SystemInfo.supportsStencil + ";" + SystemInfo.supportsVibration + ";" + SystemInfo.systemMemorySize + ";" + SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.ARGBHalf) + ";" + SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.ARGB4444) + ";" + SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.Depth) + ";" + SystemInfo.graphicsDeviceVersion.StartsWith("Metal") + ";" + Screen.currentResolution.width + ";" + Screen.currentResolution.height + ";" + Screen.dpi + ";";
 			userAgent = ((!PlatformSettings.IsMobile()) ? (userAgent + "Desktop;") : ((!UniversalInputManager.UsePhoneUI) ? (userAgent + "Tablet;") : (userAgent + "Phone;")));
@@ -64,7 +64,7 @@ public class Network : IHasUpdate, IService
 
 		public int GetApplicationVersion()
 		{
-			return 214839;
+			return 216423;
 		}
 
 		private string CleanUserAgentString(string data)
@@ -98,7 +98,7 @@ public class Network : IHasUpdate, IService
 
 		public string GetAuroraVersionName()
 		{
-			return 214839.ToString();
+			return 216423.ToString();
 		}
 
 		public string GetLocaleName()
@@ -2231,7 +2231,7 @@ public class Network : IHasUpdate, IService
 
 	public static string TutorialServer = "01";
 
-	public const string CosmeticVersion = "31.4";
+	public const string CosmeticVersion = "31.6";
 
 	public const string CosmeticRevision = "0";
 
@@ -2403,7 +2403,7 @@ public class Network : IHasUpdate, IService
 
 	public IDispatcher QueueDispatcher => m_dispatcherImpl;
 
-	public static string BranchName => string.Format("{0}.{1}{2}", "31.4", "0", "");
+	public static string BranchName => string.Format("{0}.{1}{2}", "31.6", "0", "");
 
 	private long FakeIdWaitingForResponse { get; set; }
 
@@ -2446,7 +2446,8 @@ public class Network : IHasUpdate, IService
 			{
 				LogInfo logInfo = new LogInfo();
 				logInfo.m_name = "GameNetLogger";
-				logInfo.m_defaultLevel = Blizzard.T5.Logging.LogLevel.Debug;
+				logInfo.m_defaultLevel = Blizzard.T5.Logging.LogLevel.Info;
+				logInfo.m_minLevel = Blizzard.T5.Logging.LogLevel.Info;
 				logInfo.m_consolePrinting = true;
 				logInfo.m_filePrinting = true;
 				logInfo.m_alwaysPrintErrors = true;
@@ -3172,7 +3173,7 @@ public class Network : IHasUpdate, IService
 
 	public static string ProductVersion()
 	{
-		return 31 + "." + 4 + "." + 0 + "." + 0;
+		return 31 + "." + 6 + "." + 0 + "." + 0;
 	}
 
 	private void CreateNewDispatcher()
@@ -5026,9 +5027,9 @@ public class Network : IHasUpdate, IService
 		};
 	}
 
-	public void MakeDraftChoice(long deckID, int slot, int index, int premium, bool isRedraft)
+	public void MakeDraftChoice(long deckID, int slot, int index, int premium)
 	{
-		m_connectApi.DraftMakePick(deckID, slot, index, premium, isRedraft);
+		m_connectApi.DraftMakePick(deckID, slot, index, premium);
 	}
 
 	public void RequestDraftChoicesAndContents()
@@ -5049,11 +5050,6 @@ public class Network : IHasUpdate, IService
 	public void DraftBegin()
 	{
 		m_connectApi.DraftBegin();
-	}
-
-	public void RedraftBegin()
-	{
-		m_connectApi.RedraftBegin();
 	}
 
 	public void DraftRetire(long deckID, int slot, int seasonId)
@@ -5805,13 +5801,13 @@ public class Network : IHasUpdate, IService
 		return ++m_state.CurrentCreateDeckRequestId;
 	}
 
-	public void RenameDeck(long deck, string name, bool playerInitiated)
+	public void RenameDeck(long deck, string name, bool playerInitiated, DeckType deckType, DeckSourceType sourceType)
 	{
 		if (IsLoggedIn())
 		{
 			Log.Net.Print($"Network.RenameDeck {deck}");
 			CollectionManager.Get().AddPendingDeckRename(deck, name, playerInitiated);
-			m_connectApi.RenameDeck(deck, name);
+			m_connectApi.RenameDeck(deck, name, deckType, sourceType);
 		}
 		else
 		{
@@ -6478,7 +6474,7 @@ public class Network : IHasUpdate, IService
 		CollectionManager.Get().RegisterDecksToRequestContentsAfterDeckSetDataResponse(decksToUpdate);
 		foreach (RenameDeck deckRename in deckRenameToSend)
 		{
-			m_connectApi.RenameDeck(deckRename.Deck, deckRename.Name);
+			m_connectApi.RenameDeck(deckRename.Deck, deckRename.Name, DeckType.NORMAL_DECK, DeckSourceType.DECK_SOURCE_TYPE_NORMAL);
 		}
 		OfflineDataCache.CacheLocalAndOriginalDeckList(ref data, currentDeckList, currentDeckList);
 	}
@@ -8288,13 +8284,13 @@ public class Network : IHasUpdate, IService
 	{
 		if (info == null)
 		{
-			GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Debug, "Network.GotoGameServe() - GameServerInfo is null. The game doesn't exist anymore?");
+			GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Warning, "Network.GotoGameServe() - GameServerInfo is null. The game doesn't exist anymore?");
 			return;
 		}
 		m_state.LastGameServerInfo = info;
 		bool gameConnectionDisconnected = m_dispatcherImpl.GameConnectionState == Blizzard.T5.Network.ConnectionStatus.Disconnected;
 		bool isRestoringGameState = ReconnectMgr.Get().IsRestoringGameStateFromDatabase();
-		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Debug, $"Network.GotoGameServe() - gameConnectionDisconnected {gameConnectionDisconnected}, IsRestoringGameState: {isRestoringGameState}");
+		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, $"Network.GotoGameServe() - gameConnectionDisconnected {gameConnectionDisconnected}, IsRestoringGameState: {isRestoringGameState}");
 		if (!gameConnectionDisconnected && !isRestoringGameState)
 		{
 			string message = $"Network.GotoGameServe() - was called when we're already waiting for a game to start. gameConnectionDisconnected {gameConnectionDisconnected}, IsRestoringGameState: {isRestoringGameState}";
@@ -8487,7 +8483,7 @@ public class Network : IHasUpdate, IService
 
 	public void Concede()
 	{
-		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Debug, "Player conceded the game");
+		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, "Player conceded the game");
 		m_gameConceded = true;
 		m_connectApi.Concede();
 	}
@@ -8548,8 +8544,7 @@ public class Network : IHasUpdate, IService
 
 	private void OnGameServerDisconnectEvent(BattleNetErrors error, SocketOperationResult socketResult)
 	{
-		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, "Network.OnGameServerDisconnectEvent() - Disconnected from game server with error {0} {1}", (int)error, error.ToString());
-		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, $"Network.OnGameServerDisconnectEvent() - Disconnected from game server with socket error: {socketResult.Error}, Message: {socketResult.Message}");
+		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, $"Network.OnGameServerDisconnectEvent() - Disconnected from game server with BNet error: {error.ToString()} socket error: {socketResult.Error}, Message: {socketResult.Message}");
 		TelemetryManager.UnregisterShutdownListener(SendDefaultDisconnectTelemetry);
 		GameServerInfo gameServerInfo = GetLastGameServerJoined();
 		TelemetryManager.Client().SendDisconnect("GAME", TelemetryUtil.GetReasonFromBnetError(error), (error == BattleNetErrors.ERROR_OK) ? null : error.ToString(), gameServerInfo?.Address, gameServerInfo?.Port);
@@ -9393,7 +9388,7 @@ public class Network : IHasUpdate, IService
 
 	private void SendGameServerHandshake(GameServerInfo gameInfo)
 	{
-		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Debug, "Network.SendGameServerHandshake()");
+		GameNetLogger.Log(Blizzard.T5.Core.LogLevel.Information, "Network.SendGameServerHandshake()");
 		NetCache.Get().DispatchClientOptionsToServer();
 		if (gameInfo.SpectatorMode)
 		{

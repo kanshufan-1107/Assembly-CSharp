@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -151,11 +152,36 @@ public class DownloadManagerDialogDataModel : DataModelEventDispatcher, IDataMod
 		RegisterNestedDataModel(m_OptionList);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (((17 * 31 + ((m_ModuleList != null) ? m_ModuleList.GetPropertiesHashCode() : 0)) * 31 + ((m_OptionList != null) ? m_OptionList.GetPropertiesHashCode() : 0)) * 31 + ((m_SizeAvailableLabel != null) ? m_SizeAvailableLabel.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_ModuleList != null && !inspectedDataModels.Contains(m_ModuleList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ModuleList.GetHashCode());
+			hash = hash * 31 + m_ModuleList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_OptionList != null && !inspectedDataModels.Contains(m_OptionList.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_OptionList.GetHashCode());
+			hash = hash * 31 + m_OptionList.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_SizeAvailableLabel != null) ? m_SizeAvailableLabel.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_DownloaderState;
-		int num2 = (num + m_DownloaderState.GetHashCode()) * 31;
+		hash = num + m_DownloaderState.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_OptionalAssetsDownloadEnabled;
 		return num2 + m_OptionalAssetsDownloadEnabled.GetHashCode();
 	}

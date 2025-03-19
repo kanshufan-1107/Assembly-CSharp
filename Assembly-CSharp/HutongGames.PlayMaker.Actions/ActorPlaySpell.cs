@@ -2,8 +2,8 @@ using Blizzard.T5.Core.Utils;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Play a spell on the given Actor")]
 [ActionCategory("Pegasus")]
+[Tooltip("Play a spell on the given Actor")]
 public class ActorPlaySpell : FsmStateAction
 {
 	public SpellType m_Spell;

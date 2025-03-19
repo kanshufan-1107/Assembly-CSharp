@@ -2,8 +2,8 @@ using Hearthstone;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Start playing the specified music playlist.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioStartPlaylistAction : FsmStateAction
 {
 	[RequiredField]

@@ -560,9 +560,9 @@ public class InnKeepersSpecial : MonoBehaviour
 				{
 					continue;
 				}
-				if (!string.IsNullOrEmpty(innKeepersSpecialAd.ClientVersion) && !m_forceShowIks && !StringUtils.CompareIgnoreCase(innKeepersSpecialAd.ClientVersion, "31.4"))
+				if (!string.IsNullOrEmpty(innKeepersSpecialAd.ClientVersion) && !m_forceShowIks && !StringUtils.CompareIgnoreCase(innKeepersSpecialAd.ClientVersion, "31.6"))
 				{
-					Log.InnKeepersSpecial.Print("Skipping IKS: {0}, mis-matched client version {0} != {1}", innKeepersSpecialAd.CampaignName, innKeepersSpecialAd.ClientVersion, "31.4");
+					Log.InnKeepersSpecial.Print("Skipping IKS: {0}, mis-matched client version {0} != {1}", innKeepersSpecialAd.CampaignName, innKeepersSpecialAd.ClientVersion, "31.6");
 					continue;
 				}
 				if (!string.IsNullOrEmpty(innKeepersSpecialAd.Platform))

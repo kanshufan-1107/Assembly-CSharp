@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [ExecuteAlways]
+[AddComponentMenu("")]
 public class MeshGeometry : Geometry
 {
 	[CustomEditField(T = EditType.GAME_OBJECT)]

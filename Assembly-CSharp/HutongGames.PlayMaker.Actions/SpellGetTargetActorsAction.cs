@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Get the GameObjects for each Card added as Target for a Spell.")]
+[ActionCategory("Pegasus")]
 public class SpellGetTargetActorsAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

@@ -2696,6 +2696,10 @@ public class MulliganManager : MonoBehaviour
 	public void ToggleHoldState(Actor toggleActor)
 	{
 		bool anySelected = false;
+		if (GameMgr.Get().IsSpectator())
+		{
+			return;
+		}
 		List<Actor> fakeCards = new List<Actor>(fakeCardsOnLeft.Count + fakeCardsOnRight.Count);
 		fakeCards.AddRange(fakeCardsOnLeft);
 		fakeCards.AddRange(fakeCardsOnRight);
@@ -3849,9 +3853,14 @@ public class MulliganManager : MonoBehaviour
 
 	private SharedPlayerInfo GetPlayerForCard(Card card)
 	{
+		if (card.GetEntity() == null)
+		{
+			return null;
+		}
+		int playerID = card.GetEntity().GetTag(GAME_TAG.PLAYER_ID);
 		foreach (SharedPlayerInfo sph in GameState.Get().GetPlayerInfoMap().Values)
 		{
-			if (card.GetEntity() != null && card.GetEntity().GetCardId() == sph.GetPlayerHero().GetCardId())
+			if (playerID == sph.GetPlayerHero().GetTag(GAME_TAG.PLAYER_ID))
 			{
 				return sph;
 			}
@@ -3877,7 +3886,7 @@ public class MulliganManager : MonoBehaviour
 			{
 				if (GameMgr.Get().IsBattlegrounds() && GetBaconAnomaly() != 0)
 				{
-					banner.SetBaconAnomalyBannerText(title, subtitle, GetBaconAnomaly());
+					banner.SetBaconAnomalyBannerText(title, subtitle, GetBaconAnomaly(), GameState.Get().GetGameEntity().GetMulliganDetailTextPositionOverride());
 				}
 				else
 				{
@@ -3994,7 +4003,7 @@ public class MulliganManager : MonoBehaviour
 				GameEntity game = GameState.Get().GetGameEntity();
 				if (IsBaconAnomalyActive())
 				{
-					banner.SetBaconAnomalyBannerText(game.GetMulliganBannerText(), game.GetMulliganDetailText(), GetBaconAnomaly());
+					banner.SetBaconAnomalyBannerText(game.GetMulliganBannerText(), game.GetMulliganDetailText(), GetBaconAnomaly(), game.GetMulliganDetailTextPositionOverride());
 				}
 				else
 				{

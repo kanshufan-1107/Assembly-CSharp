@@ -2928,7 +2928,7 @@ public class Card : MonoBehaviour
 		{
 			return;
 		}
-		if (m_entity.IsHeroPower() && m_entity.GetController() != null && m_entity.GetController().HasTag(GAME_TAG.HERO_POWER_DISABLED))
+		if (m_entity.IsDisabledHeroPower())
 		{
 			change.newValue = 1;
 		}
@@ -3070,6 +3070,17 @@ public class Card : MonoBehaviour
 				}
 			}
 			break;
+		case GAME_TAG.BACON_TURNS_TILL_ACTIVE:
+			if (m_actor != null)
+			{
+				AnomalyWidget anomaly = m_actor.GetComponent<AnomalyWidget>();
+				if (anomaly != null)
+				{
+					bool unlocking = change.newValue == 0 && change.oldValue > 0;
+					anomaly.UpdateTurnsTillActiveState(unlocking);
+				}
+			}
+			break;
 		case GAME_TAG.ELITE:
 			if (m_actor != null)
 			{
@@ -3124,6 +3135,12 @@ public class Card : MonoBehaviour
 				{
 					card.UpdateActorComponents();
 				}
+			}
+			break;
+		case GAME_TAG.HERO_POWER_DISABLED:
+			if (GetEntity() != null)
+			{
+				HandleHeroPowerDisabledTagChanged(change);
 			}
 			break;
 		}
@@ -3345,7 +3362,7 @@ public class Card : MonoBehaviour
 		else if (m_entity != null && (zoneTag == TAG_ZONE.PLAY || zoneTag == TAG_ZONE.SECRET))
 		{
 			bool isExhausted = m_entity.IsExhausted();
-			if (m_entity.IsHeroPower() && m_entity.GetController() != null && m_entity.GetController().HasTag(GAME_TAG.HERO_POWER_DISABLED))
+			if (m_entity.IsDisabledHeroPower())
 			{
 				isExhausted = true;
 			}
@@ -4277,7 +4294,7 @@ public class Card : MonoBehaviour
 				spellType = GetBestReplacementWhenPlayedSpell(m_entity);
 			}
 		}
-		else if ((m_entity.IsWeapon() && (m_zone is ZoneWeapon || m_zone is ZoneHeroPower)) || (m_entity.IsBattlegroundHeroBuddy() && m_zone is ZoneBattlegroundHeroBuddy) || (m_entity.IsBattlegroundQuestReward() && m_zone is ZoneBattlegroundQuestReward) || (m_entity.IsBattlegroundTrinket() && m_zone is ZoneBattlegroundTrinket))
+		else if ((m_entity.IsWeapon() && (m_zone is ZoneWeapon || m_zone is ZoneHeroPower)) || (m_entity.IsBattlegroundHeroBuddy() && m_zone is ZoneBattlegroundHeroBuddy) || (m_entity.IsBattlegroundQuestReward() && m_zone is ZoneBattlegroundQuestReward) || (m_entity.IsBattlegroundTrinket() && m_zone is ZoneBattlegroundTrinket) || (m_entity.IsAnomaly() && m_zone is ZoneBattlegroundAnomaly))
 		{
 			spellType = (m_entity.IsControlledByFriendlySidePlayer() ? SpellType.SUMMON_IN_FRIENDLY : SpellType.SUMMON_IN_OPPONENT);
 		}
@@ -5362,7 +5379,7 @@ public class Card : MonoBehaviour
 		else if (m_zone is ZoneHeroPower && m_actor != null && m_actorReady && GameMgr.Get().IsBattlegrounds())
 		{
 			ShowCard();
-			bool heroPowerShouldDisplayExhausted = m_entity.IsExhausted() || (m_entity.GetController() != null && m_entity.GetController().HasTag(GAME_TAG.HERO_POWER_DISABLED));
+			bool heroPowerShouldDisplayExhausted = m_entity.IsExhausted() || m_entity.IsDisabledHeroPower();
 			ShowExhaustedChange(heroPowerShouldDisplayExhausted);
 		}
 		else if ((m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundTrinket) && m_actor != null && m_actorReady)
@@ -5507,7 +5524,7 @@ public class Card : MonoBehaviour
 				loadRequests.Add(request3);
 			}
 		}
-		if (m_customSpawnSpell == null && (m_zone is ZonePlay || m_zone is ZoneWeapon || m_zone is ZoneSecret || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
+		if (m_customSpawnSpell == null && (m_zone is ZonePlay || m_zone is ZoneWeapon || m_zone is ZoneSecret || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
 		{
 			PrefabLoadRequest request4 = MakeCustomSpellLoadRequest(m_cardDef.CardDef.m_CustomSpawnSpellPath, m_cardDef.CardDef.m_GoldenCustomSpawnSpellPath, OnCustomSpawnSpellLoaded);
 			if (request4 != null)
@@ -5849,7 +5866,7 @@ public class Card : MonoBehaviour
 		m_actor.SetEntity(m_entity);
 		m_actor.SetCard(this);
 		m_actor.SetCardDef(m_cardDef);
-		if (GameMgr.Get().IsBattlegrounds() && m_entity.IsQuest())
+		if ((GameMgr.Get().IsBattlegrounds() && m_entity.IsQuest()) || m_entity.HasTag(GAME_TAG.IS_NIGHTMARE_BONUS))
 		{
 			UseBattlegroundQuestComponent();
 			UpdateRewardActor();
@@ -6111,7 +6128,7 @@ public class Card : MonoBehaviour
 				{
 					Process_OldActorIsNull_NullZoneToPlay(oldActor, ref transitionHandled, zonePlay);
 				}
-				else if (!willMulligan && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
+				else if (!willMulligan && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
 				{
 					Process_OldActorIsNull_WillNotMulligan(oldActor, ref transitionHandled);
 				}
@@ -6163,7 +6180,7 @@ public class Card : MonoBehaviour
 	private void Process_OldActorIsNull_CreatingGame(Actor oldActor, ref bool transitionHandled)
 	{
 		TransformUtil.CopyWorld(base.transform, m_zone.transform);
-		if (m_zone is ZonePlay || m_zone is ZoneHero || m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward)
+		if (m_zone is ZonePlay || m_zone is ZoneHero || m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundClickableButton)
 		{
 			ActivateLifetimeEffects();
 		}
@@ -6280,7 +6297,7 @@ public class Card : MonoBehaviour
 
 	private bool Check_NullZoneToVarious(Actor oldActor, ref bool transitionHandled)
 	{
-		if (m_prevZone == null && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
+		if (m_prevZone == null && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
 		{
 			oldActor.Destroy();
 			TransformUtil.CopyWorld(base.transform, m_zone.transform);
@@ -6392,7 +6409,7 @@ public class Card : MonoBehaviour
 
 	private bool Check_VariousZonesToGraveyard(Actor oldActor, ref bool transitionHandled)
 	{
-		if (m_prevZone != null && (m_prevZone is ZonePlay || m_prevZone is ZoneWeapon || m_prevZone is ZoneHeroPower || m_prevZone is ZoneBattlegroundHeroBuddy || m_prevZone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket) && m_zone is ZoneGraveyard)
+		if (m_prevZone != null && (m_prevZone is ZonePlay || m_prevZone is ZoneWeapon || m_prevZone is ZoneHeroPower || m_prevZone is ZoneBattlegroundHeroBuddy || m_prevZone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton) && m_zone is ZoneGraveyard)
 		{
 			if (m_mousedOver && m_entity.IsControlledByFriendlySidePlayer() && m_prevZone is ZonePlay)
 			{
@@ -6808,7 +6825,7 @@ public class Card : MonoBehaviour
 			else if (creatingGame)
 			{
 				TransformUtil.CopyWorld(base.transform, m_zone.transform);
-				if (m_zone is ZonePlay || m_zone is ZoneHero || m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket)
+				if (m_zone is ZonePlay || m_zone is ZoneHero || m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton)
 				{
 					ActivateLifetimeEffects();
 				}
@@ -6892,7 +6909,7 @@ public class Card : MonoBehaviour
 					}
 					transitionHandled = true;
 				}
-				else if (!willMulligan && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
+				else if (!willMulligan && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
 				{
 					if (IsShown())
 					{
@@ -6920,7 +6937,7 @@ public class Card : MonoBehaviour
 				}
 			}
 		}
-		else if (m_prevZone == null && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
+		else if (m_prevZone == null && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
 		{
 			oldActor.Destroy();
 			TransformUtil.CopyWorld(base.transform, m_zone.transform);
@@ -7000,7 +7017,7 @@ public class Card : MonoBehaviour
 			transitionHandled = true;
 			m_actorReady = true;
 		}
-		else if (m_prevZone != null && (m_prevZone is ZonePlay || m_prevZone is ZoneWeapon || m_prevZone is ZoneHeroPower || m_prevZone is ZoneBattlegroundHeroBuddy || m_prevZone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket) && m_zone is ZoneGraveyard)
+		else if (m_prevZone != null && (m_prevZone is ZonePlay || m_prevZone is ZoneWeapon || m_prevZone is ZoneHeroPower || m_prevZone is ZoneBattlegroundHeroBuddy || m_prevZone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton) && m_zone is ZoneGraveyard)
 		{
 			if (m_mousedOver && m_entity.IsControlledByFriendlySidePlayer() && m_prevZone is ZonePlay)
 			{
@@ -9457,11 +9474,16 @@ public class Card : MonoBehaviour
 
 	public bool IsInPassActionArea(Vector3 checkPosition)
 	{
-		if (TeammateBoardViewer.Get() == null)
+		if (GameState.Get() == null)
 		{
 			return false;
 		}
-		return TeammateBoardViewer.Get().IsInPassActionArea(checkPosition);
+		GameEntity gameEntity = GameState.Get().GetGameEntity();
+		if (gameEntity == null || !(gameEntity is TB_BaconShop))
+		{
+			return false;
+		}
+		return ((TB_BaconShop)gameEntity).IsInPassActionArea(checkPosition);
 	}
 
 	public bool IsInDeckActionArea(Vector3 checkPosition)

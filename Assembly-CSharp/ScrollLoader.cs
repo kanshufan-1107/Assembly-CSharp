@@ -24,8 +24,8 @@ public class ScrollLoader : MonoBehaviour
 	[Min(0f)]
 	private float m_itemHeight;
 
-	[Min(0f)]
 	[SerializeField]
+	[Min(0f)]
 	private int m_itemBuffer;
 
 	[SerializeField]

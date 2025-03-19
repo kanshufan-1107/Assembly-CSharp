@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -176,11 +177,34 @@ public class ProfileGameModeStatDataModel : DataModelEventDispatcher, IDataModel
 		RegisterNestedDataModel(m_StatValueDesc);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (17 * 31 + ((m_ModeName != null) ? m_ModeName.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_ModeName != null) ? m_ModeName.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_ModeIcon;
-		return ((((num + m_ModeIcon.GetHashCode()) * 31 + ((m_StatName != null) ? m_StatName.GetHashCode() : 0)) * 31 + ((m_StatValue != null) ? m_StatValue.GetPropertiesHashCode() : 0)) * 31 + ((m_StatDesc != null) ? m_StatDesc.GetHashCode() : 0)) * 31 + ((m_StatValueDesc != null) ? m_StatValueDesc.GetPropertiesHashCode() : 0);
+		hash = num + m_ModeIcon.GetHashCode();
+		hash = hash * 31 + ((m_StatName != null) ? m_StatName.GetHashCode() : 0);
+		if (m_StatValue != null && !inspectedDataModels.Contains(m_StatValue.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_StatValue.GetHashCode());
+			hash = hash * 31 + m_StatValue.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_StatDesc != null) ? m_StatDesc.GetHashCode() : 0);
+		if (m_StatValueDesc != null && !inspectedDataModels.Contains(m_StatValueDesc.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_StatValueDesc.GetHashCode());
+			return hash * 31 + m_StatValueDesc.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

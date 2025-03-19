@@ -274,18 +274,7 @@ public class ConnectAPI
 
 	public void DraftBegin()
 	{
-		SendUtilPacket(235, UtilSystemId.CLIENT, new DraftBegin
-		{
-			IsRedraft = false
-		});
-	}
-
-	public void RedraftBegin()
-	{
-		SendUtilPacket(235, UtilSystemId.CLIENT, new DraftBegin
-		{
-			IsRedraft = true
-		});
+		SendUtilPacket(235, UtilSystemId.CLIENT, new DraftBegin());
 	}
 
 	public DraftChosen GetDraftChosen()
@@ -328,15 +317,14 @@ public class ConnectAPI
 		return UnpackNextUtilPacket<DraftRewardsAcked>(288);
 	}
 
-	public void DraftMakePick(long deckId, int slot, int index, int premium, bool isRedraft)
+	public void DraftMakePick(long deckId, int slot, int index, int premium)
 	{
 		SendUtilPacket(245, UtilSystemId.CLIENT, new DraftMakePick
 		{
 			DeckId = deckId,
 			Slot = slot,
 			Index = index,
-			Premium = premium,
-			IsRedraft = isRedraft
+			Premium = premium
 		});
 	}
 
@@ -1123,12 +1111,16 @@ public class ConnectAPI
 		});
 	}
 
-	public void RenameDeck(long deckId, string name)
+	public void RenameDeck(long deckId, string name, DeckType deckType, DeckSourceType sourceType)
 	{
 		SendUtilPacket(211, UtilSystemId.CLIENT, new RenameDeck
 		{
 			Deck = deckId,
-			Name = name
+			Name = name,
+			HasDeckType = (deckType != DeckType.UNKNOWN_DECK_TYPE),
+			DeckType = deckType,
+			HasSourceType = (sourceType != DeckSourceType.DECK_SOURCE_TYPE_UNKNOWN),
+			SourceType = sourceType
 		});
 	}
 

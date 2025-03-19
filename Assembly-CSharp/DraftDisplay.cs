@@ -17,8 +17,7 @@ public class DraftDisplay : MonoBehaviour
 		NO_ACTIVE_DRAFT,
 		DRAFTING,
 		ACTIVE_DRAFT_DECK,
-		IN_REWARDS,
-		REDRAFTING
+		IN_REWARDS
 	}
 
 	private class ChoiceCallback
@@ -336,13 +335,6 @@ public class DraftDisplay : MonoBehaviour
 			if (actor2 != null)
 			{
 				actor2.Destroy();
-			}
-		}
-		for (int j = 0; j < m_mythicPowerCardActors.Length; j++)
-		{
-			if (m_mythicPowerCardActors[j] != null)
-			{
-				m_mythicPowerCardActors[j].Destroy();
 			}
 		}
 		m_currentLabels.Clear();
@@ -904,11 +896,6 @@ public class DraftDisplay : MonoBehaviour
 		case DraftMode.IN_REWARDS:
 			PresenceMgr.Get().SetStatus(Global.PresenceStatus.ARENA_REWARD);
 			ShowDraftRewardsScreen();
-			break;
-		case DraftMode.REDRAFTING:
-			PresenceMgr.Get().SetStatus(Global.PresenceStatus.ARENA_FORGE);
-			DraftManager.Get().RequestRedraftBegin();
-			ShowCurrentlyDraftingScreen();
 			break;
 		default:
 			Debug.LogError($"DraftDisplay.InitializeDraftScreen(): don't know how to handle m_currentMode = {m_currentMode}");

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -151,11 +152,36 @@ public class NDERerollPopupDataModel : DataModelEventDispatcher, IDataModel, IDa
 		RegisterNestedDataModel(m_RandomCards);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((17 * 31 + ((m_RerollCards != null) ? m_RerollCards.GetPropertiesHashCode() : 0)) * 31 + ((m_RandomCards != null) ? m_RandomCards.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_RerollCards != null && !inspectedDataModels.Contains(m_RerollCards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RerollCards.GetHashCode());
+			hash = hash * 31 + m_RerollCards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_RandomCards != null && !inspectedDataModels.Contains(m_RandomCards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RandomCards.GetHashCode());
+			hash = hash * 31 + m_RandomCards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_Quantity;
-		return ((num + m_Quantity.GetHashCode()) * 31 + ((m_HeaderText != null) ? m_HeaderText.GetHashCode() : 0)) * 31 + ((m_BodyText != null) ? m_BodyText.GetHashCode() : 0);
+		hash = num + m_Quantity.GetHashCode();
+		hash = hash * 31 + ((m_HeaderText != null) ? m_HeaderText.GetHashCode() : 0);
+		return hash * 31 + ((m_BodyText != null) ? m_BodyText.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

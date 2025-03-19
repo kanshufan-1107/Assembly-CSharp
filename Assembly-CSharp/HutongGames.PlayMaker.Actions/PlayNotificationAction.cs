@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Plays a notification.")]
 [ActionCategory("Pegasus Audio")]
+[Tooltip("Plays a notification.")]
 public class PlayNotificationAction : FsmStateAction
 {
 	[Tooltip("Notification quote prefab to use.")]

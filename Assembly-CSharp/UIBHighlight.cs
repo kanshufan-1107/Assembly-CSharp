@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CustomEditClass]
 [RequireComponent(typeof(PegUIElement))]
+[CustomEditClass]
 public class UIBHighlight : MonoBehaviour
 {
 	[CustomEditField(Sections = "Highlight Objects")]

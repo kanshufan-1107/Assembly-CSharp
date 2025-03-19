@@ -27,8 +27,8 @@ public class Spawnable : WidgetBehavior, INestedReferenceResolver, IAsyncInitial
 	[SerializeField]
 	private SpawnableLibrary m_spawnableLibrary;
 
-	[SerializeField]
 	[Tooltip("An optional reference to a mesh to assign to the mesh filter on the loaded item.")]
+	[SerializeField]
 	private Mesh m_intendedMesh;
 
 	private AssetHandle<Material> m_materialHandle;

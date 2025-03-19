@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -531,21 +532,140 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 		RegisterNestedDataModel(m_BattlegroundsTokenBalance);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_IsWild;
-		int num2 = ((((num + m_IsWild.GetHashCode()) * 31 + ((m_Pages != null) ? m_Pages.GetPropertiesHashCode() : 0)) * 31 + ((m_CurrentTab != null) ? m_CurrentTab.GetPropertiesHashCode() : 0)) * 31 + ((m_CurrentSubTab != null) ? m_CurrentSubTab.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_IsWild.GetHashCode();
+		if (m_Pages != null && !inspectedDataModels.Contains(m_Pages.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Pages.GetHashCode());
+			hash = hash * 31 + m_Pages.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_CurrentTab != null && !inspectedDataModels.Contains(m_CurrentTab.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CurrentTab.GetHashCode());
+			hash = hash * 31 + m_CurrentTab.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_CurrentSubTab != null && !inspectedDataModels.Contains(m_CurrentSubTab.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CurrentSubTab.GetHashCode());
+			hash = hash * 31 + m_CurrentSubTab.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_ShowSubTabBar;
-		int num3 = (((num2 + m_ShowSubTabBar.GetHashCode()) * 31 + ((m_VirtualCurrency != null) ? m_VirtualCurrency.GetPropertiesHashCode() : 0)) * 31 + ((m_BoosterCurrency != null) ? m_BoosterCurrency.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_ShowSubTabBar.GetHashCode();
+		if (m_VirtualCurrency != null && !inspectedDataModels.Contains(m_VirtualCurrency.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_VirtualCurrency.GetHashCode());
+			hash = hash * 31 + m_VirtualCurrency.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_BoosterCurrency != null && !inspectedDataModels.Contains(m_BoosterCurrency.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BoosterCurrency.GetHashCode());
+			hash = hash * 31 + m_BoosterCurrency.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_AutoconvertCurrency;
-		int num4 = (((((num3 + m_AutoconvertCurrency.GetHashCode()) * 31 + ((m_VirtualCurrencyBalance != null) ? m_VirtualCurrencyBalance.GetPropertiesHashCode() : 0)) * 31 + ((m_BoosterCurrencyBalance != null) ? m_BoosterCurrencyBalance.GetPropertiesHashCode() : 0)) * 31 + ((m_GoldBalance != null) ? m_GoldBalance.GetPropertiesHashCode() : 0)) * 31 + ((m_DustBalance != null) ? m_DustBalance.GetPropertiesHashCode() : 0)) * 31;
+		hash = num3 + m_AutoconvertCurrency.GetHashCode();
+		if (m_VirtualCurrencyBalance != null && !inspectedDataModels.Contains(m_VirtualCurrencyBalance.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_VirtualCurrencyBalance.GetHashCode());
+			hash = hash * 31 + m_VirtualCurrencyBalance.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_BoosterCurrencyBalance != null && !inspectedDataModels.Contains(m_BoosterCurrencyBalance.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BoosterCurrencyBalance.GetHashCode());
+			hash = hash * 31 + m_BoosterCurrencyBalance.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_GoldBalance != null && !inspectedDataModels.Contains(m_GoldBalance.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_GoldBalance.GetHashCode());
+			hash = hash * 31 + m_GoldBalance.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_DustBalance != null && !inspectedDataModels.Contains(m_DustBalance.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_DustBalance.GetHashCode());
+			hash = hash * 31 + m_DustBalance.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num4 = hash * 31;
 		_ = m_TavernTicketBalance;
-		int num5 = (num4 + m_TavernTicketBalance.GetHashCode()) * 31;
+		hash = num4 + m_TavernTicketBalance.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_DebugShowProductIds;
-		int num6 = ((((num5 + m_DebugShowProductIds.GetHashCode()) * 31 + ((m_TabsWithUndisplayedProducts != null) ? m_TabsWithUndisplayedProducts.GetPropertiesHashCode() : 0)) * 31 + ((m_RenownBalance != null) ? m_RenownBalance.GetPropertiesHashCode() : 0)) * 31 + ((m_BattlegroundsTokenBalance != null) ? m_BattlegroundsTokenBalance.GetPropertiesHashCode() : 0)) * 31;
+		hash = num5 + m_DebugShowProductIds.GetHashCode();
+		if (m_TabsWithUndisplayedProducts != null && !inspectedDataModels.Contains(m_TabsWithUndisplayedProducts.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TabsWithUndisplayedProducts.GetHashCode());
+			hash = hash * 31 + m_TabsWithUndisplayedProducts.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_RenownBalance != null && !inspectedDataModels.Contains(m_RenownBalance.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_RenownBalance.GetHashCode());
+			hash = hash * 31 + m_RenownBalance.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_BattlegroundsTokenBalance != null && !inspectedDataModels.Contains(m_BattlegroundsTokenBalance.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_BattlegroundsTokenBalance.GetHashCode());
+			hash = hash * 31 + m_BattlegroundsTokenBalance.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num6 = hash * 31;
 		_ = m_AllowRealMoneyPurchases;
-		return (num6 + m_AllowRealMoneyPurchases.GetHashCode()) * 31 + ((m_DisableRealMoneyPurchaseMessage != null) ? m_DisableRealMoneyPurchaseMessage.GetHashCode() : 0);
+		hash = num6 + m_AllowRealMoneyPurchases.GetHashCode();
+		return hash * 31 + ((m_DisableRealMoneyPurchaseMessage != null) ? m_DisableRealMoneyPurchaseMessage.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

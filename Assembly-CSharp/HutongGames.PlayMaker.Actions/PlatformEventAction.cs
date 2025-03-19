@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Event based on current platform")]
+[ActionCategory("Pegasus")]
 public class PlatformEventAction : FsmStateAction
 {
 	public FsmEvent m_DefaultEvent;

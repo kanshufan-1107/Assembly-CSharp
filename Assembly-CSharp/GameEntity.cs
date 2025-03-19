@@ -1048,6 +1048,11 @@ public class GameEntity : Entity
 		MulliganManager.Get().SkipMulligan();
 	}
 
+	public virtual Vector3 GetMulliganDetailTextPositionOverride()
+	{
+		return Vector3.zero;
+	}
+
 	public virtual string GetMulliganDetailText()
 	{
 		return null;
@@ -1301,6 +1306,17 @@ public class GameEntity : Entity
 
 	public virtual void StartMulliganSoundtracks(bool soft)
 	{
+		Card friendlyHeroCard = GameState.Get().GetFriendlySidePlayer().GetHeroCard();
+		if (friendlyHeroCard != null && friendlyHeroCard.GetEntity() != null)
+		{
+			CornerReplacementSpellType cornerReplacementSpellType = (CornerReplacementSpellType)friendlyHeroCard.GetEntity().GetTag(GAME_TAG.CORNER_REPLACEMENT_TYPE);
+			MusicPlaylistType mulliganMusic = CornerReplacementConfig.Get().GetMulliganMusic(cornerReplacementSpellType);
+			if (mulliganMusic != 0)
+			{
+				MusicManager.Get().StartPlaylist(mulliganMusic);
+				return;
+			}
+		}
 		if (soft)
 		{
 			MusicManager.Get().StartPlaylist(MusicPlaylistType.InGame_MulliganSoft);

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Stores the value of an Actor's bone of a given name into a Vector3.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Stores the value of an Actor's bone of a given name into a Vector3.")]
 public class GetActorBoneAction : FsmStateAction
 {
 	public FsmGameObject m_actorObject;
@@ -11,8 +11,8 @@ public class GetActorBoneAction : FsmStateAction
 	public string m_boneName;
 
 	[Tooltip("Output variable.")]
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
+	[UIHint(UIHint.Variable)]
 	public FsmVector3 m_Bone;
 
 	public override void Reset()

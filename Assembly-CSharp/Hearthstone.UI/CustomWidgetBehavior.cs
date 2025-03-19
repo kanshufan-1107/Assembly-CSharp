@@ -10,9 +10,9 @@ using UnityEngine;
 namespace Hearthstone.UI;
 
 [ExecuteAlways]
+[NestedReferenceScope(NestedReference.Scope.Children)]
 [AddComponentMenu("")]
 [SelectionBase]
-[NestedReferenceScope(NestedReference.Scope.Children)]
 public abstract class CustomWidgetBehavior : WidgetBehavior, IAsyncInitializationBehavior, IVisibleWidgetComponent, ILayerOverridable, IPopupRendering
 {
 	protected delegate void CreateObjectDelegate(IPreviewableObject previewableObject, Action<GameObject> createdCallback);

@@ -7,12 +7,12 @@ using UnityEngine;
 
 public abstract class ShopTabBase : MonoBehaviour
 {
-	[SerializeField]
 	[Header("Base")]
+	[SerializeField]
 	private Widget m_widget;
 
-	[SerializeField]
 	[Header("Tooltip")]
+	[SerializeField]
 	private TooltipZone m_toolTip;
 
 	[SerializeField]

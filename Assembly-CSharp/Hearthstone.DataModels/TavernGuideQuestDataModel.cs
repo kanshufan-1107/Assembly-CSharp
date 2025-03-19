@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.Progression;
 using Hearthstone.UI;
 
@@ -224,15 +225,35 @@ public class TavernGuideQuestDataModel : DataModelEventDispatcher, IDataModel, I
 		RegisterNestedDataModel(m_Quest);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = ((((17 * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_SelectedDescription != null) ? m_SelectedDescription.GetHashCode() : 0)) * 31 + ((m_RecommendedClasses != null) ? m_RecommendedClasses.GetHashCode() : 0)) * 31 + ((m_Quest != null) ? m_Quest.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0);
+		hash = hash * 31 + ((m_SelectedDescription != null) ? m_SelectedDescription.GetHashCode() : 0);
+		hash = hash * 31 + ((m_RecommendedClasses != null) ? m_RecommendedClasses.GetHashCode() : 0);
+		if (m_Quest != null && !inspectedDataModels.Contains(m_Quest.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Quest.GetHashCode());
+			hash = hash * 31 + m_Quest.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_Status;
-		int num2 = (num + m_Status.GetHashCode()) * 31;
+		hash = num + m_Status.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_ShouldShowProgressAmount;
-		int num3 = (num2 + m_ShouldShowProgressAmount.GetHashCode()) * 31;
+		hash = num2 + m_ShouldShowProgressAmount.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_ID;
-		return (num3 + m_ID.GetHashCode()) * 31 + ((m_UnlockRequirementsDescription != null) ? m_UnlockRequirementsDescription.GetHashCode() : 0);
+		hash = num3 + m_ID.GetHashCode();
+		return hash * 31 + ((m_UnlockRequirementsDescription != null) ? m_UnlockRequirementsDescription.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

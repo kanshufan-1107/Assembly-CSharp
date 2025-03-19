@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 using PegasusShared;
 
@@ -299,25 +300,48 @@ public class RewardTrackNodeRewardsDataModel : DataModelEventDispatcher, IDataMo
 		RegisterNestedDataModel(m_Items);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_Level;
-		int num2 = ((num + m_Level.GetHashCode()) * 31 + ((m_Summary != null) ? m_Summary.GetHashCode() : 0)) * 31;
+		hash = num + m_Level.GetHashCode();
+		hash = hash * 31 + ((m_Summary != null) ? m_Summary.GetHashCode() : 0);
+		int num2 = hash * 31;
 		_ = m_IsPremium;
-		int num3 = (num2 + m_IsPremium.GetHashCode()) * 31;
+		hash = num2 + m_IsPremium.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_IsClaimed;
-		int num4 = ((num3 + m_IsClaimed.GetHashCode()) * 31 + ((m_Items != null) ? m_Items.GetPropertiesHashCode() : 0)) * 31;
+		hash = num3 + m_IsClaimed.GetHashCode();
+		if (m_Items != null && !inspectedDataModels.Contains(m_Items.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Items.GetHashCode());
+			hash = hash * 31 + m_Items.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num4 = hash * 31;
 		_ = m_IsClaimable;
-		int num5 = (num4 + m_IsClaimable.GetHashCode()) * 31;
+		hash = num4 + m_IsClaimable.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_RewardTrackType;
-		int num6 = (num5 + m_RewardTrackType.GetHashCode()) * 31;
+		hash = num5 + m_RewardTrackType.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_RewardTrackId;
-		int num7 = (num6 + m_RewardTrackId.GetHashCode()) * 31;
+		hash = num6 + m_RewardTrackId.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_PaidType;
-		int num8 = (num7 + m_PaidType.GetHashCode()) * 31;
+		hash = num7 + m_PaidType.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_IsUnrevealedAndLocked;
-		return (num8 + m_IsUnrevealedAndLocked.GetHashCode()) * 31 + ((m_PassLabel != null) ? m_PassLabel.GetHashCode() : 0);
+		hash = num8 + m_IsUnrevealedAndLocked.GetHashCode();
+		return hash * 31 + ((m_PassLabel != null) ? m_PassLabel.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

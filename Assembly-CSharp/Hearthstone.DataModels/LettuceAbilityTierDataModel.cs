@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -198,15 +199,34 @@ public class LettuceAbilityTierDataModel : DataModelEventDispatcher, IDataModel,
 		RegisterNestedDataModel(m_AbilityTierCard);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_Tier;
-		int num2 = ((((num + m_Tier.GetHashCode()) * 31 + ((m_AbilityName != null) ? m_AbilityName.GetHashCode() : 0)) * 31 + ((m_CoinCraftCost != null) ? m_CoinCraftCost.GetHashCode() : 0)) * 31 + ((m_AbilityTierCard != null) ? m_AbilityTierCard.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_Tier.GetHashCode();
+		hash = hash * 31 + ((m_AbilityName != null) ? m_AbilityName.GetHashCode() : 0);
+		hash = hash * 31 + ((m_CoinCraftCost != null) ? m_CoinCraftCost.GetHashCode() : 0);
+		if (m_AbilityTierCard != null && !inspectedDataModels.Contains(m_AbilityTierCard.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_AbilityTierCard.GetHashCode());
+			hash = hash * 31 + m_AbilityTierCard.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_ParentAbilityId;
-		int num3 = (num2 + m_ParentAbilityId.GetHashCode()) * 31;
+		hash = num2 + m_ParentAbilityId.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_ValidTier;
-		int num4 = (num3 + m_ValidTier.GetHashCode()) * 31;
+		hash = num3 + m_ValidTier.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_TierId;
 		return num4 + m_TierId.GetHashCode();
 	}

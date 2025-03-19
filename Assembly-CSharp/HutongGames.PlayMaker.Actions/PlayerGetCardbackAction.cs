@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Store a player's cardback materials based on Player side.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Store a player's cardback materials based on Player side.")]
 public class PlayerGetCardbackAction : FsmStateAction
 {
 	public Player.Side m_PlayerSide;

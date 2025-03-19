@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -48,9 +49,19 @@ public class HeroClassIconsDataModel : DataModelEventDispatcher, IDataModel, IDa
 		RegisterNestedDataModel(m_Classes);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return 17 * 31 + ((m_Classes != null) ? m_Classes.GetPropertiesHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Classes != null && !inspectedDataModels.Contains(m_Classes.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Classes.GetHashCode());
+			return hash * 31 + m_Classes.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)

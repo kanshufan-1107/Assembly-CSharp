@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Trigger desaturate effects action.")]
+[ActionCategory("Pegasus")]
 public class DesaturateAction : FsmStateAction
 {
 	public enum ActionType

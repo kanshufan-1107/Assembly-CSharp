@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -191,8 +192,12 @@ public class DownloadManagerDialogModuleItemDataModel : DataModelEventDispatcher
 
 	public DataModelProperty[] Properties => m_properties;
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
 		int num = (17 * 31 + ((m_ID != null) ? m_ID.GetHashCode() : 0)) * 31;
 		_ = m_Status;
 		int num2 = (((((num + m_Status.GetHashCode()) * 31 + ((m_NameLabel != null) ? m_NameLabel.GetHashCode() : 0)) * 31 + ((m_TotalSizeLabel != null) ? m_TotalSizeLabel.GetHashCode() : 0)) * 31 + ((m_DownloadedSizeLabel != null) ? m_DownloadedSizeLabel.GetHashCode() : 0)) * 31 + ((m_RemainingTimeLabel != null) ? m_RemainingTimeLabel.GetHashCode() : 0)) * 31;

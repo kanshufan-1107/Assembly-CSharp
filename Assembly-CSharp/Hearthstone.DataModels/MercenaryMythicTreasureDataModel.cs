@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -123,13 +124,29 @@ public class MercenaryMythicTreasureDataModel : DataModelEventDispatcher, IDataM
 		RegisterNestedDataModel(m_MyticTreasure);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_TreasureId;
-		int num2 = ((num + m_TreasureId.GetHashCode()) * 31 + ((m_MyticTreasure != null) ? m_MyticTreasure.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_TreasureId.GetHashCode();
+		if (m_MyticTreasure != null && !inspectedDataModels.Contains(m_MyticTreasure.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_MyticTreasure.GetHashCode());
+			hash = hash * 31 + m_MyticTreasure.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_TreasureScalar;
-		int num3 = (num2 + m_TreasureScalar.GetHashCode()) * 31;
+		hash = num2 + m_TreasureScalar.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_ReadyForUpgrade;
 		return num3 + m_ReadyForUpgrade.GetHashCode();
 	}

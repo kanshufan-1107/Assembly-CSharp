@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -473,35 +474,65 @@ public class LettuceAbilityDataModel : DataModelEventDispatcher, IDataModel, IDa
 		RegisterNestedDataModel(m_AbilityTiers);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_AbilityId;
-		int num2 = ((num + m_AbilityId.GetHashCode()) * 31 + ((m_AbilityName != null) ? m_AbilityName.GetHashCode() : 0)) * 31;
+		hash = num + m_AbilityId.GetHashCode();
+		hash = hash * 31 + ((m_AbilityName != null) ? m_AbilityName.GetHashCode() : 0);
+		int num2 = hash * 31;
 		_ = m_CurrentTier;
-		int num3 = (num2 + m_CurrentTier.GetHashCode()) * 31;
+		hash = num2 + m_CurrentTier.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_MaxTier;
-		int num4 = ((num3 + m_MaxTier.GetHashCode()) * 31 + ((m_AbilityTiers != null) ? m_AbilityTiers.GetPropertiesHashCode() : 0)) * 31;
+		hash = num3 + m_MaxTier.GetHashCode();
+		if (m_AbilityTiers != null && !inspectedDataModels.Contains(m_AbilityTiers.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_AbilityTiers.GetHashCode());
+			hash = hash * 31 + m_AbilityTiers.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num4 = hash * 31;
 		_ = m_UnlockLevel;
-		int num5 = (num4 + m_UnlockLevel.GetHashCode()) * 31;
+		hash = num4 + m_UnlockLevel.GetHashCode();
+		int num5 = hash * 31;
 		_ = m_ParentMercId;
-		int num6 = (num5 + m_ParentMercId.GetHashCode()) * 31;
+		hash = num5 + m_ParentMercId.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_AbilityRole;
-		int num7 = (num6 + m_AbilityRole.GetHashCode()) * 31;
+		hash = num6 + m_AbilityRole.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_ReadyForUpgrade;
-		int num8 = ((num7 + m_ReadyForUpgrade.GetHashCode()) * 31 + ((m_LockPlateText != null) ? m_LockPlateText.GetHashCode() : 0)) * 31;
+		hash = num7 + m_ReadyForUpgrade.GetHashCode();
+		hash = hash * 31 + ((m_LockPlateText != null) ? m_LockPlateText.GetHashCode() : 0);
+		int num8 = hash * 31;
 		_ = m_Owned;
-		int num9 = (num8 + m_Owned.GetHashCode()) * 31;
+		hash = num8 + m_Owned.GetHashCode();
+		int num9 = hash * 31;
 		_ = m_IsEquipment;
-		int num10 = (num9 + m_IsEquipment.GetHashCode()) * 31;
+		hash = num9 + m_IsEquipment.GetHashCode();
+		int num10 = hash * 31;
 		_ = m_IsEquipped;
-		int num11 = (num10 + m_IsEquipped.GetHashCode()) * 31;
+		hash = num10 + m_IsEquipped.GetHashCode();
+		int num11 = hash * 31;
 		_ = m_IsAffectedBySlottedEquipment;
-		int num12 = ((num11 + m_IsAffectedBySlottedEquipment.GetHashCode()) * 31 + ((m_UnlockAchievementDescription != null) ? m_UnlockAchievementDescription.GetHashCode() : 0)) * 31;
+		hash = num11 + m_IsAffectedBySlottedEquipment.GetHashCode();
+		hash = hash * 31 + ((m_UnlockAchievementDescription != null) ? m_UnlockAchievementDescription.GetHashCode() : 0);
+		int num12 = hash * 31;
 		_ = m_IsNew;
-		int num13 = (num12 + m_IsNew.GetHashCode()) * 31;
+		hash = num12 + m_IsNew.GetHashCode();
+		int num13 = hash * 31;
 		_ = m_CanMythicScale;
-		int num14 = (num13 + m_CanMythicScale.GetHashCode()) * 31;
+		hash = num13 + m_CanMythicScale.GetHashCode();
+		int num14 = hash * 31;
 		_ = m_MythicModifier;
 		return num14 + m_MythicModifier.GetHashCode();
 	}

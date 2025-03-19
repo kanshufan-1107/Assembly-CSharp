@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -73,9 +74,23 @@ public class QuestListDataModel : DataModelEventDispatcher, IDataModel, IDataMod
 		RegisterNestedDataModel(m_Quests);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		return (17 * 31 + ((m_Quests != null) ? m_Quests.GetPropertiesHashCode() : 0)) * 31 + ((m_BankedQuestCountMessage != null) ? m_BankedQuestCountMessage.GetHashCode() : 0);
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		if (m_Quests != null && !inspectedDataModels.Contains(m_Quests.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Quests.GetHashCode());
+			hash = hash * 31 + m_Quests.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		return hash * 31 + ((m_BankedQuestCountMessage != null) ? m_BankedQuestCountMessage.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

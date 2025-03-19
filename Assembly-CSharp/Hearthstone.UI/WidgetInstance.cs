@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
-[ExecuteAlways]
-[DisallowMultipleComponent]
 [NestedReferenceScope(NestedReference.Scope.Children)]
+[ExecuteAlways]
+[AddComponentMenu("")]
+[DisallowMultipleComponent]
 public class WidgetInstance : Widget, INestedReferenceResolver, IAsyncInitializationBehavior, IPopupRendering
 {
 	private enum LoadingPolicy
@@ -23,12 +23,12 @@ public class WidgetInstance : Widget, INestedReferenceResolver, IAsyncInitializa
 
 	public const int UseInstanceLayer = -2;
 
-	[SerializeField]
 	[HideInInspector]
+	[SerializeField]
 	private WeakAssetReference m_widgetTemplate;
 
-	[SerializeField]
 	[HideInInspector]
+	[SerializeField]
 	private int m_layerOverride = -1;
 
 	[SerializeField]

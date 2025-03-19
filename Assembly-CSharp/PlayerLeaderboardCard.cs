@@ -83,6 +83,11 @@ public class PlayerLeaderboardCard : HistoryItem
 		Overlay.SetBattlegroundHeroBuddyEnabledDirty();
 	}
 
+	public void SetAdditionalHeroPowersDirty()
+	{
+		Overlay.SetAdditionalHeroPowersDirty();
+	}
+
 	public void SetBGQuestRewardDirty()
 	{
 		Overlay.SetBGQuestRewardDirty();

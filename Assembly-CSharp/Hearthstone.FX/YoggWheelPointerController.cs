@@ -7,8 +7,8 @@ namespace Hearthstone.FX;
 [DisallowMultipleComponent]
 public class YoggWheelPointerController : MonoBehaviour
 {
-	[SerializeField]
 	[Tooltip("Expecting a BOOL parameter that triggers a looping animation.")]
+	[SerializeField]
 	[Header("Animator Parameters")]
 	private string m_loopingBool = "Loop";
 

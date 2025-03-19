@@ -10,8 +10,8 @@ public class SpellGetCardRaceCountAction : SpellAction
 
 	public Which m_WhichCard;
 
-	[Tooltip("Output variable.")]
 	[UIHint(UIHint.Variable)]
+	[Tooltip("Output variable.")]
 	[RequiredField]
 	public FsmInt m_RaceCount;
 

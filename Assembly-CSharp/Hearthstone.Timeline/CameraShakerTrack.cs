@@ -5,8 +5,8 @@ using UnityEngine.Timeline;
 namespace Hearthstone.Timeline;
 
 [Obsolete("Use CameraShaker2 instead.", false)]
-[TrackBindingType(typeof(Camera))]
 [TrackClipType(typeof(CameraShakerAsset))]
+[TrackBindingType(typeof(Camera))]
 public class CameraShakerTrack : TrackAsset
 {
 }

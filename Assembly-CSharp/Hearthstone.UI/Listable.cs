@@ -13,10 +13,10 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
-[DisallowMultipleComponent]
 [HelpURL("https://confluence.blizzard.com/x/PxZVJg")]
 [ExecuteAlways]
+[AddComponentMenu("")]
+[DisallowMultipleComponent]
 public class Listable : WidgetBehavior, IBoundsDependent, IPopupRendering, ILayerOverridable, IVisibleWidgetComponent
 {
 	public enum LayoutMode
@@ -33,8 +33,8 @@ public class Listable : WidgetBehavior, IBoundsDependent, IPopupRendering, ILaye
 	[Tooltip("A reference to the Widget to be used as the item template.")]
 	private WeakAssetReference m_itemTemplate;
 
-	[Tooltip("A script that needs to evaluate to a data model list that is used to generate the list of items.")]
 	[SerializeField]
+	[Tooltip("A script that needs to evaluate to a data model list that is used to generate the list of items.")]
 	private ScriptString m_valueScript;
 
 	[SerializeField]

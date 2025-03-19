@@ -15,8 +15,8 @@ public class GetDeckMeshClone : FsmStateAction
 	public bool m_DisableRenderer;
 
 	[RequiredField]
-	[UIHint(UIHint.FsmGameObject)]
 	[Tooltip("Output GameObject.")]
+	[UIHint(UIHint.FsmGameObject)]
 	public FsmGameObject m_DeckClone;
 
 	public override void Reset()

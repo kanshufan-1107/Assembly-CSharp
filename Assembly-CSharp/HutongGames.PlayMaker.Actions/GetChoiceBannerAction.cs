@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Get the banner game object when a choice is happening")]
+[ActionCategory("Pegasus")]
 public class GetChoiceBannerAction : FsmStateAction
 {
 	public FsmGameObject m_bannerObject;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -254,13 +255,50 @@ public class AdventureBookPageDataModel : DataModelEventDispatcher, IDataModel, 
 		RegisterNestedDataModel(m_NumChaptersOwnedText);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = 17 * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		int num = hash * 31;
 		_ = m_PageType;
-		int num2 = (((num + m_PageType.GetHashCode()) * 31 + ((m_ChapterData != null) ? m_ChapterData.GetPropertiesHashCode() : 0)) * 31 + ((m_NumChaptersCompletedText != null) ? m_NumChaptersCompletedText.GetHashCode() : 0)) * 31;
+		hash = num + m_PageType.GetHashCode();
+		if (m_ChapterData != null && !inspectedDataModels.Contains(m_ChapterData.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_ChapterData.GetHashCode());
+			hash = hash * 31 + m_ChapterData.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_NumChaptersCompletedText != null) ? m_NumChaptersCompletedText.GetHashCode() : 0);
+		int num2 = hash * 31;
 		_ = m_MoralAlignment;
-		int num3 = (((((num2 + m_MoralAlignment.GetHashCode()) * 31 + ((m_AllChaptersData != null) ? m_AllChaptersData.GetPropertiesHashCode() : 0)) * 31 + ((m_NumBossesDefeatedText != null) ? m_NumBossesDefeatedText.GetHashCode() : 0)) * 31 + ((m_NumCardsCollectedText != null) ? m_NumCardsCollectedText.GetHashCode() : 0)) * 31 + ((m_NumChaptersOwnedText != null) ? m_NumChaptersOwnedText.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_MoralAlignment.GetHashCode();
+		if (m_AllChaptersData != null && !inspectedDataModels.Contains(m_AllChaptersData.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_AllChaptersData.GetHashCode());
+			hash = hash * 31 + m_AllChaptersData.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		hash = hash * 31 + ((m_NumBossesDefeatedText != null) ? m_NumBossesDefeatedText.GetHashCode() : 0);
+		hash = hash * 31 + ((m_NumCardsCollectedText != null) ? m_NumCardsCollectedText.GetHashCode() : 0);
+		if (m_NumChaptersOwnedText != null && !inspectedDataModels.Contains(m_NumChaptersOwnedText.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_NumChaptersOwnedText.GetHashCode());
+			hash = hash * 31 + m_NumChaptersOwnedText.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_AllChaptersCompletedInCurrentSection;
 		return num3 + m_AllChaptersCompletedInCurrentSection.GetHashCode();
 	}

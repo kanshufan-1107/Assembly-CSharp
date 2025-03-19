@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets;
 using Hearthstone.UI;
 
@@ -255,15 +256,52 @@ public class TavernGuideQuestSetDataModel : DataModelEventDispatcher, IDataModel
 		RegisterNestedDataModel(m_CompletionAchievement);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (((17 * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0)) * 31 + ((m_Quests != null) ? m_Quests.GetPropertiesHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Description != null) ? m_Description.GetHashCode() : 0);
+		if (m_Quests != null && !inspectedDataModels.Contains(m_Quests.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Quests.GetHashCode());
+			hash = hash * 31 + m_Quests.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num = hash * 31;
 		_ = m_QuestLayoutType;
-		int num2 = ((num + m_QuestLayoutType.GetHashCode()) * 31 + ((m_SelectedQuest != null) ? m_SelectedQuest.GetPropertiesHashCode() : 0)) * 31;
+		hash = num + m_QuestLayoutType.GetHashCode();
+		if (m_SelectedQuest != null && !inspectedDataModels.Contains(m_SelectedQuest.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_SelectedQuest.GetHashCode());
+			hash = hash * 31 + m_SelectedQuest.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num2 = hash * 31;
 		_ = m_Category;
-		int num3 = (num2 + m_Category.GetHashCode()) * 31;
+		hash = num2 + m_Category.GetHashCode();
+		int num3 = hash * 31;
 		_ = m_ID;
-		int num4 = ((num3 + m_ID.GetHashCode()) * 31 + ((m_CompletionAchievement != null) ? m_CompletionAchievement.GetPropertiesHashCode() : 0)) * 31;
+		hash = num3 + m_ID.GetHashCode();
+		if (m_CompletionAchievement != null && !inspectedDataModels.Contains(m_CompletionAchievement.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_CompletionAchievement.GetHashCode());
+			hash = hash * 31 + m_CompletionAchievement.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num4 = hash * 31;
 		_ = m_HasNewQuest;
 		return num4 + m_HasNewQuest.GetHashCode();
 	}

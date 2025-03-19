@@ -1,16 +1,16 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Stores the specified tag value for Entity with passed Entity ID in passed int.")]
+[ActionCategory("Pegasus")]
 public class GetEntityIDTagValueAction : FsmStateAction
 {
 	public FsmInt m_entityID;
 
 	public GAME_TAG m_tagToCheck;
 
-	[RequiredField]
-	[UIHint(UIHint.Variable)]
 	[Tooltip("Output variable.")]
+	[UIHint(UIHint.Variable)]
+	[RequiredField]
 	public FsmInt m_TagValue;
 
 	public override void Reset()

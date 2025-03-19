@@ -216,19 +216,26 @@ public class LettuceVillageTaskBoardManager : MonoBehaviour
 			yield return null;
 		}
 		OnUpdatedTaskData();
-		while (!m_taskBoard.IsDataModelReady())
+		while (m_taskBoard != null && !m_taskBoard.IsDataModelReady())
 		{
 			yield return null;
 		}
-		while (!m_taskCollection.IsReady())
+		if (m_taskBoard == null)
+		{
+			yield break;
+		}
+		while (m_taskCollection != null && !m_taskCollection.IsReady())
 		{
 			yield return null;
 		}
-		m_isReady = true;
-		m_waitForReadyCoroutine = null;
-		if (!TryFocusVisitor(m_focusedVisitorId))
+		if (!(m_taskCollection == null))
 		{
-			OnTaskBoardTabClicked(null);
+			m_isReady = true;
+			m_waitForReadyCoroutine = null;
+			if (!TryFocusVisitor(m_focusedVisitorId))
+			{
+				OnTaskBoardTabClicked(null);
+			}
 		}
 	}
 

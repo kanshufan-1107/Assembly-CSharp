@@ -15,9 +15,9 @@ public class CutsceneManager : MonoBehaviour
 
 	private static CutsceneManager s_instance;
 
-	[SerializeField]
-	[Min(1f)]
 	[Header("Manager Config")]
+	[Min(1f)]
+	[SerializeField]
 	[Tooltip("Time (seconds) to wait with no active cutscene data before unloading the cutscene (Min 1sec to avoid race conditions)")]
 	private float m_managerWaitToDestroyTimerSeconds = 10f;
 
@@ -30,15 +30,15 @@ public class CutsceneManager : MonoBehaviour
 	[SerializeField]
 	private CutsceneAntiAliasingLevel m_antiAliasingLevel = CutsceneAntiAliasingLevel.FOUR;
 
-	[SerializeField]
 	[Header("Scene Setup/Core")]
+	[SerializeField]
 	private Transform m_rootTransform;
 
 	[SerializeField]
 	private CutsceneTimeline m_timeline;
 
-	[SerializeField]
 	[Header("Scene Setup/Heroes")]
+	[SerializeField]
 	private CutsceneCardLoader m_friendlyHeroCardLoader;
 
 	[SerializeField]
@@ -50,12 +50,12 @@ public class CutsceneManager : MonoBehaviour
 	[SerializeField]
 	private CutsceneCardLoader m_opponentHeroPowerCardLoader;
 
-	[Header("Alternate Form Hero")]
 	[SerializeField]
+	[Header("Alternate Form Hero")]
 	private CutsceneCardLoader m_alternateFormHeroCardLoader;
 
-	[Header("Scene Setup/Minions")]
 	[SerializeField]
+	[Header("Scene Setup/Minions")]
 	private List<CutsceneCardLoader> m_friendlyMinionCardLoaders;
 
 	[SerializeField]

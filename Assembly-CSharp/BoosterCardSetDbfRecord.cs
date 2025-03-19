@@ -15,6 +15,9 @@ public class BoosterCardSetDbfRecord : DbfRecord
 	[SerializeField]
 	private string m_watermarkTextureOverride;
 
+	[SerializeField]
+	private bool m_useLatestExpansionSetWatermark;
+
 	[DbfField("SUBSET_ID")]
 	public int SubsetId => m_subsetId;
 
@@ -28,6 +31,9 @@ public class BoosterCardSetDbfRecord : DbfRecord
 	[DbfField("WATERMARK_TEXTURE_OVERRIDE")]
 	public string WatermarkTextureOverride => m_watermarkTextureOverride;
 
+	[DbfField("USE_LATEST_EXPANSION_SET_WATERMARK")]
+	public bool UseLatestExpansionSetWatermark => m_useLatestExpansionSetWatermark;
+
 	public override object GetVar(string name)
 	{
 		return name switch
@@ -36,6 +42,7 @@ public class BoosterCardSetDbfRecord : DbfRecord
 			"SUBSET_ID" => m_subsetId, 
 			"CARD_SET_ID" => m_cardSetId, 
 			"WATERMARK_TEXTURE_OVERRIDE" => m_watermarkTextureOverride, 
+			"USE_LATEST_EXPANSION_SET_WATERMARK" => m_useLatestExpansionSetWatermark, 
 			_ => null, 
 		};
 	}
@@ -56,6 +63,9 @@ public class BoosterCardSetDbfRecord : DbfRecord
 		case "WATERMARK_TEXTURE_OVERRIDE":
 			m_watermarkTextureOverride = (string)val;
 			break;
+		case "USE_LATEST_EXPANSION_SET_WATERMARK":
+			m_useLatestExpansionSetWatermark = (bool)val;
+			break;
 		}
 	}
 
@@ -67,6 +77,7 @@ public class BoosterCardSetDbfRecord : DbfRecord
 			"SUBSET_ID" => typeof(int), 
 			"CARD_SET_ID" => typeof(int), 
 			"WATERMARK_TEXTURE_OVERRIDE" => typeof(string), 
+			"USE_LATEST_EXPANSION_SET_WATERMARK" => typeof(bool), 
 			_ => null, 
 		};
 	}

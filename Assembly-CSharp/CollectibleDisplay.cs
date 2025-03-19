@@ -47,8 +47,8 @@ public abstract class CollectibleDisplay : AbsSceneDisplay
 	[CustomEditField(Sections = "Bones")]
 	public GameObject m_root;
 
-	[CustomEditField(Sections = "Objects", T = EditType.GAME_OBJECT)]
 	[FormerlySerializedAs("m_coverPrefab")]
+	[CustomEditField(Sections = "Objects", T = EditType.GAME_OBJECT)]
 	public String_MobileOverride m_bookCoverPrefab;
 
 	[CustomEditField(Sections = "Objects")]

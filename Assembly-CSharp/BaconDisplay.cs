@@ -990,6 +990,21 @@ public class BaconDisplay : AbsSceneDisplay
 		return dataModel as BaconStatsPageDataModel;
 	}
 
+	private CardDataModel CreateCardDataModel(int cardDatabaseId)
+	{
+		CardDataModel cardDataModel = null;
+		string CardId = GameUtils.TranslateDbIdToCardId(cardDatabaseId);
+		if (!string.IsNullOrEmpty(CardId))
+		{
+			cardDataModel = new CardDataModel
+			{
+				CardId = CardId,
+				Premium = TAG_PREMIUM.NORMAL
+			};
+		}
+		return cardDataModel;
+	}
+
 	private void InitializePastGameStatsPageData(List<BaconPastGameStatsDataModel> pastGames, GameSaveKeyId gameSaveKey, bool teammate)
 	{
 		List<long> pastGameHeroes = GetBaconGameSaveValueList(gameSaveKey, teammate ? GameSaveKeySubkeyId.TEAMMATE_PAST_GAME_HEROES : GameSaveKeySubkeyId.BACON_PAST_GAME_HEROES);
@@ -1021,7 +1036,8 @@ public class BaconDisplay : AbsSceneDisplay
 		List<long> pastGameTrinket1MinionType = new List<long>();
 		List<long> pastGameTrinket2MinionType = new List<long>();
 		List<long> pastGameTrinketHeroPowerMinionType = new List<long>();
-		PopulateAdditionalInfoLists(pastGameHeroes?.Count ?? 0, gameSaveKey, ref pastGameMinionTaunt, ref pastGameMinionDivineShield, ref pastGameMinionPoisonous, ref pastGameMinionVenomous, ref pastGameMinionWindfury, ref pastGameMinionReborn, ref pastGameQuestIDs, ref pastGameRewardIDs, ref pastGameRewardIsCompleted, ref pastGameRewardCardDatabaseIDs, ref pastGameRewardMinionTypes, ref pastGameQuestProgressTotal, ref pastGameQuestRace1, ref pastGameQuestRace2, ref pastGameHeroBuddyMeter, ref pastGameNumHeroBuddiesGained, ref pastGameHeroBuddyDatabaseID, ref pastGameHeroBuddyCost, ref pastGameTrinket1DatabaseID, ref pastGameTrinket2DatabaseID, ref pastGameTrinketHeropowerDatabaseID, ref pastGameTrinket1MinionType, ref pastGameTrinket2MinionType, ref pastGameTrinketHeroPowerMinionType, teammate);
+		List<long> dualHeroPowers = new List<long>();
+		PopulateAdditionalInfoLists(pastGameHeroes?.Count ?? 0, gameSaveKey, ref pastGameMinionTaunt, ref pastGameMinionDivineShield, ref pastGameMinionPoisonous, ref pastGameMinionVenomous, ref pastGameMinionWindfury, ref pastGameMinionReborn, ref pastGameQuestIDs, ref pastGameRewardIDs, ref pastGameRewardIsCompleted, ref pastGameRewardCardDatabaseIDs, ref pastGameRewardMinionTypes, ref pastGameQuestProgressTotal, ref pastGameQuestRace1, ref pastGameQuestRace2, ref pastGameHeroBuddyMeter, ref pastGameNumHeroBuddiesGained, ref pastGameHeroBuddyDatabaseID, ref pastGameHeroBuddyCost, ref pastGameTrinket1DatabaseID, ref pastGameTrinket2DatabaseID, ref pastGameTrinketHeropowerDatabaseID, ref pastGameTrinket1MinionType, ref pastGameTrinket2MinionType, ref pastGameTrinketHeroPowerMinionType, ref dualHeroPowers, teammate);
 		int i = 0;
 		foreach (BaconPastGameStatsDataModel pastGame in pastGames)
 		{
@@ -1040,6 +1056,12 @@ public class BaconDisplay : AbsSceneDisplay
 			CardDataModel pastGameHeroPowerCard = new CardDataModel
 			{
 				CardId = GameUtils.GetHeroPowerCardIdFromHero((int)pastGameHeroes[i]),
+				Premium = TAG_PREMIUM.NORMAL,
+				SpellTypes = new DataModelList<SpellType> { SpellType.COIN_MANA_GEM }
+			};
+			CardDataModel pastGameDualHeroPowerCard = new CardDataModel
+			{
+				CardId = GameUtils.TranslateDbIdToCardId((int)dualHeroPowers[i]),
 				Premium = TAG_PREMIUM.NORMAL,
 				SpellTypes = new DataModelList<SpellType> { SpellType.COIN_MANA_GEM }
 			};
@@ -1080,12 +1102,7 @@ public class BaconDisplay : AbsSceneDisplay
 				CardId = trinket2CardId,
 				Premium = TAG_PREMIUM.NORMAL
 			};
-			string trinketHeropowerCardId = GameUtils.TranslateDbIdToCardId((int)pastGameTrinketHeropowerDatabaseID[i]);
-			CardDataModel pastGameTrinketHeropowerCard = new CardDataModel
-			{
-				CardId = trinketHeropowerCardId,
-				Premium = TAG_PREMIUM.NORMAL
-			};
+			CardDataModel pastGameTrinketHeropowerCard = CreateCardDataModel((int)pastGameTrinketHeropowerDatabaseID[i]);
 			DataModelList<CardDataModel> pastGameMinions = new DataModelList<CardDataModel>();
 			for (int j = 0; j < 7; j++)
 			{
@@ -1159,6 +1176,7 @@ public class BaconDisplay : AbsSceneDisplay
 				pastGame.TeammateTrinket1MinionType = (int)pastGameTrinket1MinionType[i];
 				pastGame.TeammateTrinket2MinionType = (int)pastGameTrinket2MinionType[i];
 				pastGame.TeammateTrinketHeroPowerMinionType = (int)pastGameTrinketHeroPowerMinionType[i];
+				pastGame.TeammateDualHeroPower = pastGameDualHeroPowerCard;
 			}
 			else
 			{
@@ -1185,6 +1203,7 @@ public class BaconDisplay : AbsSceneDisplay
 				pastGame.Trinket1MinionType = (int)pastGameTrinket1MinionType[i];
 				pastGame.Trinket2MinionType = (int)pastGameTrinket2MinionType[i];
 				pastGame.TrinketHeroPowerMinionType = (int)pastGameTrinketHeroPowerMinionType[i];
+				pastGame.DualHeroPower = pastGameDualHeroPowerCard;
 			}
 			i++;
 		}
@@ -1300,7 +1319,7 @@ public class BaconDisplay : AbsSceneDisplay
 		});
 	}
 
-	private void PopulateAdditionalInfoLists(int pastGames, GameSaveKeyId gameSaveKey, ref List<long> tauntList, ref List<long> divineShieldList, ref List<long> poisonousList, ref List<long> venomousList, ref List<long> windfuryList, ref List<long> rebornList, ref List<long> questIDList, ref List<long> rewardIDList, ref List<long> rewardIsCompletedList, ref List<long> rewardCardDatabaseIDList, ref List<long> rewardMinionTypeList, ref List<long> questProgressTotalList, ref List<long> questRace1List, ref List<long> questRace2List, ref List<long> heroBuddyList, ref List<long> numHeroBuddiesGainedList, ref List<long> heroBuddyDatabaseIDList, ref List<long> heroBuddyCostList, ref List<long> trinket1List, ref List<long> trinket2List, ref List<long> trinketHeropowerList, ref List<long> trinket1MinionTypeList, ref List<long> trinket2MinionTypeList, ref List<long> trinketHPMinionTypeList, bool teammate)
+	private void PopulateAdditionalInfoLists(int pastGames, GameSaveKeyId gameSaveKey, ref List<long> tauntList, ref List<long> divineShieldList, ref List<long> poisonousList, ref List<long> venomousList, ref List<long> windfuryList, ref List<long> rebornList, ref List<long> questIDList, ref List<long> rewardIDList, ref List<long> rewardIsCompletedList, ref List<long> rewardCardDatabaseIDList, ref List<long> rewardMinionTypeList, ref List<long> questProgressTotalList, ref List<long> questRace1List, ref List<long> questRace2List, ref List<long> heroBuddyList, ref List<long> numHeroBuddiesGainedList, ref List<long> heroBuddyDatabaseIDList, ref List<long> heroBuddyCostList, ref List<long> trinket1List, ref List<long> trinket2List, ref List<long> trinketHeropowerList, ref List<long> trinket1MinionTypeList, ref List<long> trinket2MinionTypeList, ref List<long> trinketHPMinionTypeList, ref List<long> dualHeroPowers, bool teammate)
 	{
 		tauntList = GetBaconGameSaveValueList(gameSaveKey, teammate ? GameSaveKeySubkeyId.TEAMMATE_PAST_GAME_MINIONS_TAUNT : GameSaveKeySubkeyId.BACON_PAST_GAME_MINIONS_TAUNT);
 		divineShieldList = GetBaconGameSaveValueList(gameSaveKey, teammate ? GameSaveKeySubkeyId.TEAMMATE_PAST_GAME_MINIONS_DIVINE_SHIELD : GameSaveKeySubkeyId.BACON_PAST_GAME_MINIONS_DIVINE_SHIELD);
@@ -1326,6 +1345,7 @@ public class BaconDisplay : AbsSceneDisplay
 		trinket1MinionTypeList = GetBaconGameSaveValueList(gameSaveKey, teammate ? GameSaveKeySubkeyId.TEAMMATE_PAST_GAME_TRINKET_1_MINION_TYPE : GameSaveKeySubkeyId.BACON_PAST_GAME_TRINKET_1_MINION_TYPE);
 		trinket2MinionTypeList = GetBaconGameSaveValueList(gameSaveKey, teammate ? GameSaveKeySubkeyId.TEAMMATE_PAST_GAME_TRINKET_2_MINION_TYPE : GameSaveKeySubkeyId.BACON_PAST_GAME_TRINKET_2_MINION_TYPE);
 		trinketHPMinionTypeList = GetBaconGameSaveValueList(gameSaveKey, teammate ? GameSaveKeySubkeyId.TEAMMATE_PAST_GAME_TRINKET_HEROPOWER_MINION_TYPE : GameSaveKeySubkeyId.BACON_PAST_GAME_TRINKET_HEROPOWER_MINION_TYPE);
+		dualHeroPowers = GetBaconGameSaveValueList(gameSaveKey, teammate ? GameSaveKeySubkeyId.TEAMMATE_PAST_GAME_DUAL_HERO_POWER : GameSaveKeySubkeyId.BACON_PAST_GAME_DUAL_HERO_POWER);
 		if (tauntList == null)
 		{
 			tauntList = new List<long>();
@@ -1422,6 +1442,10 @@ public class BaconDisplay : AbsSceneDisplay
 		{
 			trinketHPMinionTypeList = new List<long>();
 		}
+		if (dualHeroPowers == null)
+		{
+			dualHeroPowers = new List<long>();
+		}
 		while (tauntList.Count < pastGames * 7)
 		{
 			tauntList.Insert(0, 0L);
@@ -1517,6 +1541,10 @@ public class BaconDisplay : AbsSceneDisplay
 		while (trinketHPMinionTypeList.Count < pastGames)
 		{
 			trinketHPMinionTypeList.Insert(0, 0L);
+		}
+		while (dualHeroPowers.Count < pastGames)
+		{
+			dualHeroPowers.Insert(0, 0L);
 		}
 	}
 

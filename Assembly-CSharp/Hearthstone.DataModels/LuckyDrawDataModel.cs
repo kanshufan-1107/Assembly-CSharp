@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Hearthstone.UI;
 
 namespace Hearthstone.DataModels;
@@ -426,25 +427,61 @@ public class LuckyDrawDataModel : DataModelEventDispatcher, IDataModel, IDataMod
 		RegisterNestedDataModel(m_Rewards);
 	}
 
-	public int GetPropertiesHashCode()
+	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
 	{
-		int num = (((17 * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0)) * 31 + ((m_Theme != null) ? m_Theme.GetHashCode() : 0)) * 31 + ((m_Layout != null) ? m_Layout.GetHashCode() : 0)) * 31;
+		if (inspectedDataModels == null)
+		{
+			inspectedDataModels = new HashSet<int>();
+		}
+		int hash = 17;
+		hash = hash * 31 + ((m_Name != null) ? m_Name.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Theme != null) ? m_Theme.GetHashCode() : 0);
+		hash = hash * 31 + ((m_Layout != null) ? m_Layout.GetHashCode() : 0);
+		int num = hash * 31;
 		_ = m_HasPaid;
-		int num2 = (num + m_HasPaid.GetHashCode()) * 31;
+		hash = num + m_HasPaid.GetHashCode();
+		int num2 = hash * 31;
 		_ = m_Hammers;
-		int num3 = (((num2 + m_Hammers.GetHashCode()) * 31 + ((m_Product != null) ? m_Product.GetPropertiesHashCode() : 0)) * 31 + ((m_Rewards != null) ? m_Rewards.GetPropertiesHashCode() : 0)) * 31;
+		hash = num2 + m_Hammers.GetHashCode();
+		if (m_Product != null && !inspectedDataModels.Contains(m_Product.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Product.GetHashCode());
+			hash = hash * 31 + m_Product.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		if (m_Rewards != null && !inspectedDataModels.Contains(m_Rewards.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_Rewards.GetHashCode());
+			hash = hash * 31 + m_Rewards.GetPropertiesHashCode(inspectedDataModels);
+		}
+		else
+		{
+			hash *= 31;
+		}
+		int num3 = hash * 31;
 		_ = m_Event;
-		int num4 = (num3 + m_Event.GetHashCode()) * 31;
+		hash = num3 + m_Event.GetHashCode();
+		int num4 = hash * 31;
 		_ = m_NumUnacknowledgedHammers;
-		int num5 = ((num4 + m_NumUnacknowledgedHammers.GetHashCode()) * 31 + ((m_TimeLeft != null) ? m_TimeLeft.GetHashCode() : 0)) * 31;
+		hash = num4 + m_NumUnacknowledgedHammers.GetHashCode();
+		hash = hash * 31 + ((m_TimeLeft != null) ? m_TimeLeft.GetHashCode() : 0);
+		int num5 = hash * 31;
 		_ = m_IsAllRewardsOwned;
-		int num6 = (num5 + m_IsAllRewardsOwned.GetHashCode()) * 31;
+		hash = num5 + m_IsAllRewardsOwned.GetHashCode();
+		int num6 = hash * 31;
 		_ = m_NumUnacknowledgedBonusHammers;
-		int num7 = (num6 + m_NumUnacknowledgedBonusHammers.GetHashCode()) * 31;
+		hash = num6 + m_NumUnacknowledgedBonusHammers.GetHashCode();
+		int num7 = hash * 31;
 		_ = m_NumUnacknowledgedEarnedHammers;
-		int num8 = (num7 + m_NumUnacknowledgedEarnedHammers.GetHashCode()) * 31;
+		hash = num7 + m_NumUnacknowledgedEarnedHammers.GetHashCode();
+		int num8 = hash * 31;
 		_ = m_NumUnacknowledgedFreeHammers;
-		return ((num8 + m_NumUnacknowledgedFreeHammers.GetHashCode()) * 31 + ((m_TimeLeftStrPopup != null) ? m_TimeLeftStrPopup.GetHashCode() : 0)) * 31 + ((m_TimeLeftToolTip != null) ? m_TimeLeftToolTip.GetHashCode() : 0);
+		hash = num8 + m_NumUnacknowledgedFreeHammers.GetHashCode();
+		hash = hash * 31 + ((m_TimeLeftStrPopup != null) ? m_TimeLeftStrPopup.GetHashCode() : 0);
+		return hash * 31 + ((m_TimeLeftToolTip != null) ? m_TimeLeftToolTip.GetHashCode() : 0);
 	}
 
 	public bool GetPropertyValue(int id, out object value)

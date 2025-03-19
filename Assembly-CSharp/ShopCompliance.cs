@@ -81,7 +81,7 @@ public class ShopCompliance : MonoBehaviour
 			}
 			else if (ServiceManager.TryGet<IProductDataService>(out dataService) && dataService.TryGetProduct(product.PmtId, out productInfo))
 			{
-				m_licenseTermsDataModel.Visible = BattleNet.GetCurrentRegion() != BnetRegion.REGION_CN && PlatformSettings.IsMobile() && !productInfo.IsFree() && !productInfo.IsGoldOnly();
+				m_licenseTermsDataModel.Visible = BattleNet.GetCurrentRegion() == BnetRegion.REGION_US && PlatformSettings.IsMobile() && !productInfo.IsFree() && !productInfo.IsGoldOnly();
 			}
 		}
 	}
