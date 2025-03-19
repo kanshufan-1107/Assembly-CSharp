@@ -34,7 +34,9 @@ public class TavernBrawlDetailsDataModel : DataModelEventDispatcher, IDataModel,
 
 	private string m_EndConditionDesc;
 
-	private DataModelProperty[] m_properties = new DataModelProperty[13]
+	private bool m_IsFreeRun;
+
+	private DataModelProperty[] m_properties = new DataModelProperty[14]
 	{
 		new DataModelProperty
 		{
@@ -113,6 +115,12 @@ public class TavernBrawlDetailsDataModel : DataModelEventDispatcher, IDataModel,
 			PropertyId = 12,
 			PropertyDisplayName = "end_condition_desc",
 			Type = typeof(string)
+		},
+		new DataModelProperty
+		{
+			PropertyId = 13,
+			PropertyDisplayName = "is_free_run",
+			Type = typeof(bool)
 		}
 	};
 
@@ -341,6 +349,23 @@ public class TavernBrawlDetailsDataModel : DataModelEventDispatcher, IDataModel,
 		}
 	}
 
+	public bool IsFreeRun
+	{
+		get
+		{
+			return m_IsFreeRun;
+		}
+		set
+		{
+			if (m_IsFreeRun != value)
+			{
+				m_IsFreeRun = value;
+				DispatchChangedListeners();
+				DataContext.DataVersion++;
+			}
+		}
+	}
+
 	public DataModelProperty[] Properties => m_properties;
 
 	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
@@ -363,7 +388,9 @@ public class TavernBrawlDetailsDataModel : DataModelEventDispatcher, IDataModel,
 		_ = m_MaxLosses;
 		int num7 = (((num6 + m_MaxLosses.GetHashCode()) * 31 + ((m_Title != null) ? m_Title.GetHashCode() : 0)) * 31 + ((m_RulesDesc != null) ? m_RulesDesc.GetHashCode() : 0)) * 31;
 		_ = m_PopupType;
-		return ((((num7 + m_PopupType.GetHashCode()) * 31 + ((m_RewardDesc != null) ? m_RewardDesc.GetHashCode() : 0)) * 31 + ((m_MinRewardDesc != null) ? m_MinRewardDesc.GetHashCode() : 0)) * 31 + ((m_MaxRewardDesc != null) ? m_MaxRewardDesc.GetHashCode() : 0)) * 31 + ((m_EndConditionDesc != null) ? m_EndConditionDesc.GetHashCode() : 0);
+		int num8 = (((((num7 + m_PopupType.GetHashCode()) * 31 + ((m_RewardDesc != null) ? m_RewardDesc.GetHashCode() : 0)) * 31 + ((m_MinRewardDesc != null) ? m_MinRewardDesc.GetHashCode() : 0)) * 31 + ((m_MaxRewardDesc != null) ? m_MaxRewardDesc.GetHashCode() : 0)) * 31 + ((m_EndConditionDesc != null) ? m_EndConditionDesc.GetHashCode() : 0)) * 31;
+		_ = m_IsFreeRun;
+		return num8 + m_IsFreeRun.GetHashCode();
 	}
 
 	public bool GetPropertyValue(int id, out object value)
@@ -408,6 +435,9 @@ public class TavernBrawlDetailsDataModel : DataModelEventDispatcher, IDataModel,
 			return true;
 		case 12:
 			value = m_EndConditionDesc;
+			return true;
+		case 13:
+			value = m_IsFreeRun;
 			return true;
 		default:
 			value = null;
@@ -458,6 +488,9 @@ public class TavernBrawlDetailsDataModel : DataModelEventDispatcher, IDataModel,
 		case 12:
 			EndConditionDesc = ((value != null) ? ((string)value) : null);
 			return true;
+		case 13:
+			IsFreeRun = value != null && (bool)value;
+			return true;
 		default:
 			return false;
 		}
@@ -505,6 +538,9 @@ public class TavernBrawlDetailsDataModel : DataModelEventDispatcher, IDataModel,
 			return true;
 		case 12:
 			info = Properties[12];
+			return true;
+		case 13:
+			info = Properties[13];
 			return true;
 		default:
 			info = default(DataModelProperty);

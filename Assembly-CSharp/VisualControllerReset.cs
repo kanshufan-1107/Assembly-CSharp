@@ -7,8 +7,8 @@ public class VisualControllerReset : MonoBehaviour
 	[Tooltip("Target controller to invoke")]
 	private VisualController m_controller;
 
-	[Tooltip("Name of state to reset to")]
 	[SerializeField]
+	[Tooltip("Name of state to reset to")]
 	private string m_defaultState;
 
 	private void OnEnable()

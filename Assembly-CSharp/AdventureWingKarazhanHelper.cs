@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Blizzard.T5.MaterialService.Extensions;
 using UnityEngine;
 
-[RequireComponent(typeof(AdventureWing))]
 [CustomEditClass]
+[RequireComponent(typeof(AdventureWing))]
 public class AdventureWingKarazhanHelper : MonoBehaviour
 {
 	[Serializable]

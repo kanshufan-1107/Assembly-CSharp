@@ -49,66 +49,6 @@ public class LettuceMercenaryDbfRecord : DbfRecord
 	[DbfField("COIN_CRAFT_COST")]
 	public int CoinCraftCost => m_coinCraftCost;
 
-	public List<LettuceMercenaryEquipmentDbfRecord> LettuceMercenaryEquipment
-	{
-		get
-		{
-			int id = base.ID;
-			List<LettuceMercenaryEquipmentDbfRecord> returnRecords = new List<LettuceMercenaryEquipmentDbfRecord>();
-			List<LettuceMercenaryEquipmentDbfRecord> records = GameDbf.LettuceMercenaryEquipment.GetRecords();
-			int i = 0;
-			for (int iMax = records.Count; i < iMax; i++)
-			{
-				LettuceMercenaryEquipmentDbfRecord record = records[i];
-				if (record.LettuceMercenaryId == id)
-				{
-					returnRecords.Add(record);
-				}
-			}
-			return returnRecords;
-		}
-	}
-
-	public List<LettuceMercenarySpecializationDbfRecord> LettuceMercenarySpecializations
-	{
-		get
-		{
-			int id = base.ID;
-			List<LettuceMercenarySpecializationDbfRecord> returnRecords = new List<LettuceMercenarySpecializationDbfRecord>();
-			List<LettuceMercenarySpecializationDbfRecord> records = GameDbf.LettuceMercenarySpecialization.GetRecords();
-			int i = 0;
-			for (int iMax = records.Count; i < iMax; i++)
-			{
-				LettuceMercenarySpecializationDbfRecord record = records[i];
-				if (record.LettuceMercenaryId == id)
-				{
-					returnRecords.Add(record);
-				}
-			}
-			return returnRecords;
-		}
-	}
-
-	public List<MercenaryAllowedTreasureDbfRecord> MercenaryTreasure
-	{
-		get
-		{
-			int id = base.ID;
-			List<MercenaryAllowedTreasureDbfRecord> returnRecords = new List<MercenaryAllowedTreasureDbfRecord>();
-			List<MercenaryAllowedTreasureDbfRecord> records = GameDbf.MercenaryAllowedTreasure.GetRecords();
-			int i = 0;
-			for (int iMax = records.Count; i < iMax; i++)
-			{
-				MercenaryAllowedTreasureDbfRecord record = records[i];
-				if (record.LettuceMercenaryId == id)
-				{
-					returnRecords.Add(record);
-				}
-			}
-			return returnRecords;
-		}
-	}
-
 	public List<MercenaryArtVariationDbfRecord> MercenaryArtVariations
 	{
 		get

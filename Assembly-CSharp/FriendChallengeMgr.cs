@@ -2825,7 +2825,7 @@ public class FriendChallengeMgr
 		{
 			if (m_data.m_challengeFormatType == FormatType.FT_UNKNOWN)
 			{
-				RankMgr.LogMessage("m_data.m_challengeFormatType = FT_UNKOWN", "StartChallengeProcess", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Game\\Bnet\\Scripts\\FriendChallengeMgr.cs", 3628);
+				RankMgr.LogMessage("m_data.m_challengeFormatType = FT_UNKOWN", "StartChallengeProcess", "D:\\p4Workspace\\32.0.0\\Pegasus\\Client\\Assets\\Game\\Bnet\\Scripts\\FriendChallengeMgr.cs", 3628);
 				return;
 			}
 			Options.SetFormatType(m_data.m_challengeFormatType);

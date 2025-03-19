@@ -1229,15 +1229,32 @@ public class CollectionManager
 	{
 		foreach (NetCache.DeckHeader netCacheDeck in NetCache.Get().GetNetObject<NetCache.NetCacheDecks>().Decks)
 		{
-			if (netCacheDeck.Type == DeckType.NORMAL_DECK && GetDeck(netCacheDeck.ID) == null && DefLoader.Get().GetEntityDef(netCacheDeck.Hero) != null)
+			if (netCacheDeck.Type == DeckType.NORMAL_DECK)
 			{
-				AddDeck(netCacheDeck, updateNetCache: false);
+				CollectionDeck deck = GetDeck(netCacheDeck.ID);
+				if (deck != null)
+				{
+					ApplyDeckHeaderCosmeticsToCollectionDeck(deck, netCacheDeck);
+				}
+				else if (DefLoader.Get().GetEntityDef(netCacheDeck.Hero) != null)
+				{
+					AddDeck(netCacheDeck, updateNetCache: false);
+				}
 			}
 		}
 		for (int i = m_onNetCacheDecksProcessed.Count - 1; i >= 0; i--)
 		{
 			m_onNetCacheDecksProcessed[i]();
 		}
+	}
+
+	private void ApplyDeckHeaderCosmeticsToCollectionDeck(CollectionDeck deck, NetCache.DeckHeader netCacheDeck)
+	{
+		deck.HeroCardID = netCacheDeck.Hero;
+		deck.HeroOverridden = netCacheDeck.HeroOverridden;
+		deck.CosmeticCoinID = netCacheDeck.CosmeticCoin;
+		deck.RandomCoinUseFavorite = netCacheDeck.RandomCoinUseFavorite;
+		deck.CardBackID = netCacheDeck.CardBack;
 	}
 
 	public void AddOnNetCacheDecksProcessedListener(Action a)
@@ -3327,7 +3344,7 @@ public class CollectionManager
 		};
 		if (Network.IsLoggedIn())
 		{
-			Network.Get().CreateDeck(deckType, name, dbId, formatType, -100L, deckSourceType, out var requestId, pastedDeckHashString, brawlLibraryItemId);
+			Network.Get().CreateDeck(deckType, name, dbId, isHeroOverridden: false, formatType, -100L, deckSourceType, null, null, out var requestId, pastedDeckHashString, brawlLibraryItemId);
 			if (requestId.HasValue)
 			{
 				m_inTransitDeckCreateRequests.Add(requestId.Value);
@@ -3745,11 +3762,16 @@ public class CollectionManager
 			GAME_TAG tagId = (GAME_TAG)record.TagId;
 			return tagId == GAME_TAG.HAS_DIAMOND_QUALITY || tagId == GAME_TAG.HAS_SIGNATURE_QUALITY;
 		});
-		List<string> collectibleCardsId = GameUtils.GetAllCollectibleCardIds();
-		m_collectibleCardIndex = new Map<CollectibleCardIndex, CollectibleCard>(collectibleCardsId.Count * 2 + specialQualityCardTags.Count, new CollectibleCardIndexComparer());
-		m_collectibleCards = new List<CollectibleCard>(collectibleCardsId.Count * 2 + specialQualityCardTags.Count);
+		List<string> allCollectibleCardIds = GameUtils.GetAllCollectibleCardIds();
+		int numMercenaryArtVariations = GameDbf.MercenaryArtVariation.GetRecords().Count;
+		int numMercenaryAbilityTiers = GameDbf.LettuceAbilityTier.GetRecords().Count;
+		int numMercenaryEquipmentTiers = GameDbf.LettuceEquipmentTier.GetRecords().Count;
+		int numMercenaryTreasureRecords = GameDbf.LettuceTreasure.GetRecords().Count;
+		int totalCardsToReserve = allCollectibleCardIds.Count * 2 + specialQualityCardTags.Count + numMercenaryArtVariations + numMercenaryAbilityTiers + numMercenaryEquipmentTiers + numMercenaryTreasureRecords;
+		m_collectibleCardIndex = new Map<CollectibleCardIndex, CollectibleCard>(totalCardsToReserve, new CollectibleCardIndexComparer());
+		m_collectibleCards = new List<CollectibleCard>(totalCardsToReserve);
 		DefLoader defLoader = DefLoader.Get();
-		foreach (string cardId in collectibleCardsId)
+		foreach (string cardId in allCollectibleCardIds)
 		{
 			EntityDef entityDef = defLoader.GetEntityDef(cardId);
 			if (entityDef == null)
@@ -4523,6 +4545,10 @@ public class CollectionManager
 				m_decksToRequestContentsAfterDeckSetDataResonse.Add(deckId);
 			}
 		}
+		if (decksToRequest.Count > 0)
+		{
+			NetCache.Get().ReloadNetObject<NetCache.NetCacheDecks>();
+		}
 	}
 
 	public static void ShowFeatureDisabledWhileOfflinePopup()
@@ -4593,7 +4619,7 @@ public class CollectionManager
 		{
 			m_decksToCheatIn.Add(deckcode, deck);
 		}
-		Network.Get().CreateDeck(DeckType.NORMAL_DECK, deckcode, deck.HeroCardDbId, deck.FormatType, 0L, DeckSourceType.DECK_SOURCE_TYPE_PASTED_DECK, out var requestId, deckcode);
+		Network.Get().CreateDeck(DeckType.NORMAL_DECK, deckcode, deck.HeroCardDbId, isHeroOverridden: false, deck.FormatType, 0L, DeckSourceType.DECK_SOURCE_TYPE_PASTED_DECK, null, null, out var requestId, deckcode);
 		if (requestId.HasValue)
 		{
 			m_inTransitDeckCreateRequests.Add(requestId.Value);
@@ -4687,7 +4713,9 @@ public class CollectionManager
 		{
 			return;
 		}
-		foreach (LettuceMercenaryDbfRecord mercenaryRecord in GameDbf.LettuceMercenary.GetRecords())
+		List<LettuceMercenaryDbfRecord> mercenaryRecords = GameDbf.LettuceMercenary.GetRecords();
+		m_collectibleMercenaries.Capacity = Math.Max(m_collectibleMercenaries.Capacity, mercenaryRecords.Count);
+		foreach (LettuceMercenaryDbfRecord mercenaryRecord in mercenaryRecords)
 		{
 			if (mercenaryRecord.Collectible)
 			{
@@ -5772,7 +5800,7 @@ public class CollectionManager
 	{
 		foreach (LettuceMercenaryDbfRecord record in GameDbf.LettuceMercenary.GetRecords())
 		{
-			foreach (MercenaryArtVariationDbfRecord variation in record.MercenaryArtVariations)
+			foreach (MercenaryArtVariationDbfRecord variation in GameDbf.GetIndex().GetMercenaryArtVariationsByMercenaryID(record.ID))
 			{
 				if (variation.CardRecord.NoteMiniGuid == cardId)
 				{
@@ -5972,7 +6000,7 @@ public class CollectionManager
 		LettuceMercenary.ArtVariation defaultVariation = LettuceMercenary.CreateDefaultArtVariation(mercenaryDbId);
 		mercenary.m_artVariations.Add(defaultVariation);
 		mercenary.GetBaseLoadout().SetArtVariation(defaultVariation.m_record, defaultVariation.m_premium);
-		foreach (MercenaryArtVariationDbfRecord artVariation in mercenaryRecord.MercenaryArtVariations)
+		foreach (MercenaryArtVariationDbfRecord artVariation in GameDbf.GetIndex().GetMercenaryArtVariationsByMercenaryID(mercenaryDbId))
 		{
 			if (mercenary.m_role == TAG_ROLE.INVALID)
 			{
@@ -5987,10 +6015,10 @@ public class CollectionManager
 			}
 			RegisterMercenaryCard(artVariation.CardId);
 		}
-		foreach (LettuceMercenarySpecializationDbfRecord mercenarySpecializationRecord in mercenaryRecord.LettuceMercenarySpecializations)
+		foreach (LettuceMercenarySpecializationDbfRecord mercenarySpecializationRecord in GameDbf.GetIndex().GetMercenarySpecializationsByMercenaryID(mercenaryDbId))
 		{
 			mercenary.m_abilitySpecializations.Add(mercenarySpecializationRecord.Name);
-			foreach (LettuceMercenaryAbilityDbfRecord mercenaryAbilityRecord in mercenarySpecializationRecord.LettuceMercenaryAbilities)
+			foreach (LettuceMercenaryAbilityDbfRecord mercenaryAbilityRecord in GameDbf.GetIndex().GetMercenaryAbilitiesBySpecializationID(mercenarySpecializationRecord.ID))
 			{
 				LettuceAbilityDbfRecord abilityRecord = mercenaryAbilityRecord.LettuceAbilityRecord;
 				LettuceAbility ability = new LettuceAbility(CollectionUtils.MercenariesModeCardType.Ability)
@@ -5999,7 +6027,7 @@ public class CollectionManager
 					m_abilityName = abilityRecord.NoteDesc,
 					m_unlockLevel = mercenaryAbilityRecord.LettuceMercenaryLevelIdRequired
 				};
-				foreach (LettuceAbilityTierDbfRecord abilityTierRecord in abilityRecord.LettuceAbilityTiers)
+				foreach (LettuceAbilityTierDbfRecord abilityTierRecord in GameDbf.GetIndex().GetAbilityTiersByAbilityId(abilityRecord.ID))
 				{
 					if (abilityTierRecord.Tier < 1 || abilityTierRecord.Tier > ability.m_tierList.Length)
 					{
@@ -6019,7 +6047,7 @@ public class CollectionManager
 				mercenary.m_abilityList.Add(ability);
 			}
 		}
-		foreach (LettuceMercenaryEquipmentDbfRecord item in mercenaryRecord.LettuceMercenaryEquipment)
+		foreach (LettuceMercenaryEquipmentDbfRecord item in GameDbf.GetIndex().GetMercenaryEquipmentByMercenaryID(mercenaryDbId))
 		{
 			LettuceEquipmentDbfRecord equipmentRecord = item.LettuceEquipmentRecord;
 			if (equipmentRecord == null)
@@ -6032,7 +6060,7 @@ public class CollectionManager
 				ID = equipmentRecord.ID,
 				m_abilityName = equipmentRecord.NoteDesc
 			};
-			foreach (LettuceEquipmentTierDbfRecord equipmentTierRecord in equipmentRecord.LettuceEquipmentTiers)
+			foreach (LettuceEquipmentTierDbfRecord equipmentTierRecord in GameDbf.GetIndex().GetEquipmentTiersByEquipmentId(equipmentRecord.ID))
 			{
 				if (equipmentTierRecord.Tier < 1 || equipmentTierRecord.Tier > equipment.m_tierList.Length)
 				{
@@ -6052,7 +6080,7 @@ public class CollectionManager
 			equipment.m_tier = equipment.GetBaseTier();
 			mercenary.m_equipmentList.Add(equipment);
 		}
-		foreach (MercenaryAllowedTreasureDbfRecord item2 in mercenaryRecord.MercenaryTreasure)
+		foreach (MercenaryAllowedTreasureDbfRecord item2 in GameDbf.GetIndex().GetMercenaryTreasureByMercenaryID(mercenaryDbId))
 		{
 			LettuceTreasureDbfRecord treasureRecord = item2.TreasureRecord;
 			if (treasureRecord == null)

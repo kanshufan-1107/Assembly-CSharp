@@ -6,8 +6,8 @@ namespace HutongGames.PlayMaker.Actions;
 [ActionCategory("Pegasus Audio")]
 public class AudioSetRandomVolumeAction : FsmStateAction
 {
-	[CheckForComponent(typeof(AudioSource))]
 	[RequiredField]
+	[CheckForComponent(typeof(AudioSource))]
 	public FsmOwnerDefault m_GameObject;
 
 	[HasFloatSlider(0f, 1f)]

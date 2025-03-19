@@ -173,6 +173,11 @@ public class Player : Entity
 		}
 	}
 
+	public ZoneWeapon GetWeaponZone()
+	{
+		return ZoneMgr.Get().FindZoneOfType<ZoneWeapon>(GetSide());
+	}
+
 	public bool IsLocalUser()
 	{
 		return m_local;
@@ -558,7 +563,10 @@ public class Player : Entity
 
 	public void SetHeroPower(Entity heroPower)
 	{
-		m_heroPower = heroPower;
+		if (heroPower == null || !heroPower.HasTag(GAME_TAG.ADDITIONAL_HERO_POWER_INDEX))
+		{
+			m_heroPower = heroPower;
+		}
 	}
 
 	public override Entity GetHeroPower()
@@ -611,11 +619,6 @@ public class Player : Entity
 	public override Card GetHeroBuddyCard()
 	{
 		return ZoneMgr.Get().FindZoneOfType<ZoneBattlegroundHeroBuddy>(GetSide()).GetFirstCard();
-	}
-
-	public override Card GetBaconClickableButtonCard()
-	{
-		return ZoneMgr.Get().FindZoneOfType<ZoneBattlegroundClickableButton>(GetSide()).GetFirstCard();
 	}
 
 	public override Card GetQuestRewardFromHeroPowerCard()

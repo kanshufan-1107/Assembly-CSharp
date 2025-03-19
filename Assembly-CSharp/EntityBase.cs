@@ -41,6 +41,18 @@ public abstract class EntityBase
 
 	public bool IsCollectionManagerFilterManaCostByOdd => GetTag(GAME_TAG.COLLECTIONMANAGER_FILTER_MANA_ODD) != 0;
 
+	public bool IsNeutralImbueAdjacentCard
+	{
+		get
+		{
+			if (GetTag(GAME_TAG.CLASS) == 12)
+			{
+				return GetTag(GAME_TAG.CARES_ABOUT_IMBUE_CARDS) != 0;
+			}
+			return false;
+		}
+	}
+
 	public EntityBase()
 	{
 		m_tags = new TagMap(DEFAULT_TAG_MAP_SIZE);
@@ -501,9 +513,9 @@ public abstract class EntityBase
 
 	public bool IsCardButton()
 	{
-		if (!IsHeroPower() && !IsLocation() && !IsGameModeButton() && !IsLettuceAbility() && !IsCoinBasedHeroBuddy())
+		if (!IsHeroPower() && !IsLocation() && !IsGameModeButton() && !IsLettuceAbility())
 		{
-			return IsBattlegroundClickableButton();
+			return IsCoinBasedHeroBuddy();
 		}
 		return true;
 	}
@@ -516,11 +528,6 @@ public abstract class EntityBase
 	public bool IsBattlegroundHeroBuddy()
 	{
 		return GetTag(GAME_TAG.CARDTYPE) == 24;
-	}
-
-	public bool IsBattlegroundClickableButton()
-	{
-		return GetTag(GAME_TAG.CARDTYPE) == 46;
 	}
 
 	public bool IsBattlegroundTrinket()
@@ -799,11 +806,6 @@ public abstract class EntityBase
 	public int GetHealth()
 	{
 		return GetTag(GAME_TAG.HEALTH);
-	}
-
-	public int GetDurability()
-	{
-		return GetTag(GAME_TAG.DURABILITY);
 	}
 
 	public int GetArmor()

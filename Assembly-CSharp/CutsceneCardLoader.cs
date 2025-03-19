@@ -18,8 +18,8 @@ public class CutsceneCardLoader : MonoBehaviour
 	[SerializeField]
 	private Card m_card;
 
-	[SerializeField]
 	[Header("Template Prefabs")]
+	[SerializeField]
 	private GameObject m_heroCardInPlayPrefab;
 
 	[SerializeField]

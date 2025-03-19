@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Stores the value of an Actor's Entity's tag in passed int. If the Actor doesn't have an Entity set, this won't work. (ex. dummy actors)")]
 [ActionCategory("Pegasus")]
+[Tooltip("Stores the value of an Actor's Entity's tag in passed int. If the Actor doesn't have an Entity set, this won't work. (ex. dummy actors)")]
 public class GetActorTagValueAction : FsmStateAction
 {
 	public FsmGameObject m_actorObject;

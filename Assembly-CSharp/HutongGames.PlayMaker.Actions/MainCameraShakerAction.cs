@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("[DEPRECATED - Use CameraShakerAction instead.] Shakes the Main Camera a specified amount over time.")]
+[ActionCategory("Pegasus")]
 public class MainCameraShakerAction : FsmStateAction
 {
 	public FsmVector3 m_Amount;

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "UIVoiceLinesTool/UIVoiceLinesList", order = 1)]
 [CustomEditClass]
+[CreateAssetMenu(fileName = "Data", menuName = "UIVoiceLinesTool/UIVoiceLinesList", order = 1)]
 public class UIVoiceLinesList : ScriptableObject
 {
 	public UIVoiceLinesManager.UIVoiceLineCategory m_Category;

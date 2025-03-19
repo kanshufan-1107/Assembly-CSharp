@@ -44,7 +44,11 @@ public class ShopCachedList
 		{
 			if (!string.IsNullOrEmpty(product))
 			{
-				if (!product.Contains("_"))
+				if (product.Length >= 50)
+				{
+					Log.Store.PrintError("[ShopCachedList::UpdateProductList] Product Id is too long: " + product + ".");
+				}
+				else if (!product.Contains("_"))
 				{
 					string updatedProduct = $"{product}_{(int)defaultState}";
 					updatedProducts.Add(updatedProduct);
@@ -62,6 +66,11 @@ public class ShopCachedList
 
 	public void UpdateProductState(string productId, ShopBadging.ProductStatus state)
 	{
+		if (productId.Length >= 50)
+		{
+			Log.Store.PrintError("[ShopCachedList::UpdateProductState] Product Id is too long: " + productId + ".");
+			return;
+		}
 		string existingProduct = m_orderedProducts.FirstOrDefault((string p) => p.StartsWith(productId + "_"));
 		if (existingProduct != null)
 		{

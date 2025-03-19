@@ -6,8 +6,8 @@ public class Hero_06ah_LaserScale : MonoBehaviour
 	[SerializeField]
 	private GameObject BlowObj;
 
-	[SerializeField]
 	[Range(0f, 1f)]
+	[SerializeField]
 	private float ScaleMult = 1f;
 
 	private float m_parentScale = 1f;

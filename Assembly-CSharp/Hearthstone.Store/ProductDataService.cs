@@ -798,8 +798,8 @@ public class ProductDataService : IProductDataService, IService
 	{
 		if (m_shopBadging != null)
 		{
-			IEnumerable<string> productsToMarkAsSeen = GetUndisplayedProducts(tab, subTab);
-			IEnumerable<string> combinedList = GetLatestDisplayedProducts().Concat(productsToMarkAsSeen);
+			IEnumerable<string> productsToMarkAsDisplayed = GetUndisplayedProducts(tab, subTab);
+			IEnumerable<string> combinedList = GetLatestDisplayedProducts().Union(productsToMarkAsDisplayed);
 			m_shopBadging.MarkTabAsDisplayed(combinedList);
 			UpdateTabNotificationStates();
 		}
@@ -991,6 +991,15 @@ public class ProductDataService : IProductDataService, IService
 		if (m_shopBadging != null)
 		{
 			m_shopBadging.ClearLatestDisplayedProducts();
+		}
+		UpdateTabNotificationStates();
+	}
+
+	public void ResetShopBadging()
+	{
+		if (m_shopBadging != null)
+		{
+			m_shopBadging.ResetBadging();
 		}
 		UpdateTabNotificationStates();
 	}

@@ -262,6 +262,8 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 
 	public GameObject m_gemMeshLegendary;
 
+	public UberText m_natureImbueText;
+
 	public FactionObject[] m_factionBannerIcons;
 
 	public GameObject m_factionBannerBackground;
@@ -430,6 +432,10 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 	private bool m_isTeammateActor;
 
 	private bool m_hasUsedStarshipLaunchAnimationDelay;
+
+	private IEnumerator m_divineShieldFunction;
+
+	private bool m_lastDivineShieldEmpowered;
 
 	protected List<ContactShadowData> m_contactShadows;
 
@@ -3150,10 +3156,6 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 		{
 			m_healthTextMesh.Text = string.Empty;
 		}
-		else if (entityDef.IsWeapon())
-		{
-			m_healthTextMesh.Text = Convert.ToString(entityDef.GetTag(GAME_TAG.DURABILITY));
-		}
 		else
 		{
 			m_healthTextMesh.Text = Convert.ToString(entityDef.GetTag(GAME_TAG.HEALTH));
@@ -3348,6 +3350,7 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 			UpdateArmorTextMesh(entity);
 			UpdateNameText();
 			UpdatePowersText();
+			UpdateNatureImbueText(entity);
 			UpdateRace();
 			UpdateSecretAndQuestText();
 			UpdateMercenaryLevelTextMesh(entity);
@@ -3492,18 +3495,8 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 			UpdateNumberText(m_healthTextMesh, "", shouldHide: true);
 			return;
 		}
-		int maxHealth;
-		int original;
-		if (entity.IsWeapon())
-		{
-			maxHealth = entity.GetDurability();
-			original = entity.GetDefDurability();
-		}
-		else
-		{
-			maxHealth = entity.GetHealth();
-			original = entity.GetDefHealth();
-		}
+		int maxHealth = entity.GetHealth();
+		int original = entity.GetDefHealth();
 		int damage = entity.GetDamage();
 		if (entity.IsDormant())
 		{
@@ -3620,6 +3613,20 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 			if (m_watermarkMesh != null)
 			{
 				m_watermarkMesh.SetActive(string.IsNullOrEmpty(text));
+			}
+		}
+	}
+
+	public void UpdateNatureImbueText(Entity entity)
+	{
+		if (!(m_natureImbueText == null))
+		{
+			Player player = entity.GetController();
+			if (player != null && player.HasTag(GAME_TAG.HAMUUL_ACTIVE) && (object)base.gameObject.GetComponentInParent(typeof(HistoryCard)) == null)
+			{
+				int imbuesNeeded = player.GetTag(GAME_TAG.IMBUE_SUB_COUNTER);
+				m_natureImbueText.gameObject.SetActive(value: true);
+				m_natureImbueText.Text = GameStrings.Format("GAMEPLAY_HERO_POWER_NATURE_IMBUE", imbuesNeeded.ToString());
 			}
 		}
 	}
@@ -4822,6 +4829,83 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 		case GAME_TAG.TITAN_ABILITY_USED_3:
 			spellFsm.SendEvent("DeactivateRightPip");
 			break;
+		}
+	}
+
+	public void UpdateDivineShield(GAME_TAG tagChanged = GAME_TAG.TAG_NOT_SET, int oldValue = 0, int newValue = 0)
+	{
+		Card card = GetCard();
+		if (card == null)
+		{
+			return;
+		}
+		Entity entity = card.GetEntity();
+		if (entity == null || entity.GetZone() != TAG_ZONE.PLAY)
+		{
+			return;
+		}
+		Spell spell = GetSpell(SpellType.DIVINE_SHIELD);
+		if (spell == null)
+		{
+			return;
+		}
+		PlayMakerFSM spellFsm = spell.GetComponent<PlayMakerFSM>();
+		if (spellFsm == null)
+		{
+			return;
+		}
+		if (tagChanged == GAME_TAG.DIVINE_SHIELD_DAMAGE && newValue == entity.GetTag(GAME_TAG.DIVINE_SHIELD))
+		{
+			m_lastDivineShieldEmpowered = false;
+		}
+		if (spell.GetActiveState() == SpellStateType.DEATH)
+		{
+			return;
+		}
+		if (tagChanged == GAME_TAG.DIVINE_SHIELD && oldValue != 0 && newValue != 0)
+		{
+			if (m_divineShieldFunction != null)
+			{
+				StopCoroutine(m_divineShieldFunction);
+			}
+			m_divineShieldFunction = StartEmpoweredDivineShieldChange(spell, oldValue, newValue);
+			StartCoroutine(m_divineShieldFunction);
+		}
+		else if (tagChanged == GAME_TAG.DIVINE_SHIELD_DAMAGE && newValue == 0 && entity.GetTag(GAME_TAG.DIVINE_SHIELD) > 1)
+		{
+			spellFsm.SendEvent("DivineShieldDamage0");
+		}
+		else if (tagChanged == GAME_TAG.DIVINE_SHIELD_DAMAGE && newValue == 1 && entity.GetTag(GAME_TAG.DIVINE_SHIELD) > 1)
+		{
+			spellFsm.SendEvent("DivineShieldDamage1");
+		}
+		else if (tagChanged == GAME_TAG.DIVINE_SHIELD_DAMAGE && newValue == 2 && entity.GetTag(GAME_TAG.DIVINE_SHIELD) > 2)
+		{
+			spellFsm.SendEvent("DivineShieldDamage2");
+		}
+	}
+
+	private IEnumerator StartEmpoweredDivineShieldChange(Spell spell, int oldValue, int newValue)
+	{
+		yield return new WaitForSeconds(0.5f);
+		if (spell == null || spell.GetActiveState() == SpellStateType.DEATH)
+		{
+			yield break;
+		}
+		PlayMakerFSM spellFsm = spell.GetComponent<PlayMakerFSM>();
+		if (!(spellFsm == null))
+		{
+			if (oldValue != 1 && newValue == 1 && m_lastDivineShieldEmpowered)
+			{
+				m_lastDivineShieldEmpowered = false;
+				spellFsm.SendEvent("RevertDivineShield");
+			}
+			else if (oldValue == 1 && newValue != 1 && !m_lastDivineShieldEmpowered)
+			{
+				m_lastDivineShieldEmpowered = true;
+				spellFsm.SendEvent("EmpoweredDivineShield");
+			}
+			m_divineShieldFunction = null;
 		}
 	}
 
@@ -6088,12 +6172,16 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 	public void ActivateAlternateCost()
 	{
 		ActivateSpellDeathState(SpellType.SPELLS_COST_HEALTH);
+		ActivateSpellDeathState(SpellType.COST_OPPONENTHEALTH);
 		ActivateSpellDeathState(SpellType.COST_ARMOR);
 		ActivateSpellDeathState(SpellType.COST_CORPSES);
 		switch (GetEntity().GetTag<TAG_CARD_ALTERNATE_COST>(GAME_TAG.CARD_ALTERNATE_COST))
 		{
 		case TAG_CARD_ALTERNATE_COST.HEALTH:
 			ActivateSpellBirthState(SpellType.SPELLS_COST_HEALTH);
+			break;
+		case TAG_CARD_ALTERNATE_COST.OPPONENTS_HEALTH:
+			ActivateSpellBirthState(SpellType.COST_OPPONENTHEALTH);
 			break;
 		case TAG_CARD_ALTERNATE_COST.ARMOR:
 			ActivateSpellBirthState(SpellType.COST_ARMOR);
@@ -6107,6 +6195,7 @@ public class Actor : MonoBehaviour, IVisibleWidgetComponent
 	public void DeactivateAlternateCost()
 	{
 		ActivateSpellDeathState(SpellType.SPELLS_COST_HEALTH);
+		ActivateSpellDeathState(SpellType.COST_OPPONENTHEALTH);
 		ActivateSpellDeathState(SpellType.COST_ARMOR);
 		ActivateSpellDeathState(SpellType.COST_CORPSES);
 	}

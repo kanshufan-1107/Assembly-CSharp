@@ -24,8 +24,8 @@ public class SpriteSwitcher : MonoBehaviour
 	[SerializeField]
 	private List<SpriteMapping> m_spriteMap;
 
-	[SerializeField]
 	[Overridable]
+	[SerializeField]
 	public string CurrentSpriteName
 	{
 		get

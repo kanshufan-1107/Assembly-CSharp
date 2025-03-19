@@ -19,14 +19,14 @@ public class CutsceneTimeline : MonoBehaviour
 	[Header("Timeline Config")]
 	private float m_defaultActionTimeoutSeconds = 13f;
 
-	[SerializeField]
 	[Min(0f)]
 	[Tooltip("Delay (seconds) between transitioned to next action and that action executing - e.g. hero power not firing straight away. (Note: Action can override this value)")]
+	[SerializeField]
 	private float m_defaultActionStartDelaySeconds = 1f;
 
-	[SerializeField]
-	[Min(0f)]
 	[Tooltip("Delay (seconds) between action execution finishing and start of transition to next action. (Note: Action can override this value)")]
+	[Min(0f)]
+	[SerializeField]
 	private float m_defaultActionFinishDelaySeconds = 2f;
 
 	private readonly List<TimelineAction> m_timelineActions = new List<TimelineAction>();

@@ -516,6 +516,15 @@ public class ProductPageController : MonoBehaviour
 		}
 	}
 
+	public bool TempIntancesInitialized()
+	{
+		if (m_productPageContainer != null)
+		{
+			return m_productPageContainer.TempInstancesInitialized();
+		}
+		return false;
+	}
+
 	private void OnPageOpened(object sender, EventArgs args)
 	{
 		ProductPage page;

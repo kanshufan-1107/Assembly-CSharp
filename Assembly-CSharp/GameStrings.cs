@@ -2175,7 +2175,7 @@ public class GameStrings
 
 	private static string ParseLanguageRule1(string str)
 	{
-		int ruleIndex = str.IndexOf("|1");
+		int ruleIndex = str.IndexOf("|1", StringComparison.Ordinal);
 		if (ruleIndex < 0)
 		{
 			return str;
@@ -2223,7 +2223,7 @@ public class GameStrings
 			builder.Append(preStr);
 			builder.Append(args[index]);
 			str = str.Substring(closeIndex + 1);
-			ruleIndex = str.IndexOf("|1");
+			ruleIndex = str.IndexOf("|1", StringComparison.Ordinal);
 		}
 		builder.Append(str);
 		return builder.ToString();
@@ -2235,7 +2235,7 @@ public class GameStrings
 		int? number = null;
 		int prevRuleEndIndex = 0;
 		int ruleCount = 0;
-		for (int ruleIndex = str.IndexOf("|4"); ruleIndex >= 0; ruleIndex = str.IndexOf("|4", ruleIndex + 2))
+		for (int ruleIndex = str.IndexOf("|4", StringComparison.Ordinal); ruleIndex >= 0; ruleIndex = str.IndexOf("|4", ruleIndex + 2, StringComparison.Ordinal))
 		{
 			ruleCount++;
 			int argStartIndex;

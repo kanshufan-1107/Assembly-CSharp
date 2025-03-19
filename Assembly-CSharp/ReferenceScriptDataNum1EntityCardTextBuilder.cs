@@ -17,22 +17,38 @@ public class ReferenceScriptDataNum1EntityCardTextBuilder : CardTextBuilder
 
 	private static string BuildText(Entity entity)
 	{
-		string rawCardTextInHand = CardTextBuilder.GetRawCardTextInHand(entity.GetCardId());
+		string formattedText = CardTextBuilder.GetRawCardTextInHand(entity.GetCardId());
+		if (formattedText.Contains('@'))
+		{
+			string value = entity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_NUM_2).ToString();
+			formattedText = formattedText.Replace("@", value);
+		}
 		Entity referencedEntity = GameState.Get().GetEntity(entity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_NUM_1));
 		string name = ((referencedEntity != null && referencedEntity.HasValidDisplayName()) ? referencedEntity.GetName() : GameStrings.Get("GAMEPLAY_UNKNOWN_CREATED_BY"));
-		string formattedText = TextUtils.TryFormat(rawCardTextInHand, name);
+		formattedText = TextUtils.TryFormat(formattedText, name);
 		return TextUtils.TransformCardText(entity, formattedText);
 	}
 
 	public override string BuildCardTextInHand(EntityDef entityDef)
 	{
-		return TextUtils.TryFormat(CardTextBuilder.GetRawCardTextInHand(entityDef.GetCardId()), GameStrings.Get("GAMEPLAY_UNKNOWN_CREATED_BY"));
+		string rawText = CardTextBuilder.GetRawCardTextInHand(entityDef.GetCardId());
+		string formattedText;
+		if (rawText.Contains('@'))
+		{
+			string value = entityDef.GetTag(GAME_TAG.TAG_SCRIPT_DATA_NUM_2).ToString();
+			formattedText = rawText.Replace("@", value);
+		}
+		else
+		{
+			formattedText = rawText;
+		}
+		return TextUtils.TryFormat(formattedText, GameStrings.Get("GAMEPLAY_UNKNOWN_CREATED_BY"));
 	}
 
 	public override void OnTagChange(Card card, TagDelta tagChange)
 	{
 		GAME_TAG tag = (GAME_TAG)tagChange.tag;
-		if (tag == GAME_TAG.TAG_SCRIPT_DATA_NUM_1 || tag == GAME_TAG.TAG_SCRIPT_DATA_ENT_1)
+		if ((uint)(tag - 2) <= 1u)
 		{
 			if (card != null && card.GetActor() != null)
 			{

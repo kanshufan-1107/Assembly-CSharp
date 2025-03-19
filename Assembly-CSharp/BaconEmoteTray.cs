@@ -12,8 +12,8 @@ public class BaconEmoteTray : MonoBehaviour
 	[SerializeField]
 	private Widget[] m_emoteWidgets;
 
-	[SerializeField]
 	[Tooltip("Pointers for each tray slot's nested BattlegroundsImageWidget")]
+	[SerializeField]
 	private AsyncReference[] m_asyncImageWidgetReferences;
 
 	private readonly Widget[] m_nestedImageWidgets = new Widget[6];

@@ -35,6 +35,11 @@ public class CurrencyIconController : MonoBehaviour
 				case CurrencyType.RENOWN:
 					m_Widget.TriggerEvent("RENOWN");
 					break;
+				case CurrencyType.TAVERN_TICKET:
+					m_Widget.TriggerEvent("TAVERN_TICKET");
+					break;
+				case CurrencyType.BG_TOKEN:
+					break;
 				}
 			}
 		}

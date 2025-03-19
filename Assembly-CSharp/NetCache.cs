@@ -3946,9 +3946,12 @@ public class NetCache : IService, IHasUpdate
 	public List<DeckInfo> GetDeckListFromNetCache()
 	{
 		List<DeckInfo> deckInfoList = new List<DeckInfo>();
-		foreach (DeckHeader deckHeader in GetNetObject<NetCacheDecks>().Decks)
+		if (IsNetObjectAvailable<NetCacheDecks>())
 		{
-			deckInfoList.Add(Network.GetDeckInfoFromDeckHeader(deckHeader));
+			foreach (DeckHeader deckHeader in GetNetObject<NetCacheDecks>().Decks)
+			{
+				deckInfoList.Add(Network.GetDeckInfoFromDeckHeader(deckHeader));
+			}
 		}
 		return deckInfoList;
 	}

@@ -8,8 +8,8 @@ namespace HutongGames.PlayMaker.Actions;
 public class AudioPlayAction : FsmStateAction
 {
 	[Tooltip("The GameObject with the AudioSource component.")]
-	[CheckForComponent(typeof(AudioSource))]
 	[RequiredField]
+	[CheckForComponent(typeof(AudioSource))]
 	public FsmOwnerDefault m_GameObject;
 
 	[HasFloatSlider(0f, 1f)]
@@ -18,8 +18,8 @@ public class AudioPlayAction : FsmStateAction
 
 	public float m_Delay;
 
-	[ObjectType(typeof(SoundDef))]
 	[Tooltip("Optionally play a one shot AudioClip.")]
+	[ObjectType(typeof(SoundDef))]
 	public FsmObject m_OneShotSound;
 
 	[Tooltip("Event to send when the AudioSource finishes playing.")]

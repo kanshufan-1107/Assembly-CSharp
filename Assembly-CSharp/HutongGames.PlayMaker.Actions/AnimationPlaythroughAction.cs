@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Plays an Animation on a Game Object. Does not wait for the animation to finish.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Plays an Animation on a Game Object. Does not wait for the animation to finish.")]
 public class AnimationPlaythroughAction : FsmStateAction
 {
-	[CheckForComponent(typeof(Animation))]
 	[Tooltip("Game Object to play the animation on.")]
 	[RequiredField]
+	[CheckForComponent(typeof(Animation))]
 	public FsmOwnerDefault m_GameObject;
 
 	[UIHint(UIHint.Animation)]

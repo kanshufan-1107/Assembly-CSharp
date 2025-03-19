@@ -84,9 +84,12 @@ public class DecalProjector : MonoBehaviour
 	private void UpdateCubePosition()
 	{
 		Vector3 lossyScale = base.transform.lossyScale;
-		Transform obj = m_RenderCube.transform;
-		obj.localScale = new Vector3(m_orthographicSize * m_aspectRatio * 2f / lossyScale.x, m_orthographicSize * 2f / lossyScale.y, (m_farClipPlane - m_nearClipPlane) / lossyScale.z);
-		obj.localPosition = new Vector3(0f, 0f, ((m_farClipPlane - m_nearClipPlane) * 0.5f + m_nearClipPlane) / lossyScale.z);
+		if (lossyScale.x != 0f && lossyScale.y != 0f && lossyScale.z != 0f)
+		{
+			Transform obj = m_RenderCube.transform;
+			obj.localScale = new Vector3(m_orthographicSize * m_aspectRatio * 2f / lossyScale.x, m_orthographicSize * 2f / lossyScale.y, (m_farClipPlane - m_nearClipPlane) / lossyScale.z);
+			obj.localPosition = new Vector3(0f, 0f, ((m_farClipPlane - m_nearClipPlane) * 0.5f + m_nearClipPlane) / lossyScale.z);
+		}
 	}
 
 	private void OnEnable()

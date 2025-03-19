@@ -90,6 +90,10 @@ public static class ProductPageJobs
 		{
 			yield return null;
 		}
+		while (!shop.ProductPageTempInstancesInitialized)
+		{
+			yield return null;
+		}
 		if (dataService.TryGetSubTabFromProductId(product.PmtId, out var parentTab, out var subTab) && (!parentTab.Enabled || parentTab.Locked || !subTab.Enabled || subTab.Locked))
 		{
 			yield return new JobFailedResult($"[Shop.OpenToProductPage] Attempted to open product {product.PmtId} but Tab({parentTab.Id})/SubTab({subTab.Id}) is unavailable!");

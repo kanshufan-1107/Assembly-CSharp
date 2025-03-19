@@ -1,11 +1,11 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Modify the stats/appearance of a display actor.  This should only be used for cards spawned in fx as actual game entities are managed by the server.")]
+[ActionCategory("Pegasus")]
 public class ModifyActorAction : FsmStateAction
 {
-	[RequiredField]
 	[UIHint(UIHint.Variable)]
+	[RequiredField]
 	[Tooltip("Actor to modify.")]
 	public FsmGameObject m_ActorObject;
 

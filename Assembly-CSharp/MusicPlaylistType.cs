@@ -108,6 +108,8 @@ public enum MusicPlaylistType
 	InGame_RagnarosTheFirelord_Mulligan = 271,
 	InGame_Kerrigan_Mulligan = 272,
 	InGame_Felfire_Ragnaros_Mulligan = 273,
+	InGame_EDR_Mulligan = 274,
+	InGame_EDR = 275,
 	UISolo_Practice = 300,
 	UISolo_Naxxramas = 301,
 	UISolo_BRM = 302,
@@ -308,5 +310,8 @@ public enum MusicPlaylistType
 	Hero_Kerrigan = 1008,
 	Hero_GennGreymane = 1009,
 	Hero_VanessaVanCleef = 1010,
-	Hero_Ysera = 1011
+	Hero_Ysera = 1011,
+	Hero_Xavius = 1012,
+	Hero_Ursoc = 1013,
+	Hero_VivianSharpshade = 1014
 }

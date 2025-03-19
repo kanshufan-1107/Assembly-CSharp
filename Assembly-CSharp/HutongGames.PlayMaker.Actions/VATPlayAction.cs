@@ -6,14 +6,14 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Plays an animation from the Vertex Animation component on the diamond model.")]
 public class VATPlayAction : FsmStateAction
 {
-	[Tooltip("Game Object that has the VertexAnimation.")]
-	[CheckForComponent(typeof(VertexAnimation))]
 	[RequiredField]
+	[CheckForComponent(typeof(VertexAnimation))]
+	[Tooltip("Game Object that has the VertexAnimation.")]
 	public FsmOwnerDefault m_GameObject;
 
 	[RequiredField]
-	[UIHint(UIHint.FsmString)]
 	[Tooltip("The name of the animation to play.")]
+	[UIHint(UIHint.FsmString)]
 	public FsmString m_AnimName;
 
 	public bool m_waitToFinish;

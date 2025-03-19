@@ -84,33 +84,33 @@ public class HSInputField : Selectable, IUpdateSelectedHandler, IEventSystemHand
 	[SerializeField]
 	private InputType m_InputType;
 
-	[FormerlySerializedAs("asteriskChar")]
 	[SerializeField]
+	[FormerlySerializedAs("asteriskChar")]
 	private char m_AsteriskChar = '*';
 
-	[SerializeField]
 	[FormerlySerializedAs("keyboardType")]
+	[SerializeField]
 	private TouchScreenKeyboardType m_KeyboardType;
 
 	[SerializeField]
 	private LineType m_LineType;
 
-	[SerializeField]
 	[FormerlySerializedAs("hideMobileInput")]
+	[SerializeField]
 	private bool m_HideMobileInput;
 
 	[FormerlySerializedAs("validation")]
 	[SerializeField]
 	private CharacterValidation m_CharacterValidation;
 
-	[SerializeField]
 	[FormerlySerializedAs("characterLimit")]
+	[SerializeField]
 	private int m_CharacterLimit;
 
 	[SerializeField]
-	[FormerlySerializedAs("m_EndEdit")]
 	[FormerlySerializedAs("onSubmit")]
 	[FormerlySerializedAs("m_OnSubmit")]
+	[FormerlySerializedAs("m_EndEdit")]
 	private SubmitEvent m_OnEndEdit = new SubmitEvent();
 
 	[FormerlySerializedAs("onValueChange")]
@@ -122,8 +122,8 @@ public class HSInputField : Selectable, IUpdateSelectedHandler, IEventSystemHand
 	[FormerlySerializedAs("onValidateInput")]
 	private OnValidateInput m_OnValidateInput;
 
-	[SerializeField]
 	[FormerlySerializedAs("selectionColor")]
+	[SerializeField]
 	private Color m_CaretColor = new Color(10f / 51f, 10f / 51f, 10f / 51f, 1f);
 
 	[SerializeField]
@@ -132,16 +132,16 @@ public class HSInputField : Selectable, IUpdateSelectedHandler, IEventSystemHand
 	[SerializeField]
 	private Color m_SelectionColor = new Color(56f / 85f, 0.80784315f, 1f, 64f / 85f);
 
-	[SerializeField]
 	[FormerlySerializedAs("mValue")]
+	[SerializeField]
 	protected string m_Text = string.Empty;
 
-	[SerializeField]
 	[Range(0f, 4f)]
+	[SerializeField]
 	private float m_CaretBlinkRate = 0.85f;
 
-	[SerializeField]
 	[Range(1f, 5f)]
+	[SerializeField]
 	private int m_CaretWidth = 1;
 
 	[SerializeField]

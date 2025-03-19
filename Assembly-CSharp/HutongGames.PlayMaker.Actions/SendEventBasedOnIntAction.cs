@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Fires an event based on a supplied Int")]
+[ActionCategory("Pegasus")]
 public class SendEventBasedOnIntAction : FsmStateAction
 {
 	public class ValueRangeEvent

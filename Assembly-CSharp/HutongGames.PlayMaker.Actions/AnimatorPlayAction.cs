@@ -7,8 +7,8 @@ namespace HutongGames.PlayMaker.Actions;
 public class AnimatorPlayAction : FsmStateAction
 {
 	[Tooltip("Game Object to play the animation on.")]
-	[CheckForComponent(typeof(Animator))]
 	[RequiredField]
+	[CheckForComponent(typeof(Animator))]
 	public FsmOwnerDefault m_GameObject;
 
 	public FsmString m_StateName;

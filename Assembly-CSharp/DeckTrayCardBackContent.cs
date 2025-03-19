@@ -18,8 +18,8 @@ public class DeckTrayCardBackContent : DeckTrayContent
 		public Vector3 OriginalPosition;
 	}
 
-	[Header("Positioning")]
 	[SerializeField]
+	[Header("Positioning")]
 	private GameObject m_root;
 
 	[SerializeField]
@@ -28,8 +28,8 @@ public class DeckTrayCardBackContent : DeckTrayContent
 	[SerializeField]
 	private GameObject m_cardBackContainer;
 
-	[Header("Animation")]
 	[SerializeField]
+	[Header("Animation")]
 	private iTween.EaseType m_traySlideSlideInAnimation = iTween.EaseType.easeOutBounce;
 
 	[SerializeField]

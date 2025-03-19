@@ -5,8 +5,8 @@ using UnityEngine;
 [HutongGames.PlayMaker.Tooltip("Get the object being rendered to from RenderToTexture")]
 public class GetRenderToTextureRenderObject : FsmStateAction
 {
-	[CheckForComponent(typeof(RenderToTexture))]
 	[RequiredField]
+	[CheckForComponent(typeof(RenderToTexture))]
 	public FsmOwnerDefault gameObject;
 
 	[RequiredField]

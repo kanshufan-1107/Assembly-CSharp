@@ -2,21 +2,21 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Enables an Animator and plays one of its states and waits for it to complete.")]
+[ActionCategory("Pegasus")]
 public class AnimatorPlaythroughAction : FsmStateAction
 {
+	[RequiredField]
 	[CheckForComponent(typeof(Animator))]
 	[Tooltip("Game Object to play the animation on.")]
-	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
 	public FsmString m_StateName;
 
 	public FsmString m_LayerName;
 
-	[HasFloatSlider(0f, 100f)]
 	[Tooltip("Percent of time into the animation at which to start playing.")]
+	[HasFloatSlider(0f, 100f)]
 	public FsmFloat m_StartTimePercent;
 
 	private AnimatorStateInfo m_currentAnimationState;

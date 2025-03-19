@@ -35,8 +35,8 @@ public class PlayerLeaderboardTeam : MonoBehaviour
 	[SerializeField]
 	private Collider m_TeamCollider;
 
-	[Header("Teamwide Items")]
 	[SerializeField]
+	[Header("Teamwide Items")]
 	protected ProgressBar m_HealthBar;
 
 	[SerializeField]

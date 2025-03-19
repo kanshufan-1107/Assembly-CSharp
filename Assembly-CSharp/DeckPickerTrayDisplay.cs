@@ -2360,7 +2360,7 @@ public class DeckPickerTrayDisplay : AbsDeckPickerTrayDisplay
 		{
 			if (newVisualsFormatType.ToFormatType() == PegasusShared.FormatType.FT_UNKNOWN)
 			{
-				RankMgr.LogMessage("newVisualsFormatType.ToFormatType() = FT_UNKOWN", "SwitchFormatTypeAndRankedPlayMode", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Game\\DeckPickerTray\\DeckPickerTrayDisplay.cs", 2954);
+				RankMgr.LogMessage("newVisualsFormatType.ToFormatType() = FT_UNKOWN", "SwitchFormatTypeAndRankedPlayMode", "D:\\p4Workspace\\32.0.0\\Pegasus\\Client\\Assets\\Game\\DeckPickerTray\\DeckPickerTrayDisplay.cs", 2954);
 				return;
 			}
 			Options.SetFormatType(newVisualsFormatType.ToFormatType());
@@ -4027,7 +4027,7 @@ public class DeckPickerTrayDisplay : AbsDeckPickerTrayDisplay
 		SetLockedPortraitMaterial(m_selectedHeroButton);
 	}
 
-	protected override void SetHeroRaised(bool raised)
+	public override void SetHeroRaised(bool raised)
 	{
 		m_xpBar.SetEnabled(raised);
 		base.SetHeroRaised(raised);
@@ -4317,7 +4317,7 @@ public class DeckPickerTrayDisplay : AbsDeckPickerTrayDisplay
 		PegasusShared.FormatType ft = Options.GetFormatType();
 		if (ft == PegasusShared.FormatType.FT_UNKNOWN)
 		{
-			RankMgr.LogMessage("Options.GetFormatType() = FT_UNKOWN", "SelectHeroForCollectionManagerImpl", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Game\\DeckPickerTray\\DeckPickerTrayDisplay.cs", 5656);
+			RankMgr.LogMessage("Options.GetFormatType() = FT_UNKOWN", "SelectHeroForCollectionManagerImpl", "D:\\p4Workspace\\32.0.0\\Pegasus\\Client\\Assets\\Game\\DeckPickerTray\\DeckPickerTrayDisplay.cs", 5656);
 			yield break;
 		}
 		CollectionManager.s_HeroPickerFormat = ft;

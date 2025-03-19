@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Set an actor to the appropriate ritual fx position")]
 [ActionCategory("Pegasus")]
+[Tooltip("Set an actor to the appropriate ritual fx position")]
 public class PositionRitualActorAction : FsmStateAction
 {
 	public const string FRIENDLY_BONE_NAME = "FriendlyRitual";

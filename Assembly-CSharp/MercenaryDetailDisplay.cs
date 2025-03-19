@@ -121,8 +121,8 @@ public class MercenaryDetailDisplay : MonoBehaviour
 
 	private readonly List<OnHideDelegate> m_onHideCallbacks = new List<OnHideDelegate>();
 
-	[Overridable]
 	[CustomEditField(Sections = "Settings")]
+	[Overridable]
 	public bool EnableMythicMode { get; set; } = true;
 
 	protected bool IsTutorialPopupBlocked => m_blockTooltipRequests.Count > 0;

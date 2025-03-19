@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Initialize a spell state, setting variables that reference the parent actor and its contents.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Initialize a spell state, setting variables that reference the parent actor and its contents.")]
 public class SpellInitActorAndEntityVariables : SpellInitActorVariables
 {
 	[UIHint(UIHint.Variable)]

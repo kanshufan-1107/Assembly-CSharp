@@ -5,20 +5,20 @@ using UnityEngine;
 
 public class CutsceneCaptionDriver : MonoBehaviour
 {
-	[Tooltip("Ubertext that will display the caption titles.")]
 	[SerializeField]
+	[Tooltip("Ubertext that will display the caption titles.")]
 	private UberText m_captionText;
 
-	[Tooltip("Animation curve (range 0-1 for height and time) that drives fading in text. Should start at 0 and end at 1.")]
 	[SerializeField]
+	[Tooltip("Animation curve (range 0-1 for height and time) that drives fading in text. Should start at 0 and end at 1.")]
 	private AnimationCurve m_fadeInCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
 	[Tooltip("Time for fade in transition for captions. If 0, transition is instant rather than fade.")]
 	[SerializeField]
 	private float m_fadeInSeconds = 0.2f;
 
-	[SerializeField]
 	[Tooltip("Animation curve (range 0-1 for height and time) that drives fading out text. Should start at 1 and end at 0.")]
+	[SerializeField]
 	private AnimationCurve m_fadeOutCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
 
 	[SerializeField]

@@ -39,9 +39,9 @@ public class TeammateHeroViewer : TeammateViewer
 
 	private Vector3 m_trinketHeropowerScale;
 
-	private Vector3 m_clickableButtonPos;
+	private Vector3 m_anomalyPos;
 
-	private Vector3 m_clickableButtonScale;
+	private Vector3 m_anomalyScale;
 
 	private Entity m_teammateHero;
 
@@ -66,12 +66,12 @@ public class TeammateHeroViewer : TeammateViewer
 		zone = ZoneMgr.Get().FindZonesOfType<ZoneBattlegroundQuestReward>(Player.Side.FRIENDLY).FirstOrDefault();
 		m_questRewardPos = zone.transform.position + m_teammateBoardPosition;
 		m_questRewardScale = zone.transform.localScale;
-		zone = ZoneMgr.Get().FindZonesOfType<ZoneBattlegroundClickableButton>(Player.Side.FRIENDLY).FirstOrDefault();
-		m_clickableButtonPos = zone.transform.position + m_teammateBoardPosition;
-		m_clickableButtonScale = zone.transform.localScale;
 		zone = ZoneMgr.Get().FindZonesOfType<ZoneBattlegroundHeroBuddy>(Player.Side.FRIENDLY).FirstOrDefault();
 		m_buddyButtonPos = zone.transform.position + m_teammateBoardPosition;
 		m_buddyButtonScale = zone.transform.localScale;
+		zone = ZoneMgr.Get().FindZonesOfType<ZoneBattlegroundAnomaly>(Player.Side.NEUTRAL).FirstOrDefault();
+		m_anomalyPos = zone.transform.position + m_teammateBoardPosition;
+		m_anomalyScale = zone.transform.localScale;
 		foreach (ZoneBattlegroundTrinket trinketZone in ZoneMgr.Get().FindZonesOfType<ZoneBattlegroundTrinket>(Player.Side.FRIENDLY))
 		{
 			switch (trinketZone.slot)
@@ -99,9 +99,9 @@ public class TeammateHeroViewer : TeammateViewer
 	{
 		if (entityData.Zone == 1)
 		{
-			if (entityData.Type != 3 && entityData.Type != 10 && entityData.Type != 40 && entityData.Type != 24)
+			if (entityData.Type != 3 && entityData.Type != 10 && entityData.Type != 40 && entityData.Type != 24 && entityData.Type != 44)
 			{
-				return entityData.Type == 44;
+				return entityData.Type == 43;
 			}
 			return true;
 		}
@@ -161,6 +161,11 @@ public class TeammateHeroViewer : TeammateViewer
 			actor.GetCard().transform.position = m_buddyButtonPos;
 			actor.GetCard().transform.localScale = m_buddyButtonScale;
 		}
+		else if (actor.GetEntity().GetCardType() == TAG_CARDTYPE.BATTLEGROUND_ANOMALY)
+		{
+			actor.GetCard().transform.position = m_anomalyPos;
+			actor.GetCard().transform.localScale = m_anomalyScale;
+		}
 		else if (actor.GetEntity().GetCardType() == TAG_CARDTYPE.BATTLEGROUND_TRINKET)
 		{
 			switch (actor.GetEntity().GetTag(GAME_TAG.TAG_SCRIPT_DATA_NUM_6))
@@ -210,6 +215,14 @@ public class TeammateHeroViewer : TeammateViewer
 		if (actor.GetEntity().IsBattlegroundHeroBuddy() && actor.GetEntityDef() != null)
 		{
 			actor.GetEntityDef().SetTag(GAME_TAG.COST, actor.GetEntity().GetTag(GAME_TAG.MODIFY_DEFINITION_COST));
+		}
+		if (actor.GetEntity().IsAnomaly())
+		{
+			AnomalyWidget anomaly = actor.GetComponent<AnomalyWidget>();
+			if (anomaly != null)
+			{
+				anomaly.UpdateTurnsTillActiveState(actor.GetEntity().GetTag(GAME_TAG.BACON_TURNS_TILL_ACTIVE) == 0);
+			}
 		}
 	}
 

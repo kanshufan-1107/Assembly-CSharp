@@ -109,6 +109,12 @@ public class ChatFrames : MonoBehaviour
 		}
 	}
 
+	public void SetHeightInScene(float value)
+	{
+		Vector3 pos = base.transform.position;
+		base.transform.position = new Vector3(pos.x, value, pos.z);
+	}
+
 	private void OnFramesMoved()
 	{
 		if (ChatMgr.Get() != null)

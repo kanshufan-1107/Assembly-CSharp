@@ -2,8 +2,8 @@ using System;
 using Blizzard.T5.Core;
 using UnityEngine;
 
-[ExecuteAlways]
 [RequireComponent(typeof(Renderer))]
+[ExecuteAlways]
 public class VertexAnimation : MonoBehaviour
 {
 	[Serializable]

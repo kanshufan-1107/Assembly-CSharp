@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class DeckOptionsMenu : MonoBehaviour
 {
-	[SerializeField]
 	[Header("Tray")]
+	[SerializeField]
 	private GameObject m_root;
 
 	[SerializeField]

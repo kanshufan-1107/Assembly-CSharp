@@ -220,7 +220,7 @@ public class DeckTrayDeckListContent : DeckTrayReorderableContent
 		FormatType ft = cmd.CurrentSetFilterFormatType;
 		if (ft == FormatType.FT_UNKNOWN)
 		{
-			RankMgr.LogMessage("Options.GetFormatType() = FT_UNKOWN", "StartCreateNewDeck", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Shared\\Scripts\\Game\\DeckTrayDeckListContent.cs", 201);
+			RankMgr.LogMessage("Options.GetFormatType() = FT_UNKOWN", "StartCreateNewDeck", "D:\\p4Workspace\\32.0.0\\Pegasus\\Client\\Assets\\Shared\\Scripts\\Game\\DeckTrayDeckListContent.cs", 201);
 			return;
 		}
 		s_PreHeroPickerFormat = ft;

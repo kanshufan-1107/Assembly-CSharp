@@ -7,20 +7,20 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Basic setup for a custom spawn effect.\n\nSwitches Actor from being Owner's parent to being Owner's grandchild.\n\nNote: Only use this if you're animating the token. Otherwise, just use SpellInitActorVariables.")]
 public class InitializeCustomSpawn : FsmStateAction
 {
-	[Tooltip("Token root.")]
 	[RequiredField]
+	[Tooltip("Token root.")]
 	public FsmGameObject tokenRoot;
 
 	[Tooltip("Whether or not to reset Actor's local position to 0,0,0 after parenting.")]
 	[UIHint(UIHint.FsmBool)]
 	public FsmBool resetActorPosition;
 
-	[Tooltip("Whether or not to reset Actor's local rotation to 0,0,0 after parenting.")]
 	[UIHint(UIHint.FsmBool)]
+	[Tooltip("Whether or not to reset Actor's local rotation to 0,0,0 after parenting.")]
 	public FsmBool resetActorRotation;
 
-	[Tooltip("Whether or not to reset Actor's local scale to 1,1,1 after parenting.")]
 	[UIHint(UIHint.FsmBool)]
+	[Tooltip("Whether or not to reset Actor's local scale to 1,1,1 after parenting.")]
 	public FsmBool resetActorScale;
 
 	[Tooltip("Optional: Store the actor in this variable.")]

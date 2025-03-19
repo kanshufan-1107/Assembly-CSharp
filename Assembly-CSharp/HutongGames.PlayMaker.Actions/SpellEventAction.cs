@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Tells the game that a Spell is finished, allowing the game to progress.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Tells the game that a Spell is finished, allowing the game to progress.")]
 public class SpellEventAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

@@ -6,8 +6,8 @@ namespace HutongGames.PlayMaker.Actions;
 [ActionCategory(ActionCategory.GameObject)]
 public class UpdateTechLevelManaGem : FsmStateAction
 {
-	[RequiredField]
 	[Tooltip("The Game Object to update.")]
+	[RequiredField]
 	public FsmGameObject actorObject;
 
 	public override void Reset()

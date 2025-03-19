@@ -12197,7 +12197,7 @@ public class Cheats : IService
 
 	private bool OnProcessCheat_shopbadging(string func, string[] args, string rawArgs)
 	{
-		string usage = "USAGE: shopbadging <true/false>";
+		string usage = "USAGE: shopbadging <true/false/reset>";
 		bool show = false;
 		if (!ServiceManager.TryGet<IProductDataService>(out var dataService))
 		{
@@ -12207,6 +12207,11 @@ public class Cheats : IService
 		if (args.Length != 0 && !string.IsNullOrEmpty(args[0]) && args[0] == "log")
 		{
 			dataService.CheckForNewItems();
+			return true;
+		}
+		if (args.Length != 0 && !string.IsNullOrEmpty(args[0]) && args[0] == "reset")
+		{
+			dataService.ResetShopBadging();
 			return true;
 		}
 		if (args.Length != 0 && !GeneralUtils.TryParseBool(args[0], out show))

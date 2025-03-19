@@ -32,9 +32,9 @@ public class ShopBrowser : MonoBehaviour, IPopupRendering
 	[SerializeField]
 	private bool m_loadWidgetInstancesSynchronously;
 
-	[Header("Sections Buffered Loading")]
 	[SerializeField]
 	[Min(0f)]
+	[Header("Sections Buffered Loading")]
 	private float m_timeBeforeSpinnerShowsSeconds = 0.5f;
 
 	[Min(0f)]

@@ -152,6 +152,9 @@ public static class ProductExtensions
 		case "sellable_deck_bundle":
 			product.SetupSellableDeckProductStrings();
 			break;
+		case "arena_ticket":
+			product.SetupTavernTicketProductStrings();
+			break;
 		}
 		product.DescriptionHeader = product.DescriptionHeader ?? GameStrings.Format("GLUE_SHOP_DESCRIPTION_HEADER", product.Name);
 		product.VariantName = product.VariantName ?? product.Name;
@@ -612,6 +615,16 @@ public static class ProductExtensions
 				product.FlavorText = string.Format(GameStrings.Get("GLUE_STORE_SELLABLEDECKS_FLAVOR"), GameStrings.GetClassName((TAG_CLASS)deckTemplate.ClassId));
 			}
 		}
+	}
+
+	private static void SetupTavernTicketProductStrings(this ProductDataModel product)
+	{
+		RewardItemDataModel tavernTicket = product.Items.FirstOrDefault((RewardItemDataModel item) => item.ItemType == RewardItemType.ARENA_TICKET);
+		if (tavernTicket != null)
+		{
+			product.VariantName = GameStrings.Format("GLUE_SHOP_TAVERN_TICKET_SKU_BUTTON", tavernTicket.Quantity);
+		}
+		product.Description = GameStrings.Get("GLUE_SHOP_TAVERN_TICKET_DESCRIPTION");
 	}
 
 	private static string GetProductLegalDisclaimer(this ProductDataModel product)

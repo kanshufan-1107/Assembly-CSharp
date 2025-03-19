@@ -486,9 +486,12 @@ public class AchievementManager : IService
 		}
 		m_achievementToast.RegisterReadyListener(delegate
 		{
-			AchievementToast componentInChildren = m_achievementToast.GetComponentInChildren<AchievementToast>();
-			componentInChildren.Initialize(dataModel);
-			componentInChildren.Show();
+			if (!(m_achievementToast == null))
+			{
+				AchievementToast componentInChildren = m_achievementToast.GetComponentInChildren<AchievementToast>();
+				componentInChildren.Initialize(dataModel);
+				componentInChildren.Show();
+			}
 		});
 		m_achievementToast.RegisterDeactivatedListener(delegate
 		{

@@ -87,10 +87,10 @@ public class ContentFitter : WidgetPositioningElement
 		}
 	}
 
-	[Header("Fitter Data")]
 	[Tooltip("The target which the attached gameobject will scale to")]
 	[FormerlySerializedAs("m_target")]
 	[SerializeField]
+	[Header("Fitter Data")]
 	private GameObject m_parent;
 
 	[Tooltip("The transform that will scale")]
@@ -100,8 +100,8 @@ public class ContentFitter : WidgetPositioningElement
 	[SerializeField]
 	private ScaleDirection m_scaleDirection;
 
-	[SerializeField]
 	[Header("Find Components")]
+	[SerializeField]
 	private bool m_useChildren;
 
 	[SerializeField]

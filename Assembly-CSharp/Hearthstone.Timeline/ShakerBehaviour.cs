@@ -7,17 +7,17 @@ namespace Hearthstone.Timeline;
 [Serializable]
 public class ShakerBehaviour : TimelineEffectBehaviour<ShakerHelper>
 {
-	[SerializeField]
 	[Tooltip("Max distance the shake can move (scaled by the intensity curve).")]
+	[SerializeField]
 	private Vector3 m_Amount = new Vector3(0.1f, 0.1f, 0f);
 
-	[SerializeField]
 	[Tooltip("Build or falloff over time.")]
+	[SerializeField]
 	private AnimationCurve m_IntensityCurve = new AnimationCurve(new Keyframe(0f, 1f, 0f, -2f), new Keyframe(1f, 0f, 0f, 0f));
 
+	[SerializeField]
 	[Range(0f, 0.25f)]
 	[Tooltip("Time between shakes (zero for every frame).")]
-	[SerializeField]
 	private float m_interval = 0.075f;
 
 	protected override object[] GetHelperInitializationData(PlayableInfo _)

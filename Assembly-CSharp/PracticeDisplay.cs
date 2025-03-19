@@ -128,6 +128,10 @@ public class PracticeDisplay : MonoBehaviour
 		{
 			m_practicePickerTray.Hide();
 		}
+		if (m_deckPickerTray != null)
+		{
+			m_deckPickerTray.SetHeroRaised(raised: true);
+		}
 		if (m_deckPickerTray != null && m_deckPickerTray.m_hierarchyDetails != null && m_deckPickerTray.m_hierarchyDetails.TryGetComponent<SlidingTray>(out var masterTray))
 		{
 			masterTray.ToggleTraySlider(show: false);

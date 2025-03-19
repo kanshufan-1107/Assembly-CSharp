@@ -868,378 +868,379 @@ public class RenderToTexture : MonoBehaviour, IPopupRendering
 		{
 			return;
 		}
-		if (m_RealtimeTranslation)
+		using (s_RenderTexInit.Auto())
 		{
-			m_OffscreenGameObject = new GameObject();
-			m_OffscreenGameObject.name = $"R2TOffsetRenderRoot_{base.name}";
-			m_OffscreenGameObject.transform.position = base.transform.position;
-		}
-		if ((bool)m_ObjectToRender)
-		{
-			if (!m_ObjectToRenderOrgPositionStored)
+			if (m_RealtimeTranslation)
 			{
-				m_ObjectToRenderOrgParent = m_ObjectToRender.transform.parent;
-				m_ObjectToRenderOrgPosition = m_ObjectToRender.transform.localPosition;
+				m_OffscreenGameObject = new GameObject();
+				m_OffscreenGameObject.name = $"R2TOffsetRenderRoot_{base.name}";
+				m_OffscreenGameObject.transform.position = base.transform.position;
+			}
+			if ((bool)m_ObjectToRender)
+			{
+				if (!m_ObjectToRenderOrgPositionStored)
+				{
+					m_ObjectToRenderOrgParent = m_ObjectToRender.transform.parent;
+					m_ObjectToRenderOrgPosition = m_ObjectToRender.transform.localPosition;
+					m_ObjectToRenderOrgPositionStored = true;
+				}
+				if (m_HideRenderObject)
+				{
+					if (m_RealtimeTranslation)
+					{
+						m_ObjectToRender.transform.parent = m_OffscreenGameObject.transform;
+						if ((bool)m_AlphaObjectToRender)
+						{
+							m_AlphaObjectToRender.transform.parent = m_OffscreenGameObject.transform;
+						}
+					}
+					if ((bool)m_RenderToObject)
+					{
+						m_OriginalRenderPosition = m_RenderToObject.transform.position;
+					}
+					else
+					{
+						m_OriginalRenderPosition = base.transform.position;
+					}
+					if ((bool)m_ObjectToRender && m_ObjectToRenderOffset == Vector3.zero)
+					{
+						m_ObjectToRenderOffset = base.transform.position - m_ObjectToRender.transform.position;
+					}
+					if ((bool)m_AlphaObjectToRender && m_AlphaObjectToRenderOffset == Vector3.zero)
+					{
+						m_AlphaObjectToRenderOffset = base.transform.position - m_AlphaObjectToRender.transform.position;
+					}
+				}
+			}
+			else if (!m_ObjectToRenderOrgPositionStored)
+			{
+				m_ObjectToRenderOrgPosition = base.transform.localPosition;
+				if (m_OffscreenGameObject != null)
+				{
+					m_OffscreenGameObject.transform.position = base.transform.position;
+				}
 				m_ObjectToRenderOrgPositionStored = true;
 			}
 			if (m_HideRenderObject)
 			{
 				if (m_RealtimeTranslation)
 				{
-					m_ObjectToRender.transform.parent = m_OffscreenGameObject.transform;
-					if ((bool)m_AlphaObjectToRender)
+					if (m_OffscreenGameObject != null)
 					{
-						m_AlphaObjectToRender.transform.parent = m_OffscreenGameObject.transform;
+						m_OffscreenGameObject.transform.position = m_OffscreenPos;
 					}
 				}
-				if ((bool)m_RenderToObject)
+				else if ((bool)m_ObjectToRender)
 				{
-					m_OriginalRenderPosition = m_RenderToObject.transform.position;
+					m_ObjectToRender.transform.position = m_OffscreenPos;
 				}
 				else
 				{
-					m_OriginalRenderPosition = base.transform.position;
-				}
-				if ((bool)m_ObjectToRender && m_ObjectToRenderOffset == Vector3.zero)
-				{
-					m_ObjectToRenderOffset = base.transform.position - m_ObjectToRender.transform.position;
-				}
-				if ((bool)m_AlphaObjectToRender && m_AlphaObjectToRenderOffset == Vector3.zero)
-				{
-					m_AlphaObjectToRenderOffset = base.transform.position - m_AlphaObjectToRender.transform.position;
+					base.transform.position = m_OffscreenPos;
 				}
 			}
-		}
-		else if (!m_ObjectToRenderOrgPositionStored)
-		{
-			m_ObjectToRenderOrgPosition = base.transform.localPosition;
-			if (m_OffscreenGameObject != null)
+			if (m_ObjectToRender == null)
 			{
-				m_OffscreenGameObject.transform.position = base.transform.position;
+				m_ObjectToRender = base.gameObject;
 			}
-			m_ObjectToRenderOrgPositionStored = true;
-		}
-		if (m_HideRenderObject)
-		{
-			if (m_RealtimeTranslation)
+			CalcWorldWidthHeightScale();
+			CreateTexture();
+			CreateCamera();
+			if (m_OpaqueObjectAlphaFill || m_RenderMeshAsAlpha || m_AlphaObjectToRender != null)
 			{
-				if (m_OffscreenGameObject != null)
-				{
-					m_OffscreenGameObject.transform.position = m_OffscreenPos;
-				}
+				CreateAlphaCamera();
 			}
-			else if ((bool)m_ObjectToRender)
+			if (!m_RenderToObject && m_CreateRenderPlane)
 			{
-				m_ObjectToRender.transform.position = m_OffscreenPos;
+				CreateRenderPlane();
 			}
-			else
+			if ((bool)m_RenderToObject)
 			{
-				base.transform.position = m_OffscreenPos;
+				m_RenderToObject.GetComponent<Renderer>().GetMaterial().renderQueue = m_RenderQueueOffset + m_RenderQueue;
 			}
+			SetupMaterial();
+			m_RttCommandBufferName = "RenderToTexture " + base.name;
+			m_BloomCommandbufferName = "RenderToTexture Bloom " + base.name;
+			m_init = true;
 		}
-		if (m_ObjectToRender == null)
-		{
-			m_ObjectToRender = base.gameObject;
-		}
-		CalcWorldWidthHeightScale();
-		CreateTexture();
-		CreateCamera();
-		if (m_OpaqueObjectAlphaFill || m_RenderMeshAsAlpha || m_AlphaObjectToRender != null)
-		{
-			CreateAlphaCamera();
-		}
-		if (!m_RenderToObject && m_CreateRenderPlane)
-		{
-			CreateRenderPlane();
-		}
-		if ((bool)m_RenderToObject)
-		{
-			m_RenderToObject.GetComponent<Renderer>().GetMaterial().renderQueue = m_RenderQueueOffset + m_RenderQueue;
-		}
-		SetupMaterial();
-		m_RttCommandBufferName = "RenderToTexture " + base.name;
-		m_BloomCommandbufferName = "RenderToTexture Bloom " + base.name;
-		m_init = true;
 	}
 
 	private void RenderTex()
 	{
-		if (!m_renderEnabled)
+		using (s_RenderTex.Auto())
 		{
-			return;
-		}
-		Init();
-		if (!m_init)
-		{
-			return;
-		}
-		SetupForRender();
-		if (m_RenderMaterial != m_PreviousRenderMaterial || m_RenderQueue != m_previousRenderQueue)
-		{
-			SetupMaterial();
-		}
-		if (m_HideRenderObject && (bool)m_ObjectToRender)
-		{
-			PositionHiddenObjectsAndCameras();
-		}
-		if ((bool)m_PlaneGameObject && !m_HideRenderObject)
-		{
-			m_PlaneGameObject.GetComponent<Renderer>().enabled = false;
-			if ((bool)m_BloomPlaneGameObject)
+			if (!m_renderEnabled)
 			{
-				m_BloomPlaneGameObject.GetComponent<Renderer>().enabled = false;
+				return;
 			}
-		}
-		bool num = m_OpaqueObjectAlphaFill || m_RenderMeshAsAlpha || m_AlphaObjectToRender != null;
-		bool renderWithBlur = m_BlurAmount > 0f;
-		RenderCommandLists RenderCommands = RenderToTextureUtils.RenderCommandListPool.Get(m_ObjectToRender, includeInactiveRenderers: false, m_materialOverrides);
-		RenderCommandLists alphaRenderCommands = ((m_AlphaObjectToRender == null) ? null : RenderToTextureUtils.RenderCommandListPool.Get(m_AlphaObjectToRender, includeInactiveRenderers: false, m_materialOverrides));
-		CommandBuffer cmd = CommandBufferPool.Get(m_RttCommandBufferName);
-		RenderTexture colorBuffer = RenderTexture.GetTemporary(m_RenderTexture.width, m_RenderTexture.height, m_RenderTexture.depth, m_RenderTexture.format);
-		RenderTexture alphaBuffer = (num ? RenderTexture.GetTemporary(m_RenderTexture.width, m_RenderTexture.height, 16, RenderTextureFormat.R8) : null);
-		RenderTexture blurBuffer = (renderWithBlur ? RenderTexture.GetTemporary(m_RenderTexture.width, m_RenderTexture.height, m_RenderTexture.depth, m_RenderTexture.format) : null);
-		m_RenderTexture.DiscardContents();
-		m_CameraData.SetOrthoProjectionMatrix(OrthoSize(), m_NearClip * m_WorldScale.z, m_FarClip * m_WorldScale.z);
-		m_CameraData.SetWorldToCameraMatrix(m_CameraGO.transform);
-		m_Camera.orthographicSize = OrthoSize();
-		m_Camera.farClipPlane = m_FarClip * m_WorldScale.z;
-		m_Camera.nearClipPlane = m_NearClip * m_WorldScale.z;
-		Camera.SetupCurrent(m_Camera);
-		if (num)
-		{
-			RenderToTextureUtils.RenderCamera(cmd, colorBuffer, m_CameraData, RenderCommands, m_ReplacmentShader, m_ReplacmentTag);
-			m_AlphaCameraData.SetOrthoProjectionMatrix(OrthoSize(), m_NearClip * m_WorldScale.z, m_FarClip * m_WorldScale.z);
-			m_AlphaCameraData.SetWorldToCameraMatrix(m_AlphaCameraGO.transform);
-			AlphaCameraRender(cmd, alphaBuffer, m_AlphaCameraData, RenderCommands, alphaRenderCommands);
-			if (m_OpaqueObjectAlphaFill)
+			Init();
+			if (!m_init)
 			{
-				AlphaBlendAddMaterial.SetTexture("_AlphaTex", alphaBuffer);
+				return;
 			}
-			else
+			SetupForRender();
+			if (m_RenderMaterial != m_PreviousRenderMaterial || m_RenderQueue != m_previousRenderQueue)
 			{
-				AlphaBlendMaterial.SetTexture("_AlphaTex", alphaBuffer);
+				SetupMaterial();
 			}
-			if (renderWithBlur)
+			if (m_HideRenderObject && (bool)m_ObjectToRender)
 			{
+				PositionHiddenObjectsAndCameras();
+			}
+			if ((bool)m_PlaneGameObject && !m_HideRenderObject)
+			{
+				m_PlaneGameObject.GetComponent<Renderer>().enabled = false;
+				if ((bool)m_BloomPlaneGameObject)
+				{
+					m_BloomPlaneGameObject.GetComponent<Renderer>().enabled = false;
+				}
+			}
+			bool num = m_OpaqueObjectAlphaFill || m_RenderMeshAsAlpha || m_AlphaObjectToRender != null;
+			bool renderWithBlur = m_BlurAmount > 0f;
+			RenderCommandLists RenderCommands = RenderToTextureUtils.RenderCommandListPool.Get(m_ObjectToRender, includeInactiveRenderers: false, m_materialOverrides);
+			RenderCommandLists alphaRenderCommands = ((m_AlphaObjectToRender == null) ? null : RenderToTextureUtils.RenderCommandListPool.Get(m_AlphaObjectToRender, includeInactiveRenderers: false, m_materialOverrides));
+			CommandBuffer cmd = CommandBufferPool.Get(m_RttCommandBufferName);
+			RenderTexture colorBuffer = RenderTexture.GetTemporary(m_RenderTexture.width, m_RenderTexture.height, m_RenderTexture.depth, m_RenderTexture.format);
+			RenderTexture alphaBuffer = (num ? RenderTexture.GetTemporary(m_RenderTexture.width, m_RenderTexture.height, 16, RenderTextureFormat.R8) : null);
+			RenderTexture blurBuffer = (renderWithBlur ? RenderTexture.GetTemporary(m_RenderTexture.width, m_RenderTexture.height, m_RenderTexture.depth, m_RenderTexture.format) : null);
+			m_RenderTexture.DiscardContents();
+			m_CameraData.SetOrthoProjectionMatrix(OrthoSize(), m_NearClip * m_WorldScale.z, m_FarClip * m_WorldScale.z);
+			m_CameraData.SetWorldToCameraMatrix(m_CameraGO.transform);
+			m_Camera.orthographicSize = OrthoSize();
+			m_Camera.farClipPlane = m_FarClip * m_WorldScale.z;
+			m_Camera.nearClipPlane = m_NearClip * m_WorldScale.z;
+			Camera.SetupCurrent(m_Camera);
+			if (num)
+			{
+				RenderToTextureUtils.RenderCamera(cmd, colorBuffer, m_CameraData, RenderCommands, m_ReplacmentShader, m_ReplacmentTag);
+				m_AlphaCameraData.SetOrthoProjectionMatrix(OrthoSize(), m_NearClip * m_WorldScale.z, m_FarClip * m_WorldScale.z);
+				m_AlphaCameraData.SetWorldToCameraMatrix(m_AlphaCameraGO.transform);
+				AlphaCameraRender(cmd, alphaBuffer, m_AlphaCameraData, RenderCommands, alphaRenderCommands);
 				if (m_OpaqueObjectAlphaFill)
 				{
-					cmd.Blit(colorBuffer, blurBuffer, AlphaBlendAddMaterial);
+					AlphaBlendAddMaterial.SetTexture("_AlphaTex", alphaBuffer);
 				}
 				else
 				{
-					cmd.Blit(colorBuffer, blurBuffer, AlphaBlendMaterial);
+					AlphaBlendMaterial.SetTexture("_AlphaTex", alphaBuffer);
 				}
-				Material blurMat = (m_BlurAlphaOnly ? BlurMaterial : AlphaBlurMaterial);
-				blurMat.SetVector("_BlurOffsets", new Vector4(m_BlurAmount, m_BlurAmount, m_BlurAmount, m_BlurAmount));
-				blurMat.SetVector("_MainTex_TexelSize", new Vector4(1f / (float)blurBuffer.width, 1f / (float)blurBuffer.height, 0f, 0f));
-				cmd.Blit(blurBuffer, m_RenderTexture, blurMat);
+				if (renderWithBlur)
+				{
+					if (m_OpaqueObjectAlphaFill)
+					{
+						cmd.Blit(colorBuffer, blurBuffer, AlphaBlendAddMaterial);
+					}
+					else
+					{
+						cmd.Blit(colorBuffer, blurBuffer, AlphaBlendMaterial);
+					}
+					Material blurMat = (m_BlurAlphaOnly ? BlurMaterial : AlphaBlurMaterial);
+					blurMat.SetVector("_BlurOffsets", new Vector4(m_BlurAmount, m_BlurAmount, m_BlurAmount, m_BlurAmount));
+					blurMat.SetVector("_MainTex_TexelSize", new Vector4(1f / (float)blurBuffer.width, 1f / (float)blurBuffer.height, 0f, 0f));
+					cmd.Blit(blurBuffer, m_RenderTexture, blurMat);
+				}
+				else if (m_OpaqueObjectAlphaFill)
+				{
+					cmd.Blit(colorBuffer, m_RenderTexture, AlphaBlendAddMaterial);
+				}
+				else
+				{
+					cmd.Blit(colorBuffer, m_RenderTexture, AlphaBlendMaterial);
+				}
 			}
-			else if (m_OpaqueObjectAlphaFill)
+			else if (renderWithBlur)
 			{
-				cmd.Blit(colorBuffer, m_RenderTexture, AlphaBlendAddMaterial);
+				RenderToTextureUtils.RenderCamera(cmd, blurBuffer, m_CameraData, RenderCommands, m_ReplacmentShader, m_ReplacmentTag);
+				Material blurMat2 = BlurMaterial;
+				if (m_BlurAlphaOnly)
+				{
+					blurMat2 = m_AlphaBlurMaterial;
+				}
+				blurMat2.SetVector("_BlurOffsets", new Vector4(m_BlurAmount, m_BlurAmount, m_BlurAmount, m_BlurAmount));
+				blurMat2.SetVector("_MainTex_TexelSize", new Vector4(1f / (float)blurBuffer.width, 1f / (float)blurBuffer.height, 0f, 0f));
+				cmd.Blit(blurBuffer, m_RenderTexture, blurMat2);
 			}
 			else
 			{
-				cmd.Blit(colorBuffer, m_RenderTexture, AlphaBlendMaterial);
+				RenderToTextureUtils.RenderCamera(cmd, m_RenderTexture, m_CameraData, RenderCommands, m_ReplacmentShader, m_ReplacmentTag);
 			}
-		}
-		else if (renderWithBlur)
-		{
-			RenderToTextureUtils.RenderCamera(cmd, blurBuffer, m_CameraData, RenderCommands, m_ReplacmentShader, m_ReplacmentTag);
-			Material blurMat2 = BlurMaterial;
-			if (m_BlurAlphaOnly)
+			Graphics.ExecuteCommandBuffer(cmd);
+			CommandBufferPool.Release(cmd);
+			RenderToTextureUtils.RenderCommandListPool.Release(RenderCommands);
+			RenderToTextureUtils.RenderCommandListPool.Release(alphaRenderCommands);
+			RenderTexture.ReleaseTemporary(colorBuffer);
+			if ((bool)alphaBuffer)
 			{
-				blurMat2 = m_AlphaBlurMaterial;
+				RenderTexture.ReleaseTemporary(alphaBuffer);
 			}
-			blurMat2.SetVector("_BlurOffsets", new Vector4(m_BlurAmount, m_BlurAmount, m_BlurAmount, m_BlurAmount));
-			blurMat2.SetVector("_MainTex_TexelSize", new Vector4(1f / (float)blurBuffer.width, 1f / (float)blurBuffer.height, 0f, 0f));
-			cmd.Blit(blurBuffer, m_RenderTexture, blurMat2);
-		}
-		else
-		{
-			RenderToTextureUtils.RenderCamera(cmd, m_RenderTexture, m_CameraData, RenderCommands, m_ReplacmentShader, m_ReplacmentTag);
-		}
-		Graphics.ExecuteCommandBuffer(cmd);
-		CommandBufferPool.Release(cmd);
-		RenderToTextureUtils.RenderCommandListPool.Release(RenderCommands);
-		RenderToTextureUtils.RenderCommandListPool.Release(alphaRenderCommands);
-		RenderTexture.ReleaseTemporary(colorBuffer);
-		if ((bool)alphaBuffer)
-		{
-			RenderTexture.ReleaseTemporary(alphaBuffer);
-		}
-		if ((bool)blurBuffer)
-		{
-			RenderTexture.ReleaseTemporary(blurBuffer);
-		}
-		if ((bool)m_RenderToObject)
-		{
-			Renderer renderer = m_RenderToObject.GetComponent<Renderer>();
-			if (renderer == null)
+			if ((bool)blurBuffer)
 			{
-				renderer = m_RenderToObject.GetComponentInChildren<Renderer>();
+				RenderTexture.ReleaseTemporary(blurBuffer);
 			}
-			if (m_ShaderTextureName != string.Empty)
-			{
-				renderer.GetMaterial().SetTexture(m_ShaderTextureName, m_RenderTexture);
-			}
-			else
-			{
-				renderer.GetMaterial().mainTexture = m_RenderTexture;
-			}
-		}
-		else if ((bool)m_PlaneGameObject)
-		{
-			if (m_ShaderTextureName != string.Empty)
-			{
-				m_PlaneGameObject.GetComponent<Renderer>().GetMaterial().SetTexture(m_ShaderTextureName, m_RenderTexture);
-			}
-			else
-			{
-				m_PlaneGameObject.GetComponent<Renderer>().GetMaterial().mainTexture = m_RenderTexture;
-			}
-		}
-		if (m_RenderMaterial == RenderToTextureMaterial.AlphaClip || m_RenderMaterial == RenderToTextureMaterial.AlphaClipBloom)
-		{
-			GameObject renderObj = m_PlaneGameObject;
 			if ((bool)m_RenderToObject)
 			{
-				renderObj = m_RenderToObject;
+				Renderer renderer = m_RenderToObject.GetComponent<Renderer>();
+				if (renderer == null)
+				{
+					renderer = m_RenderToObject.GetComponentInChildren<Renderer>();
+				}
+				if (m_ShaderTextureName != string.Empty)
+				{
+					renderer.GetMaterial().SetTexture(m_ShaderTextureName, m_RenderTexture);
+				}
+				else
+				{
+					renderer.GetMaterial().mainTexture = m_RenderTexture;
+				}
 			}
-			Material alphaClipMaterial = renderObj.GetComponent<Renderer>().GetMaterial();
-			alphaClipMaterial.SetFloat("_Cutoff", m_AlphaClip);
-			alphaClipMaterial.SetFloat("_Intensity", m_AlphaClipIntensity);
-			alphaClipMaterial.SetFloat("_AlphaIntensity", m_AlphaClipAlphaIntensity);
-			if (m_AlphaClipRenderStyle == AlphaClipShader.ColorGradient)
+			else if ((bool)m_PlaneGameObject)
 			{
-				alphaClipMaterial.SetTexture("_GradientTex", m_AlphaClipGradientMap);
+				if (m_ShaderTextureName != string.Empty)
+				{
+					m_PlaneGameObject.GetComponent<Renderer>().GetMaterial().SetTexture(m_ShaderTextureName, m_RenderTexture);
+				}
+				else
+				{
+					m_PlaneGameObject.GetComponent<Renderer>().GetMaterial().mainTexture = m_RenderTexture;
+				}
 			}
-		}
-		if ((bool)m_PlaneGameObject && !m_HideRenderObject)
-		{
-			m_PlaneGameObject.GetComponent<Renderer>().enabled = true;
-			if ((bool)m_BloomPlaneGameObject)
+			if (m_RenderMaterial == RenderToTextureMaterial.AlphaClip || m_RenderMaterial == RenderToTextureMaterial.AlphaClipBloom)
 			{
-				m_BloomPlaneGameObject.GetComponent<Renderer>().enabled = true;
+				GameObject renderObj = m_PlaneGameObject;
+				if ((bool)m_RenderToObject)
+				{
+					renderObj = m_RenderToObject;
+				}
+				Material alphaClipMaterial = renderObj.GetComponent<Renderer>().GetMaterial();
+				alphaClipMaterial.SetFloat("_Cutoff", m_AlphaClip);
+				alphaClipMaterial.SetFloat("_Intensity", m_AlphaClipIntensity);
+				alphaClipMaterial.SetFloat("_AlphaIntensity", m_AlphaClipAlphaIntensity);
+				if (m_AlphaClipRenderStyle == AlphaClipShader.ColorGradient)
+				{
+					alphaClipMaterial.SetTexture("_GradientTex", m_AlphaClipGradientMap);
+				}
 			}
+			if ((bool)m_PlaneGameObject && !m_HideRenderObject)
+			{
+				m_PlaneGameObject.GetComponent<Renderer>().enabled = true;
+				if ((bool)m_BloomPlaneGameObject)
+				{
+					m_BloomPlaneGameObject.GetComponent<Renderer>().enabled = true;
+				}
+			}
+			if (!m_RealtimeRender)
+			{
+				RestoreAfterRender();
+			}
+			if (m_popupRoot != null && (m_PlaneGameObject != null || m_BloomPlaneGameObject != null || m_BloomCapturePlaneGameObject != null))
+			{
+				m_popupRoot.ApplyPopupRendering(base.transform, m_popupRenderers, overrideLayer: true, base.gameObject.layer);
+			}
+			m_isDirty = false;
+			Camera.SetupCurrent(CameraUtils.GetMainCamera());
 		}
-		if (!m_RealtimeRender)
-		{
-			RestoreAfterRender();
-		}
-		if (m_popupRoot != null && (m_PlaneGameObject != null || m_BloomPlaneGameObject != null || m_BloomCapturePlaneGameObject != null))
-		{
-			m_popupRoot.ApplyPopupRendering(base.transform, m_popupRenderers, overrideLayer: true, base.gameObject.layer);
-		}
-		m_isDirty = false;
-		Camera.SetupCurrent(CameraUtils.GetMainCamera());
 	}
 
 	private void RenderBloom()
 	{
-		if (m_BloomIntensity == 0f)
+		using (s_RenderTexBloom.Auto())
 		{
-			if ((bool)m_BloomPlaneGameObject)
+			if (m_BloomIntensity == 0f)
 			{
-				Object.DestroyImmediate(m_BloomPlaneGameObject);
+				if ((bool)m_BloomPlaneGameObject)
+				{
+					Object.DestroyImmediate(m_BloomPlaneGameObject);
+				}
+				return;
 			}
-			return;
-		}
-		if (m_BloomIntensity == 0f)
-		{
-			if ((bool)m_BloomPlaneGameObject)
+			Camera.SetupCurrent(Camera.main);
+			int bloomWidth = (int)((float)m_RenderTexture.width * Mathf.Clamp01(m_BloomResolutionRatio));
+			int bloomHeight = (int)((float)m_RenderTexture.height * Mathf.Clamp01(m_BloomResolutionRatio));
+			RenderTexture bloomTexture = m_RenderTexture;
+			if (m_RenderMaterial == RenderToTextureMaterial.AlphaClipBloom)
 			{
-				Object.DestroyImmediate(m_BloomPlaneGameObject);
+				if (!m_BloomPlaneGameObject)
+				{
+					CreateBloomPlane();
+				}
+				if (!m_BloomRenderTexture)
+				{
+					m_BloomRenderTexture = RenderTextureTracker.Get().CreateNewTexture(bloomWidth, bloomHeight, RenderTextureTracker.TEXTURE_DEPTH, RenderTextureFormat.ARGB32);
+				}
 			}
-			return;
-		}
-		Camera.SetupCurrent(Camera.main);
-		int bloomWidth = (int)((float)m_RenderTexture.width * Mathf.Clamp01(m_BloomResolutionRatio));
-		int bloomHeight = (int)((float)m_RenderTexture.height * Mathf.Clamp01(m_BloomResolutionRatio));
-		RenderTexture bloomTexture = m_RenderTexture;
-		if (m_RenderMaterial == RenderToTextureMaterial.AlphaClipBloom)
-		{
-			if (!m_BloomPlaneGameObject)
+			if (!m_BloomRenderBuffer1)
 			{
-				CreateBloomPlane();
+				m_BloomRenderBuffer1 = RenderTextureTracker.Get().CreateNewTexture(bloomWidth, bloomHeight, RenderTextureTracker.TEXTURE_DEPTH, RenderTextureFormat.ARGB32);
 			}
-			if (!m_BloomRenderTexture)
+			if (!m_BloomRenderBuffer2)
 			{
-				m_BloomRenderTexture = RenderTextureTracker.Get().CreateNewTexture(bloomWidth, bloomHeight, RenderTextureTracker.TEXTURE_DEPTH, RenderTextureFormat.ARGB32);
+				m_BloomRenderBuffer2 = RenderTextureTracker.Get().CreateNewTexture(bloomWidth, bloomHeight, RenderTextureTracker.TEXTURE_DEPTH, RenderTextureFormat.ARGB32);
 			}
-		}
-		if (!m_BloomRenderBuffer1)
-		{
-			m_BloomRenderBuffer1 = RenderTextureTracker.Get().CreateNewTexture(bloomWidth, bloomHeight, RenderTextureTracker.TEXTURE_DEPTH, RenderTextureFormat.ARGB32);
-		}
-		if (!m_BloomRenderBuffer2)
-		{
-			m_BloomRenderBuffer2 = RenderTextureTracker.Get().CreateNewTexture(bloomWidth, bloomHeight, RenderTextureTracker.TEXTURE_DEPTH, RenderTextureFormat.ARGB32);
-		}
-		Material bloomMat = BloomMaterial;
-		if (m_RenderMaterial == RenderToTextureMaterial.AlphaClipBloom)
-		{
-			bloomMat = AlphaClipBloomMaterial;
-			bloomTexture = m_BloomRenderTexture;
-			if (!m_BloomCaptureCameraGO)
+			Material bloomMat = BloomMaterial;
+			if (m_RenderMaterial == RenderToTextureMaterial.AlphaClipBloom)
 			{
-				CreateBloomCaptureCamera();
+				bloomMat = AlphaClipBloomMaterial;
+				bloomTexture = m_BloomRenderTexture;
+				if (!m_BloomCaptureCameraGO)
+				{
+					CreateBloomCaptureCamera();
+				}
+				m_BloomCameraData.SetWorldToCameraMatrix(m_BloomCaptureCameraGO.transform);
+				bloomMat.SetFloat("_Cutoff", m_AlphaClip);
+				bloomMat.SetFloat("_Intensity", m_AlphaClipIntensity);
+				bloomMat.SetFloat("_AlphaIntensity", m_AlphaClipAlphaIntensity);
+				RenderCommandLists renderCommands = RenderToTextureUtils.RenderCommandListPool.Get(m_ObjectToRender, includeInactiveRenderers: false, m_materialOverrides);
+				CommandBuffer commandBuffer = CommandBufferPool.Get(m_BloomCommandbufferName);
+				RenderToTextureUtils.RenderCamera(commandBuffer, bloomTexture, m_BloomCameraData, renderCommands);
+				Graphics.ExecuteCommandBuffer(commandBuffer);
+				CommandBufferPool.Release(commandBuffer);
+				RenderToTextureUtils.RenderCommandListPool.Release(renderCommands);
 			}
-			m_BloomCameraData.SetWorldToCameraMatrix(m_BloomCaptureCameraGO.transform);
-			bloomMat.SetFloat("_Cutoff", m_AlphaClip);
-			bloomMat.SetFloat("_Intensity", m_AlphaClipIntensity);
-			bloomMat.SetFloat("_AlphaIntensity", m_AlphaClipAlphaIntensity);
-			RenderCommandLists renderCommands = RenderToTextureUtils.RenderCommandListPool.Get(m_ObjectToRender, includeInactiveRenderers: false, m_materialOverrides);
-			CommandBuffer commandBuffer = CommandBufferPool.Get(m_BloomCommandbufferName);
-			RenderToTextureUtils.RenderCamera(commandBuffer, bloomTexture, m_BloomCameraData, renderCommands);
-			Graphics.ExecuteCommandBuffer(commandBuffer);
-			CommandBufferPool.Release(commandBuffer);
-			RenderToTextureUtils.RenderCommandListPool.Release(renderCommands);
-		}
-		if (m_BloomRenderType == BloomRenderType.Alpha)
-		{
-			bloomMat = BloomMaterialAlpha;
-			bloomMat.SetFloat("_AlphaIntensity", m_BloomAlphaIntensity);
-		}
-		float oow = 1f / (float)bloomWidth;
-		float ooh = 1f / (float)bloomHeight;
-		bloomMat.SetFloat("_Threshold", m_BloomThreshold);
-		bloomMat.SetFloat("_Intensity", m_BloomIntensity / (1f - m_BloomThreshold));
-		bloomMat.SetVector("_OffsetA", new Vector4(1.5f * oow, 1.5f * ooh, -1.5f * oow, 1.5f * ooh));
-		bloomMat.SetVector("_OffsetB", new Vector4(-1.5f * oow, -1.5f * ooh, 1.5f * oow, -1.5f * ooh));
-		m_BloomRenderBuffer2.DiscardContents();
-		Graphics.Blit(bloomTexture, m_BloomRenderBuffer2, bloomMat, 1);
-		oow *= 4f * m_BloomBlur;
-		ooh *= 4f * m_BloomBlur;
-		bloomMat.SetVector("_OffsetA", new Vector4(1.5f * oow, 0f, -1.5f * oow, 0f));
-		bloomMat.SetVector("_OffsetB", new Vector4(0.5f * oow, 0f, -0.5f * oow, 0f));
-		m_BloomRenderBuffer1.DiscardContents();
-		Graphics.Blit(m_BloomRenderBuffer2, m_BloomRenderBuffer1, bloomMat, 2);
-		bloomMat.SetVector("_OffsetA", new Vector4(0f, 1.5f * ooh, 0f, -1.5f * ooh));
-		bloomMat.SetVector("_OffsetB", new Vector4(0f, 0.5f * ooh, 0f, -0.5f * ooh));
-		bloomTexture.DiscardContents();
-		Graphics.Blit(m_BloomRenderBuffer1, bloomTexture, bloomMat, 2);
-		Material planeMaterial = m_PlaneGameObject.GetComponent<Renderer>().GetMaterial();
-		if (m_RenderMaterial == RenderToTextureMaterial.AlphaClipBloom)
-		{
-			Material bloomPlaneMaterial = m_BloomPlaneGameObject.GetComponent<Renderer>().GetMaterial();
-			bloomPlaneMaterial.color = m_BloomColor;
-			bloomPlaneMaterial.mainTexture = bloomTexture;
-			if ((bool)m_PlaneGameObject)
+			if (m_BloomRenderType == BloomRenderType.Alpha)
 			{
-				bloomPlaneMaterial.renderQueue = planeMaterial.renderQueue + 1;
+				bloomMat = BloomMaterialAlpha;
+				bloomMat.SetFloat("_AlphaIntensity", m_BloomAlphaIntensity);
 			}
-		}
-		else if ((bool)m_RenderToObject)
-		{
-			Material material = m_RenderToObject.GetComponent<Renderer>().GetMaterial();
-			material.color = m_BloomColor;
-			material.mainTexture = bloomTexture;
-		}
-		else
-		{
-			planeMaterial.color = m_BloomColor;
-			planeMaterial.mainTexture = bloomTexture;
+			float oow = 1f / (float)bloomWidth;
+			float ooh = 1f / (float)bloomHeight;
+			bloomMat.SetFloat("_Threshold", m_BloomThreshold);
+			bloomMat.SetFloat("_Intensity", m_BloomIntensity / (1f - m_BloomThreshold));
+			bloomMat.SetVector("_OffsetA", new Vector4(1.5f * oow, 1.5f * ooh, -1.5f * oow, 1.5f * ooh));
+			bloomMat.SetVector("_OffsetB", new Vector4(-1.5f * oow, -1.5f * ooh, 1.5f * oow, -1.5f * ooh));
+			m_BloomRenderBuffer2.DiscardContents();
+			Graphics.Blit(bloomTexture, m_BloomRenderBuffer2, bloomMat, 1);
+			oow *= 4f * m_BloomBlur;
+			ooh *= 4f * m_BloomBlur;
+			bloomMat.SetVector("_OffsetA", new Vector4(1.5f * oow, 0f, -1.5f * oow, 0f));
+			bloomMat.SetVector("_OffsetB", new Vector4(0.5f * oow, 0f, -0.5f * oow, 0f));
+			m_BloomRenderBuffer1.DiscardContents();
+			Graphics.Blit(m_BloomRenderBuffer2, m_BloomRenderBuffer1, bloomMat, 2);
+			bloomMat.SetVector("_OffsetA", new Vector4(0f, 1.5f * ooh, 0f, -1.5f * ooh));
+			bloomMat.SetVector("_OffsetB", new Vector4(0f, 0.5f * ooh, 0f, -0.5f * ooh));
+			bloomTexture.DiscardContents();
+			Graphics.Blit(m_BloomRenderBuffer1, bloomTexture, bloomMat, 2);
+			Material planeMaterial = m_PlaneGameObject.GetComponent<Renderer>().GetMaterial();
+			if (m_RenderMaterial == RenderToTextureMaterial.AlphaClipBloom)
+			{
+				Material bloomPlaneMaterial = m_BloomPlaneGameObject.GetComponent<Renderer>().GetMaterial();
+				bloomPlaneMaterial.color = m_BloomColor;
+				bloomPlaneMaterial.mainTexture = bloomTexture;
+				if ((bool)m_PlaneGameObject)
+				{
+					bloomPlaneMaterial.renderQueue = planeMaterial.renderQueue + 1;
+				}
+			}
+			else if ((bool)m_RenderToObject)
+			{
+				Material material = m_RenderToObject.GetComponent<Renderer>().GetMaterial();
+				material.color = m_BloomColor;
+				material.mainTexture = bloomTexture;
+			}
+			else
+			{
+				planeMaterial.color = m_BloomColor;
+				planeMaterial.mainTexture = bloomTexture;
+			}
 		}
 	}
 

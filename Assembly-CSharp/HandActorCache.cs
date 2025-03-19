@@ -88,7 +88,7 @@ public class HandActorCache
 				}
 				if (premiumType == TAG_PREMIUM.SIGNATURE)
 				{
-					foreach (KeyValuePair<int, string> signatureHandActorPairs in ActorNames.SignatureHandMinions)
+					foreach (KeyValuePair<int, string> signatureHandActorPairs in ActorNames.SignatureHand)
 					{
 						ActorKey key = MakeActorKey(cardType, premiumType, isHeroSkin: false, signatureHandActorPairs.Key);
 						AssetLoader.Get().InstantiatePrefab(signatureHandActorPairs.Value, OnActorLoaded, key, AssetLoadingOptions.IgnorePrefabPosition);

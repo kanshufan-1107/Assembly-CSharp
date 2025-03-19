@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
+[ExecuteAlways]
+[AddComponentMenu("")]
 [SelectionBase]
 [NestedReferenceScope(NestedReference.Scope.Children)]
-[AddComponentMenu("")]
-[ExecuteAlways]
 public abstract class Geometry : WidgetBehavior, INestedReferenceResolver, IAsyncInitializationBehavior
 {
 	protected PrefabInstance[] m_prefabInstances;

@@ -13,20 +13,20 @@ public class AdventureChooserTray : AccordionMenuTray
 
 	private const int s_DefaultPortraitMaterialIndex = 0;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Sub Scene")]
+	[SerializeField]
 	public AdventureSubScene m_ParentSubScene;
 
 	[CustomEditField(Sections = "Choose Frame")]
 	[SerializeField]
 	public GameObject m_ComingSoonCoverUpSign;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Choose Frame")]
+	[SerializeField]
 	public UberText m_ComingSoonCoverUpSignHeaderText;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Choose Frame")]
+	[SerializeField]
 	public UberText m_ComingSoonCoverUpSignDescriptionText;
 
 	public WidgetInstance m_replayableTutorialWidgetInstance;

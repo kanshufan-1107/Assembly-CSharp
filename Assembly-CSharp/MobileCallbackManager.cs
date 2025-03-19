@@ -145,7 +145,7 @@ public class MobileCallbackManager : MonoBehaviour, IService
 			{
 				return false;
 			}
-			if (Options.Get().GetInt(Option.APP_RATING_PROMPT_LAST_MAJOR_VERSION_SEEN) == 31)
+			if (Options.Get().GetInt(Option.APP_RATING_PROMPT_LAST_MAJOR_VERSION_SEEN) == 32)
 			{
 				return false;
 			}
@@ -166,7 +166,7 @@ public class MobileCallbackManager : MonoBehaviour, IService
 		}
 		m_isAppRatingPromptLoading = true;
 		AssetLoader.Get().InstantiatePrefab("RatingsPrompt.prefab:9b2e45ccc2e3add4dabd6bbd3fcd9ba1", OnAppRatingPopupShown);
-		Options.Get().SetInt(Option.APP_RATING_PROMPT_LAST_MAJOR_VERSION_SEEN, 31);
+		Options.Get().SetInt(Option.APP_RATING_PROMPT_LAST_MAJOR_VERSION_SEEN, 32);
 		return true;
 	}
 
@@ -188,6 +188,16 @@ public class MobileCallbackManager : MonoBehaviour, IService
 	public static float GetSystemTotalMemoryMB()
 	{
 		return (float)GetSystemTotalMemoryBytes() / 1048576f;
+	}
+
+	public static float GetSystemMemoryUsedMB()
+	{
+		return (float)GetSystemMemoryUsed() / 1048576f;
+	}
+
+	public static float GetSystemAvailableMemoryMB()
+	{
+		return (float)GetSystemAvailableMemory() / 1048576f;
 	}
 
 	public static float GetSystemOSSpec()
@@ -247,6 +257,16 @@ public class MobileCallbackManager : MonoBehaviour, IService
 	public static ulong GetSystemTotalMemoryBytes()
 	{
 		return (ulong)SystemInfo.systemMemorySize;
+	}
+
+	public static ulong GetSystemMemoryUsed()
+	{
+		return 1uL;
+	}
+
+	public static ulong GetSystemAvailableMemory()
+	{
+		return 1uL;
 	}
 
 	public static void SetUpdateCompleted(bool finished)

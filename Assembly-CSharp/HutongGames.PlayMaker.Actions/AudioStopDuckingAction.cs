@@ -6,8 +6,8 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Stops the ducking started by AudioStartDuckingAction on this object.")]
 public class AudioStopDuckingAction : FsmStateAction
 {
-	[Tooltip("Game Object whose ducking we want to stop.")]
 	[RequiredField]
+	[Tooltip("Game Object whose ducking we want to stop.")]
 	public FsmOwnerDefault m_GameObject;
 
 	public override void Reset()

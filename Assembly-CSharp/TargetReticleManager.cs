@@ -619,6 +619,11 @@ public class TargetReticleManager : MonoBehaviour
 	private void LoadGruntyReticleCallback(AssetReference assetRef, GameObject go, object callbackData)
 	{
 		m_gruntyReticle = go;
+		if (m_gruntyReticle == null)
+		{
+			Log.Gameplay.PrintError("LoadGruntyReticleCallback - failed to load GruntyReticle.prefab");
+			return;
+		}
 		m_gruntyReticle.transform.parent = base.transform;
 		m_gruntyReticle.SetActive(value: false);
 	}

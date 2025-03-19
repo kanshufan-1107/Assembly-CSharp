@@ -5,8 +5,8 @@ namespace HutongGames.PlayMaker.Actions;
 
 public class GetVisualControllerState : FsmStateAction
 {
-	[CheckForComponent(typeof(VisualController))]
 	[RequiredField]
+	[CheckForComponent(typeof(VisualController))]
 	[Tooltip("The GameObject with the AudioSource component.")]
 	public FsmOwnerDefault m_GameObject;
 

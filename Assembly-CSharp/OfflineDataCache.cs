@@ -469,6 +469,22 @@ public static class OfflineDataCache
 		{
 			matchingDeckInfo.Hero = packet.Hero;
 		}
+		if (packet.HasHeroOverridden)
+		{
+			matchingDeckInfo.HeroOverride = packet.HeroOverridden;
+		}
+		if (packet.HasCosmeticCoin)
+		{
+			matchingDeckInfo.CosmeticCoin = packet.CosmeticCoin;
+		}
+		else if (packet.HasRemovingCosmeticCoin)
+		{
+			matchingDeckInfo.HasCosmeticCoin = false;
+		}
+		if (packet.HasRandomCoinUseFavorite)
+		{
+			matchingDeckInfo.RandomCoinUseFavorite = packet.RandomCoinUseFavorite;
+		}
 		if (packet.HasSortOrder)
 		{
 			matchingDeckInfo.SortOrder = packet.SortOrder;
@@ -546,9 +562,31 @@ public static class OfflineDataCache
 			deckSetData.Hero = patchingDeckInfo.Hero;
 			packetHasChanged = true;
 		}
+		if (patchingDeckInfo.HeroOverride != originalDeckInfo.HeroOverride)
+		{
+			deckSetData.HeroOverridden = patchingDeckInfo.HeroOverride;
+			packetHasChanged = true;
+		}
 		if (patchingDeckInfo.RandomHeroUseFavorite != originalDeckInfo.RandomHeroUseFavorite)
 		{
 			deckSetData.RandomHeroUseFavorite = patchingDeckInfo.RandomHeroUseFavorite;
+			packetHasChanged = true;
+		}
+		if (!patchingDeckInfo.HasCosmeticCoin && originalDeckInfo.HasCosmeticCoin)
+		{
+			deckSetData.RemovingCosmeticCoin = true;
+			deckSetData.HasCosmeticCoin = false;
+			packetHasChanged = true;
+		}
+		else if (patchingDeckInfo.HasCosmeticCoin && (!originalDeckInfo.HasCosmeticCoin || patchingDeckInfo.CosmeticCoin != originalDeckInfo.CosmeticCoin))
+		{
+			deckSetData.CosmeticCoin = patchingDeckInfo.CosmeticCoin;
+			deckSetData.HasCosmeticCoin = patchingDeckInfo.HasCosmeticCoin;
+			packetHasChanged = true;
+		}
+		if (patchingDeckInfo.RandomCoinUseFavorite != originalDeckInfo.RandomCoinUseFavorite)
+		{
+			deckSetData.RandomCoinUseFavorite = patchingDeckInfo.RandomCoinUseFavorite;
 			packetHasChanged = true;
 		}
 		if (!string.Equals(patchingDeckInfo.PastedDeckHash, originalDeckInfo.PastedDeckHash))
@@ -808,7 +846,7 @@ public static class OfflineDataCache
 		string devVersion = "";
 		if (HearthstoneApplication.IsInternal())
 		{
-			devVersion = string.Format("_{0}", "31.6");
+			devVersion = string.Format("_{0}", "32.0");
 			devVersion = devVersion.Replace(".", "_");
 		}
 		return $"{folder}/offlineData_{user}_{region}{devVersion}.cache";
@@ -838,11 +876,11 @@ public static class OfflineDataCache
 		try
 		{
 			using BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create, FileAccess.Write));
-			writer.Write(1);
-			IOfflineDataSerializer serializer = OfflineDataSerializer.GetSerializer(1);
+			writer.Write(2);
+			IOfflineDataSerializer serializer = OfflineDataSerializer.GetSerializer(2);
 			if (serializer == null)
 			{
-				Debug.LogErrorFormat("Could not find serializer for writing version {0}. Make sure a new seralizer is added when incrementing versions.", 1);
+				Debug.LogErrorFormat("Could not find serializer for writing version {0}. Make sure a new seralizer is added when incrementing versions.", 2);
 				return false;
 			}
 			serializer.Serialize(data, writer);

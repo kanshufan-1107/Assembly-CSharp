@@ -11,12 +11,12 @@ public class StoreCollectionManagerCardInfoLoader : MonoBehaviour
 	[SerializeField]
 	private BindLegendaryHeroToMaterial m_bindLegendaryToMaterial;
 
-	[SerializeField]
 	[Tooltip("Alternative to using legendary hero material binder to bind asset to material.")]
+	[SerializeField]
 	private MeshRenderer m_standard2DMaterialRenderer;
 
-	[SerializeField]
 	[Tooltip("Alternative to using legendary hero material binder to bind asset to material.")]
+	[SerializeField]
 	private UberShaderController m_standard2DMaterialAnimController;
 
 	private AssetHandle<UberShaderAnimation> m_loadedUberAnimation;

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("[DEBUG] Setup a Spell to affect multiple targets.")]
 [ActionCategory("Pegasus")]
+[Tooltip("[DEBUG] Setup a Spell to affect multiple targets.")]
 public class SpellMultiTargetDebugAction : SpellAction
 {
 	public FsmGameObject m_SpellObject;

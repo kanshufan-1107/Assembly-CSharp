@@ -12,7 +12,7 @@ public class ArenaStore : Store
 
 	private static readonly int NUM_BUNDLE_ITEMS_REQUIRED = 1;
 
-	private const long DRAFT_TICKET_PMT_ID = 327L;
+	public const long TAVERN_TICKET_PMT_ID = 327L;
 
 	private NoGTAPPTransactionData m_goldTransactionData;
 

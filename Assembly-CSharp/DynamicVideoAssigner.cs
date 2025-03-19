@@ -12,8 +12,8 @@ public class DynamicVideoAssigner : MonoBehaviour
 	[SerializeField]
 	private string m_VideoIdToLoad;
 
-	[SerializeField]
 	[Header("Display Methods")]
+	[SerializeField]
 	private DynamicVideoLoader m_DynamicVideo;
 
 	[SerializeField]
@@ -22,8 +22,8 @@ public class DynamicVideoAssigner : MonoBehaviour
 	[SerializeField]
 	private CutsceneSceneLoader m_cutsceneSceneLoader;
 
-	[SerializeField]
 	[Header("Display Settings")]
+	[SerializeField]
 	private MeshRenderer m_videoRenderer;
 
 	[SerializeField]

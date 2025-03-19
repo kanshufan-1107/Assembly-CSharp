@@ -61,6 +61,8 @@ public class ProductCatalog
 
 	private ProductDataModel m_boosterCurrencyProduct;
 
+	private ProductDataModel m_tavernTicketProduct;
+
 	private BoosterDbId m_latestBoosterId;
 
 	private AdventureDbId m_latestAdventureId;
@@ -737,7 +739,13 @@ public class ProductCatalog
 		}
 		m_virtualCurrencyProduct = null;
 		m_boosterCurrencyProduct = null;
-		if (m_products.Count == 0 || !ShopUtils.IsVirtualCurrencyEnabled())
+		m_tavernTicketProduct = null;
+		if (m_products.Count == 0)
+		{
+			return;
+		}
+		m_tavernTicketProduct = GetPrimaryProductForItemAndPopulateVariants(RewardItemType.ARENA_TICKET, 0);
+		if (!ShopUtils.IsVirtualCurrencyEnabled())
 		{
 			return;
 		}

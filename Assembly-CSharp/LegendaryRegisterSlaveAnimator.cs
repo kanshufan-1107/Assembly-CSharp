@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LegendaryRegisterSlaveAnimator : MonoBehaviour
 {
-	[InspectorName("Primary Animation Controller")]
 	[Tooltip("If this is left empty it will try to find the animation controller from the actor.")]
+	[InspectorName("Primary Animation Controller")]
 	public LegendaryHeroAnimController m_animationController;
 
 	[Tooltip("The value to multiply transition speeds by for this animator, if using with a shader controller always set this to 0.")]

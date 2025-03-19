@@ -1,14 +1,14 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Use this action to get the hero card for either side's hero.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Use this action to get the hero card for either side's hero.")]
 public class GetHeroCardAction : FsmStateAction
 {
 	[Tooltip("Which player's hero are we querying for?")]
 	public Player.Side m_PlayerSide;
 
-	[UIHint(UIHint.Variable)]
 	[Tooltip("Output variable.")]
+	[UIHint(UIHint.Variable)]
 	[RequiredField]
 	public FsmGameObject m_HeroCardGameObject;
 

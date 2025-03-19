@@ -20,12 +20,12 @@ public class ScrollLoader : MonoBehaviour
 
 	private bool m_isListReady;
 
-	[SerializeField]
 	[Min(0f)]
+	[SerializeField]
 	private float m_itemHeight;
 
-	[SerializeField]
 	[Min(0f)]
+	[SerializeField]
 	private int m_itemBuffer;
 
 	[SerializeField]

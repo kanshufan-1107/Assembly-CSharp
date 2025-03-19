@@ -1310,11 +1310,14 @@ public class GameEntity : Entity
 		if (friendlyHeroCard != null && friendlyHeroCard.GetEntity() != null)
 		{
 			CornerReplacementSpellType cornerReplacementSpellType = (CornerReplacementSpellType)friendlyHeroCard.GetEntity().GetTag(GAME_TAG.CORNER_REPLACEMENT_TYPE);
-			MusicPlaylistType mulliganMusic = CornerReplacementConfig.Get().GetMulliganMusic(cornerReplacementSpellType);
-			if (mulliganMusic != 0)
+			if (cornerReplacementSpellType != 0)
 			{
-				MusicManager.Get().StartPlaylist(mulliganMusic);
-				return;
+				MusicPlaylistType mulliganMusic = CornerReplacementConfig.Get().GetMulliganMusic(cornerReplacementSpellType);
+				if (mulliganMusic != 0)
+				{
+					MusicManager.Get().StartPlaylist(mulliganMusic);
+					return;
+				}
 			}
 		}
 		if (soft)

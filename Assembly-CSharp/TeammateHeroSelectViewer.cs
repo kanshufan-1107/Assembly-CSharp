@@ -115,6 +115,7 @@ public class TeammateHeroSelectViewer : TeammateViewer
 		entityActor.SetUnlit();
 		entityActor.GetMeshRenderer().gameObject.layer = 8;
 		entityActor.GetHealthObject().Hide();
+		GameState.Get().GetGameEntity().ConfigureLockedMulliganCardActor(entityActor, dummyEntity.HasTag(GAME_TAG.BACON_LOCKED_MULLIGAN_HERO));
 		GameState.Get().GetGameEntity().ApplyMulliganActorStateChanges(entityActor);
 		entityActor.transform.localScale = GameState.Get().GetGameEntity().GetAlternateMulliganActorScale();
 		entityActor.UpdateAllComponents();

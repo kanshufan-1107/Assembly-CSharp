@@ -12,9 +12,9 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[ExecuteAlways]
 [AddComponentMenu("")]
 [DisallowMultipleComponent]
+[ExecuteAlways]
 public class WidgetTemplate : Widget, ISerializationCallbackReceiver, IWidgetEventListener
 {
 	private enum DataChangeSource
@@ -188,8 +188,8 @@ public class WidgetTemplate : Widget, ISerializationCallbackReceiver, IWidgetEve
 
 	private static ProfilerMarker s_handleComponentsReady = new ProfilerMarker("WidgetTemplate.HandleComponentsReady");
 
-	[HideInInspector]
 	[SerializeField]
+	[HideInInspector]
 	private List<int> m_dataModelHints_editorOnly;
 
 	private static Pool<List<Component>> s_componentListPool = new Pool<List<Component>>((int _) => new List<Component>(), delegate

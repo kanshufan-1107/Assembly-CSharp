@@ -6,8 +6,8 @@ using Hearthstone.Core;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Debug")]
 [Tooltip("Waits for services to be dynamically loaded and ready")]
+[ActionCategory("Pegasus Debug")]
 public class ServiceLocatorAction : FsmStateAction
 {
 	public bool m_sound;

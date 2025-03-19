@@ -81,52 +81,49 @@ public class CameraOverridePass : CustomViewPass
 	{
 		ref CameraData cameraData = ref renderingData.cameraData;
 		CommandBuffer cmd = CommandBufferPool.Get(passName);
-		using (new ProfilingScope(cmd, m_ProfilingSampler))
+		if (toOverride.HasFlag(OverrideFlags.ProjectionMatrix | OverrideFlags.ViewMatrix))
 		{
-			if (toOverride.HasFlag(OverrideFlags.ProjectionMatrix | OverrideFlags.ViewMatrix))
+			Matrix4x4 projectionMatrix = cameraData.GetGPUProjectionMatrix();
+			Matrix4x4 viewMatrix = cameraData.GetViewMatrix();
+			if (toOverride.HasFlag(OverrideFlags.ProjectionMatrix))
 			{
-				Matrix4x4 projectionMatrix = cameraData.GetGPUProjectionMatrix();
-				Matrix4x4 viewMatrix = cameraData.GetViewMatrix();
-				if (toOverride.HasFlag(OverrideFlags.ProjectionMatrix))
-				{
-					projectionMatrix = GL.GetGPUProjectionMatrix(projectionOverride, cameraData.IsCameraProjectionMatrixFlipped());
-				}
-				if (toOverride.HasFlag(OverrideFlags.ViewMatrix))
-				{
-					viewMatrix = viewMatrixOverride;
-				}
-				RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, setInverseMatrices: false);
+				projectionMatrix = GL.GetGPUProjectionMatrix(projectionOverride, cameraData.IsCameraProjectionMatrixFlipped());
 			}
-			if (toOverride.HasFlag(OverrideFlags.Scissor))
+			if (toOverride.HasFlag(OverrideFlags.ViewMatrix))
 			{
-				cmd.EnableScissorRect(scissorOverride);
+				viewMatrix = viewMatrixOverride;
 			}
-			context.ExecuteCommandBuffer(cmd);
-			cmd.Clear();
-			FilteringSettings filter = new FilteringSettings(RenderQueueRange.opaque, layerMask);
-			if (toOverride.HasFlag(OverrideFlags.RenderLayerMask))
-			{
-				filter.renderingLayerMask = renderLayerMaskOverride;
-			}
-			SortingCriteria sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
-			DrawingSettings drawingSettings = CreateDrawingSettings(s_ShaderTagIdList, ref renderingData, sortingCriteria);
-			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filter, ref depthStencilState);
-			FilteringSettings filter2 = new FilteringSettings(RenderQueueRange.transparent, layerMask);
-			if (toOverride.HasFlag(OverrideFlags.RenderLayerMask))
-			{
-				filter2.renderingLayerMask = renderLayerMaskOverride;
-			}
-			SortingCriteria sortingCriteria2 = SortingCriteria.CommonTransparent;
-			DrawingSettings drawingSettings2 = CreateDrawingSettings(s_ShaderTagIdList, ref renderingData, sortingCriteria2);
-			context.DrawRenderers(renderingData.cullResults, ref drawingSettings2, ref filter2, ref depthStencilState);
-			if (toOverride.HasFlag(OverrideFlags.ProjectionMatrix | OverrideFlags.ViewMatrix))
-			{
-				RenderingUtils.SetViewAndProjectionMatrices(cmd, cameraData.GetViewMatrix(), cameraData.GetGPUProjectionMatrix(), setInverseMatrices: false);
-			}
-			if (toOverride.HasFlag(OverrideFlags.Scissor))
-			{
-				cmd.DisableScissorRect();
-			}
+			RenderingUtils.SetViewAndProjectionMatrices(cmd, viewMatrix, projectionMatrix, setInverseMatrices: false);
+		}
+		if (toOverride.HasFlag(OverrideFlags.Scissor))
+		{
+			cmd.EnableScissorRect(scissorOverride);
+		}
+		context.ExecuteCommandBuffer(cmd);
+		cmd.Clear();
+		FilteringSettings filter = new FilteringSettings(RenderQueueRange.opaque, layerMask);
+		if (toOverride.HasFlag(OverrideFlags.RenderLayerMask))
+		{
+			filter.renderingLayerMask = renderLayerMaskOverride;
+		}
+		SortingCriteria sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
+		DrawingSettings drawingSettings = CreateDrawingSettings(s_ShaderTagIdList, ref renderingData, sortingCriteria);
+		context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filter, ref depthStencilState);
+		FilteringSettings filter2 = new FilteringSettings(RenderQueueRange.transparent, layerMask);
+		if (toOverride.HasFlag(OverrideFlags.RenderLayerMask))
+		{
+			filter2.renderingLayerMask = renderLayerMaskOverride;
+		}
+		SortingCriteria sortingCriteria2 = SortingCriteria.CommonTransparent;
+		DrawingSettings drawingSettings2 = CreateDrawingSettings(s_ShaderTagIdList, ref renderingData, sortingCriteria2);
+		context.DrawRenderers(renderingData.cullResults, ref drawingSettings2, ref filter2, ref depthStencilState);
+		if (toOverride.HasFlag(OverrideFlags.ProjectionMatrix | OverrideFlags.ViewMatrix))
+		{
+			RenderingUtils.SetViewAndProjectionMatrices(cmd, cameraData.GetViewMatrix(), cameraData.GetGPUProjectionMatrix(), setInverseMatrices: false);
+		}
+		if (toOverride.HasFlag(OverrideFlags.Scissor))
+		{
+			cmd.DisableScissorRect();
 		}
 		context.ExecuteCommandBuffer(cmd);
 		CommandBufferPool.Release(cmd);

@@ -715,9 +715,10 @@ public class LettuceVillageDataUtil
 			List<string> list = new List<string>();
 			foreach (LettuceMercenaryDbfRecord current in mercenaries)
 			{
-				if (current.MercenaryArtVariations.Count != 0)
+				List<MercenaryArtVariationDbfRecord> mercenaryArtVariationsByMercenaryID = GameDbf.GetIndex().GetMercenaryArtVariationsByMercenaryID(current.ID);
+				if (mercenaryArtVariationsByMercenaryID.Count != 0)
 				{
-					string item = getNameFromRecordFn(current, current.MercenaryArtVariations[0].CardRecord);
+					string item = getNameFromRecordFn(current, mercenaryArtVariationsByMercenaryID[0].CardRecord);
 					list.Add(item);
 				}
 			}
@@ -778,19 +779,21 @@ public class LettuceVillageDataUtil
 			Debug.LogError("Error in params for task description for" + taskDescription);
 			return taskDescription;
 		}
-		LettuceMercenaryDbfRecord mercRecord = GameDbf.LettuceMercenary.GetRecord(mercenaryId);
-		if (specializationSlot >= mercRecord.LettuceMercenarySpecializations.Count)
+		GameDbf.LettuceMercenary.GetRecord(mercenaryId);
+		List<LettuceMercenarySpecializationDbfRecord> mercenarySpecializations = GameDbf.GetIndex().GetMercenarySpecializationsByMercenaryID(mercenaryId);
+		if (specializationSlot >= mercenarySpecializations.Count)
 		{
 			Debug.LogError("Error in params,invalid specialization slot in task description, received " + specializationSlot);
 			return taskDescription;
 		}
-		LettuceMercenarySpecializationDbfRecord specialization = mercRecord.LettuceMercenarySpecializations[specializationSlot];
-		if (abilitySlot >= specialization.LettuceMercenaryAbilities.Count)
+		LettuceMercenarySpecializationDbfRecord specialization = mercenarySpecializations[specializationSlot];
+		List<LettuceMercenaryAbilityDbfRecord> mercenaryAbilities = GameDbf.GetIndex().GetMercenaryAbilitiesBySpecializationID(specialization.ID);
+		if (abilitySlot >= mercenaryAbilities.Count)
 		{
 			Debug.LogError("Error in params,invalid ability slot in task description, received " + abilitySlot);
 			return taskDescription;
 		}
-		int abilityId = specialization.LettuceMercenaryAbilities[abilitySlot].LettuceAbilityId;
+		int abilityId = mercenaryAbilities[abilitySlot].LettuceAbilityId;
 		LettuceAbilityDbfRecord ability = GameDbf.LettuceAbility.GetRecord(abilityId);
 		return Regex.Replace(taskDescription, "\\$ability(.*?)\\)", ability.AbilityName, RegexOptions.IgnoreCase);
 	}
@@ -817,13 +820,14 @@ public class LettuceVillageDataUtil
 			Debug.LogError("Error in params for task description for" + taskDescription);
 			return taskDescription;
 		}
-		LettuceMercenaryDbfRecord mercRecord = GameDbf.LettuceMercenary.GetRecord(mercenaryId);
-		if (equipmentSlot >= mercRecord.LettuceMercenaryEquipment.Count)
+		GameDbf.LettuceMercenary.GetRecord(mercenaryId);
+		List<LettuceMercenaryEquipmentDbfRecord> mercenaryEquipment = GameDbf.GetIndex().GetMercenaryEquipmentByMercenaryID(mercenaryId);
+		if (equipmentSlot >= mercenaryEquipment.Count)
 		{
 			Debug.LogError("Error in params,invalid equipment slot in task description, received " + equipmentSlot);
 			return taskDescription;
 		}
-		LettuceMercenaryEquipmentDbfRecord equipment = mercRecord.LettuceMercenaryEquipment[equipmentSlot];
+		LettuceMercenaryEquipmentDbfRecord equipment = mercenaryEquipment[equipmentSlot];
 		if (equipmentTierSlot >= equipment.LettuceEquipmentRecord.LettuceEquipmentTiers.Count)
 		{
 			Debug.LogError("Error in params,invalid equipment tier slot in task description, received " + equipmentTierSlot);

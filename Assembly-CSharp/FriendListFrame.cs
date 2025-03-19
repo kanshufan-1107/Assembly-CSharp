@@ -929,9 +929,9 @@ public class FriendListFrame : MonoBehaviour
 		}
 	}
 
-	public void SetWorldPosition(float x, float z)
+	public void SetWorldPosition(float x, float y, float z)
 	{
-		SetWorldPosition(new Vector3(x, 0f, z));
+		SetWorldPosition(new Vector3(x, y, z));
 	}
 
 	public void SetWorldPosition(Vector3 pos)

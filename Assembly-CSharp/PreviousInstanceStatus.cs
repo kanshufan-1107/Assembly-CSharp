@@ -147,9 +147,9 @@ public class PreviousInstanceStatus
 
 	private static void ClearStatusForNewVersion()
 	{
-		if (!UpdatedClientVersion.Equals("31.6"))
+		if (!UpdatedClientVersion.Equals("32.0"))
 		{
-			UpdatedClientVersion = "31.6";
+			UpdatedClientVersion = "32.0";
 			CrashCount = 0;
 			ExceptionCount = 0;
 			LowMemoryCount = 0;

@@ -184,7 +184,7 @@ public class UpdateUtils
 	public static void Initialize()
 	{
 		s_storeUrls[HearthstoneStore.GOOGLE] = new StoreInfo("market://details?id={PKG}", "https://play.google.com/store/apps/details?id={PKG}");
-		s_storeUrls[HearthstoneStore.AMAZON] = new StoreInfo("amzn://apps/android?p={PKG}", "http://www.amazon.com/gp/mas/dl/android?p={PKG}");
+		s_storeUrls[HearthstoneStore.AMAZON] = new StoreInfo("amzn://apps/android?p={PKG}", "https://www.amazon.com/gp/mas/dl/android?p={PKG}");
 		s_storeUrls[HearthstoneStore.ONE_STORE] = new StoreInfo("onestore://common/product/OA00752154", "https://onesto.re/OA00752154");
 		s_storeUrls[HearthstoneStore.BLIZZARD] = new StoreInfo("https://adl.netease.com/d/g/hs/c/gw", "https://adl.netease.com/d/g/hs/c/gw");
 		s_storeUrls[HearthstoneStore.DASHEN] = new StoreInfo("https://xm.gameyw.netease.com/game-cps/ds/ld2/netease.wyds", "https://xm.gameyw.netease.com/game-cps/ds/ld2/netease.wyds");

@@ -7,8 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(PlayMakerFSM))]
 public class BattlegroundsEmoteNotification : Notification
 {
-	[Header("-Battlegrounds Emote Parameters-")]
 	[SerializeField]
+	[Header("-Battlegrounds Emote Parameters-")]
 	private WidgetInstance m_widget;
 
 	[SerializeField]
@@ -20,15 +20,15 @@ public class BattlegroundsEmoteNotification : Notification
 	[SerializeField]
 	private AsyncReference m_asyncImageWidgetColliderReference;
 
-	[Min(0f)]
 	[Header("-PlayMaker Parameters-")]
 	[SerializeField]
+	[Min(0f)]
 	[Tooltip("Delay at the start of the animation loop, after scaling up, holding the first frame of animation")]
 	private float m_entranceDelaySeconds;
 
+	[Min(0f)]
 	[SerializeField]
 	[Tooltip("Delay after the final loop of animation is played, before scaling down, holding the last frame of animation")]
-	[Min(0f)]
 	private float m_exitDelaySeconds;
 
 	[Tooltip("If true, emote will pause on the first frame before starting. If false, emote will pause on the animation's configured display frame before starting")]

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Call UpdateAllComponents on an actor, to refresh it's textures, health icon, attack icon, etc.")]
+[ActionCategory("Pegasus")]
 public class ActorUpdateAllComponentsAction : ActorAction
 {
 	public FsmGameObject m_ActorObject;

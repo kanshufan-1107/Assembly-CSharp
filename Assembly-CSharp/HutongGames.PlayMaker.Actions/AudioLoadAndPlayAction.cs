@@ -12,8 +12,8 @@ public class AudioLoadAndPlayAction : FsmStateAction
 	[RequiredField]
 	public FsmString m_PrefabName;
 
-	[HasFloatSlider(0f, 1f)]
 	[Tooltip("Optional. Scales the volume of the loaded sound.")]
+	[HasFloatSlider(0f, 1f)]
 	public FsmFloat m_VolumeScale;
 
 	public override void Reset()

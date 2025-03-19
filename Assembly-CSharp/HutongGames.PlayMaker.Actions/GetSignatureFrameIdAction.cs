@@ -7,10 +7,10 @@ namespace HutongGames.PlayMaker.Actions;
 [ActionCategory("Pegasus")]
 public class GetSignatureFrameIdAction : FsmStateAction
 {
-	[UIHint(UIHint.Variable)]
-	[RequiredField]
-	[Tooltip("Store the requested frameId in specified int variable.")]
 	[Title("FrameIdInt")]
+	[Tooltip("Store the requested frameId in specified int variable.")]
+	[RequiredField]
+	[UIHint(UIHint.Variable)]
 	public FsmInt targetFrameId;
 
 	public override void Reset()

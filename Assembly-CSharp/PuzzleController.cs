@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Actor))]
 [RequireComponent(typeof(Spell))]
+[RequireComponent(typeof(Actor))]
 public class PuzzleController : MonoBehaviour
 {
 	public UberText m_ProgressText;

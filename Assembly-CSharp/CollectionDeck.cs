@@ -1474,8 +1474,8 @@ public class CollectionDeck
 			int durabilityUp = entityDef.GetTag(GAME_TAG.UI_BUFF_DURABILITY_UP);
 			if (durabilityUp != 0)
 			{
-				int durability = slot.m_entityDefOverride.GetTag(GAME_TAG.DURABILITY);
-				slot.m_entityDefOverride.SetTag(GAME_TAG.DURABILITY, durability + durabilityUp);
+				int durability = slot.m_entityDefOverride.GetTag(GAME_TAG.HEALTH);
+				slot.m_entityDefOverride.SetTag(GAME_TAG.HEALTH, durability + durabilityUp);
 			}
 			int costUp = entityDef.GetTag(GAME_TAG.UI_BUFF_COST_UP);
 			if (costUp != 0)

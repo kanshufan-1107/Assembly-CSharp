@@ -8,5 +8,6 @@ public enum CurrencyType
 	CN_ARCANE_ORBS,
 	ROW_RUNESTONES,
 	RENOWN,
-	BG_TOKEN
+	BG_TOKEN,
+	TAVERN_TICKET
 }

@@ -71,7 +71,7 @@ public class PowerSpellController : SpellController
 					Reset();
 					return false;
 				}
-				if (GetActorBattlecrySpell(sourceCard) == null)
+				if (!sourceCard.IsActorLoading() && GetActorBattlecrySpell(sourceCard) == null)
 				{
 					Reset();
 					return false;

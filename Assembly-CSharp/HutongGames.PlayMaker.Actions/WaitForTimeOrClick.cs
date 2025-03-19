@@ -10,8 +10,8 @@ public class WaitForTimeOrClick : FsmStateAction
 	[RequiredField]
 	public FsmFloat time;
 
-	[RequiredField]
 	[Tooltip("The mouse button to listen for.")]
+	[RequiredField]
 	public MouseButton button;
 
 	public FsmEvent finishEvent;

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Takes in a player and returns a clone of their deck mesh gameObject.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Takes in a player and returns a clone of their deck mesh gameObject.")]
 public class GetDeckMeshClone : FsmStateAction
 {
 	[RequiredField]
@@ -15,8 +15,8 @@ public class GetDeckMeshClone : FsmStateAction
 	public bool m_DisableRenderer;
 
 	[RequiredField]
-	[Tooltip("Output GameObject.")]
 	[UIHint(UIHint.FsmGameObject)]
+	[Tooltip("Output GameObject.")]
 	public FsmGameObject m_DeckClone;
 
 	public override void Reset()

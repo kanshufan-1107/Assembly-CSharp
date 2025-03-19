@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Stops an Audio Source on a Game Object.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioStopAction : FsmStateAction
 {
 	[RequiredField]

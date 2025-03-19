@@ -1,14 +1,14 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Stores the size of a player's deck in passed int.")]
+[ActionCategory("Pegasus")]
 public class GetDeckSizeAction : FsmStateAction
 {
 	[Tooltip("Which player's deck are we querying the size of?")]
 	public Player.Side m_PlayerSide;
 
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
+	[UIHint(UIHint.Variable)]
 	[Tooltip("Output variable.")]
 	public FsmInt m_DeckSize;
 

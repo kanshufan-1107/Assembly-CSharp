@@ -10,8 +10,8 @@ namespace Hearthstone.UI;
 [HelpURL("https://confluence.blizzard.com/x/Im8zIQ")]
 public abstract class WidgetBehavior : MonoBehaviour, IDataModelProvider, IStatefulWidgetComponent
 {
-	[SerializeField]
 	[HideInInspector]
+	[SerializeField]
 	private WidgetTemplate m_owner;
 
 	private float m_initializationStartTime;

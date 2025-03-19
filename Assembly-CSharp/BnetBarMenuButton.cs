@@ -30,8 +30,8 @@ public class BnetBarMenuButton : PegUIElement
 	[SerializeField]
 	private MeshRenderer m_defaultBackground;
 
-	[SerializeField]
 	[Header("Downloading")]
+	[SerializeField]
 	private GameObject m_downloadingHighlight;
 
 	[SerializeField]
@@ -49,8 +49,8 @@ public class BnetBarMenuButton : PegUIElement
 	[SerializeField]
 	private float m_inactiveArrowTextureOffset = 0.205f;
 
-	[Header("Offline")]
 	[SerializeField]
+	[Header("Offline")]
 	private GameObject m_offlineSection;
 
 	[SerializeField]

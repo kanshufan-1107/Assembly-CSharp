@@ -731,6 +731,12 @@ public class CollectionDeckTray : EditableDeckTray
 
 	public void OnCardManuallyAddedByUser_CheckSuggestions(IEnumerable<EntityDef> cardEntityDefs)
 	{
+		OnCardManuallyAddedByUser_CheckOddEvenSuggestions(cardEntityDefs);
+		OnCardManuallyAddedByUser_CheckNeutralImbueAdjacent(cardEntityDefs);
+	}
+
+	private void OnCardManuallyAddedByUser_CheckOddEvenSuggestions(IEnumerable<EntityDef> cardEntityDefs)
+	{
 		EntityDef cardEntityDef = cardEntityDefs.FirstOrDefault((EntityDef def) => def.IsCollectionManagerFilterManaCostByEven || def.IsCollectionManagerFilterManaCostByOdd);
 		if (cardEntityDef == null)
 		{
@@ -763,6 +769,36 @@ public class CollectionDeckTray : EditableDeckTray
 			m_responseUserData = suggestOddManaCostFilter
 		};
 		DialogManager.Get().ShowPopup(info);
+	}
+
+	private void OnCardManuallyAddedByUser_CheckNeutralImbueAdjacent(IEnumerable<EntityDef> cardEntityDefs)
+	{
+		if (cardEntityDefs.FirstOrDefault((EntityDef def) => def.IsNeutralImbueAdjacentCard) == null)
+		{
+			return;
+		}
+		CollectionDeck currDeck = CollectionManager.Get().GetEditedDeck();
+		if (currDeck != null)
+		{
+			List<TAG_CLASS> imbueClasses = new List<TAG_CLASS>
+			{
+				TAG_CLASS.DRUID,
+				TAG_CLASS.HUNTER,
+				TAG_CLASS.MAGE,
+				TAG_CLASS.PALADIN,
+				TAG_CLASS.PRIEST,
+				TAG_CLASS.SHAMAN
+			};
+			if (!currDeck.GetClasses().Any((TAG_CLASS dc) => imbueClasses.Any((TAG_CLASS ic) => ic == dc)))
+			{
+				AlertPopup.PopupInfo info = new AlertPopup.PopupInfo();
+				info.m_headerText = GameStrings.Get("GLUE_HEROIC_WARNING_TITLE");
+				info.m_text = GameStrings.Get("GLUE_COLLECTION_MANAGER_IMBUE_WARNING");
+				info.m_showAlertIcon = true;
+				info.m_responseDisplay = AlertPopup.ResponseDisplay.OK;
+				DialogManager.Get().ShowPopup(info);
+			}
+		}
 	}
 
 	public bool AnimateInCardBack(Actor actor)

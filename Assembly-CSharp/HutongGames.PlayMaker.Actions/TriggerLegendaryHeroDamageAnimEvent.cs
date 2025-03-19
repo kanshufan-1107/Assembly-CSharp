@@ -9,9 +9,9 @@ public class TriggerLegendaryHeroDamageAnimEvent : FsmStateAction
 	[Tooltip("Spells game object")]
 	public FsmOwnerDefault m_SpellObject;
 
-	[RequiredField]
 	[Tooltip("Actors game object")]
 	[CheckForComponent(typeof(Actor))]
+	[RequiredField]
 	public FsmOwnerDefault m_HeroObject;
 
 	[Tooltip("The animation to play.")]

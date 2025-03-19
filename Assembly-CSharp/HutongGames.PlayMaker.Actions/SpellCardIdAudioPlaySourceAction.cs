@@ -12,8 +12,8 @@ public class SpellCardIdAudioPlaySourceAction : SpellCardIdAudioAction
 	[Tooltip("Which Card to check on the Spell.")]
 	public Which m_WhichCard;
 
-	[RequiredField]
 	[CompoundArray("Sources", "Card Id", "Source")]
+	[RequiredField]
 	public string[] m_CardIds;
 
 	[CheckForComponent(typeof(AudioSource))]
@@ -26,8 +26,8 @@ public class SpellCardIdAudioPlaySourceAction : SpellCardIdAudioAction
 	[CheckForComponent(typeof(AudioSource))]
 	public FsmGameObject m_PickedSource;
 
-	[HasFloatSlider(0f, 1f)]
 	[Tooltip("Scales the volume of the AudioSource just for this Play call.")]
+	[HasFloatSlider(0f, 1f)]
 	public FsmFloat m_VolumeScale;
 
 	[Tooltip("Wait for the Audio Source to finish playing before moving on.")]

@@ -24,15 +24,15 @@ public class TagVisualConfigurationEntry
 	[CustomEditField(Sections = "Settings", HidePredicate = "IsReferenceTag")]
 	public TagVisualStateConfiguration m_BeforeAlways;
 
-	[Tooltip("A list of actions to perform every time a Tag changes from \"0\".")]
 	[CustomEditField(Sections = "Settings", HidePredicate = "IsReferenceTag")]
+	[Tooltip("A list of actions to perform every time a Tag changes from \"0\".")]
 	public TagVisualStateConfiguration m_TagAdded;
 
 	[CustomEditField(Sections = "Settings", HidePredicate = "IsReferenceTag")]
 	[Tooltip("A list of actions to perform every time a Tag changes to \"0\".")]
 	public TagVisualStateConfiguration m_TagRemoved;
 
-	[Tooltip("A list of actions to perform every time the Tag changes, do these after handling \"Tag Added\", \"Tag Removed\", or \"Before Always\" actions.")]
 	[CustomEditField(Sections = "Settings", HidePredicate = "IsReferenceTag")]
+	[Tooltip("A list of actions to perform every time the Tag changes, do these after handling \"Tag Added\", \"Tag Removed\", or \"Before Always\" actions.")]
 	public TagVisualStateConfiguration m_AfterAlways;
 }

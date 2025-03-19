@@ -4,8 +4,8 @@ using System.Text;
 using Assets;
 using UnityEngine;
 
-[RequireComponent(typeof(AdventureWing))]
 [CustomEditClass]
+[RequireComponent(typeof(AdventureWing))]
 public class AdventureWingFrozenThroneHelper : MonoBehaviour
 {
 	public NestedPrefab m_secondaryBigChestContainer;

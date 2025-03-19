@@ -246,7 +246,7 @@ public static class InGameMessageUtils
 		}
 	};
 
-	public static int ClientVersion { get; private set; } = Convert.ToInt32($"{31}{6}{0:D2}");
+	public static int ClientVersion { get; private set; } = Convert.ToInt32($"{32}{0}{0:D2}");
 
 	public static GameMessage ReadInGameMessage(JsonNode mainNode)
 	{

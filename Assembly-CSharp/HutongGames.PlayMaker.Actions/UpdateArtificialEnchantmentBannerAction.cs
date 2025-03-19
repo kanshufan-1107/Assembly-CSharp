@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Updates artificial enchantment banner with text and description from custom choice cards.")]
+[ActionCategory("Pegasus")]
 public class UpdateArtificialEnchantmentBannerAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

@@ -21,8 +21,8 @@ public class ShopMarketingImageFitter : WidgetPositioningElement
 	[SerializeField]
 	private SpriteRenderer m_bottomLeft;
 
-	[SerializeField]
 	[Header("Edges")]
+	[SerializeField]
 	private SpriteRenderer m_top;
 
 	[SerializeField]
@@ -34,8 +34,8 @@ public class ShopMarketingImageFitter : WidgetPositioningElement
 	[SerializeField]
 	private SpriteRenderer m_left;
 
-	[Header("Sprite renderer to set up")]
 	[SerializeField]
+	[Header("Sprite renderer to set up")]
 	private SpriteRenderer m_spriteRenderer;
 
 	[Header("Padding")]

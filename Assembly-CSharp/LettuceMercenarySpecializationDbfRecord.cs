@@ -18,26 +18,6 @@ public class LettuceMercenarySpecializationDbfRecord : DbfRecord
 	[DbfField("NAME")]
 	public DbfLocValue Name => m_name;
 
-	public List<LettuceMercenaryAbilityDbfRecord> LettuceMercenaryAbilities
-	{
-		get
-		{
-			int id = base.ID;
-			List<LettuceMercenaryAbilityDbfRecord> returnRecords = new List<LettuceMercenaryAbilityDbfRecord>();
-			List<LettuceMercenaryAbilityDbfRecord> records = GameDbf.LettuceMercenaryAbility.GetRecords();
-			int i = 0;
-			for (int iMax = records.Count; i < iMax; i++)
-			{
-				LettuceMercenaryAbilityDbfRecord record = records[i];
-				if (record.LettuceMercenarySpecializationId == id)
-				{
-					returnRecords.Add(record);
-				}
-			}
-			return returnRecords;
-		}
-	}
-
 	public override object GetVar(string name)
 	{
 		return name switch

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Get the GameObjects for each Card's Actor in current choice in left-to-right order. Requires the Spell to be extended from SpawnToDeckSpell.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Get the GameObjects for each Card's Actor in current choice in left-to-right order. Requires the Spell to be extended from SpawnToDeckSpell.")]
 public class SpellGetSpawnToDeckActorsAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

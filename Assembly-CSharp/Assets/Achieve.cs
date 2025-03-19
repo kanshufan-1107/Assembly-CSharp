@@ -237,11 +237,11 @@ public static class Achieve
 		TIER2,
 		[Description("tier3")]
 		TIER3,
+		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx1_owned")]
-		[Obsolete("will be removed when the achievement system no longer requires it")]
 		NAXX1_OWNED,
-		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx2_owned")]
+		[Obsolete("will be removed when the achievement system no longer requires it")]
 		NAXX2_OWNED,
 		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx3_owned")]
@@ -249,8 +249,8 @@ public static class Achieve
 		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx4_owned")]
 		NAXX4_OWNED,
-		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx5_owned")]
+		[Obsolete("will be removed when the achievement system no longer requires it")]
 		NAXX5_OWNED,
 		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx1_playable")]
@@ -258,8 +258,8 @@ public static class Achieve
 		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx2_playable")]
 		NAXX2_PLAYABLE,
-		[Obsolete("will be removed when the achievement system no longer requires it")]
 		[Description("naxx3_playable")]
+		[Obsolete("will be removed when the achievement system no longer requires it")]
 		NAXX3_PLAYABLE,
 		[Description("naxx4_playable")]
 		[Obsolete("will be removed when the achievement system no longer requires it")]

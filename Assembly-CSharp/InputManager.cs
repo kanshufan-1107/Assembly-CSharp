@@ -261,6 +261,10 @@ public class InputManager : MonoBehaviour
 
 	private bool m_isShowingStarshipUI;
 
+	private Card m_weaponChooseOnePreviouslyHeldWeapon;
+
+	private Card m_weaponChooseOneCurrentlyBeingPlayed;
+
 	private List<PhoneHandShownListener> m_phoneHandShownListener = new List<PhoneHandShownListener>();
 
 	private List<PhoneHandHiddenListener> m_phoneHandHiddenListener = new List<PhoneHandHiddenListener>();
@@ -1446,6 +1450,16 @@ public class InputManager : MonoBehaviour
 		{
 			return false;
 		}
+		if (m_weaponChooseOnePreviouslyHeldWeapon != null)
+		{
+			if ((object)m_weaponChooseOneCurrentlyBeingPlayed == null)
+			{
+				m_weaponChooseOnePreviouslyHeldWeapon = null;
+				return false;
+			}
+			StartCoroutine(WaitAndRestorePreviousWeaponAfterCancellation());
+			return false;
+		}
 		if (ChoiceCardMgr.Get().IsWaitingToShowSubOptions())
 		{
 			if (timeout)
@@ -1457,6 +1471,21 @@ public class InputManager : MonoBehaviour
 		CancelSubOptions();
 		m_gameState.CancelCurrentOptionMode();
 		return true;
+	}
+
+	private IEnumerator WaitAndRestorePreviousWeaponAfterCancellation()
+	{
+		m_weaponChooseOnePreviouslyHeldWeapon.TransitionToZone(m_weaponChooseOnePreviouslyHeldWeapon.GetController().GetWeaponZone());
+		m_weaponChooseOnePreviouslyHeldWeapon.GetActor().Show(ignoreSpells: true);
+		m_weaponChooseOnePreviouslyHeldWeapon = null;
+		m_weaponChooseOneCurrentlyBeingPlayed.SetInputEnabled(enabled: false);
+		m_weaponChooseOneCurrentlyBeingPlayed.TransitionToZone(m_weaponChooseOneCurrentlyBeingPlayed.GetController().GetHandZone());
+		m_weaponChooseOneCurrentlyBeingPlayed.GetActor().Show(ignoreSpells: true);
+		yield return new WaitForSeconds(0.5f);
+		m_weaponChooseOneCurrentlyBeingPlayed.SetInputEnabled(enabled: true);
+		m_weaponChooseOneCurrentlyBeingPlayed = null;
+		CancelSubOptions();
+		m_gameState.CancelCurrentOptionMode();
 	}
 
 	private IEnumerator WaitAndCancelSubOptionMode()
@@ -2858,7 +2887,7 @@ public class InputManager : MonoBehaviour
 		{
 			return;
 		}
-		if ((clickedEntity.IsHeroPower() || clickedEntity.IsGameModeButton() || clickedEntity.IsBattlegroundClickableButton()) && clickedCard != null && clickedCard.GetActor() != null)
+		if ((clickedEntity.IsHeroPower() || clickedEntity.IsGameModeButton()) && clickedCard != null && clickedCard.GetActor() != null)
 		{
 			clickedCard.GetActor().RemovePingAndNotifyTeammate();
 		}
@@ -2981,7 +3010,7 @@ public class InputManager : MonoBehaviour
 					{
 						ActivatePlaySpell(clickedCard);
 					}
-					if (clickedEntity.IsHeroPower() || clickedEntity.IsGameModeButton() || clickedEntity.IsBattlegroundClickableButton() || (clickedEntity.IsCoinBasedHeroBuddy() && clickedEntity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_ENT_2) == 0))
+					if (clickedEntity.IsHeroPower() || clickedEntity.IsGameModeButton() || (clickedEntity.IsCoinBasedHeroBuddy() && clickedEntity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_ENT_2) == 0))
 					{
 						if (!clickedEntity.HasTag(GAME_TAG.HEROPOWER_UNLIMITED_USES))
 						{
@@ -3425,6 +3454,11 @@ public class InputManager : MonoBehaviour
 				else if (!ChoiceCardMgr.Get().ShowSubOptions(subOptionCard))
 				{
 					CancelOption();
+				}
+				else if (entity.IsWeapon() && entity.GetController().HasWeapon())
+				{
+					m_weaponChooseOneCurrentlyBeingPlayed = entity.GetCard();
+					m_weaponChooseOnePreviouslyHeldWeapon = entity.GetController().GetWeaponCard();
 				}
 			}
 			return true;

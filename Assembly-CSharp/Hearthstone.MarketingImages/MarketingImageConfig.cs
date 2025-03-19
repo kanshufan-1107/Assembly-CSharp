@@ -16,15 +16,15 @@ public class MarketingImageConfig
 	[Tooltip("Should the frame be overlaid? (Untick if the frame is already baked into the image)")]
 	public bool AutoFrame = true;
 
-	[Tooltip("Texture to use (soft reference)")]
 	[AssetReferencePicker(AssetReferenceKind.Texture)]
+	[Tooltip("Texture to use (soft reference)")]
 	public AssetReference TextureAsset;
 
 	[Tooltip("Normalized offset (used for shifting the image left/right up/down (used only when texture is wider/taller than the slot)")]
 	public Vector2 TextureOffset;
 
-	[SerializeField]
 	[Tooltip("Comma-separated list of tags that may be used to alter behavior of the image")]
+	[SerializeField]
 	private string m_tags;
 
 	private HashSet<string> m_tagSet;

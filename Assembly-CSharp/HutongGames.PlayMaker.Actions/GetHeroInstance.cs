@@ -19,19 +19,19 @@ public class GetHeroInstance : FsmStateAction
 		RootChild
 	}
 
-	[UIHint(UIHint.FsmEnum)]
-	[ObjectType(typeof(HeroType))]
 	[Tooltip("Which hero are we looking for?")]
+	[ObjectType(typeof(HeroType))]
+	[UIHint(UIHint.FsmEnum)]
 	public FsmEnum type;
 
 	[Tooltip("Which object within the hero are we looking for?")]
-	[ObjectType(typeof(TargetObject))]
 	[UIHint(UIHint.FsmEnum)]
+	[ObjectType(typeof(TargetObject))]
 	public FsmEnum targetObject;
 
 	[RequiredField]
-	[Tooltip("Store the hero in this variable.")]
 	[UIHint(UIHint.Variable)]
+	[Tooltip("Store the hero in this variable.")]
 	public FsmGameObject output;
 
 	public override void Reset()

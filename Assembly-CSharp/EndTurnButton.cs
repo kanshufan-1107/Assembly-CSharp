@@ -220,7 +220,12 @@ public class EndTurnButton : MonoBehaviour
 			{
 				continue;
 			}
-			if (mainOptionEntity.HasTag(GAME_TAG.LAUNCHPAD))
+			bool hasSuboptions = false;
+			if (option.Subs != null)
+			{
+				hasSuboptions = option.Subs.Count > 0;
+			}
+			if (mainOptionEntity.HasTag(GAME_TAG.LAUNCHPAD) && hasSuboptions)
 			{
 				foreach (Network.Options.Option.SubOption suboption in option.Subs)
 				{

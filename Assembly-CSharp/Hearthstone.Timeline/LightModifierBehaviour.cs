@@ -44,8 +44,8 @@ public class LightModifierBehaviour : PlayableBehaviour
 	[SerializeField]
 	private Gradient m_color;
 
-	[SerializeField]
 	[Tooltip("Define colors using a gradient field or an array?\n\nThe gradient field is cleaner and easier to work with, but only supports a maximum of eight colors.")]
+	[SerializeField]
 	private bool m_useGradient = true;
 
 	[SerializeField]

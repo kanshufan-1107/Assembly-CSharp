@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Cancels an ObjectShakerAction.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Cancels an ObjectShakerAction.")]
 public class ObjectShakerStopAction : FsmStateAction
 {
 	[RequiredField]

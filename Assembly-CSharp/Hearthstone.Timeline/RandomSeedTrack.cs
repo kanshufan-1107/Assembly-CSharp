@@ -4,8 +4,8 @@ using UnityEngine.Timeline;
 
 namespace Hearthstone.Timeline;
 
-[TrackBindingType(typeof(ParticleSystem))]
 [Obsolete("Use ControlRandomized instead.", false)]
+[TrackBindingType(typeof(ParticleSystem))]
 [TrackClipType(typeof(RandomSeedAsset))]
 public class RandomSeedTrack : TrackAsset
 {

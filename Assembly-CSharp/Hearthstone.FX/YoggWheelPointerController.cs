@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Hearthstone.FX;
 
-[RequireComponent(typeof(Animator))]
 [DisallowMultipleComponent]
+[RequireComponent(typeof(Animator))]
 public class YoggWheelPointerController : MonoBehaviour
 {
 	[Tooltip("Expecting a BOOL parameter that triggers a looping animation.")]
@@ -12,15 +12,15 @@ public class YoggWheelPointerController : MonoBehaviour
 	[Header("Animator Parameters")]
 	private string m_loopingBool = "Loop";
 
-	[SerializeField]
 	[Tooltip("Expecting a TRIGGER parameter that triggers a one-shot animation.")]
+	[SerializeField]
 	private string m_oneShotTrigger = "Tick";
 
 	[Header("Segments")]
 	public Transform m_wheelRoot;
 
-	[SerializeField]
 	[Tooltip("Angles around the wheel's perimeter where the pointer's movement should be triggered.")]
+	[SerializeField]
 	private List<float> m_wheelSegments = new List<float>();
 
 	private Animator m_animator;

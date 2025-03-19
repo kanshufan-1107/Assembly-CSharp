@@ -9,20 +9,20 @@ public class AccordionMenuTray : MonoBehaviour
 	[CustomEditField(Sections = "Description")]
 	public GameObject m_DescriptionContainer;
 
-	[CustomEditField(Sections = "Choose Frame")]
 	[SerializeField]
+	[CustomEditField(Sections = "Choose Frame")]
 	public PlayButton m_ChooseButton;
 
-	[CustomEditField(Sections = "Choose Frame")]
 	[SerializeField]
+	[CustomEditField(Sections = "Choose Frame")]
 	public UIBButton m_BackButton;
 
-	[CustomEditField(Sections = "Choose Frame", T = EditType.GAME_OBJECT)]
 	[SerializeField]
+	[CustomEditField(Sections = "Choose Frame", T = EditType.GAME_OBJECT)]
 	public string m_DefaultChooserButtonPrefab;
 
-	[CustomEditField(Sections = "Choose Frame", T = EditType.GAME_OBJECT)]
 	[SerializeField]
+	[CustomEditField(Sections = "Choose Frame", T = EditType.GAME_OBJECT)]
 	public string m_DefaultChooserSubButtonPrefab;
 
 	[CustomEditField(Sections = "Choose Frame", T = EditType.GAME_OBJECT)]

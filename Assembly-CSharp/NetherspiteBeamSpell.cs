@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Blizzard.T5.MaterialService.Extensions;
 using UnityEngine;
 
-[RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(UberCurve))]
+[RequireComponent(typeof(LineRenderer))]
 public class NetherspiteBeamSpell : Spell
 {
 	[Range(1f, 1000f)]

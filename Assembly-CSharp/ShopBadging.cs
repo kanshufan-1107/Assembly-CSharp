@@ -64,8 +64,7 @@ public class ShopBadging
 			return;
 		}
 		m_seenProductsLocalCache.Version++;
-		SaveToLocalFile(Option.LATEST_SEEN_SHOP_PRODUCT_LIST, m_seenProductsLocalCache);
-		SaveToServer(GameSaveKeySubkeyId.LIST_OF_SEEN_SHOP_PRODUCTS, GameSaveKeySubkeyId.SEEN_SHOP_PRODUCTS_LIST_VERSION, m_seenProductsLocalCache);
+		SaveSeenProductList();
 	}
 
 	public void MarkTabAsDisplayed(IEnumerable<string> displayedProducts)
@@ -99,8 +98,7 @@ public class ShopBadging
 			m_seenProductsLocalCache.ProductIds.Add(product);
 		}
 		m_seenProductsLocalCache.Version++;
-		SaveToLocalFile(Option.LATEST_SEEN_SHOP_PRODUCT_LIST, m_seenProductsLocalCache);
-		SaveToServer(GameSaveKeySubkeyId.LIST_OF_SEEN_SHOP_PRODUCTS, GameSaveKeySubkeyId.SEEN_SHOP_PRODUCTS_LIST_VERSION, m_seenProductsLocalCache);
+		SaveSeenProductList();
 	}
 
 	public void ClearLatestDisplayedProducts()
@@ -126,8 +124,17 @@ public class ShopBadging
 		{
 			Version = ((m_seenProductsLocalCache != null) ? m_seenProductsLocalCache.Version++ : 0)
 		};
-		SaveToLocalFile(Option.LATEST_SEEN_SHOP_PRODUCT_LIST, m_seenProductsLocalCache);
-		SaveToServer(GameSaveKeySubkeyId.LIST_OF_SEEN_SHOP_PRODUCTS, GameSaveKeySubkeyId.SEEN_SHOP_PRODUCTS_LIST_VERSION, m_seenProductsLocalCache);
+		SaveSeenProductList();
+	}
+
+	public void ResetBadging()
+	{
+		m_displayedProductsLocalCache = new ShopCachedList();
+		m_displayedProductsServerCache = new ShopCachedList();
+		SaveDisplayedProductList();
+		m_seenProductsLocalCache = new ShopCachedList();
+		m_seenProductsServerCache = new ShopCachedList();
+		SaveSeenProductList();
 	}
 
 	private void InitializeLocalCache()
@@ -207,7 +214,7 @@ public class ShopBadging
 			List<string> productIds = SplitAndFilter(parts[1], ':');
 			return new ShopCachedList(version, productIds);
 		}
-		List<string> productIds2 = SplitAndFilter(data, ':');
+		List<string> productIds2 = new List<string>();
 		return new ShopCachedList(0, productIds2);
 	}
 
@@ -248,6 +255,12 @@ public class ShopBadging
 	{
 		SaveToLocalFile(Option.LATEST_DISPLAYED_SHOP_PRODUCT_LIST, m_displayedProductsLocalCache);
 		SaveToServer(GameSaveKeySubkeyId.LIST_OF_LATEST_DISPLAYED_SHOP_PRODUCTS, GameSaveKeySubkeyId.DISPLAYED_SHOP_PRODUCTS_LIST_VERSION, m_displayedProductsLocalCache);
+	}
+
+	private void SaveSeenProductList()
+	{
+		SaveToLocalFile(Option.LATEST_SEEN_SHOP_PRODUCT_LIST, m_seenProductsLocalCache);
+		SaveToServer(GameSaveKeySubkeyId.LIST_OF_SEEN_SHOP_PRODUCTS, GameSaveKeySubkeyId.SEEN_SHOP_PRODUCTS_LIST_VERSION, m_seenProductsLocalCache);
 	}
 
 	private void MergeLists(ref ShopCachedList localList, ref ShopCachedList serverList, Option localOption, GameSaveKeySubkeyId serverListKey, GameSaveKeySubkeyId serverVersionKey)

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Send an event based on an Actor's is In Mini Hand Or not.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Send an event based on an Actor's is In Mini Hand Or not.")]
 public class ActorInMiniHandEventAction : ActorAction
 {
 	public FsmOwnerDefault m_ActorObject;

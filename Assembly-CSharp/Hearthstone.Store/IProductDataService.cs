@@ -99,6 +99,8 @@ public interface IProductDataService : IService
 
 	void ClearLatestDisplayedProducts();
 
+	void ResetShopBadging();
+
 	void ClearSeenProducts();
 
 	IList<ProductInfo> ReconcileHearthstoneServerAndCommerceSdkProducts();

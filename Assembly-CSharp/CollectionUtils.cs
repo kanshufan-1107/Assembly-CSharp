@@ -992,7 +992,7 @@ public static class CollectionUtils
 		{
 			return;
 		}
-		foreach (MercenaryAllowedTreasureDbfRecord allowedTreasureRecord in mercenaryRecord.MercenaryTreasure)
+		foreach (MercenaryAllowedTreasureDbfRecord allowedTreasureRecord in GameDbf.GetIndex().GetMercenaryTreasureByMercenaryID(mercenaryRecord.ID))
 		{
 			int mythicScalar = 0;
 			if (netcacheTreasureInfo.MythicTreasureScalarMap.TryGetValue(allowedTreasureRecord.TreasureId, out var treasureScalar))

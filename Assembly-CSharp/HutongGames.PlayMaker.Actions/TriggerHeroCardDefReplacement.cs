@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Triggers an event on the FSM of the Legendary Hero object attached to an actor")]
+[ActionCategory("Pegasus")]
 public class TriggerHeroCardDefReplacement : FsmStateAction
 {
+	[Tooltip("Actors game object")]
 	[RequiredField]
 	[CheckForComponent(typeof(Actor))]
-	[Tooltip("Actors game object")]
 	public FsmOwnerDefault m_GameObject;
 
 	public string m_NewCardDefAsset;

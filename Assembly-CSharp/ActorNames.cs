@@ -28,7 +28,6 @@ public class ActorNames
 		PLAY_BATTLEGROUND_ANOMALY,
 		PLAY_BATTLEGROUND_SPELL,
 		PLAY_BATTLEGROUND_TRINKET,
-		PLAY_BATTLEGROUND_CLICKABLE_BUTTON,
 		HISTORY_HERO_POWER,
 		HISTORY_HERO_POWER_OPPONENT,
 		BIG_CARD_LETTUCE_ABILITY_SPELL,
@@ -128,10 +127,6 @@ public class ActorNames
 		{
 			ACTOR_ASSET.PLAY_BATTLEGROUND_TRINKET,
 			"Card_Play_BattlegroundsTrinket.prefab:0fa31459018c057488eefd45fef95a9d"
-		},
-		{
-			ACTOR_ASSET.PLAY_BATTLEGROUND_CLICKABLE_BUTTON,
-			"Card_Play_BG_ClickableButton.prefab:aa16914e891d55d438164d5e1eb4241d"
 		},
 		{
 			ACTOR_ASSET.HISTORY_HERO_POWER,
@@ -250,10 +245,6 @@ public class ActorNames
 			"Card_Play_BattlegroundsTrinket.prefab:0fa31459018c057488eefd45fef95a9d"
 		},
 		{
-			ACTOR_ASSET.PLAY_BATTLEGROUND_CLICKABLE_BUTTON,
-			"Card_Play_BG_ClickableButton.prefab:aa16914e891d55d438164d5e1eb4241d"
-		},
-		{
 			ACTOR_ASSET.HISTORY_HERO_POWER,
 			"History_HeroPower_Premium.prefab:081da807b95b8495e9f16825c5164787"
 		},
@@ -313,13 +304,9 @@ public class ActorNames
 
 	private static Dictionary<string, int> m_signatureFrames;
 
-	private static Dictionary<int, string> m_signatureHandMinions;
+	private static Dictionary<int, string> m_signatureHand;
 
-	private static Dictionary<int, string> m_signaturePlayMinions;
-
-	private static Dictionary<int, string> m_signatureSpells;
-
-	private static Dictionary<int, string> m_signatureHeroes;
+	private static Dictionary<int, string> m_signaturePlay;
 
 	public static Dictionary<string, int> SignatureFrames
 	{
@@ -333,51 +320,27 @@ public class ActorNames
 		}
 	}
 
-	public static Dictionary<int, string> SignatureHandMinions
+	public static Dictionary<int, string> SignatureHand
 	{
 		get
 		{
-			if (m_signatureHandMinions == null)
+			if (m_signatureHand == null)
 			{
 				Initialize();
 			}
-			return m_signatureHandMinions;
+			return m_signatureHand;
 		}
 	}
 
-	public static Dictionary<int, string> SignaturePlayMinions
+	public static Dictionary<int, string> SignaturePlay
 	{
 		get
 		{
-			if (m_signaturePlayMinions == null)
+			if (m_signaturePlay == null)
 			{
 				Initialize();
 			}
-			return m_signaturePlayMinions;
-		}
-	}
-
-	public static Dictionary<int, string> SignatureSpells
-	{
-		get
-		{
-			if (m_signatureSpells == null)
-			{
-				Initialize();
-			}
-			return m_signatureSpells;
-		}
-	}
-
-	public static Dictionary<int, string> SignatureHeroes
-	{
-		get
-		{
-			if (m_signatureHeroes == null)
-			{
-				Initialize();
-			}
-			return m_signatureHeroes;
+			return m_signaturePlay;
 		}
 	}
 
@@ -518,8 +481,6 @@ public class ActorNames
 				return GetNameWithPremiumType(ACTOR_ASSET.HAND_SPELL, premium);
 			case TAG_CARDTYPE.BATTLEGROUND_HERO_BUDDY:
 				return GetNameWithPremiumType(ACTOR_ASSET.HAND_SPELL, premium);
-			case TAG_CARDTYPE.BATTLEGROUND_CLICKABLE_BUTTON:
-				return GetNameWithPremiumType(ACTOR_ASSET.HAND_SPELL, premium, entityBase.GetCardId());
 			}
 			break;
 		}
@@ -576,7 +537,6 @@ public class ActorNames
 		case TAG_CARDTYPE.SPELL:
 		case TAG_CARDTYPE.BATTLEGROUND_QUEST_REWARD:
 		case TAG_CARDTYPE.BATTLEGROUND_SPELL:
-		case TAG_CARDTYPE.BATTLEGROUND_CLICKABLE_BUTTON:
 			return GetNameWithPremiumType(ACTOR_ASSET.HAND_SPELL, premiumType, cardId);
 		case TAG_CARDTYPE.HERO:
 			return GetNameWithPremiumType(ACTOR_ASSET.HAND_HERO, premiumType, cardId);
@@ -698,8 +658,6 @@ public class ActorNames
 			return GetNameWithPremiumType(ACTOR_ASSET.PLAY_BATTLEGROUND_SPELL, premiumType, entityBase.GetCardId());
 		case TAG_CARDTYPE.BATTLEGROUND_TRINKET:
 			return GetNameWithPremiumType(ACTOR_ASSET.PLAY_BATTLEGROUND_TRINKET, premiumType, entityBase.GetCardId());
-		case TAG_CARDTYPE.BATTLEGROUND_CLICKABLE_BUTTON:
-			return GetNameWithPremiumType(ACTOR_ASSET.PLAY_BATTLEGROUND_CLICKABLE_BUTTON, premiumType, entityBase.GetCardId());
 		case TAG_CARDTYPE.HERO:
 			if (entityBase.HasTag(GAME_TAG.BACON_IS_KEL_THUZAD) || entityBase.HasTag(GAME_TAG.BACON_PLAYER_RESULTS_HERO_OVERRIDE))
 			{
@@ -773,7 +731,7 @@ public class ActorNames
 		}
 		if (entity.IsHiddenForge())
 		{
-			return GetHistoryForgeActor(entity);
+			return GetHistoryForgeActor();
 		}
 		if (string.IsNullOrEmpty(entity.GetCardId()))
 		{
@@ -827,7 +785,7 @@ public class ActorNames
 		}
 	}
 
-	public static string GetHistoryForgeActor(Entity entity)
+	public static string GetHistoryForgeActor()
 	{
 		return "History_Forged.prefab:7cb6975d37805d84a92af3aba4d0f12d";
 	}
@@ -838,10 +796,13 @@ public class ActorNames
 		if (player != null)
 		{
 			CornerReplacementSpellType type = player.GetTag<CornerReplacementSpellType>(GAME_TAG.CORNER_REPLACEMENT_TYPE);
-			actorAsset = CornerReplacementConfig.Get().GetActor(type, actorName, premiumType);
-			if (actorAsset != null)
+			if (type != 0)
 			{
-				return actorAsset;
+				actorAsset = CornerReplacementConfig.Get().GetActor(type, actorName, premiumType);
+				if (actorAsset != null)
+				{
+					return actorAsset;
+				}
 			}
 		}
 		if (!string.IsNullOrEmpty(cardId))
@@ -850,10 +811,13 @@ public class ActorNames
 			if (entityDef != null)
 			{
 				CornerReplacementSpellType type2 = entityDef.GetTag<CornerReplacementSpellType>(GAME_TAG.CORNER_REPLACEMENT_TYPE);
-				actorAsset = CornerReplacementConfig.Get().GetActor(type2, actorName, premiumType);
-				if (actorAsset != null)
+				if (type2 != 0)
 				{
-					return actorAsset;
+					actorAsset = CornerReplacementConfig.Get().GetActor(type2, actorName, premiumType);
+					if (actorAsset != null)
+					{
+						return actorAsset;
+					}
 				}
 			}
 		}
@@ -903,7 +867,7 @@ public class ActorNames
 		case ACTOR_ASSET.HAND_WEAPON:
 		case ACTOR_ASSET.HAND_HERO:
 		{
-			if (SignatureHandMinions.TryGetValue(cardDbId, out var signatureActor2))
+			if (SignatureHand.TryGetValue(cardDbId, out var signatureActor2))
 			{
 				return signatureActor2;
 			}
@@ -913,7 +877,7 @@ public class ActorNames
 		case ACTOR_ASSET.PLAY_MINION:
 		case ACTOR_ASSET.PLAY_HERO:
 		{
-			if (SignaturePlayMinions.TryGetValue(cardDbId, out var signatureActor3))
+			if (SignaturePlay.TryGetValue(cardDbId, out var signatureActor3))
 			{
 				return signatureActor3;
 			}
@@ -922,7 +886,7 @@ public class ActorNames
 		}
 		case ACTOR_ASSET.PLAY_WEAPON:
 		{
-			if (!SignaturePlayMinions.TryGetValue(cardDbId, out var _))
+			if (!SignaturePlay.TryGetValue(cardDbId, out var _))
 			{
 				Debug.LogError("No Signature Weapon frame registered for " + cardId + ".");
 				return null;
@@ -963,21 +927,13 @@ public class ActorNames
 		{
 			m_signatureFrames = new Dictionary<string, int>();
 		}
-		if (m_signatureHandMinions == null)
+		if (m_signatureHand == null)
 		{
-			m_signatureHandMinions = new Dictionary<int, string>();
+			m_signatureHand = new Dictionary<int, string>();
 		}
-		if (m_signaturePlayMinions == null)
+		if (m_signaturePlay == null)
 		{
-			m_signaturePlayMinions = new Dictionary<int, string>();
-		}
-		if (m_signatureSpells == null)
-		{
-			m_signatureSpells = new Dictionary<int, string>();
-		}
-		if (m_signatureHeroes == null)
-		{
-			m_signatureHeroes = new Dictionary<int, string>();
+			m_signaturePlay = new Dictionary<int, string>();
 		}
 		if (!GameDbf.IsLoaded)
 		{
@@ -993,21 +949,13 @@ public class ActorNames
 					Debug.LogError("Failed to add the card id('" + cardId + "') to signatureFrame.");
 				}
 			}
-			if (!m_signatureHandMinions.TryAdd(frameRecord.ID, frameRecord.HandActorPrefab))
+			if (!m_signatureHand.TryAdd(frameRecord.ID, frameRecord.HandActorPrefab))
 			{
 				Debug.LogError($"Failed to add the frame record id('{frameRecord.ID}') to signatureHandMinions.");
 			}
-			if (!m_signaturePlayMinions.TryAdd(frameRecord.ID, frameRecord.PlayActorPrefab))
+			if (!m_signaturePlay.TryAdd(frameRecord.ID, frameRecord.PlayActorPrefab))
 			{
 				Debug.LogError($"Failed to add the frame record id('{frameRecord.ID}') to signaturePlayMinions.");
-			}
-			if (!m_signatureSpells.TryAdd(frameRecord.ID, frameRecord.HandActorPrefab))
-			{
-				Debug.LogError($"Failed to add the frame record id('{frameRecord.ID}') to signatureSpells.");
-			}
-			if (!m_signatureHeroes.TryAdd(frameRecord.ID, frameRecord.HandActorPrefab))
-			{
-				Debug.LogError($"Failed to add the frame record id('{frameRecord.ID}') to signatureHeroes.");
 			}
 		}
 	}

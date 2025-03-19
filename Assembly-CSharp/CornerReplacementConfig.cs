@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CornerReplacementConfigData", menuName = "ScriptableObjects/CornerReplacementConfig")]
 [CustomEditClass]
+[CreateAssetMenu(fileName = "CornerReplacementConfigData", menuName = "ScriptableObjects/CornerReplacementConfig")]
 public class CornerReplacementConfig : ScriptableObject
 {
 	public const string CornerReplacementConfigReference = "Player_CornerReplacement.asset:a61dcd0d9c8367e45b20ac2f69f6cefd";

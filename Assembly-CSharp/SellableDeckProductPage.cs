@@ -30,12 +30,12 @@ public class SellableDeckProductPage : ProductPage, IPopupRendering
 	[SerializeField]
 	private UIBScrollable m_scrollbar;
 
-	[Header("Single Deck")]
 	[SerializeField]
+	[Header("Single Deck")]
 	private AsyncReference m_singleDeckPouchReference;
 
-	[Header("Deck UI Transforms")]
 	[SerializeField]
+	[Header("Deck UI Transforms")]
 	private Quaternion m_deckPouchRotation;
 
 	[SerializeField]

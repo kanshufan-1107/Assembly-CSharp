@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Sets the alpha on a game object and its children.")]
+[ActionCategory("Pegasus")]
 public class SetAlphaRecursiveAction : FsmStateAction
 {
 	public FsmOwnerDefault m_GameObject;

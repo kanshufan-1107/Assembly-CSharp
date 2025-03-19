@@ -3397,6 +3397,7 @@ public class GameUtils
 	{
 		foreach (LettuceMercenaryDbfRecord mercenaryRecord in GameDbf.LettuceMercenary.GetRecords())
 		{
+			GameDbf.GetIndex().GetMercenaryArtVariationsByMercenaryID(mercenaryRecord.ID);
 			foreach (MercenaryArtVariationDbfRecord mercenaryArtVariation in mercenaryRecord.MercenaryArtVariations)
 			{
 				if (mercenaryArtVariation.CardId == cardId)

@@ -301,6 +301,11 @@ public class ProductPageContainer : MonoBehaviour
 		}
 	}
 
+	public bool TempInstancesInitialized()
+	{
+		return m_tempInstancesHaveBeenInitialized;
+	}
+
 	protected void BindCurrentProduct()
 	{
 		m_widget.BindDataModel(m_product);
@@ -334,10 +339,21 @@ public class ProductPageContainer : MonoBehaviour
 
 	protected void HandleShopOpened()
 	{
+		StartCoroutine(InitProductPageInstances());
+	}
+
+	private IEnumerator InitProductPageInstances()
+	{
+		if (m_tempInstancesHaveBeenInitialized)
+		{
+			yield break;
+		}
 		foreach (WidgetInstance instance in m_tempInstances)
 		{
 			StartCoroutine(PreloadPageInstanceCoroutine(instance));
 		}
+		yield return new WaitUntil(() => m_tempInstances.All((WidgetInstance widget) => !widget.IsChangingStates));
+		m_tempInstancesHaveBeenInitialized = true;
 	}
 
 	protected IEnumerator PreloadPageInstanceCoroutine(WidgetInstance instance)

@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Plays the Audio Clip on a Game Object or plays a one shot clip. Does not wait for the audio to finish.")]
 [ActionCategory("Pegasus Audio")]
+[Tooltip("Plays the Audio Clip on a Game Object or plays a one shot clip. Does not wait for the audio to finish.")]
 public class AudioPlaythroughAction : FsmStateAction
 {
 	[CheckForComponent(typeof(AudioSource))]
-	[RequiredField]
 	[Tooltip("The GameObject with the AudioSource component.")]
+	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
 	[HasFloatSlider(0f, 1f)]

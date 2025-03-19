@@ -4,8 +4,8 @@ using UnityEngine.Playables;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Sets the Parent of a Game Object.")]
+[ActionCategory("Pegasus")]
 public class SocketInReparentToSpell : FsmStateAction
 {
 	[Tooltip("Spell object")]
@@ -16,12 +16,12 @@ public class SocketInReparentToSpell : FsmStateAction
 	[RequiredField]
 	public FsmGameObject m_actorObjectOutput;
 
-	[RequiredField]
 	[Tooltip("Root Object Output")]
+	[RequiredField]
 	public FsmGameObject m_rootObjectOutput;
 
-	[Tooltip("The Game Object to parent.")]
 	[RequiredField]
+	[Tooltip("The Game Object to parent.")]
 	public GameObject m_parentObject;
 
 	[Tooltip("The Game Object to parent.")]

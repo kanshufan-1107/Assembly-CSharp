@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Remove a list of GameObjects after a delay")]
 [ActionCategory(ActionCategory.GameObject)]
+[Tooltip("Remove a list of GameObjects after a delay")]
 public class RemoveAfterDelayAction : FsmStateAction
 {
-	[ArrayEditor(VariableType.GameObject, "", 0, 0, 65536)]
 	[Tooltip("GameObjects to remove")]
+	[ArrayEditor(VariableType.GameObject, "", 0, 0, 65536)]
 	[UIHint(UIHint.Variable)]
 	public FsmArray gameObjectList;
 

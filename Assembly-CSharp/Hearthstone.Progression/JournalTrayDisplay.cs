@@ -28,8 +28,8 @@ public class JournalTrayDisplay : MonoBehaviour
 	[SerializeField]
 	private bool m_shouldHideTrayOnTabChanged = true;
 
-	[Tooltip("The journal opens to this tab index the first time it is opened each session")]
 	[SerializeField]
+	[Tooltip("The journal opens to this tab index the first time it is opened each session")]
 	private int m_initialTabIndexPerSession = 1;
 
 	[Tooltip("The journal simulates its first transition as if a button has been clicked, allowing popups etc. to be triggered for that tab.")]

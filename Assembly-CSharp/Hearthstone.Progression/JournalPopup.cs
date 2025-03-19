@@ -105,7 +105,6 @@ public class JournalPopup : MonoBehaviour
 	{
 		switch (eventName)
 		{
-		case "REWARD_SELECTED":
 		case "ACHIEVEMENT_SELECTED":
 			CollectionManager.Get().StartInitialMercenaryLoadIfRequired();
 			break;

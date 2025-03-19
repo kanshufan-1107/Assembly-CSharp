@@ -8,16 +8,16 @@ public class UIBInfoButton : PegUIElement
 
 	private const float DEPRESS_TIME = 0.1f;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Button Objects")]
+	[SerializeField]
 	public GameObject m_RootObject;
 
 	[CustomEditField(Sections = "Button Objects")]
 	[SerializeField]
 	public Transform m_UpBone;
 
-	[SerializeField]
 	[CustomEditField(Sections = "Button Objects")]
+	[SerializeField]
 	public Transform m_DownBone;
 
 	[SerializeField]

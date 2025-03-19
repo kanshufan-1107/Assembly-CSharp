@@ -10,9 +10,9 @@ public class CheckHasEntityAction : SpellAction
 
 	public Which m_whichEntity;
 
-	[Tooltip("Output variable.")]
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
+	[UIHint(UIHint.Variable)]
+	[Tooltip("Output variable.")]
 	public FsmBool m_HasEntity;
 
 	protected override GameObject GetSpellOwner()

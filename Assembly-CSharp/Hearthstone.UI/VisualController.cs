@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Hearthstone.UI.Core;
 using Hearthstone.UI.Logging;
@@ -9,14 +8,14 @@ using UnityEngine;
 namespace Hearthstone.UI;
 
 [HelpURL("https://confluence.blizzard.com/x/LaSZJ")]
-[AddComponentMenu("")]
 [ExecuteAlways]
+[AddComponentMenu("")]
 public class VisualController : WidgetBehavior, IWidgetEventListener
 {
 	public delegate void OnStateChangedDelegate(VisualController controller);
 
-	[HideInInspector]
 	[SerializeField]
+	[HideInInspector]
 	private string m_name;
 
 	[SerializeField]
@@ -197,14 +196,13 @@ public class VisualController : WidgetBehavior, IWidgetEventListener
 
 	public override bool TryIncrementDataVersion(int id)
 	{
-		HashSet<int> dataModelIds = null;
+		bool hasTrigger = false;
 		if (m_stateCollection != null)
 		{
-			dataModelIds = m_stateCollection.GetDataModelIDsFromTriggers();
+			hasTrigger = m_stateCollection.DoesAnyTriggerContainDataModelID(id);
 		}
-		bool num = dataModelIds?.Contains(id) ?? false;
 		bool observesThisDataModel = m_stateCollection != null && m_stateCollection.ObservesDataModelWithId(id);
-		if (num || observesThisDataModel)
+		if (hasTrigger || observesThisDataModel)
 		{
 			IncrementLocalDataVersion();
 			return true;

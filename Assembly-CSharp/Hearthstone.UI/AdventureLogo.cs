@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [WidgetBehaviorDescription(Path = "Hearthstone/AdventureLogo", UniqueWithinCategory = "asset")]
+[AddComponentMenu("")]
 public class AdventureLogo : CustomWidgetBehavior
 {
 	private class AdventureLogoRenderData
@@ -38,8 +38,8 @@ public class AdventureLogo : CustomWidgetBehavior
 
 	private const AdventureDbId FIRST_ADVENTURE = AdventureDbId.NAXXRAMAS;
 
-	[Tooltip("This is the adventure displayed by default. INVALID means nothing will be displayed.")]
 	[SerializeField]
+	[Tooltip("This is the adventure displayed by default. INVALID means nothing will be displayed.")]
 	private AdventureDbId m_defaultAdventure = AdventureDbId.NAXXRAMAS;
 
 	[Tooltip("Try to load the localized version of this texture first.")]
@@ -54,8 +54,8 @@ public class AdventureLogo : CustomWidgetBehavior
 	[SerializeField]
 	private Material m_logoBaseMaterial;
 
-	[Tooltip("Shadow Material to texture with.")]
 	[SerializeField]
+	[Tooltip("Shadow Material to texture with.")]
 	private Material m_shadowBaseMaterial;
 
 	private AdventureLogoRenderData m_logoRenderData = new AdventureLogoRenderData();

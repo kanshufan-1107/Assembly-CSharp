@@ -126,11 +126,7 @@ public class CraftingManager : MonoBehaviour
 
 	private Actor m_templateDiamondMinionActor;
 
-	private Dictionary<int, Actor> m_templateSignatureMinionActors;
-
-	private Dictionary<int, Actor> m_templateSignatureSpellActors;
-
-	private Dictionary<int, Actor> m_templateSignatureHeroActors;
+	private Dictionary<int, Actor> m_templateSignatureHandActors;
 
 	private Actor m_templateGoldenLocationActor;
 
@@ -146,11 +142,7 @@ public class CraftingManager : MonoBehaviour
 
 	private Actor m_ghostDiamondMinionActor;
 
-	private Dictionary<int, Actor> m_ghostSignatureMinionActors;
-
-	private Dictionary<int, Actor> m_ghostSignatureSpellActors;
-
-	private Dictionary<int, Actor> m_ghostSignatureHeroActors;
+	private Dictionary<int, Actor> m_ghostSignatureHandActors;
 
 	private Actor m_ghostGoldenLocationActor;
 
@@ -260,38 +252,16 @@ public class CraftingManager : MonoBehaviour
 
 	private void LoadSignatureActors()
 	{
-		Dictionary<int, string> signatureHandMinions = ActorNames.SignatureHandMinions;
-		Dictionary<int, string> signatureSpellActorNames = ActorNames.SignatureSpells;
-		Dictionary<int, string> signatureHeroActorNames = ActorNames.SignatureHeroes;
-		m_templateSignatureMinionActors = new Dictionary<int, Actor>();
-		m_templateSignatureSpellActors = new Dictionary<int, Actor>();
-		m_templateSignatureHeroActors = new Dictionary<int, Actor>();
-		m_ghostSignatureMinionActors = new Dictionary<int, Actor>();
-		m_ghostSignatureSpellActors = new Dictionary<int, Actor>();
-		m_ghostSignatureHeroActors = new Dictionary<int, Actor>();
-		foreach (KeyValuePair<int, string> signatureFrameActorPair in signatureHandMinions)
+		Dictionary<int, string> signatureHand = ActorNames.SignatureHand;
+		m_templateSignatureHandActors = new Dictionary<int, Actor>();
+		m_ghostSignatureHandActors = new Dictionary<int, Actor>();
+		foreach (KeyValuePair<int, string> signatureFrameActorPair in signatureHand)
 		{
 			Actor templateSignatureActor = null;
 			Actor ghostSignatureActor = null;
 			LoadActor(signatureFrameActorPair.Value, ref ghostSignatureActor, ref templateSignatureActor);
-			m_templateSignatureMinionActors.Add(signatureFrameActorPair.Key, templateSignatureActor);
-			m_ghostSignatureMinionActors.Add(signatureFrameActorPair.Key, ghostSignatureActor);
-		}
-		foreach (KeyValuePair<int, string> signatureSpellActorPair in signatureSpellActorNames)
-		{
-			Actor templateSignatureActor2 = null;
-			Actor ghostSignatureActor2 = null;
-			LoadActor(signatureSpellActorPair.Value, ref ghostSignatureActor2, ref templateSignatureActor2);
-			m_templateSignatureSpellActors.Add(signatureSpellActorPair.Key, templateSignatureActor2);
-			m_ghostSignatureSpellActors.Add(signatureSpellActorPair.Key, ghostSignatureActor2);
-		}
-		foreach (KeyValuePair<int, string> signatureHeroActorPair in signatureHeroActorNames)
-		{
-			Actor templateSignatureActor3 = null;
-			Actor ghostSignatureActor3 = null;
-			LoadActor(signatureHeroActorPair.Value, ref ghostSignatureActor3, ref templateSignatureActor3);
-			m_templateSignatureHeroActors.Add(signatureHeroActorPair.Key, templateSignatureActor3);
-			m_ghostSignatureHeroActors.Add(signatureHeroActorPair.Key, ghostSignatureActor3);
+			m_templateSignatureHandActors.Add(signatureFrameActorPair.Key, templateSignatureActor);
+			m_ghostSignatureHandActors.Add(signatureFrameActorPair.Key, ghostSignatureActor);
 		}
 	}
 
@@ -1946,7 +1916,7 @@ public class CraftingManager : MonoBehaviour
 			else if (isSignature)
 			{
 				int frameId5 = ActorNames.GetSignatureFrameId(actorEntityDef.GetCardId());
-				m_ghostSignatureMinionActors.TryGetValue(frameId5, out actorToUse);
+				m_ghostSignatureHandActors.TryGetValue(frameId5, out actorToUse);
 			}
 			else
 			{
@@ -1961,7 +1931,7 @@ public class CraftingManager : MonoBehaviour
 			else if (isSignature)
 			{
 				int frameId3 = ActorNames.GetSignatureFrameId(actorEntityDef.GetCardId());
-				m_ghostSignatureMinionActors.TryGetValue(frameId3, out actorToUse);
+				m_ghostSignatureHandActors.TryGetValue(frameId3, out actorToUse);
 			}
 			else
 			{
@@ -1976,7 +1946,7 @@ public class CraftingManager : MonoBehaviour
 			else if (isSignature)
 			{
 				int frameId2 = ActorNames.GetSignatureFrameId(actorEntityDef.GetCardId());
-				m_ghostSignatureMinionActors.TryGetValue(frameId2, out actorToUse);
+				m_ghostSignatureHandActors.TryGetValue(frameId2, out actorToUse);
 			}
 			else
 			{
@@ -1991,7 +1961,7 @@ public class CraftingManager : MonoBehaviour
 			else if (isSignature)
 			{
 				int frameId4 = ActorNames.GetSignatureFrameId(actorEntityDef.GetCardId());
-				m_ghostSignatureHeroActors.TryGetValue(frameId4, out actorToUse);
+				m_ghostSignatureHandActors.TryGetValue(frameId4, out actorToUse);
 			}
 			else
 			{
@@ -2009,7 +1979,7 @@ public class CraftingManager : MonoBehaviour
 			else if (isSignature)
 			{
 				int frameId = ActorNames.GetSignatureFrameId(actorEntityDef.GetCardId());
-				m_ghostSignatureMinionActors.TryGetValue(frameId, out actorToUse);
+				m_ghostSignatureHandActors.TryGetValue(frameId, out actorToUse);
 			}
 			else
 			{
@@ -2050,7 +2020,7 @@ public class CraftingManager : MonoBehaviour
 					return null;
 				}
 				frameId4 = ActorNames.GetSignatureFrameId(cardId);
-				m_templateSignatureSpellActors.TryGetValue(frameId4, out var templateSignatureActor4);
+				m_templateSignatureHandActors.TryGetValue(frameId4, out var templateSignatureActor4);
 				return templateSignatureActor4;
 			}
 			return m_templateSpellActor;
@@ -2074,7 +2044,7 @@ public class CraftingManager : MonoBehaviour
 					return null;
 				}
 				frameId2 = ActorNames.GetSignatureFrameId(cardId);
-				m_templateSignatureMinionActors.TryGetValue(frameId2, out var templateSignatureActor2);
+				m_templateSignatureHandActors.TryGetValue(frameId2, out var templateSignatureActor2);
 				return templateSignatureActor2;
 			}
 			if (isDiamond)
@@ -2096,7 +2066,7 @@ public class CraftingManager : MonoBehaviour
 					return null;
 				}
 				frameId3 = ActorNames.GetSignatureFrameId(cardId);
-				m_templateSignatureHeroActors.TryGetValue(frameId3, out var templateSignatureActor3);
+				m_templateSignatureHandActors.TryGetValue(frameId3, out var templateSignatureActor3);
 				return templateSignatureActor3;
 			}
 			return m_templateHeroActor;
@@ -2120,7 +2090,7 @@ public class CraftingManager : MonoBehaviour
 					return null;
 				}
 				frameId = ActorNames.GetSignatureFrameId(cardId);
-				m_templateSignatureMinionActors.TryGetValue(frameId, out var templateSignatureActor);
+				m_templateSignatureHandActors.TryGetValue(frameId, out var templateSignatureActor);
 				return templateSignatureActor;
 			}
 			return m_templateLocationActor;

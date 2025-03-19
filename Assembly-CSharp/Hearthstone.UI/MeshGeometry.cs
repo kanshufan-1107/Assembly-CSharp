@@ -6,8 +6,8 @@ namespace Hearthstone.UI;
 [AddComponentMenu("")]
 public class MeshGeometry : Geometry
 {
-	[CustomEditField(T = EditType.GAME_OBJECT)]
 	[SerializeField]
+	[CustomEditField(T = EditType.GAME_OBJECT)]
 	private WeakAssetReference m_model;
 
 	[SerializeField]

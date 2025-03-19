@@ -6,8 +6,8 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Randomly sets the pitch of an AudioSource on a Game Object.")]
 public class AudioSetRandomPitchAction : FsmStateAction
 {
-	[RequiredField]
 	[CheckForComponent(typeof(AudioSource))]
+	[RequiredField]
 	public FsmOwnerDefault m_GameObject;
 
 	[HasFloatSlider(-3f, 3f)]

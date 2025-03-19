@@ -18,26 +18,6 @@ public class LettuceAbilityDbfRecord : DbfRecord
 	[DbfField("ABILITY_NAME")]
 	public DbfLocValue AbilityName => m_abilityName;
 
-	public List<LettuceAbilityTierDbfRecord> LettuceAbilityTiers
-	{
-		get
-		{
-			int id = base.ID;
-			List<LettuceAbilityTierDbfRecord> returnRecords = new List<LettuceAbilityTierDbfRecord>();
-			List<LettuceAbilityTierDbfRecord> records = GameDbf.LettuceAbilityTier.GetRecords();
-			int i = 0;
-			for (int iMax = records.Count; i < iMax; i++)
-			{
-				LettuceAbilityTierDbfRecord record = records[i];
-				if (record.LettuceAbilityId == id)
-				{
-					returnRecords.Add(record);
-				}
-			}
-			return returnRecords;
-		}
-	}
-
 	public List<MythicAbilityScalingCardTagDbfRecord> ScalingTags
 	{
 		get

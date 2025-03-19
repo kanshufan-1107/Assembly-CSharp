@@ -24,12 +24,12 @@ public class Pack : CustomWidgetBehavior, IWidgetEventListener
 	[SerializeField]
 	private int m_bannerCount;
 
-	[SerializeField]
 	[Tooltip("If true, the count banner will be hidden, even if count is greater than 1.")]
+	[SerializeField]
 	private bool m_hideBanner;
 
-	[SerializeField]
 	[Tooltip("If true, the shadow will be shown.")]
+	[SerializeField]
 	private bool m_showShadow;
 
 	private const string RESET = "RESET";

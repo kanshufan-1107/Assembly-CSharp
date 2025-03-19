@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("INTERNAL USE ONLY. Do not put this on your FSMs.")]
 [ActionCategory("Pegasus")]
+[Tooltip("INTERNAL USE ONLY. Do not put this on your FSMs.")]
 public abstract class SpellAction : FsmStateAction
 {
 	public enum Which

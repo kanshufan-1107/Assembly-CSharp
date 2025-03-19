@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Send an event based on the player side of a Spell.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Send an event based on the player side of a Spell.")]
 public class SpellPlayerSideEventAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

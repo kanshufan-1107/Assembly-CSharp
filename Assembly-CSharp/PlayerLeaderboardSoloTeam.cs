@@ -2,8 +2,8 @@ using UnityEngine;
 
 internal class PlayerLeaderboardSoloTeam : PlayerLeaderboardTeam
 {
-	[SerializeField]
 	[Header("Solo Team Items")]
+	[SerializeField]
 	private GameObject m_IconThird;
 
 	[SerializeField]

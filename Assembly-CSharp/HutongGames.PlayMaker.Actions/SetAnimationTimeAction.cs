@@ -7,13 +7,13 @@ namespace HutongGames.PlayMaker.Actions;
 public class SetAnimationTimeAction : FsmStateAction
 {
 	[CheckForComponent(typeof(Animation))]
-	[Tooltip("Game Object to play the animation on.")]
 	[RequiredField]
+	[Tooltip("Game Object to play the animation on.")]
 	public FsmOwnerDefault m_GameObject;
 
-	[RequiredField]
-	[UIHint(UIHint.Animation)]
 	[Tooltip("The name of the animation to play.")]
+	[UIHint(UIHint.Animation)]
+	[RequiredField]
 	public FsmString m_AnimName;
 
 	public FsmString m_PhoneAnimName;

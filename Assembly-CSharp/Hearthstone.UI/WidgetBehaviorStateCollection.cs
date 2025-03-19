@@ -207,6 +207,19 @@ public class WidgetBehaviorStateCollection : IWidgetStateCollection
 		return m_dataModelIDs;
 	}
 
+	public bool DoesAnyTriggerContainDataModelID(int dataModelId)
+	{
+		foreach (WidgetBehaviorState state in m_states)
+		{
+			HashSet<int> triggerIds = state.GetDataModelIDsFromTrigger();
+			if (triggerIds != null && triggerIds.Contains(dataModelId))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private WidgetBehaviorState FindStateByName(string stateName, bool logErrorIfNotFound)
 	{
 		if (m_states != null)

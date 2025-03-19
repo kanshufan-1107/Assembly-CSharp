@@ -538,6 +538,7 @@ public class Gameplay : PegasusScene
 		if (setup == null)
 		{
 			Debug.LogError("Game Setup packet was null. Previous Scene=" + SceneMgr.Get().GetPrevMode());
+			return;
 		}
 		LoadBoard(setup);
 		GameState.Get().OnGameSetup(setup);
@@ -1433,7 +1434,7 @@ public class Gameplay : PegasusScene
 		else
 		{
 			nameBanner.Initialize(side);
-			if (!string.IsNullOrEmpty(GameState.Get().GetGameEntity().GetAlternatePlayerName()) && nameBanner.GetPlayerSide() == Player.Side.FRIENDLY)
+			if (GameState.Get() != null && GameState.Get().GetGameEntity() != null && !string.IsNullOrEmpty(GameState.Get().GetGameEntity().GetAlternatePlayerName()) && nameBanner.GetPlayerSide() == Player.Side.FRIENDLY)
 			{
 				nameBanner.UseLongName();
 			}

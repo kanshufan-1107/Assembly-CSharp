@@ -12,15 +12,15 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[ExecuteAlways]
-[AddComponentMenu("")]
 [HelpURL("https://confluence.blizzard.com/x/URZVJg")]
+[AddComponentMenu("")]
+[ExecuteAlways]
 public class Spawnable : WidgetBehavior, INestedReferenceResolver, IAsyncInitializationBehavior, IPopupRendering, ILayerOverridable, IVisibleWidgetComponent, IWidgetEventListener
 {
 	private const string SpawnedItemName = "Spawnable Library Item: {0}";
 
-	[Tooltip("This script provides Spawnable with the ID or name of the spawnable item you wish to instantiate.")]
 	[SerializeField]
+	[Tooltip("This script provides Spawnable with the ID or name of the spawnable item you wish to instantiate.")]
 	private ScriptString m_valueScript;
 
 	[Tooltip("A reference the spawnable library asset that determines what objects this Spawnable can instantiate.")]
@@ -514,6 +514,10 @@ public class Spawnable : WidgetBehavior, INestedReferenceResolver, IAsyncInitial
 		{
 			m_isLoading = false;
 			HandleDoneChangingStates();
+			if (m_popupRoot != null)
+			{
+				PropagatePopupRendering(null);
+			}
 		}, null, callImmediatelyIfSet: true, doOnce: true);
 		m_widget = widget;
 		while (m_pendingEvents != null && m_pendingEvents.Count > 0)

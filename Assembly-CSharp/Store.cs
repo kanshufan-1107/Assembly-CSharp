@@ -827,7 +827,12 @@ public abstract class Store : UIBPopup, IStore
 		}
 	}
 
-	public IEnumerable<CurrencyType> GetVisibleCurrencies()
+	public virtual IEnumerable<CurrencyType> GetVisibleCurrencies()
+	{
+		return GetVisibleCurrenciesImpl();
+	}
+
+	protected HashSet<CurrencyType> GetVisibleCurrenciesImpl()
 	{
 		HashSet<CurrencyType> currencies = new HashSet<CurrencyType> { CurrencyType.GOLD };
 		if (ShopUtils.IsVirtualCurrencyEnabled() && ShopUtils.TryGetMainVirtualCurrencyType(out var vcType))

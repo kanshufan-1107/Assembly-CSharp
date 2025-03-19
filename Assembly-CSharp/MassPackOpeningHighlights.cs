@@ -80,9 +80,9 @@ public class MassPackOpeningHighlights : MonoBehaviour
 
 	private static readonly AssetReference HIGHLIGHT_CARDS_PHONE = new AssetReference("MassPackOpeningHighlights_Cards_Phone.prefab:671887496dde9854f93a5396998176bb");
 
-	[Header("Highlights Explosion PlayMaker Variable Names")]
 	[Tooltip("The PlayMaker script variable for the card back material")]
 	[SerializeField]
+	[Header("Highlights Explosion PlayMaker Variable Names")]
 	private string m_explosionCardBack;
 
 	private CameraOverridePass m_explosionCustomPass;

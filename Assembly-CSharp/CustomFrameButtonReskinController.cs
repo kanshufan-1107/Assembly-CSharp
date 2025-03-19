@@ -42,8 +42,8 @@ public class CustomFrameButtonReskinController : MonoBehaviour, ISerializationCa
 	[SerializeField]
 	private Vector3[] m_buttonPositions;
 
-	[HideInInspector]
 	[SerializeField]
+	[HideInInspector]
 	private Vector3 m_creditPosition;
 
 	private void Awake()

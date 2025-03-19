@@ -24,7 +24,7 @@ public class JobQueueTelemetry
 	private bool OnJobError(JobDefinition job, string reason)
 	{
 		float jobDuration = CalculateJobDuration(job, Time.realtimeSinceStartup);
-		TelemetryManager.Client().SendJobFinishFailure(job.Name, reason, m_testType, 4045224.ToString(), jobDuration);
+		TelemetryManager.Client().SendJobFinishFailure(job.Name, reason, m_testType, 4078598.ToString(), jobDuration);
 		m_jobDurations.Remove(job);
 		return false;
 	}

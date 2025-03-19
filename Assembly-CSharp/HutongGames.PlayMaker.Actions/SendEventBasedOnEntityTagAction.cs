@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Fires an event based on the tag value of a specified entity")]
+[ActionCategory("Pegasus")]
 public class SendEventBasedOnEntityTagAction : SpellAction
 {
 	public class ValueRangeEvent

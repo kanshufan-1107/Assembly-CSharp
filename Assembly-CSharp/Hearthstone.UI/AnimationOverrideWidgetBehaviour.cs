@@ -8,8 +8,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[ExecuteAlways]
 [AddComponentMenu("")]
+[ExecuteAlways]
 public class AnimationOverrideWidgetBehaviour : CustomWidgetBehavior
 {
 	[Tooltip("The Animator component that owns the Animator Controller that will be overridden")]

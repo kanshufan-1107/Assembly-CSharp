@@ -1140,9 +1140,25 @@ public class TooltipPanelManager : MonoBehaviour
 		{
 			SetupTooltipPanel(customKeywordData[0], customKeywordData[1]);
 		}
-		GetDesiredEntityBaseForEntity(entity, isHistoryTile: false, out var entityBaseForKeyword, out var _);
-		SetupSignatureInfoPanelIfNecessary(entityBaseForKeyword);
-		SetUpPanels(entityBaseForKeyword);
+		List<EntityBase> additionalEntityBasesForKeyword;
+		if (entity.GetTag(GAME_TAG.IS_NIGHTMARE_BONUS) == 1)
+		{
+			Entity minionToSummon = GameState.Get().GetEntity(entity.GetTag(GAME_TAG.TAG_SCRIPT_DATA_ENT_1));
+			if (minionToSummon != null)
+			{
+				GetDesiredEntityBaseForEntity(minionToSummon, isHistoryTile: false, out var minionBase, out additionalEntityBasesForKeyword);
+				GetDesiredEntityBaseForEntity(entity, isHistoryTile: false, out var enchantmentBase, out additionalEntityBasesForKeyword);
+				string descriptionOverride = minionToSummon.GetCardTextInHand();
+				SetupSignatureInfoPanelIfNecessary(minionBase, descriptionOverride);
+				SetUpPanels(minionBase, new List<EntityBase> { enchantmentBase }, descriptionOverride);
+			}
+		}
+		else
+		{
+			GetDesiredEntityBaseForEntity(entity, isHistoryTile: false, out var entityBaseForKeyword, out additionalEntityBasesForKeyword);
+			SetupSignatureInfoPanelIfNecessary(entityBaseForKeyword);
+			SetUpPanels(entityBaseForKeyword);
+		}
 		MeshRenderer renderer = actor.GetMeshRenderer();
 		GameObject rootObject = null;
 		if (renderer != null)
@@ -1362,7 +1378,7 @@ public class TooltipPanelManager : MonoBehaviour
 		}
 	}
 
-	private void SetupSignatureInfoPanelIfNecessary(EntityBase entityBase)
+	private void SetupSignatureInfoPanelIfNecessary(EntityBase entityBase, string descriptionOverride = null)
 	{
 		if (!(m_actor == null) && m_actor.GetPremium() == TAG_PREMIUM.SIGNATURE && !ActorNames.SignatureFrameHasPowersText(entityBase.GetCardId()))
 		{
@@ -1380,7 +1396,7 @@ public class TooltipPanelManager : MonoBehaviour
 			{
 				header = entityDef.GetName();
 			}
-			string description = m_actor.GetPowersText();
+			string description = ((descriptionOverride == null) ? m_actor.GetPowersText() : descriptionOverride);
 			SetupTooltipPanel(header, description, m_signaturePanel, delayAmount);
 		}
 	}
@@ -1466,7 +1482,7 @@ public class TooltipPanelManager : MonoBehaviour
 		return m_sortedKeywordOrderRecords;
 	}
 
-	private void SetUpPanels(EntityBase mainEntityBaseForKeyword, List<EntityBase> additionalEntityBasesForKeyword = null)
+	private void SetUpPanels(EntityBase mainEntityBaseForKeyword, List<EntityBase> additionalEntityBasesForKeyword = null, string signatureDescriptionOverride = null)
 	{
 		if (mainEntityBaseForKeyword == null)
 		{
@@ -1477,7 +1493,7 @@ public class TooltipPanelManager : MonoBehaviour
 		keywordPanelEntityInfo.MainEntityBase = mainEntityBaseForKeyword;
 		keywordPanelEntityInfo.AdditionalEntityBases = additionalEntityBasesForKeyword;
 		KeywordPanelEntityInfo entityInfo = keywordPanelEntityInfo;
-		SetupSignatureInfoPanelIfNecessary(mainEntityBaseForKeyword);
+		SetupSignatureInfoPanelIfNecessary(mainEntityBaseForKeyword, signatureDescriptionOverride);
 		ShowIncompatibleRunesPanelIfNecessary(mainEntityBaseForKeyword);
 		if (mainEntityBaseForKeyword.IsMultiClass() && !mainEntityBaseForKeyword.IsHeroPower() && (SceneMgr.Get().GetMode() == SceneMgr.Mode.COLLECTIONMANAGER || !mainEntityBaseForKeyword.HasFaction()))
 		{

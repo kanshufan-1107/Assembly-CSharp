@@ -114,8 +114,8 @@ public class MultiSliceElement : WidgetPositioningElement
 
 	public bool m_reverse;
 
-	[Tooltip("Replaced by UseTextSize on the slice entries. Disable if true and tick individual components")]
 	[FormerlySerializedAs("m_useUberText")]
+	[Tooltip("Replaced by UseTextSize on the slice entries. Disable if true and tick individual components")]
 	public bool m_legacy_UseUberText;
 
 	public bool m_weldable;

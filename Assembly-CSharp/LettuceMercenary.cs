@@ -140,10 +140,9 @@ public class LettuceMercenary
 
 	public static MercenaryArtVariationDbfRecord GetDefaultArtVariationRecord(int mercId)
 	{
-		LettuceMercenaryDbfRecord mercRecord = GameDbf.LettuceMercenary.GetRecord(mercId);
-		if (mercRecord != null)
+		if (GameDbf.LettuceMercenary.GetRecord(mercId) != null)
 		{
-			foreach (MercenaryArtVariationDbfRecord variation in mercRecord.MercenaryArtVariations)
+			foreach (MercenaryArtVariationDbfRecord variation in GameDbf.GetIndex().GetMercenaryArtVariationsByMercenaryID(mercId))
 			{
 				if (variation.DefaultVariation)
 				{
@@ -255,7 +254,7 @@ public class LettuceMercenary
 
 	public static List<MercenaryArtVariationDbfRecord> GetArtVariations(int mercId)
 	{
-		return GameDbf.LettuceMercenary.GetRecord(mercId).MercenaryArtVariations;
+		return GameDbf.GetIndex().GetMercenaryArtVariationsByMercenaryID(mercId);
 	}
 
 	public bool HasUnlockedGoldenOrBetter()
@@ -276,8 +275,7 @@ public class LettuceMercenary
 		{
 			return 0;
 		}
-		LettuceMercenaryDbfRecord mercenaryRecord = GameDbf.LettuceMercenary.GetRecord(ID);
-		if (mercenaryRecord == null)
+		if (GameDbf.LettuceMercenary.GetRecord(ID) == null)
 		{
 			Debug.LogWarning($"GetMythicLevel: Unable to load mercenary record {ID}");
 			return 0;
@@ -294,7 +292,7 @@ public class LettuceMercenary
 		NetCache.NetCacheMercenariesMythicTreasureInfo netcacheTreasureInfo = NetCache.Get().GetNetObject<NetCache.NetCacheMercenariesMythicTreasureInfo>();
 		if (netcacheTreasureInfo != null)
 		{
-			foreach (MercenaryAllowedTreasureDbfRecord allowedTreasureRecord in mercenaryRecord.MercenaryTreasure)
+			foreach (MercenaryAllowedTreasureDbfRecord allowedTreasureRecord in GameDbf.GetIndex().GetMercenaryTreasureByMercenaryID(ID))
 			{
 				if (netcacheTreasureInfo.MythicTreasureScalarMap.TryGetValue(allowedTreasureRecord.TreasureId, out var treasureScalar))
 				{
@@ -617,21 +615,17 @@ public class LettuceMercenary
 				}
 			}
 		}
-		if (m_isFullyUpgraded)
+		if (m_isFullyUpgraded && GameDbf.LettuceMercenary.GetRecord(ID) != null)
 		{
-			LettuceMercenaryDbfRecord mercenaryRecord = GameDbf.LettuceMercenary.GetRecord(ID);
-			if (mercenaryRecord != null)
+			foreach (MercenaryAllowedTreasureDbfRecord item in GameDbf.GetIndex().GetMercenaryTreasureByMercenaryID(ID))
 			{
-				foreach (MercenaryAllowedTreasureDbfRecord item in mercenaryRecord.MercenaryTreasure)
+				string cardId3 = GameUtils.TranslateDbIdToCardId((item?.TreasureRecord?.CardId).GetValueOrDefault());
+				if (!string.IsNullOrEmpty(cardId3))
 				{
-					string cardId3 = GameUtils.TranslateDbIdToCardId((item?.TreasureRecord?.CardId).GetValueOrDefault());
-					if (!string.IsNullOrEmpty(cardId3))
+					CollectibleCard collectibleCard = CollectionManager.Get().GetCard(cardId3, TAG_PREMIUM.NORMAL);
+					if (collectibleCard != null && collectibleCard.FindTextInCard(searchStr))
 					{
-						CollectibleCard collectibleCard = CollectionManager.Get().GetCard(cardId3, TAG_PREMIUM.NORMAL);
-						if (collectibleCard != null && collectibleCard.FindTextInCard(searchStr))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}

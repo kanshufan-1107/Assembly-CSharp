@@ -37,6 +37,8 @@ public class ChatMgr : MonoBehaviour
 
 	public Float_MobileOverride m_friendsListYOffset;
 
+	public Float_MobileOverride m_friendsListZOffset;
+
 	public Float_MobileOverride m_friendsListWidthPadding;
 
 	public Float_MobileOverride m_friendsListHeightPadding;
@@ -264,13 +266,13 @@ public class ChatMgr : MonoBehaviour
 				{
 					float x = layoutWorldLeft + friendListBounds.Extents[0].x + friendListBounds.CenterOffset.x + (float)m_friendsListXOffset;
 					float z = friendButtonBounds.GetTrueCenterPosition().z + friendButtonBounds.Extents[1].z + friendListBounds.Extents[1].z + friendListBounds.CenterOffset.z;
-					m_friendListFrame.SetWorldPosition(x, z);
+					m_friendListFrame.SetWorldPosition(x, m_friendsListYOffset, z);
 				}
 				else if (isTabletMode && keyboardState == KeyboardState.Below)
 				{
 					float x2 = layoutWorldLeft + friendListBounds.Extents[0].x + friendListBounds.CenterOffset.x + (float)m_friendsListXOffset;
 					float z2 = camera.transform.position.z - layoutWorldHeight / 2f + keyboardWorldHeight + friendListBounds.Extents[1].z + friendListBounds.CenterOffset.z;
-					m_friendListFrame.SetWorldPosition(x2, z2);
+					m_friendListFrame.SetWorldPosition(x2, m_friendsListYOffset, z2);
 				}
 				friendsListWidth = friendListBounds.Extents[0].magnitude * 2f;
 			}
@@ -329,10 +331,12 @@ public class ChatMgr : MonoBehaviour
 		if (m_friendListFrame != null)
 		{
 			float friendsListLeft = layoutWorldLeft + (float)m_friendsListXOffset;
-			float friendsListTop = layoutWorldTop + (float)m_friendsListYOffset;
+			float friendsListTop = layoutWorldTop + (float)m_friendsListZOffset;
 			float friendsListWidth = (float)m_friendsListWidth + (float)m_friendsListWidthPadding;
 			float friendsListHeight = layoutWorldHeight + (float)m_friendsListHeightPadding;
 			m_friendListFrame.SetWorldRect(friendsListLeft, friendsListTop, friendsListWidth, friendsListHeight);
+			Vector3 pos = m_friendListFrame.transform.position;
+			m_friendListFrame.SetWorldPosition(pos.x, m_friendsListYOffset, pos.z);
 		}
 		if (m_chatLogUI.IsShowing)
 		{
@@ -356,6 +360,7 @@ public class ChatMgr : MonoBehaviour
 					chatLogWidth -= (float)m_friendsListWidth;
 				}
 				frames.chatLogFrame.SetWorldRect(chatLogLeft, chatLogTop, chatLogWidth, chatLogHeight);
+				frames.SetHeightInScene(m_friendsListYOffset);
 			}
 		}
 		OnChatFramesMoved();

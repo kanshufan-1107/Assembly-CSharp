@@ -130,8 +130,8 @@ public class UIBScrollable : PegUICustomBehavior
 	[CustomEditField(Sections = "Bounds Settings")]
 	public BoxCollider m_ScrollBounds;
 
-	[CustomEditField(Sections = "Optional Bounds Settings")]
 	[Tooltip("Determines full area finger is allowed continue scrolling once it has started. Position this behind/below the ScrollBounds.")]
+	[CustomEditField(Sections = "Optional Bounds Settings")]
 	public BoxCollider m_TouchDragFullArea;
 
 	[CustomEditField(Sections = "Thumb Settings")]
@@ -156,24 +156,24 @@ public class UIBScrollable : PegUICustomBehavior
 	[CustomEditField(Sections = "Preferences")]
 	public bool m_UseScrollContentsInHitTest = true;
 
-	[Tooltip("Drag distance required to initiate deck tile dragging (inches)")]
 	[CustomEditField(Sections = "Touch Settings")]
+	[Tooltip("Drag distance required to initiate deck tile dragging (inches)")]
 	public float m_DeckTileDragThreshold = 0.04f;
 
 	[CustomEditField(Sections = "Touch Settings")]
 	[Tooltip("Drag distance required to initiate scroll dragging (inches)")]
 	public float m_ScrollDragThreshold = 0.04f;
 
-	[CustomEditField(Sections = "Touch Settings")]
 	[Tooltip("Stopping speed for scrolling after the user has let go")]
+	[CustomEditField(Sections = "Touch Settings")]
 	public float m_MinKineticScrollSpeed = 0.01f;
 
 	[Tooltip("Resistance for slowing down scrolling after the user has let go")]
 	[CustomEditField(Sections = "Touch Settings")]
 	public float m_KineticScrollFriction = 6f;
 
-	[Tooltip("Strength of the boundary springs")]
 	[CustomEditField(Sections = "Touch Settings")]
+	[Tooltip("Strength of the boundary springs")]
 	public float m_ScrollBoundsSpringK = 700f;
 
 	[CustomEditField(Sections = "Touch Settings")]

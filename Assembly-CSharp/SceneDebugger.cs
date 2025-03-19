@@ -187,9 +187,9 @@ public class SceneDebugger : IService, IHasUpdate
 
 	private readonly Vector2 m_GUISize;
 
-	private float m_UpdateInterval;
+	private float m_updateInterval;
 
-	private double m_LastInterval;
+	private double m_lastInterval;
 
 	private int m_frames;
 
@@ -401,12 +401,12 @@ public class SceneDebugger : IService, IHasUpdate
 	{
 		m_frames++;
 		float currentTime = Time.realtimeSinceStartup;
-		if ((double)currentTime > m_LastInterval + (double)m_UpdateInterval)
+		if ((double)currentTime > m_lastInterval + (double)m_updateInterval)
 		{
-			float fps = (float)m_frames / (float)((double)currentTime - m_LastInterval);
+			float fps = (float)m_frames / (float)((double)currentTime - m_lastInterval);
 			m_fpsText = $"{SystemInfo.graphicsDeviceType}  FPS: {fps:f2}\nFrame Time:{1000f / fps:f2}ms\nScreen: {Screen.width} x {Screen.height}\n";
 			m_frames = 0;
-			m_LastInterval = Time.realtimeSinceStartup;
+			m_lastInterval = Time.realtimeSinceStartup;
 		}
 		if (m_testMessaging)
 		{
@@ -723,7 +723,7 @@ public class SceneDebugger : IService, IHasUpdate
 		float height = 3f * lineHeight + boxPadding;
 		GUI.Box(new Rect(space.xMin, space.yMin, m_GUISize.x, height), m_fpsText);
 		space.yMin += height;
-		string statStr = string.Format("Build: {0}.{1}\nServer: {2}", "31.6", 216423, Network.GetVersion());
+		string statStr = string.Format("Build: {0}.{1}\nServer: {2}", "32.0", 217964, Network.GetVersion());
 		height = 2f * lineHeight + boxPadding;
 		IGameDownloadManager downloadMgr = GameDownloadManagerProvider.Get();
 		if ((PlatformSettings.IsMobileRuntimeOS || (Application.isEditor && PlatformSettings.IsEmulating)) && downloadMgr != null)

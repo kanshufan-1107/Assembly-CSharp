@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Get the Reward card actor's GameObjects for each Card in current friendly player choice in left-to-right order.")]
+[ActionCategory("Pegasus")]
 public class GetChoiceCardRewardActorsAction : FsmStateAction
 {
 	[ArrayEditor(VariableType.GameObject, "", 0, 0, 65536)]

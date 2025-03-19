@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Used to control the state of the Pegasus Highlight system")]
+[ActionCategory("Pegasus")]
 public class HighlightStateAction : FsmStateAction
 {
 	[RequiredField]

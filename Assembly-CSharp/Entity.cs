@@ -393,7 +393,6 @@ public class Entity : EntityBase
 			SetRealTimeAttack(change.Value);
 			break;
 		case GAME_TAG.HEALTH:
-		case GAME_TAG.DURABILITY:
 			SetRealTimeHealth(change.Value);
 			break;
 		case GAME_TAG.DAMAGE:
@@ -455,7 +454,7 @@ public class Entity : EntityBase
 		case GAME_TAG.CARD_ALTERNATE_COST:
 		{
 			TAG_CARD_ALTERNATE_COST cost = (TAG_CARD_ALTERNATE_COST)change.Value;
-			SetRealTimeCardCostsHealth(cost == TAG_CARD_ALTERNATE_COST.HEALTH);
+			SetRealTimeCardCostsHealth(cost == TAG_CARD_ALTERNATE_COST.HEALTH || cost == TAG_CARD_ALTERNATE_COST.OPPONENTS_HEALTH);
 			SetRealTimeCardCostsArmor(cost == TAG_CARD_ALTERNATE_COST.ARMOR);
 			SetRealTimeCardCostsCorpses(cost == TAG_CARD_ALTERNATE_COST.CORPSES);
 			break;
@@ -1038,13 +1037,39 @@ public class Entity : EntityBase
 		case GAME_TAG.TITAN_ABILITY_USED_2:
 		case GAME_TAG.TITAN_ABILITY_USED_3:
 		{
+			Card card3 = GetCard();
+			if (card3 != null)
+			{
+				Actor actor3 = card3.GetActor();
+				if (actor3 != null)
+				{
+					actor3.UpdateTitanPips((GAME_TAG)change.tag, change.newValue);
+				}
+			}
+			break;
+		}
+		case GAME_TAG.DIVINE_SHIELD:
+		{
+			Card card2 = GetCard();
+			if (card2 != null)
+			{
+				Actor actor2 = card2.GetActor();
+				if (actor2 != null)
+				{
+					actor2.UpdateDivineShield((GAME_TAG)change.tag, change.oldValue, change.newValue);
+				}
+			}
+			break;
+		}
+		case GAME_TAG.DIVINE_SHIELD_DAMAGE:
+		{
 			Card card = GetCard();
 			if (card != null)
 			{
 				Actor actor = card.GetActor();
 				if (actor != null)
 				{
-					actor.UpdateTitanPips((GAME_TAG)change.tag, change.newValue);
+					actor.UpdateDivineShield((GAME_TAG)change.tag, change.oldValue, change.newValue);
 				}
 			}
 			break;
@@ -1367,11 +1392,6 @@ public class Entity : EntityBase
 		return GetEntityDef().GetHealth();
 	}
 
-	public int GetDefDurability()
-	{
-		return GetEntityDef().GetDurability();
-	}
-
 	public bool HasRace(TAG_RACE race)
 	{
 		if ((HasTag(GAME_TAG.CARDRACE) ? GetTag<TAG_RACE>(GAME_TAG.CARDRACE) : GetEntityDef().GetTag<TAG_RACE>(GAME_TAG.CARDRACE)) == TAG_RACE.ALL && race != 0)
@@ -1535,11 +1555,6 @@ public class Entity : EntityBase
 		return GetTag(GAME_TAG.HEALTH) - GetTag(GAME_TAG.DAMAGE) - GetTag(GAME_TAG.PREDAMAGE);
 	}
 
-	public int GetCurrentDurability()
-	{
-		return GetTag(GAME_TAG.DURABILITY) - GetTag(GAME_TAG.DAMAGE) - GetTag(GAME_TAG.PREDAMAGE);
-	}
-
 	public int GetCurrentDefense()
 	{
 		return GetCurrentHealth() + GetArmor();
@@ -1547,15 +1562,11 @@ public class Entity : EntityBase
 
 	public int GetCurrentVitality()
 	{
-		if (IsCharacter())
+		if (IsCharacter() || IsWeapon() || IsLocation())
 		{
 			return GetCurrentDefense();
 		}
-		if (IsWeapon())
-		{
-			return GetCurrentDurability();
-		}
-		Error.AddDevFatal("Entity.GetCurrentVitality() should not be called on {0}. This entity is neither a character nor a weapon.", this);
+		Error.AddDevFatal("Entity.GetCurrentVitality() should not be called on {0}. This entity is neither a character nor a weapon nor a location.", this);
 		return 0;
 	}
 
@@ -1677,15 +1688,6 @@ public class Entity : EntityBase
 			return GetCard();
 		}
 		return GetController()?.GetHeroBuddyCard();
-	}
-
-	public virtual Card GetBaconClickableButtonCard()
-	{
-		if (IsBattlegroundClickableButton())
-		{
-			return GetCard();
-		}
-		return GetController()?.GetBaconClickableButtonCard();
 	}
 
 	public virtual Card GetQuestRewardFromHeroPowerCard()
@@ -2333,7 +2335,6 @@ public class Entity : EntityBase
 				SetRealTimeAttack(tag.Value);
 				break;
 			case GAME_TAG.HEALTH:
-			case GAME_TAG.DURABILITY:
 				SetRealTimeHealth(tag.Value);
 				break;
 			case GAME_TAG.DAMAGE:
@@ -2379,7 +2380,7 @@ public class Entity : EntityBase
 			case GAME_TAG.CARD_ALTERNATE_COST:
 			{
 				TAG_CARD_ALTERNATE_COST cost = (TAG_CARD_ALTERNATE_COST)tag.Value;
-				SetRealTimeCardCostsHealth(cost == TAG_CARD_ALTERNATE_COST.HEALTH);
+				SetRealTimeCardCostsHealth(cost == TAG_CARD_ALTERNATE_COST.HEALTH || cost == TAG_CARD_ALTERNATE_COST.OPPONENTS_HEALTH);
 				SetRealTimeCardCostsArmor(cost == TAG_CARD_ALTERNATE_COST.ARMOR);
 				SetRealTimeCardCostsCorpses(cost == TAG_CARD_ALTERNATE_COST.CORPSES);
 				break;
@@ -2974,7 +2975,8 @@ public class Entity : EntityBase
 
 	public bool IsTauntIgnored()
 	{
-		if (GameState.Get().GetFirstOpponentPlayer(GetController()).HasTag(GAME_TAG.IGNORE_TAUNT))
+		Player opponentPlayer = GameState.Get().GetFirstOpponentPlayer(GetController());
+		if (opponentPlayer != null && opponentPlayer.HasTag(GAME_TAG.IGNORE_TAUNT))
 		{
 			return true;
 		}

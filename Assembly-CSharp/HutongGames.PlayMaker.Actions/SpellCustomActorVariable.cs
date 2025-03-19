@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Initialize a spell state, setting a variable that references one of the Actor's game objects by name.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Initialize a spell state, setting a variable that references one of the Actor's game objects by name.")]
 public class SpellCustomActorVariable : FsmStateAction
 {
 	public FsmString m_objectName;

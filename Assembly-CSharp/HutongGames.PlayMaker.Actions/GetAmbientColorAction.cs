@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Get scene ambient color")]
+[ActionCategory("Pegasus")]
 public class GetAmbientColorAction : FsmStateAction
 {
 	public FsmColor m_Color;

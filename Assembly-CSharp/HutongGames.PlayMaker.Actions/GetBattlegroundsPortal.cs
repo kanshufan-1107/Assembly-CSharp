@@ -4,9 +4,9 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Get the game object of the Battlegrounds Portal")]
 public class GetBattlegroundsPortal : FsmStateAction
 {
-	[RequiredField]
 	[UIHint(UIHint.Variable)]
 	[Tooltip("Output variable.")]
+	[RequiredField]
 	public FsmGameObject m_Portal;
 
 	public override void Reset()

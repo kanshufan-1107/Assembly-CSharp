@@ -738,7 +738,7 @@ public class GameDownloadManager : IService, IGameDownloadManager, IHasUpdate
 			}
 			break;
 		case DownloadType.INITIAL_DOWNLOAD:
-			if (!IsCompletedInitialBaseDownload())
+			if (!IsCompletedInitialBaseDownload() || !IsCompletedInitialModulesDownload())
 			{
 				break;
 			}
@@ -845,7 +845,17 @@ public class GameDownloadManager : IService, IGameDownloadManager, IHasUpdate
 			}
 		}
 		HearthstoneApplication.SendStartupTimeTelemetry("GameDownloadManager.StartInitialBaseDownload");
-		StartContentDownload(InitialContentTags);
+		List<string> contentTags = InitialContentTags.ToList();
+		string[] requestedModules = RequestedModules;
+		foreach (string moduleTagString in requestedModules)
+		{
+			if (m_assetDownloader.IsVersionChanged || GetModuleState(moduleTagString) == ModuleState.FullyInstalled)
+			{
+				contentTags.Add(moduleTagString);
+				SetModuleState(moduleTagString, ModuleState.Downloading);
+			}
+		}
+		StartContentDownload(contentTags.ToArray());
 		ProcessPostDownloadStart();
 	}
 
@@ -1436,6 +1446,11 @@ public class GameDownloadManager : IService, IGameDownloadManager, IHasUpdate
 		m_moduleInstallationStateChangeListeners = (IGameDownloadManager.ModuleInstallationStateChangeListener)Delegate.Remove(m_moduleInstallationStateChangeListeners, listener);
 	}
 
+	public ModuleState GetModuleState(string moduleTagStr)
+	{
+		return GetModuleState(DownloadTags.GetContentTag(moduleTagStr));
+	}
+
 	public ModuleState GetModuleState(DownloadTags.Content moduleTag)
 	{
 		if (!DownloadableModuleTags.Contains(moduleTag))
@@ -1451,6 +1466,11 @@ public class GameDownloadManager : IService, IGameDownloadManager, IHasUpdate
 			return ModuleState.Unknown;
 		}
 		return state;
+	}
+
+	public void SetModuleState(string moduleTagStr, ModuleState state, bool forceNotify = false)
+	{
+		SetModuleState(DownloadTags.GetContentTag(moduleTagStr), state, forceNotify);
 	}
 
 	private void SetModuleState(DownloadTags.Content moduleTag, ModuleState state, bool forceNotify = false)

@@ -197,12 +197,13 @@ public class ConnectAPI
 		SendUtilPacket(273, UtilSystemId.BATTLEPAY, new DoPurchase());
 	}
 
-	public void CreateDeck(DeckType deckType, string name, int heroId, FormatType formatType, long sortOrder, DeckSourceType sourceType, string pastedDeckHash, int brawlLibraryItemId, int? requestId)
+	public void CreateDeck(DeckType deckType, string name, int heroId, bool isHeroOverridden, FormatType formatType, long sortOrder, DeckSourceType sourceType, int? cardBackId, int? cosmeticCoinId, string pastedDeckHash, int brawlLibraryItemId, int? requestId)
 	{
 		CreateDeck packet = new CreateDeck
 		{
 			Name = name,
 			Hero = heroId,
+			HeroOverridden = isHeroOverridden,
 			DeckType = deckType,
 			TaggedStandard = (formatType == FormatType.FT_STANDARD),
 			SortOrder = sortOrder,
@@ -214,6 +215,14 @@ public class ConnectAPI
 		if (requestId.HasValue)
 		{
 			packet.RequestId = requestId.Value;
+		}
+		if (cardBackId.HasValue)
+		{
+			packet.CardBack = cardBackId.Value;
+		}
+		if (cosmeticCoinId.HasValue)
+		{
+			packet.CosmeticCoin = cosmeticCoinId.Value;
 		}
 		SendUtilPacket(209, UtilSystemId.CLIENT, packet);
 	}

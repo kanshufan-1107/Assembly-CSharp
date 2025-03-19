@@ -45,7 +45,9 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 
 	private string m_DisableRealMoneyPurchaseMessage;
 
-	private DataModelProperty[] m_properties = new DataModelProperty[19]
+	private PriceDataModel m_TavernTicketCurrencyBalance;
+
+	private DataModelProperty[] m_properties = new DataModelProperty[20]
 	{
 		new DataModelProperty
 		{
@@ -160,6 +162,12 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 			PropertyId = 911,
 			PropertyDisplayName = "disable_real_money_purchase_message",
 			Type = typeof(string)
+		},
+		new DataModelProperty
+		{
+			PropertyId = 1143,
+			PropertyDisplayName = "tavern_ticket_currency_balance",
+			Type = typeof(PriceDataModel)
 		}
 	};
 
@@ -514,6 +522,25 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 		}
 	}
 
+	public PriceDataModel TavernTicketCurrencyBalance
+	{
+		get
+		{
+			return m_TavernTicketCurrencyBalance;
+		}
+		set
+		{
+			if (m_TavernTicketCurrencyBalance != value)
+			{
+				RemoveNestedDataModel(m_TavernTicketCurrencyBalance);
+				RegisterNestedDataModel(value);
+				m_TavernTicketCurrencyBalance = value;
+				DispatchChangedListeners();
+				DataContext.DataVersion++;
+			}
+		}
+	}
+
 	public DataModelProperty[] Properties => m_properties;
 
 	public ShopDataModel()
@@ -530,6 +557,7 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 		RegisterNestedDataModel(m_TabsWithUndisplayedProducts);
 		RegisterNestedDataModel(m_RenownBalance);
 		RegisterNestedDataModel(m_BattlegroundsTokenBalance);
+		RegisterNestedDataModel(m_TavernTicketCurrencyBalance);
 	}
 
 	public int GetPropertiesHashCode(HashSet<int> inspectedDataModels = null)
@@ -665,7 +693,13 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 		int num6 = hash * 31;
 		_ = m_AllowRealMoneyPurchases;
 		hash = num6 + m_AllowRealMoneyPurchases.GetHashCode();
-		return hash * 31 + ((m_DisableRealMoneyPurchaseMessage != null) ? m_DisableRealMoneyPurchaseMessage.GetHashCode() : 0);
+		hash = hash * 31 + ((m_DisableRealMoneyPurchaseMessage != null) ? m_DisableRealMoneyPurchaseMessage.GetHashCode() : 0);
+		if (m_TavernTicketCurrencyBalance != null && !inspectedDataModels.Contains(m_TavernTicketCurrencyBalance.GetHashCode()))
+		{
+			inspectedDataModels.Add(m_TavernTicketCurrencyBalance.GetHashCode());
+			return hash * 31 + m_TavernTicketCurrencyBalance.GetPropertiesHashCode(inspectedDataModels);
+		}
+		return hash * 31;
 	}
 
 	public bool GetPropertyValue(int id, out object value)
@@ -728,6 +762,9 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 			return true;
 		case 911:
 			value = m_DisableRealMoneyPurchaseMessage;
+			return true;
+		case 1143:
+			value = m_TavernTicketCurrencyBalance;
 			return true;
 		default:
 			value = null;
@@ -796,6 +833,9 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 		case 911:
 			DisableRealMoneyPurchaseMessage = ((value != null) ? ((string)value) : null);
 			return true;
+		case 1143:
+			TavernTicketCurrencyBalance = ((value != null) ? ((PriceDataModel)value) : null);
+			return true;
 		default:
 			return false;
 		}
@@ -861,6 +901,9 @@ public class ShopDataModel : DataModelEventDispatcher, IDataModel, IDataModelPro
 			return true;
 		case 911:
 			info = Properties[18];
+			return true;
+		case 1143:
+			info = Properties[19];
 			return true;
 		default:
 			info = default(DataModelProperty);

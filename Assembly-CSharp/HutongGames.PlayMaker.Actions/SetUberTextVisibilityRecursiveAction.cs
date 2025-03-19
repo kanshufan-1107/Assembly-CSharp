@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Sets the visibility on UberText objects and its UberText children.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Sets the visibility on UberText objects and its UberText children.")]
 public class SetUberTextVisibilityRecursiveAction : FsmStateAction
 {
 	[RequiredField]

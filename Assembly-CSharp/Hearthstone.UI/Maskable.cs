@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[ExecuteAlways]
-[AddComponentMenu("")]
 [DisallowMultipleComponent]
+[AddComponentMenu("")]
+[ExecuteAlways]
 public class Maskable : WidgetBehavior, IPopupRendering, IBoundsDependent, IVisibleWidgetComponent
 {
 	private bool m_initialized;

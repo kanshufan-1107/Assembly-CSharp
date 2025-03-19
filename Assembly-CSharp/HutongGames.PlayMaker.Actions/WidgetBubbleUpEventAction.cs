@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Send an event up the UI hierarchy")]
 [ActionCategory("Pegasus")]
+[Tooltip("Send an event up the UI hierarchy")]
 public class WidgetBubbleUpEventAction : FsmStateAction
 {
-	[RequiredField]
 	[Tooltip("Name of the event we're sending up.")]
+	[RequiredField]
 	public FsmString eventName;
 
 	public override void Reset()

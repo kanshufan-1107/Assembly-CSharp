@@ -73,6 +73,18 @@ public class Shop : MonoBehaviour, IStore
 
 	public ProductPageController ProductPageController => m_productPageController;
 
+	public bool ProductPageTempInstancesInitialized
+	{
+		get
+		{
+			if (m_productPageController != null)
+			{
+				return m_productPageController.TempIntancesInitialized();
+			}
+			return false;
+		}
+	}
+
 	public bool IsBrowserReady
 	{
 		get
@@ -144,39 +156,40 @@ public class Shop : MonoBehaviour, IStore
 
 	public void Open()
 	{
-		if (!m_isOpen)
+		if (m_isOpen)
 		{
-			m_isOpen = true;
-			ShownUIMgr.Get().SetShownUI(ShownUIMgr.UI_WINDOW.GENERAL_STORE);
-			Navigation.Push(OnNavigateBack);
-			PresenceMgr.Get().SetStatus(Global.PresenceStatus.STORE);
-			if (ServiceManager.TryGet<IGamemodeAvailabilityService>(out var gas))
-			{
-				gas.GetGamemodeStatus(IGamemodeAvailabilityService.Gamemode.NONE);
-			}
-			ServiceManager.Get<IProductDataService>()?.TryRefreshStaleProductAvailability();
-			RefreshDataModel();
-			base.gameObject.SetActive(value: true);
-			m_browser.gameObject.SetActive(!DontFullyOpenShop);
-			EnsureShopMovedToOverlayUI();
-			if (!DontFullyOpenShop)
-			{
-				m_isAnimatingOpenOrClose = true;
-				UIContext.GetRoot().ShowPopup(m_widget.gameObject, UIContext.BlurType.Layered, UIContext.ProjectionType.Perspective);
-				SetMasking(maskingEnabled: true);
-				m_shopStateController.SetState("OPEN");
-				UpdateScrollerEnabled();
-				m_shopTabController.RegisterTabChangedListener(OnTabChanged);
-				m_shopTabController.ResetTabKnowledge();
-				m_shopTabController.SelectTab(0, 0, instant: true);
-			}
-			m_productPageController.HandleShopOpen();
+			return;
+		}
+		m_isOpen = true;
+		ShownUIMgr.Get().SetShownUI(ShownUIMgr.UI_WINDOW.GENERAL_STORE);
+		Navigation.Push(OnNavigateBack);
+		PresenceMgr.Get().SetStatus(Global.PresenceStatus.STORE);
+		if (ServiceManager.TryGet<IGamemodeAvailabilityService>(out var gas))
+		{
+			gas.GetGamemodeStatus(IGamemodeAvailabilityService.Gamemode.NONE);
+		}
+		ServiceManager.Get<IProductDataService>()?.TryRefreshStaleProductAvailability();
+		RefreshDataModel();
+		base.gameObject.SetActive(value: true);
+		m_browser.gameObject.SetActive(!DontFullyOpenShop);
+		EnsureShopMovedToOverlayUI();
+		if (!DontFullyOpenShop)
+		{
+			m_isAnimatingOpenOrClose = true;
+			UIContext.GetRoot().ShowPopup(m_widget.gameObject, UIContext.BlurType.Layered, UIContext.ProjectionType.Perspective);
+			SetMasking(maskingEnabled: true);
+			m_shopStateController.SetState("OPEN");
+			UpdateScrollerEnabled();
+			m_shopTabController.RegisterTabChangedListener(OnTabChanged);
+			m_shopTabController.ResetTabKnowledge();
+			m_shopTabController.SelectTab(0, 0, instant: true);
 			if (ServiceManager.TryGet<IProductDataService>(out var dataService))
 			{
 				dataService.CacheAllProductsInShop();
 			}
-			this.OnOpened?.Invoke();
 		}
+		m_productPageController.HandleShopOpen();
+		this.OnOpened?.Invoke();
 	}
 
 	public void Close()
@@ -246,9 +259,20 @@ public class Shop : MonoBehaviour, IStore
 	IEnumerable<CurrencyType> IStore.GetVisibleCurrencies()
 	{
 		HashSet<CurrencyType> currencies = new HashSet<CurrencyType> { CurrencyType.GOLD };
-		if (TryGetCurrentTabs(out var tab, out var _) && tab.Id == "battlegrounds")
+		if (IsTavernTicketProductPageOpen())
 		{
-			currencies.Add(CurrencyType.BG_TOKEN);
+			currencies.Add(CurrencyType.TAVERN_TICKET);
+		}
+		if (TryGetCurrentTabs(out var tab, out var subTab))
+		{
+			if (tab.Id == "battlegrounds")
+			{
+				currencies.Add(CurrencyType.BG_TOKEN);
+			}
+			if (tab.Id == "other" && subTab.Id == "tickets")
+			{
+				currencies.Add(CurrencyType.TAVERN_TICKET);
+			}
 		}
 		if (ShopUtils.IsVirtualCurrencyEnabled())
 		{
@@ -293,7 +317,8 @@ public class Shop : MonoBehaviour, IStore
 			GoldBalance = currencyManager.GetPriceDataModel(CurrencyType.GOLD),
 			DustBalance = currencyManager.GetPriceDataModel(CurrencyType.DUST),
 			RenownBalance = currencyManager.GetPriceDataModel(CurrencyType.RENOWN),
-			BattlegroundsTokenBalance = currencyManager.GetPriceDataModel(CurrencyType.BG_TOKEN)
+			BattlegroundsTokenBalance = currencyManager.GetPriceDataModel(CurrencyType.BG_TOKEN),
+			TavernTicketCurrencyBalance = currencyManager.GetPriceDataModel(CurrencyType.TAVERN_TICKET)
 		};
 		Network.Get().OnConnectedToBattleNet += OnBattleNetConnectionStateChanged;
 		OnBattleNetConnectionStateChanged(BattleNetErrors.ERROR_OK);
@@ -454,6 +479,50 @@ public class Shop : MonoBehaviour, IStore
 			m_productPageController.OpenVirtualCurrencyPurchase(0f, rememberLastPage: true);
 			break;
 		}
+	}
+
+	public bool IsTavernTicketProduct(ProductInfo bundle)
+	{
+		if (bundle == null)
+		{
+			return false;
+		}
+		if (!ServiceManager.TryGet<IProductDataService>(out var dataService))
+		{
+			return false;
+		}
+		if (!bundle.Id.IsValid())
+		{
+			return false;
+		}
+		ProductDataModel productDataModel = dataService.GetProductDataModel(bundle.Id.Value);
+		if (productDataModel != null && productDataModel.Tags.Contains("arena_ticket"))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public bool IsTavernTicketProductPageOpen()
+	{
+		if (m_productPageController == null)
+		{
+			return false;
+		}
+		if (IsTavernTicketProductPage(m_productPageController.CurrentProductPage) && m_productPageController.CurrentProductPage.IsOpen)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private bool IsTavernTicketProductPage(ProductPage page)
+	{
+		if (page != null && page.Product != null)
+		{
+			return page.Product.Tags.Contains("arena_ticket");
+		}
+		return false;
 	}
 
 	private void RefreshContent()

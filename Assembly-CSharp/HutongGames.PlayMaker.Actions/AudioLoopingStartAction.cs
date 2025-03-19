@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Plays the Audio Clip on a Game Object and sets it to loop.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioLoopingStartAction : FsmStateAction
 {
 	[RequiredField]

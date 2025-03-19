@@ -171,22 +171,16 @@ public class PlatformSettings
 			s_screenDensity = ScreenDensityCategory.High;
 			s_os = OSCategory.PC;
 			int memory = SystemInfo.systemMemorySize;
-			if (memory < 500)
+			VarKey memEmulationKey = Vars.Key("Emulation.MemoryMB");
+			if (memEmulationKey.HasValue)
 			{
-				Debug.LogWarning("Low Memory Warning: Device has only " + memory + "MBs of system memory");
-				s_memory = MemoryCategory.Low;
+				memory = memEmulationKey.GetInt(memory);
 			}
-			else if (memory < 1000)
+			MemoryCategory memoryCategory = ((memory >= 3500) ? ((memory < 4500) ? MemoryCategory.Medium : (s_memory = MemoryCategory.High)) : MemoryCategory.Low);
+			s_memory = memoryCategory;
+			if (memory < 3072)
 			{
-				s_memory = MemoryCategory.Low;
-			}
-			else if (memory < 1500)
-			{
-				s_memory = MemoryCategory.Medium;
-			}
-			else
-			{
-				s_memory = MemoryCategory.High;
+				Debug.LogWarning($"Low Memory Warning: Device has only {memory} MBs of system memory and is below min spec");
 			}
 		}
 	}

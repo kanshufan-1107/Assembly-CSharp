@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Send an event based on if the game is over or not.")]
+[ActionCategory("Pegasus")]
 public class GameOverEventAction : FsmStateAction
 {
 	public FsmEvent m_GameOverEvent;

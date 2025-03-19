@@ -7,8 +7,8 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Hides a widget on a game object.")]
 public class WidgetHideAction : FsmStateAction
 {
-	[Tooltip("Game object containing the widget to hide.")]
 	[RequiredField]
+	[Tooltip("Game object containing the widget to hide.")]
 	public FsmGameObject widgetObject;
 
 	public override void Reset()

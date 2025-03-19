@@ -60,6 +60,20 @@ public class GameDbfIndex
 
 	private Map<int, int> m_MercenariesTaskIndex;
 
+	private Map<int, List<LettuceAbilityTierDbfRecord>> m_LettuceAbilitiyTiersByAbilityID;
+
+	private Map<int, List<LettuceEquipmentTierDbfRecord>> m_LettuceEquipmentTiersByEquipmentID;
+
+	private Map<int, List<MercenaryArtVariationDbfRecord>> m_MercenaryArtVariationsByMercenaryID;
+
+	private Map<int, List<LettuceMercenarySpecializationDbfRecord>> m_MercenarySpecializationsByMercenaryID;
+
+	private Map<int, List<LettuceMercenaryAbilityDbfRecord>> m_MercenaryAbilitiesBySpecializationID;
+
+	private Map<int, List<LettuceMercenaryEquipmentDbfRecord>> m_MercenaryEquipmentByMercenaryID;
+
+	private Map<int, List<MercenaryAllowedTreasureDbfRecord>> m_MercenaryTreasureByMercenaryID;
+
 	private int m_maxMercenaryLevel;
 
 	public GameDbfIndex()
@@ -95,6 +109,13 @@ public class GameDbfIndex
 		m_UnlockByArtVariationIdAndPremium = new Map<int, Map<TAG_PREMIUM, MercenaryUnlock>>();
 		m_MercenariesTaskIndex = new Map<int, int>();
 		m_mercenaryValidTreasureIndex = new Map<int, List<LettuceTreasureDbfRecord>>();
+		m_LettuceAbilitiyTiersByAbilityID = new Map<int, List<LettuceAbilityTierDbfRecord>>();
+		m_LettuceEquipmentTiersByEquipmentID = new Map<int, List<LettuceEquipmentTierDbfRecord>>();
+		m_MercenaryArtVariationsByMercenaryID = new Map<int, List<MercenaryArtVariationDbfRecord>>();
+		m_MercenarySpecializationsByMercenaryID = new Map<int, List<LettuceMercenarySpecializationDbfRecord>>();
+		m_MercenaryAbilitiesBySpecializationID = new Map<int, List<LettuceMercenaryAbilityDbfRecord>>();
+		m_MercenaryEquipmentByMercenaryID = new Map<int, List<LettuceMercenaryEquipmentDbfRecord>>();
+		m_MercenaryTreasureByMercenaryID = new Map<int, List<MercenaryAllowedTreasureDbfRecord>>();
 		m_maxMercenaryLevel = 0;
 	}
 
@@ -937,9 +958,49 @@ public class GameDbfIndex
 		return GameDbf.CardPlayerDeckOverride.GetRecord(cardPlayerDeckOverrideId);
 	}
 
+	public void PostProcessDbfLoad_LettuceAbilityTier()
+	{
+		m_LettuceAbilitiyTiersByAbilityID.Clear();
+		foreach (LettuceAbilityTierDbfRecord record in GameDbf.LettuceAbilityTier.GetRecords())
+		{
+			OnLettuceAbilityTierAdded(record);
+		}
+	}
+
+	public void OnLettuceAbilityTierAdded(LettuceAbilityTierDbfRecord tier)
+	{
+		int abilityId = tier.LettuceAbilityId;
+		if (!m_LettuceAbilitiyTiersByAbilityID.TryGetValue(abilityId, out var records))
+		{
+			records = new List<LettuceAbilityTierDbfRecord>();
+			m_LettuceAbilitiyTiersByAbilityID.Add(abilityId, records);
+		}
+		records.Add(tier);
+	}
+
+	public void OnLettuceAbilityTierRemoved(List<LettuceAbilityTierDbfRecord> removedRecords)
+	{
+		foreach (LettuceAbilityTierDbfRecord tier in removedRecords)
+		{
+			m_LettuceAbilitiyTiersByAbilityID[tier.LettuceAbilityId].Remove(tier);
+		}
+	}
+
+	public List<LettuceAbilityTierDbfRecord> GetAbilityTiersByAbilityId(int abilityId)
+	{
+		List<LettuceAbilityTierDbfRecord> result = null;
+		if (!m_LettuceAbilitiyTiersByAbilityID.TryGetValue(abilityId, out result))
+		{
+			result = new List<LettuceAbilityTierDbfRecord>();
+			m_LettuceAbilitiyTiersByAbilityID[abilityId] = result;
+		}
+		return result;
+	}
+
 	public void PostProcessDbfLoad_LettuceEquipmentTier()
 	{
 		m_equipmentTierByCardId.Clear();
+		m_LettuceEquipmentTiersByEquipmentID.Clear();
 		foreach (LettuceEquipmentTierDbfRecord record in GameDbf.LettuceEquipmentTier.GetRecords())
 		{
 			OnLettuceEquipmentTierAdded(record);
@@ -949,28 +1010,33 @@ public class GameDbfIndex
 	public void OnLettuceEquipmentTierAdded(LettuceEquipmentTierDbfRecord tier)
 	{
 		m_equipmentTierByCardId[tier.CardId] = tier;
+		int equipmentId = tier.LettuceEquipmentId;
 		List<BonusBountyDropChanceDbfRecord> bonusBounty = tier.BonusBountyDropChances;
-		if (bonusBounty == null)
+		if (bonusBounty != null)
 		{
-			return;
-		}
-		int i = 0;
-		for (int iMax = bonusBounty.Count; i < iMax; i++)
-		{
-			BonusBountyDropChanceDbfRecord bountyDrop = bonusBounty[i];
-			if (bountyDrop.LettuceBountyRecord != null)
+			int i = 0;
+			for (int iMax = bonusBounty.Count; i < iMax; i++)
 			{
-				int equipmentId = tier.LettuceEquipmentId;
-				if (m_equipmentUnlockByEquipmentId.TryGetValue(equipmentId, out var unlock))
+				BonusBountyDropChanceDbfRecord bountyDrop = bonusBounty[i];
+				if (bountyDrop.LettuceBountyRecord != null)
 				{
-					Log.Lettuce.PrintError($"GameDbFIndex.OnLettuceEquipmentTierAdded(): EquipmentID [{equipmentId}] is already unlocked by {unlock}");
-				}
-				else
-				{
-					m_equipmentUnlockByEquipmentId.Add(equipmentId, MercenaryUnlock.Create(bountyDrop.LettuceBountyRecord));
+					if (m_equipmentUnlockByEquipmentId.TryGetValue(equipmentId, out var unlock))
+					{
+						Log.Lettuce.PrintError($"GameDbFIndex.OnLettuceEquipmentTierAdded(): EquipmentID [{equipmentId}] is already unlocked by {unlock}");
+					}
+					else
+					{
+						m_equipmentUnlockByEquipmentId.Add(equipmentId, MercenaryUnlock.Create(bountyDrop.LettuceBountyRecord));
+					}
 				}
 			}
 		}
+		if (!m_LettuceEquipmentTiersByEquipmentID.TryGetValue(equipmentId, out var records))
+		{
+			records = new List<LettuceEquipmentTierDbfRecord>();
+			m_LettuceEquipmentTiersByEquipmentID.Add(equipmentId, records);
+		}
+		records.Add(tier);
 	}
 
 	public void OnLettuceEquipmentTierRemoved(List<LettuceEquipmentTierDbfRecord> removedRecords)
@@ -978,6 +1044,7 @@ public class GameDbfIndex
 		foreach (LettuceEquipmentTierDbfRecord tier in removedRecords)
 		{
 			m_equipmentTierByCardId.Remove(tier.CardId);
+			m_LettuceEquipmentTiersByEquipmentID[tier.LettuceEquipmentId].Remove(tier);
 		}
 	}
 
@@ -989,6 +1056,203 @@ public class GameDbfIndex
 			return null;
 		}
 		return m_equipmentTierByCardId[cardId];
+	}
+
+	public List<LettuceEquipmentTierDbfRecord> GetEquipmentTiersByEquipmentId(int equipmentId)
+	{
+		List<LettuceEquipmentTierDbfRecord> result = null;
+		if (!m_LettuceEquipmentTiersByEquipmentID.TryGetValue(equipmentId, out result))
+		{
+			result = new List<LettuceEquipmentTierDbfRecord>();
+			m_LettuceEquipmentTiersByEquipmentID[equipmentId] = result;
+		}
+		return result;
+	}
+
+	public void OnMercenaryArtVariationAdded(MercenaryArtVariationDbfRecord artVariation)
+	{
+		int mercenaryID = artVariation.LettuceMercenaryId;
+		if (!m_MercenaryArtVariationsByMercenaryID.TryGetValue(mercenaryID, out var records))
+		{
+			records = new List<MercenaryArtVariationDbfRecord>();
+			m_MercenaryArtVariationsByMercenaryID.Add(mercenaryID, records);
+		}
+		records.Add(artVariation);
+	}
+
+	public void OnMercenaryArtVariationRemoved(List<MercenaryArtVariationDbfRecord> removedRecords)
+	{
+		foreach (MercenaryArtVariationDbfRecord artVariation in removedRecords)
+		{
+			m_MercenaryArtVariationsByMercenaryID[artVariation.LettuceMercenaryId]?.Remove(artVariation);
+		}
+	}
+
+	public List<MercenaryArtVariationDbfRecord> GetMercenaryArtVariationsByMercenaryID(int mercenaryID)
+	{
+		List<MercenaryArtVariationDbfRecord> result = null;
+		if (!m_MercenaryArtVariationsByMercenaryID.TryGetValue(mercenaryID, out result))
+		{
+			result = new List<MercenaryArtVariationDbfRecord>();
+			m_MercenaryArtVariationsByMercenaryID[mercenaryID] = result;
+		}
+		return result;
+	}
+
+	public void PostProcessDbfLoad_MercenarySpecializations()
+	{
+		m_MercenarySpecializationsByMercenaryID.Clear();
+		foreach (LettuceMercenarySpecializationDbfRecord record in GameDbf.LettuceMercenarySpecialization.GetRecords())
+		{
+			OnMercenarySpecializationAdded(record);
+		}
+	}
+
+	public void OnMercenarySpecializationAdded(LettuceMercenarySpecializationDbfRecord specialization)
+	{
+		int mercenaryID = specialization.LettuceMercenaryId;
+		if (!m_MercenarySpecializationsByMercenaryID.TryGetValue(mercenaryID, out var records))
+		{
+			records = new List<LettuceMercenarySpecializationDbfRecord>();
+			m_MercenarySpecializationsByMercenaryID.Add(mercenaryID, records);
+		}
+		records.Add(specialization);
+	}
+
+	public void OnMercenarySpecializationRemoved(List<LettuceMercenarySpecializationDbfRecord> removedRecords)
+	{
+		foreach (LettuceMercenarySpecializationDbfRecord specialization in removedRecords)
+		{
+			m_MercenarySpecializationsByMercenaryID[specialization.LettuceMercenaryId].Remove(specialization);
+		}
+	}
+
+	public List<LettuceMercenarySpecializationDbfRecord> GetMercenarySpecializationsByMercenaryID(int mercenaryId)
+	{
+		List<LettuceMercenarySpecializationDbfRecord> result = null;
+		if (!m_MercenarySpecializationsByMercenaryID.TryGetValue(mercenaryId, out result))
+		{
+			result = new List<LettuceMercenarySpecializationDbfRecord>();
+			m_MercenarySpecializationsByMercenaryID[mercenaryId] = result;
+		}
+		return result;
+	}
+
+	public void PostProcessDbfLoad_MercenaryAbilities()
+	{
+		m_MercenaryAbilitiesBySpecializationID.Clear();
+		foreach (LettuceMercenaryAbilityDbfRecord record in GameDbf.LettuceMercenaryAbility.GetRecords())
+		{
+			OnMercenaryAbilityAdded(record);
+		}
+	}
+
+	public void OnMercenaryAbilityAdded(LettuceMercenaryAbilityDbfRecord ability)
+	{
+		int specializationID = ability.LettuceMercenarySpecializationId;
+		if (!m_MercenaryAbilitiesBySpecializationID.TryGetValue(specializationID, out var records))
+		{
+			records = new List<LettuceMercenaryAbilityDbfRecord>();
+			m_MercenaryAbilitiesBySpecializationID.Add(specializationID, records);
+		}
+		records.Add(ability);
+	}
+
+	public void OnMercenaryAbilityRemoved(List<LettuceMercenaryAbilityDbfRecord> removedRecords)
+	{
+		foreach (LettuceMercenaryAbilityDbfRecord ability in removedRecords)
+		{
+			m_MercenaryAbilitiesBySpecializationID[ability.LettuceMercenarySpecializationId].Remove(ability);
+		}
+	}
+
+	public List<LettuceMercenaryAbilityDbfRecord> GetMercenaryAbilitiesBySpecializationID(int specializationID)
+	{
+		List<LettuceMercenaryAbilityDbfRecord> result = null;
+		if (!m_MercenaryAbilitiesBySpecializationID.TryGetValue(specializationID, out result))
+		{
+			result = new List<LettuceMercenaryAbilityDbfRecord>();
+			m_MercenaryAbilitiesBySpecializationID[specializationID] = result;
+		}
+		return result;
+	}
+
+	public void PostProcessDbfLoad_MercenaryEquipment()
+	{
+		m_MercenaryEquipmentByMercenaryID.Clear();
+		foreach (LettuceMercenaryEquipmentDbfRecord record in GameDbf.LettuceMercenaryEquipment.GetRecords())
+		{
+			OnMercenaryEquipmentAdded(record);
+		}
+	}
+
+	public void OnMercenaryEquipmentAdded(LettuceMercenaryEquipmentDbfRecord equipment)
+	{
+		int mercenaryID = equipment.LettuceMercenaryId;
+		if (!m_MercenaryEquipmentByMercenaryID.TryGetValue(mercenaryID, out var records))
+		{
+			records = new List<LettuceMercenaryEquipmentDbfRecord>();
+			m_MercenaryEquipmentByMercenaryID.Add(mercenaryID, records);
+		}
+		records.Add(equipment);
+	}
+
+	public void OnMercenaryEquipmentRemoved(List<LettuceMercenaryEquipmentDbfRecord> removedRecords)
+	{
+		foreach (LettuceMercenaryEquipmentDbfRecord equipment in removedRecords)
+		{
+			m_MercenaryEquipmentByMercenaryID[equipment.LettuceMercenaryId].Remove(equipment);
+		}
+	}
+
+	public List<LettuceMercenaryEquipmentDbfRecord> GetMercenaryEquipmentByMercenaryID(int mercenaryId)
+	{
+		List<LettuceMercenaryEquipmentDbfRecord> result = null;
+		if (!m_MercenaryEquipmentByMercenaryID.TryGetValue(mercenaryId, out result))
+		{
+			result = new List<LettuceMercenaryEquipmentDbfRecord>();
+			m_MercenaryEquipmentByMercenaryID[mercenaryId] = result;
+		}
+		return result;
+	}
+
+	public void PostProcessDbfLoad_MercenaryTreasure()
+	{
+		m_MercenaryTreasureByMercenaryID.Clear();
+		foreach (MercenaryAllowedTreasureDbfRecord record in GameDbf.MercenaryAllowedTreasure.GetRecords())
+		{
+			OnMercenaryTreasureAdded(record);
+		}
+	}
+
+	public void OnMercenaryTreasureAdded(MercenaryAllowedTreasureDbfRecord treasure)
+	{
+		int mercenaryID = treasure.LettuceMercenaryId;
+		if (!m_MercenaryTreasureByMercenaryID.TryGetValue(mercenaryID, out var records))
+		{
+			records = new List<MercenaryAllowedTreasureDbfRecord>();
+			m_MercenaryTreasureByMercenaryID.Add(mercenaryID, records);
+		}
+		records.Add(treasure);
+	}
+
+	public void OnMercenaryTreasureRemoved(List<MercenaryAllowedTreasureDbfRecord> removedRecords)
+	{
+		foreach (MercenaryAllowedTreasureDbfRecord treasure in removedRecords)
+		{
+			m_MercenaryTreasureByMercenaryID[treasure.LettuceMercenaryId].Remove(treasure);
+		}
+	}
+
+	public List<MercenaryAllowedTreasureDbfRecord> GetMercenaryTreasureByMercenaryID(int mercenaryId)
+	{
+		List<MercenaryAllowedTreasureDbfRecord> result = null;
+		if (!m_MercenaryTreasureByMercenaryID.TryGetValue(mercenaryId, out result))
+		{
+			result = new List<MercenaryAllowedTreasureDbfRecord>();
+			m_MercenaryTreasureByMercenaryID[mercenaryId] = result;
+		}
+		return result;
 	}
 
 	public void PostProcessDbfLoad_VisitorTask()
@@ -1140,8 +1404,10 @@ public class GameDbfIndex
 
 	public void PostProcessDbfLoad_MercenaryArtVariation()
 	{
+		m_MercenaryArtVariationsByMercenaryID.Clear();
 		foreach (MercenaryArtVariationDbfRecord record in GameDbf.MercenaryArtVariation.GetRecords())
 		{
+			OnMercenaryArtVariationAdded(record);
 			foreach (MercenaryArtVariationPremiumDbfRecord premiumRecord in record.MercenaryArtVariationPremiums)
 			{
 				if (!string.IsNullOrEmpty(premiumRecord.CustomAcquireText))

@@ -6,8 +6,8 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Used to control the state of the Pegasus Highlight system")]
 public class HighlightContinuousUpdateAction : FsmStateAction
 {
-	[RequiredField]
 	[Tooltip("GameObject to send highlight states to")]
+	[RequiredField]
 	public FsmOwnerDefault m_gameObj;
 
 	[Tooltip("Amount of time to render")]

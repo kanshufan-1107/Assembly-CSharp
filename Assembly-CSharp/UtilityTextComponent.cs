@@ -6,8 +6,8 @@ public class UtilityTextComponent : MonoBehaviour
 	[SerializeField]
 	private UberText m_uberText;
 
-	[SerializeField]
 	[Header("Updatable Components")]
+	[SerializeField]
 	private MultiSliceElement m_multiSlice;
 
 	[SerializeField]

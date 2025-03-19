@@ -18,8 +18,8 @@ public abstract class ShopTabBase : MonoBehaviour
 	[SerializeField]
 	private Clickable m_toolTipClickable;
 
-	[SerializeField]
 	[Min(1f)]
+	[SerializeField]
 	private float m_toolTipScale;
 
 	private List<Action> m_onClickListeners = new List<Action>();

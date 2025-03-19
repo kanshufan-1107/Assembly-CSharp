@@ -145,13 +145,13 @@ public class VertexAnimatorBehaviour : PlayableBehaviour
 		}
 	}
 
-	[Tooltip("The name of the animation to play.")]
 	[SerializeField]
+	[Tooltip("The name of the animation to play.")]
 	private string m_animationName = "Idle";
 
+	[SerializeField]
 	[Tooltip("The start of the clip equates to this point in the animation.\nTime is measured as a percentage of the animation's length; *not* in seconds.")]
 	[Range(0f, 1f)]
-	[SerializeField]
 	private float m_startTime;
 
 	[Tooltip("The speed at which the animation should play.")]

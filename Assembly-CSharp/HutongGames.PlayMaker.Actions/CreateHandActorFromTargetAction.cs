@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Create a dummy hand actor from a spell target.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Create a dummy hand actor from a spell target.")]
 public class CreateHandActorFromTargetAction : FsmStateAction
 {
 	[RequiredField]
 	[Tooltip("GameObject(Spell) to retrieve a target info.")]
 	public FsmOwnerDefault m_OwnerObject;
 
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
+	[UIHint(UIHint.Variable)]
 	[Tooltip("Variable to store the newly created dummy actor.")]
 	public FsmGameObject m_DummyActor;
 

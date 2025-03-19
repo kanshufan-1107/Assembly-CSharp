@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Set the required color on an UberText object")]
 [ActionCategory("Pegasus")]
+[Tooltip("Set the required color on an UberText object")]
 public class SetUberTextColor : FsmStateAction
 {
 	[RequiredField]

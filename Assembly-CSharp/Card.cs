@@ -2817,7 +2817,6 @@ public class Card : MonoBehaviour
 			case GAME_TAG.HEALTH:
 			case GAME_TAG.ATK:
 			case GAME_TAG.COST:
-			case GAME_TAG.DURABILITY:
 			case GAME_TAG.ARMOR:
 			case GAME_TAG.HEALTH_DISPLAY:
 			case GAME_TAG.ENABLE_HEALTH_DISPLAY:
@@ -3142,6 +3141,11 @@ public class Card : MonoBehaviour
 			{
 				HandleHeroPowerDisabledTagChanged(change);
 			}
+			break;
+		case GAME_TAG.TRIGGER_VISUAL:
+		case GAME_TAG.AVENGE:
+		case GAME_TAG.END_OF_TURN_TRIGGER:
+			UpdateBauble();
 			break;
 		}
 		if (m_entity != null)
@@ -5524,7 +5528,7 @@ public class Card : MonoBehaviour
 				loadRequests.Add(request3);
 			}
 		}
-		if (m_customSpawnSpell == null && (m_zone is ZonePlay || m_zone is ZoneWeapon || m_zone is ZoneSecret || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
+		if (m_customSpawnSpell == null && (m_zone is ZonePlay || m_zone is ZoneWeapon || m_zone is ZoneSecret || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
 		{
 			PrefabLoadRequest request4 = MakeCustomSpellLoadRequest(m_cardDef.CardDef.m_CustomSpawnSpellPath, m_cardDef.CardDef.m_GoldenCustomSpawnSpellPath, OnCustomSpawnSpellLoaded);
 			if (request4 != null)
@@ -6128,7 +6132,7 @@ public class Card : MonoBehaviour
 				{
 					Process_OldActorIsNull_NullZoneToPlay(oldActor, ref transitionHandled, zonePlay);
 				}
-				else if (!willMulligan && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
+				else if (!willMulligan && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
 				{
 					Process_OldActorIsNull_WillNotMulligan(oldActor, ref transitionHandled);
 				}
@@ -6180,7 +6184,7 @@ public class Card : MonoBehaviour
 	private void Process_OldActorIsNull_CreatingGame(Actor oldActor, ref bool transitionHandled)
 	{
 		TransformUtil.CopyWorld(base.transform, m_zone.transform);
-		if (m_zone is ZonePlay || m_zone is ZoneHero || m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundClickableButton)
+		if (m_zone is ZonePlay || m_zone is ZoneHero || m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward)
 		{
 			ActivateLifetimeEffects();
 		}
@@ -6297,7 +6301,7 @@ public class Card : MonoBehaviour
 
 	private bool Check_NullZoneToVarious(Actor oldActor, ref bool transitionHandled)
 	{
-		if (m_prevZone == null && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
+		if (m_prevZone == null && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
 		{
 			oldActor.Destroy();
 			TransformUtil.CopyWorld(base.transform, m_zone.transform);
@@ -6409,7 +6413,7 @@ public class Card : MonoBehaviour
 
 	private bool Check_VariousZonesToGraveyard(Actor oldActor, ref bool transitionHandled)
 	{
-		if (m_prevZone != null && (m_prevZone is ZonePlay || m_prevZone is ZoneWeapon || m_prevZone is ZoneHeroPower || m_prevZone is ZoneBattlegroundHeroBuddy || m_prevZone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton) && m_zone is ZoneGraveyard)
+		if (m_prevZone != null && (m_prevZone is ZonePlay || m_prevZone is ZoneWeapon || m_prevZone is ZoneHeroPower || m_prevZone is ZoneBattlegroundHeroBuddy || m_prevZone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket) && m_zone is ZoneGraveyard)
 		{
 			if (m_mousedOver && m_entity.IsControlledByFriendlySidePlayer() && m_prevZone is ZonePlay)
 			{
@@ -6825,7 +6829,7 @@ public class Card : MonoBehaviour
 			else if (creatingGame)
 			{
 				TransformUtil.CopyWorld(base.transform, m_zone.transform);
-				if (m_zone is ZonePlay || m_zone is ZoneHero || m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton)
+				if (m_zone is ZonePlay || m_zone is ZoneHero || m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket)
 				{
 					ActivateLifetimeEffects();
 				}
@@ -6909,7 +6913,7 @@ public class Card : MonoBehaviour
 					}
 					transitionHandled = true;
 				}
-				else if (!willMulligan && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
+				else if (!willMulligan && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
 				{
 					if (IsShown())
 					{
@@ -6937,7 +6941,7 @@ public class Card : MonoBehaviour
 				}
 			}
 		}
-		else if (m_prevZone == null && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton))
+		else if (m_prevZone == null && (m_zone is ZoneHeroPower || m_zone is ZoneWeapon || m_zone is ZoneBattlegroundHeroBuddy || m_zone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket))
 		{
 			oldActor.Destroy();
 			TransformUtil.CopyWorld(base.transform, m_zone.transform);
@@ -7017,7 +7021,7 @@ public class Card : MonoBehaviour
 			transitionHandled = true;
 			m_actorReady = true;
 		}
-		else if (m_prevZone != null && (m_prevZone is ZonePlay || m_prevZone is ZoneWeapon || m_prevZone is ZoneHeroPower || m_prevZone is ZoneBattlegroundHeroBuddy || m_prevZone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket || m_zone is ZoneBattlegroundClickableButton) && m_zone is ZoneGraveyard)
+		else if (m_prevZone != null && (m_prevZone is ZonePlay || m_prevZone is ZoneWeapon || m_prevZone is ZoneHeroPower || m_prevZone is ZoneBattlegroundHeroBuddy || m_prevZone is ZoneBattlegroundQuestReward || m_zone is ZoneBattlegroundTrinket) && m_zone is ZoneGraveyard)
 		{
 			if (m_mousedOver && m_entity.IsControlledByFriendlySidePlayer() && m_prevZone is ZonePlay)
 			{

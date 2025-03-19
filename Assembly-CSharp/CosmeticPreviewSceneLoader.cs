@@ -44,10 +44,10 @@ public class CosmeticPreviewSceneLoader : MonoBehaviour
 
 	public void UnloadScene()
 	{
-		if (SceneManager.GetSceneByName("BaconCosmeticPreview").isLoaded)
+		if (m_loadedPreviewScene && SceneManager.GetSceneByName("BaconCosmeticPreview").isLoaded)
 		{
 			SceneManager.UnloadSceneAsync("BaconCosmeticPreview");
-			m_loadedPreviewScene = false;
+			StartCoroutine(UnloadSceneCoroutine());
 		}
 	}
 
@@ -60,15 +60,18 @@ public class CosmeticPreviewSceneLoader : MonoBehaviour
 	{
 		ServiceManager.InitializeDynamicServicesIfNeeded(out var serviceDependencies, DynamicServiceSets.UberText());
 		ServiceManager.InitializeDynamicServicesIfNeeded(out serviceDependencies, typeof(IAssetLoader), typeof(IAliasedAssetResolver), typeof(SpellManager));
-		if (!SceneManager.GetSceneByName("BaconCosmeticPreview").isLoaded)
+		if (m_loadedPreviewScene || !SceneManager.GetSceneByName("BaconCosmeticPreview").isLoaded)
 		{
-			AsyncOperation loadOp = SceneManager.LoadSceneAsync("BaconCosmeticPreview", LoadSceneMode.Additive);
-			while (!loadOp.isDone)
-			{
-				yield return null;
-			}
+			SceneManager.LoadScene("BaconCosmeticPreview", LoadSceneMode.Additive);
 			m_loadedPreviewScene = true;
 		}
+		yield break;
+	}
+
+	private IEnumerator UnloadSceneCoroutine()
+	{
+		yield return new WaitUntil(() => !SceneManager.GetSceneByName("BaconCosmeticPreview").isLoaded);
+		m_loadedPreviewScene = false;
 	}
 
 	private void OnDestroy()

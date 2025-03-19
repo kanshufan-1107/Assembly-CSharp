@@ -522,7 +522,7 @@ public class BigCard : MonoBehaviour
 	private BigCardDisplay_RelativeBoardPosition GetBoardPositionOfPlayZoneCard()
 	{
 		Zone zone = m_card.GetZone();
-		if ((zone is ZonePlay || zone is ZoneHeroPower || zone is ZoneWeapon || zone is ZoneBattlegroundTrinket || m_card.GetEntity().IsBattlegroundTrinket() || m_card.GetEntity().IsAnomaly()) && !m_card.GetEntity().IsLocation() && !m_card.GetEntity().IsMinion() && !m_card.GetEntity().IsBaconSpell())
+		if ((zone is ZonePlay || zone is ZoneHeroPower || zone is ZoneWeapon || zone is ZoneBattlegroundTrinket || m_card.GetEntity().IsBattlegroundTrinket() || m_card.GetEntity().IsAnomaly() || zone is ZoneBattlegroundQuestReward) && !m_card.GetEntity().IsLocation() && !m_card.GetEntity().IsMinion() && !m_card.GetEntity().IsBaconSpell())
 		{
 			return BigCardDisplay_RelativeBoardPosition.IRRELEVANT;
 		}
@@ -831,9 +831,24 @@ public class BigCard : MonoBehaviour
 				extraBigCardBone = boneLayout.m_OuterLeftBone;
 				tooltipBoneSource = TooltipPanelManager.TooltipBoneSource.TOP_LEFT;
 			}
+			else if (ent.IsBattlegroundQuestReward())
+			{
+				if ((bool)UniversalInputManager.UsePhoneUI)
+				{
+					mainCardBone = boneLayout.m_InnerLeftBone;
+					extraBigCardBone = boneLayout.m_OuterLeftBone;
+					tooltipBoneSource = TooltipPanelManager.TooltipBoneSource.TOP_RIGHT;
+				}
+				else
+				{
+					mainCardBone = boneLayout.m_InnerRightBone;
+					extraBigCardBone = boneLayout.m_OuterRightBone;
+					tooltipBoneSource = TooltipPanelManager.TooltipBoneSource.TOP_RIGHT;
+				}
+			}
 			else
 			{
-				if (!ent.IsAnomaly() && !ent.IsBattlegroundQuestReward() && !ent.IsBattlegroundHeroBuddy())
+				if (!ent.IsAnomaly() && !ent.IsBattlegroundHeroBuddy())
 				{
 					Log.Gameplay.PrintError($"Unknown card type ({ent.GetCardType()}) used in {MethodBase.GetCurrentMethod().Name} while trying to display big cards.");
 					return;

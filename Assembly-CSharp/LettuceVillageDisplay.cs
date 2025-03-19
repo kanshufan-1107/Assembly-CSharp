@@ -4,8 +4,8 @@ using Hearthstone.DataModels;
 using Hearthstone.UI;
 using UnityEngine;
 
-[RequireComponent(typeof(WidgetTemplate))]
 [CustomEditClass]
+[RequireComponent(typeof(WidgetTemplate))]
 public class LettuceVillageDisplay : AbsSceneDisplay
 {
 	public class LettuceSceneTransitionPayload

@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Shows a widget on a game object.")]
+[ActionCategory("Pegasus")]
 public class WidgetShowAction : FsmStateAction
 {
-	[Tooltip("Game object containing the widget to show.")]
 	[RequiredField]
+	[Tooltip("Game object containing the widget to show.")]
 	public FsmGameObject widgetObject;
 
 	public override void Reset()

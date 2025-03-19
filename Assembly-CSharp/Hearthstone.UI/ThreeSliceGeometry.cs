@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
+[AddComponentMenu("")]
 [RequireComponent(typeof(WidgetTransform))]
 [ExecuteAlways]
-[AddComponentMenu("")]
 public class ThreeSliceGeometry : Geometry, IBoundsDependent
 {
 	[SerializeField]

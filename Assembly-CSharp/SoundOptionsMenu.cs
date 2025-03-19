@@ -30,8 +30,8 @@ public class SoundOptionsMenu : MonoBehaviour
 	[SerializeField]
 	private AudioSliderAssetReferences m_audioSliderAssetReferences;
 
-	[SerializeField]
 	[Header("Other")]
+	[SerializeField]
 	private UIBButton m_backButton;
 
 	[SerializeField]

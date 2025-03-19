@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Send an event based on a Spell's Card's ID.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Send an event based on a Spell's Card's ID.")]
 public class SpellCardIdAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;
@@ -11,8 +11,8 @@ public class SpellCardIdAction : SpellAction
 	[Tooltip("Which Card to check on the Spell.")]
 	public Which m_WhichCard;
 
-	[RequiredField]
 	[CompoundArray("Events", "Event", "Card Id")]
+	[RequiredField]
 	public FsmEvent[] m_Events;
 
 	public string[] m_CardIds;

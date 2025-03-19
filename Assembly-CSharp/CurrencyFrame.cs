@@ -143,6 +143,23 @@ public class CurrencyFrame : MonoBehaviour
 				m_rechargeHelpPopup.PulseReminderEveryXSeconds(3f);
 			}
 			break;
+		case CurrencyType.TAVERN_TICKET:
+			m_widget.TriggerEvent("TAVERN_TICKET", eventParams);
+			if (AllowRecharge(currencyType))
+			{
+				m_widget.RegisterDoneChangingStatesListener(delegate
+				{
+					m_widget.TriggerEvent("TAVERN_TICKET_RECHARGEABLE", eventParams);
+				});
+			}
+			else
+			{
+				m_widget.RegisterDoneChangingStatesListener(delegate
+				{
+					m_widget.TriggerEvent("TAVERN_TICKET_NONRECHARGEABLE", eventParams);
+				});
+			}
+			break;
 		default:
 			m_widget.TriggerEvent("NONE", eventParams);
 			Hide(isImmediate: true);
@@ -279,6 +296,10 @@ public class CurrencyFrame : MonoBehaviour
 			header = "GLUE_TOOLTIP_BG_TOKEN_HEADER";
 			description = "GLUE_TOOLTIP_BG_TOKEN_DESCRIPTION";
 			break;
+		case CurrencyType.TAVERN_TICKET:
+			header = "GLUE_TOOLTIP_TAVERN_TICKET_HEADER";
+			description = "GLUE_TOOLTIP_TAVERN_TICKET_DESCRIPTION";
+			break;
 		}
 		if (!(header == ""))
 		{
@@ -313,14 +334,15 @@ public class CurrencyFrame : MonoBehaviour
 
 	private bool AllowRecharge(CurrencyType currencyType)
 	{
-		if (currencyType == CurrencyType.BG_TOKEN)
+		SceneMgr.Mode mode = SceneMgr.Get()?.GetMode() ?? SceneMgr.Mode.INVALID;
+		bool storeOpen = StoreManager.Get()?.GetCurrentStore()?.IsOpen() == true;
+		if (currencyType == CurrencyType.BG_TOKEN && mode == SceneMgr.Mode.BACON && !storeOpen)
 		{
-			SceneMgr.Mode num = SceneMgr.Get()?.GetMode() ?? SceneMgr.Mode.INVALID;
-			bool storeOpen = StoreManager.Get()?.GetCurrentStore()?.IsOpen() == true;
-			if (num == SceneMgr.Mode.BACON && !storeOpen)
-			{
-				return true;
-			}
+			return true;
+		}
+		if (currencyType == CurrencyType.TAVERN_TICKET && mode == SceneMgr.Mode.TAVERN_BRAWL && !storeOpen)
+		{
+			return true;
 		}
 		return false;
 	}
@@ -365,11 +387,25 @@ public class CurrencyFrame : MonoBehaviour
 				}
 			}
 		}
-		else if (CurrentCurrencyType == CurrencyType.BG_TOKEN && AllowRecharge(CurrencyType.BG_TOKEN))
+		else if (CurrentCurrencyType == CurrencyType.BG_TOKEN)
+		{
+			if (AllowRecharge(CurrencyType.BG_TOKEN))
+			{
+				if (Network.IsLoggedIn())
+				{
+					BaconDisplay.Get()?.OpenBattlegroundsShop("tokens");
+				}
+				else
+				{
+					ProgressUtils.ShowOfflinePopup();
+				}
+			}
+		}
+		else if (CurrentCurrencyType == CurrencyType.TAVERN_TICKET && AllowRecharge(CurrencyType.TAVERN_TICKET))
 		{
 			if (Network.IsLoggedIn())
 			{
-				BaconDisplay.Get()?.OpenBattlegroundsShop("tokens");
+				ProductPageJobs.OpenToProductPageWhenReady(327L, dontFullyOpenShop: true);
 			}
 			else
 			{
@@ -406,19 +442,25 @@ public class CurrencyFrame : MonoBehaviour
 			currencies.Add(CurrencyType.DUST);
 			break;
 		case SceneMgr.Mode.TAVERN_BRAWL:
-			if (!UniversalInputManager.UsePhoneUI)
+		{
+			if ((bool)UniversalInputManager.UsePhoneUI)
 			{
-				TavernBrawlDisplay tavernBrawlDisplay = TavernBrawlDisplay.Get();
-				if (tavernBrawlDisplay != null && tavernBrawlDisplay.IsInDeckEditMode())
-				{
-					currencies.Add(CurrencyType.DUST);
-				}
-				else
-				{
-					currencies.Add(CurrencyType.GOLD);
-				}
+				break;
+			}
+			TavernBrawlDisplay tavernBrawlDisplay = TavernBrawlDisplay.Get();
+			if (tavernBrawlDisplay != null && tavernBrawlDisplay.IsInDeckEditMode())
+			{
+				currencies.Add(CurrencyType.DUST);
+				break;
+			}
+			currencies.Add(CurrencyType.GOLD);
+			int ticketType = TavernBrawlManager.Get().CurrentMission().ticketType;
+			if (GameDbf.TavernBrawlTicket.GetRecord(ticketType).TicketBehaviorType == TavernBrawlTicket.TicketBehaviorType.ARENA_TAVERN_TICKET)
+			{
+				currencies.Add(CurrencyType.TAVERN_TICKET);
 			}
 			break;
+		}
 		case SceneMgr.Mode.LETTUCE_VILLAGE:
 			if (StoreManager.Get().CurrentShopType == ShopType.MERCENARIES_WORKSHOP)
 			{

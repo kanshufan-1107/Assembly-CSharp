@@ -33,8 +33,8 @@ public class DeckTrayHeroSkinContent : DeckTrayContent
 	[SerializeField]
 	private Vector3 m_missingCardEffectScale;
 
-	[SerializeField]
 	[Header("Animation")]
+	[SerializeField]
 	private iTween.EaseType m_traySlideSlideInAnimation = iTween.EaseType.easeOutBounce;
 
 	[SerializeField]

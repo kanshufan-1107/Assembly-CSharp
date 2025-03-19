@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Handles communication between a Spell and the SpellStates in an FSM.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Handles communication between a Spell and the SpellStates in an FSM.")]
 public class SpellStateAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

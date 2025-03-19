@@ -1045,9 +1045,9 @@ public class HearthstoneCheckout : blz_commerce_log_hook, ISceneEventObserver, I
 
 	private string GetTitleVersionString()
 	{
-		string version = "31.6";
+		string version = "32.0";
 		string revision = "0";
-		int build = 216423;
+		int build = 217964;
 		string platform = GetPlatformString();
 		return $"{version}.{revision}.{build}-{platform}";
 	}
@@ -1283,6 +1283,28 @@ public class HearthstoneCheckout : blz_commerce_log_hook, ISceneEventObserver, I
 			return Ecosystems.BATTLE_NET_VALUE;
 		default:
 			return Ecosystems.UNKNOWN_ECOSYSTEM_VALUE;
+		}
+	}
+
+	private void HandleCommerceError()
+	{
+		if (m_currentTransaction != null && !string.IsNullOrEmpty(m_currentTransaction.ErrorCodes) && m_currentTransaction.ErrorCodes.Contains("4097"))
+		{
+			Log.Store.Print("[HearthstoneCheckout.HandleCommerceError] Failed to purchase product, calling ResumeCheckout" + $" product id: {m_currentTransaction.ProductID}," + " transaction id: " + m_currentTransaction.TransactionID + ", error: " + m_currentTransaction.ErrorCodes);
+			Processor.RunCoroutine(ResumeCheckout());
+		}
+	}
+
+	private IEnumerator ResumeCheckout()
+	{
+		yield return new WaitUntil(() => CommerceWrapper.Instance.HasLoadedCatalog && CommerceWrapper.Instance.IsIdle);
+		if (!CommerceWrapper.Instance.ResumeCommerceAPI())
+		{
+			Log.Store.PrintWarning("[HearthstoneCheckout.ProductsLoaded] ResumeCommerceAPI failed.");
+		}
+		else
+		{
+			Log.Store.Print("[HearthstoneCheckout.ResumeCheckout] ResumeCommerceAPI called.");
 		}
 	}
 
@@ -1633,6 +1655,7 @@ public class HearthstoneCheckout : blz_commerce_log_hook, ISceneEventObserver, I
 		LogPurchaseResponse("[HearthstoneCheckout.OnFailure]", data);
 		UpdateTransactionData(data);
 		StoreManager.Get()?.HandleCommerceOrderFailure(m_currentTransaction);
+		HandleCommerceError();
 		ResetPurchaseState();
 	}
 
@@ -1769,10 +1792,7 @@ public class HearthstoneCheckout : blz_commerce_log_hook, ISceneEventObserver, I
 		}
 		m_loadProducts = State.Finished;
 		_shouldCallCSDKUpdate = false;
-		if (!CommerceWrapper.Instance.ResumeCommerceAPI())
-		{
-			Log.Store.PrintWarning("[HearthstoneCheckout.ProductsLoaded] ResumeCommerceAPI failed.");
-		}
+		Processor.RunCoroutine(ResumeCheckout());
 		_shouldCallCSDKUpdate = true;
 		Processor.QueueJob("HearthstoneCheckout.InvokeIsOpenCallbacks", InvokeIsOpenCallbacks(), JobFlags.StartImmediately);
 	}

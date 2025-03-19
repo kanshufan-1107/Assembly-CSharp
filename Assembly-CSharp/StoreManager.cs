@@ -1621,7 +1621,7 @@ public class StoreManager : IProductAvailabilityApi
 		m_stores[ShopType.GENERAL_STORE] = generalStore;
 	}
 
-	private void UnloadAndFreeMemory()
+	public void UnloadAndFreeMemory()
 	{
 		if (Shop.Get() != null)
 		{

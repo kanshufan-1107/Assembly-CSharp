@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[ExecuteAlways]
 [AddComponentMenu("")]
+[ExecuteAlways]
 public class PopupCamera : MonoBehaviour, IPopupCamera
 {
 	public Camera MirroredCamera { get; set; }

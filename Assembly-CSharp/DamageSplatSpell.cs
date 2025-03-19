@@ -235,6 +235,10 @@ public class DamageSplatSpell : Spell
 		}
 		if (m_activeSplat != null)
 		{
+			if (!m_activeSplat.gameObject.activeSelf)
+			{
+				m_activeSplat.gameObject.SetActive(value: true);
+			}
 			RenderUtils.EnableRenderers(m_activeSplat.gameObject, enable: true);
 		}
 		if (m_DamageTextMesh != null)

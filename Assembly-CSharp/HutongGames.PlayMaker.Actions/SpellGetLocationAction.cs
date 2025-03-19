@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Get position from the bones in the board")]
 [ActionCategory("Pegasus")]
+[Tooltip("Get position from the bones in the board")]
 public class SpellGetLocationAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;

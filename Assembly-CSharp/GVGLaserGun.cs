@@ -27,8 +27,8 @@ public class GVGLaserGun : MonoBehaviour
 	[CustomEditField(Sections = "Lever")]
 	public Spell m_PullLeverSpell;
 
-	[CustomEditField(Sections = "Rotation")]
 	[Tooltip("The thing that will be rotated.")]
+	[CustomEditField(Sections = "Rotation")]
 	public GameObject m_GunRotator;
 
 	[CustomEditField(Sections = "Rotation")]
@@ -43,8 +43,8 @@ public class GVGLaserGun : MonoBehaviour
 	[CustomEditField(Sections = "Rotation")]
 	public Spell m_StopRotationSpell;
 
-	[CustomEditField(Sections = "Rotation")]
 	[Tooltip("How fast the gun rotates in degrees per second.")]
+	[CustomEditField(Sections = "Rotation")]
 	public float m_RotationSpeed;
 
 	[CustomEditField(Sections = "Rotation", ListTable = true)]

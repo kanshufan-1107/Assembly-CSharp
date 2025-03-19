@@ -94,7 +94,9 @@ public class PurchaseManager : IService
 				for (int i = 0; i < knockoutMercs.Count; i++)
 				{
 					int mercId = knockoutMercs[i].Mercenary.MercenaryId;
-					int num = GameDbf.LettuceMercenary.GetRecord(mercId).MercenaryArtVariations.SelectMany((MercenaryArtVariationDbfRecord art) => art.MercenaryArtVariationPremiums.Where((MercenaryArtVariationPremiumDbfRecord premium) => premium.Collectible)).Count();
+					LettuceMercenaryDbfRecord mercRecord = GameDbf.LettuceMercenary.GetRecord(mercId);
+					int num = GameDbf.GetIndex().GetMercenaryArtVariationsByMercenaryID(mercRecord.ID).SelectMany((MercenaryArtVariationDbfRecord art) => art.MercenaryArtVariationPremiums.Where((MercenaryArtVariationPremiumDbfRecord premium) => premium.Collectible))
+						.Count();
 					int numOwnedMercVariations = CollectionManager.Get().GetMercenary(mercId)?.m_artVariations.Count ?? 0;
 					if (num == numOwnedMercVariations)
 					{

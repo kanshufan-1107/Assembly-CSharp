@@ -287,10 +287,6 @@ public class ZoneMgr : MonoBehaviour
 		{
 			typeof(ZoneBattlegroundTrinket),
 			"ZoneBattlegroundTrinketUpdateLayout"
-		},
-		{
-			typeof(ZoneBattlegroundClickableButton),
-			"ZoneBattlegroundClickableButtonUpdateLayout"
 		}
 	};
 
@@ -1355,7 +1351,7 @@ public class ZoneMgr : MonoBehaviour
 		{
 			return;
 		}
-		if (destinationZone is ZoneWeapon || destinationZone is ZoneBattlegroundQuestReward || destinationZone is ZoneBattlegroundClickableButton)
+		if (destinationZone is ZoneWeapon || destinationZone is ZoneBattlegroundQuestReward)
 		{
 			List<Card> destinationCards = destinationZone.GetCards();
 			if (destinationCards.Count > 0)
@@ -2372,7 +2368,7 @@ public class ZoneMgr : MonoBehaviour
 			return predictedPos;
 		}
 		Entity magneticTarget = tempZone.GetEntityAtSlot(predictedPos);
-		if (magneticTarget != null && magneticTarget.CanBeMagnitizedBy(entity) && !magneticTarget.IsDormant())
+		if (magneticTarget != null && magneticTarget.CanBeMagnitizedBy(entity) && !magneticTarget.IsDormant() && !magneticTarget.HasTag(GAME_TAG.UNTOUCHABLE))
 		{
 			return predictedPos;
 		}

@@ -82,6 +82,10 @@ public class Board : MonoBehaviour
 
 	public List<BoardSpecialEvents> m_SpecialEvents;
 
+	private GameObject m_SpecialEventObject;
+
+	private bool m_DenySpecialEvents;
+
 	public MusicPlaylistType m_BoardMusic = MusicPlaylistType.InGame_Default;
 
 	public Texture m_GemManaPhoneTexture;
@@ -783,7 +787,17 @@ public class Board : MonoBehaviour
 
 	private void LoadBoardSpecialEvent(BoardSpecialEvents boardSpecialEvent)
 	{
-		if (AssetLoader.Get().InstantiatePrefab(boardSpecialEvent.Prefab) == null)
+		if (m_DenySpecialEvents)
+		{
+			return;
+		}
+		if (m_SpecialEventObject != null)
+		{
+			Debug.LogWarning("A Special Event board was already loaded");
+			return;
+		}
+		m_SpecialEventObject = AssetLoader.Get().InstantiatePrefab(boardSpecialEvent.Prefab);
+		if (m_SpecialEventObject == null)
 		{
 			Debug.LogWarning($"Failed to load special board event: {boardSpecialEvent.Prefab}");
 		}
@@ -839,6 +853,7 @@ public class Board : MonoBehaviour
 			ToggleBottomRight(active: false);
 			break;
 		}
+		m_DenySpecialEvents = true;
 	}
 
 	private bool IsTableTopMaterialValid()
@@ -981,6 +996,11 @@ public class Board : MonoBehaviour
 				boardObject.SetActive(active);
 			}
 		}
+		if (!active && m_SpecialEventObject != null)
+		{
+			UnityEngine.Object.Destroy(m_SpecialEventObject);
+			m_SpecialEventObject = null;
+		}
 	}
 
 	public void ToggleTopRight(bool active)
@@ -991,6 +1011,11 @@ public class Board : MonoBehaviour
 			{
 				boardObject.SetActive(active);
 			}
+		}
+		if (!active && m_SpecialEventObject != null)
+		{
+			UnityEngine.Object.Destroy(m_SpecialEventObject);
+			m_SpecialEventObject = null;
 		}
 	}
 
@@ -1003,6 +1028,11 @@ public class Board : MonoBehaviour
 				boardObject.SetActive(active);
 			}
 		}
+		if (!active && m_SpecialEventObject != null)
+		{
+			UnityEngine.Object.Destroy(m_SpecialEventObject);
+			m_SpecialEventObject = null;
+		}
 	}
 
 	public void ToggleBottomRight(bool active)
@@ -1013,6 +1043,11 @@ public class Board : MonoBehaviour
 			{
 				boardObject.SetActive(active);
 			}
+		}
+		if (!active && m_SpecialEventObject != null)
+		{
+			UnityEngine.Object.Destroy(m_SpecialEventObject);
+			m_SpecialEventObject = null;
 		}
 	}
 }

@@ -2,15 +2,15 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Checks if the actor is set to skip armor animations")]
+[ActionCategory("Pegasus")]
 public class DoesActorWantToSkipArmorAnimation : FsmStateAction
 {
 	public FsmOwnerDefault m_GameObject;
 
-	[Tooltip("Output variable.")]
 	[RequiredField]
 	[UIHint(UIHint.Variable)]
+	[Tooltip("Output variable.")]
 	public FsmBool m_Result;
 
 	public override void Reset()

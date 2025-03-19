@@ -22,37 +22,37 @@ public class RagnarosController : MonoBehaviour, IScriptEventHandler
 
 	[Header("Ragnaros Settings")]
 	[SerializeField]
-	[Range(0f, 1f)]
 	[Tooltip("Rotation weight during Attack Idle")]
+	[Range(0f, 1f)]
 	private float m_rotateAmount;
 
-	[SerializeField]
 	[Tooltip("Offset the spine LookAt target on the Y axis")]
+	[SerializeField]
 	private float m_lookAtOffset;
 
 	[Tooltip("The min/max distance a target can be from the controller on the X axis")]
 	[SerializeField]
 	private Vector2 m_horizontalDistance;
 
-	[Tooltip("The min/max distance a target can be from the controller on the Z axis")]
 	[SerializeField]
+	[Tooltip("The min/max distance a target can be from the controller on the Z axis")]
 	private Vector2 m_verticalDistance;
 
-	[Header("Sulfuras Settings")]
 	[SerializeField]
+	[Header("Sulfuras Settings")]
 	private Transform m_hammer;
 
 	[SerializeField]
 	private Vector2 m_hammerOffset;
 
-	[Tooltip("IK animation length in seconds")]
 	[Header("Attack IK Settings")]
-	[Range(0f, 3f)]
 	[SerializeField]
+	[Range(0f, 3f)]
+	[Tooltip("IK animation length in seconds")]
 	private float m_animationLength;
 
-	[Tooltip("Value dictating whether Attack or Attack Close animation is triggered relative to proximity to target")]
 	[SerializeField]
+	[Tooltip("Value dictating whether Attack or Attack Close animation is triggered relative to proximity to target")]
 	private float m_distanceDelta;
 
 	[Tooltip("IK weight over time relative to Animation Length")]

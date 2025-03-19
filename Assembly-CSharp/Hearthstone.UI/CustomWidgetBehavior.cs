@@ -9,8 +9,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[ExecuteAlways]
 [NestedReferenceScope(NestedReference.Scope.Children)]
+[ExecuteAlways]
 [AddComponentMenu("")]
 [SelectionBase]
 public abstract class CustomWidgetBehavior : WidgetBehavior, IAsyncInitializationBehavior, IVisibleWidgetComponent, ILayerOverridable, IPopupRendering

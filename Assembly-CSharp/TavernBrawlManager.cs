@@ -8,6 +8,7 @@ using Blizzard.T5.Jobs;
 using Blizzard.T5.Services;
 using Hearthstone;
 using Hearthstone.Core;
+using Hearthstone.DataModels;
 using PegasusClient;
 using PegasusShared;
 using PegasusUtil;
@@ -981,6 +982,28 @@ public class TavernBrawlManager : IService
 	public void RequestSessionBegin()
 	{
 		Network.Get().RequestTavernBrawlSessionBegin();
+	}
+
+	public TavernBrawlDetailsDataModel CreateTavernBrawlDetailsDataModel(ScenarioDbfRecord scenarioDbf)
+	{
+		TavernBrawlMission mission = GetMission(BrawlType.BRAWL_TYPE_TAVERN_BRAWL);
+		return new TavernBrawlDetailsDataModel
+		{
+			BrawlType = mission.BrawlType,
+			BrawlMode = mission.brawlMode,
+			FormatType = mission.formatType,
+			TicketType = mission.ticketType,
+			MaxWins = mission.maxWins,
+			MaxLosses = mission.maxLosses,
+			PopupType = mission.tavernBrawlSpec.StorePopupType,
+			Title = scenarioDbf.Name,
+			RulesDesc = (((bool)UniversalInputManager.UsePhoneUI && !string.IsNullOrEmpty(scenarioDbf.ShortDescription)) ? scenarioDbf.ShortDescription : scenarioDbf.Description),
+			RewardDesc = mission.tavernBrawlSpec.RewardDesc,
+			MinRewardDesc = mission.tavernBrawlSpec.MinRewardDesc,
+			MaxRewardDesc = mission.tavernBrawlSpec.MaxRewardDesc,
+			EndConditionDesc = mission.tavernBrawlSpec.EndConditionDesc,
+			IsFreeRun = Get().IsEligibleForFreeTicket()
+		};
 	}
 
 	private void RegisterOptionsListeners(bool register)

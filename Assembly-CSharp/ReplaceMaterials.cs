@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Blizzard.T5.MaterialService.Extensions;
 using UnityEngine;
 
-[ExecuteAlways]
 [CustomEditClass]
+[ExecuteAlways]
 public class ReplaceMaterials : MonoBehaviour
 {
 	[Serializable]

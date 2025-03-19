@@ -25,8 +25,8 @@ public class SlidingTray : MonoBehaviour
 	[CustomEditField(Sections = "Parameters")]
 	public bool m_inactivateOnHide = true;
 
-	[CustomEditField(Sections = "Parameters")]
 	[Tooltip("Useful to use (instead of 'inactivate On Hide') when the SlidingTray has Widgets on it that you want to load before it gets shown.")]
+	[CustomEditField(Sections = "Parameters")]
 	public bool m_invisibleOnHide;
 
 	[CustomEditField(Sections = "Parameters")]
@@ -65,8 +65,8 @@ public class SlidingTray : MonoBehaviour
 	[CustomEditField(Sections = "Optional Features")]
 	public PegUIElement m_traySliderButton;
 
-	[CustomEditField(Sections = "Optional Features")]
 	[Tooltip("Objects to which this can send transition events to respond. Available events:\nSLIDING_TRAY_START_OPEN\nSLIDING_TRAY_FINISH_CLOSE")]
+	[CustomEditField(Sections = "Optional Features")]
 	public List<GameObject> m_widgetEventListeners = new List<GameObject>();
 
 	private bool m_trayShown;
@@ -97,8 +97,8 @@ public class SlidingTray : MonoBehaviour
 
 	private Coroutine m_blurCoroutine;
 
-	[Overridable]
 	[CustomEditField(Hide = true)]
+	[Overridable]
 	public bool PlayAudioOnSlide
 	{
 		get

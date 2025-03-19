@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ShopSubTab : ShopTabBase
 {
-	[Header("Sub-Tab Components")]
 	[SerializeField]
+	[Header("Sub-Tab Components")]
 	private UIBButton m_button;
 
 	[SerializeField]

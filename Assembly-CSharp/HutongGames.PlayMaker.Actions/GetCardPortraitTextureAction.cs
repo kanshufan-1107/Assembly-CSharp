@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Initialize a spell state, setting variables that reference the parent actor and its contents.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Initialize a spell state, setting variables that reference the parent actor and its contents.")]
 public class GetCardPortraitTextureAction : FsmStateAction
 {
+	[UIHint(UIHint.Variable)]
 	[Title("StoreTexture")]
 	[Tooltip("Store the portrait texture in a variable.")]
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
 	public FsmTexture storedTexture;
 

@@ -606,7 +606,7 @@ public abstract class AbsDeckPickerTrayDisplay : MonoBehaviour
 	{
 		if (formatType == FormatType.FT_UNKNOWN)
 		{
-			RankMgr.LogMessage("formatType being passed in = FT_UNKOWN", "TransitionToFormatType", "D:\\p4Workspace\\31.6.0\\Pegasus\\Client\\Assets\\Game\\DeckPickerTray\\AbsDeckPickerTrayDisplay.cs", 731);
+			RankMgr.LogMessage("formatType being passed in = FT_UNKOWN", "TransitionToFormatType", "D:\\p4Workspace\\32.0.0\\Pegasus\\Client\\Assets\\Game\\DeckPickerTray\\AbsDeckPickerTrayDisplay.cs", 731);
 			return;
 		}
 		Options.SetFormatType(formatType);
@@ -839,7 +839,7 @@ public abstract class AbsDeckPickerTrayDisplay : MonoBehaviour
 		}
 	}
 
-	protected virtual void SetHeroRaised(bool raised)
+	public virtual void SetHeroRaised(bool raised)
 	{
 		m_heroRaised = raised;
 		Transform activeHeroBone = GetActiveHeroBone();

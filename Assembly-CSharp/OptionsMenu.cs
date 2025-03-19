@@ -223,7 +223,7 @@ public class OptionsMenu : MonoBehaviour
 			{
 				m_fullScreenCheckbox.gameObject.SetActive(value: false);
 			}
-			string versionText = string.Format("{0} {1}.{2}", GameStrings.Get("GLOBAL_VERSION"), "31.6", 216423);
+			string versionText = string.Format("{0} {1}.{2}", GameStrings.Get("GLOBAL_VERSION"), "32.0", 217964);
 			string referral = Vars.Key("Application.Referral").GetStr("none");
 			if (referral != "none")
 			{

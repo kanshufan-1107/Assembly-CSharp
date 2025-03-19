@@ -8,6 +8,7 @@ using Blizzard.Telemetry.WTCG.Client;
 using Hearthstone;
 using Hearthstone.Core;
 using Hearthstone.DataModels;
+using Hearthstone.UI;
 
 public class CurrencyManager : IService, IHasUpdate
 {
@@ -120,6 +121,9 @@ public class CurrencyManager : IService, IHasUpdate
 					break;
 				case CurrencyType.RENOWN:
 					balance = NetCache.Get()?.GetRenownBalance() ?? 0;
+					break;
+				case CurrencyType.TAVERN_TICKET:
+					balance = NetCache.Get()?.GetArenaTicketBalance() ?? 0;
 					break;
 				default:
 					Log.Store.PrintWarning($"Unsupported currency type to cacheable: {Type}");
@@ -269,6 +273,7 @@ public class CurrencyManager : IService, IHasUpdate
 		NetCache.Get().RegisterUpdatedListener(typeof(NetCache.NetCacheArcaneDustBalance), OnDustBalanceUpdate);
 		NetCache.Get().RegisterRenownBalanceListener(OnRenownBalanceUpdate);
 		NetCache.Get().RegisterBattlegroundsTokenBalanceListener(OnBattlegroundsTokenBalanceUpdate);
+		NetCache.Get().RegisterUpdatedListener(typeof(NetCache.NetPlayerArenaTickets), OnTavernTicketBalanceUpdate);
 		HearthstoneApplication.Get().WillReset += OnWillReset;
 		yield break;
 	}
@@ -287,6 +292,7 @@ public class CurrencyManager : IService, IHasUpdate
 			netCache.RemoveUpdatedListener(typeof(NetCache.NetCacheArcaneDustBalance), OnDustBalanceUpdate);
 			netCache.RemoveRenownBalanceListener(OnRenownBalanceUpdate);
 			netCache.RemoveBattlegroundsTokenBalanceListener(OnBattlegroundsTokenBalanceUpdate);
+			netCache.RemoveUpdatedListener(typeof(NetCache.NetPlayerArenaTickets), OnTavernTicketBalanceUpdate);
 		}
 		HearthstoneApplication.Get().WillReset -= OnWillReset;
 	}
@@ -322,6 +328,7 @@ public class CurrencyManager : IService, IHasUpdate
 		GetCurrencyCache(CurrencyType.DUST).TryRefresh();
 		GetCurrencyCache(CurrencyType.RENOWN).TryRefresh();
 		GetCurrencyCache(CurrencyType.BG_TOKEN).TryRefresh();
+		GetCurrencyCache(CurrencyType.TAVERN_TICKET).TryRefresh();
 	}
 
 	public long GetBalance(CurrencyType currencyType)
@@ -396,7 +403,8 @@ public class CurrencyManager : IService, IHasUpdate
 			GetCurrencyCache(CurrencyType.GOLD),
 			GetCurrencyCache(CurrencyType.DUST),
 			GetCurrencyCache(CurrencyType.RENOWN),
-			GetCurrencyCache(CurrencyType.BG_TOKEN)
+			GetCurrencyCache(CurrencyType.BG_TOKEN),
+			GetCurrencyCache(CurrencyType.TAVERN_TICKET)
 		};
 		if (forceIncludeVc || ShopUtils.IsVirtualCurrencyEnabled())
 		{
@@ -462,6 +470,23 @@ public class CurrencyManager : IService, IHasUpdate
 			long balance = netCache.GetArcaneDustBalance();
 			Log.Store.PrintDebug("Arcane Dust balance updated to {0}", balance);
 			GetCurrencyCache(CurrencyType.DUST).UpdateBalance(balance);
+		}
+	}
+
+	private void OnTavernTicketBalanceUpdate()
+	{
+		NetCache netCache = NetCache.Get();
+		if (netCache != null)
+		{
+			long balance = netCache.GetArenaTicketBalance();
+			Log.Store.PrintDebug("Tavern ticket balance updated to {0}", balance);
+			GetCurrencyCache(CurrencyType.TAVERN_TICKET).UpdateBalance(balance);
+			GlobalDataContext.Get().GetDataModel(24, out var dataModel);
+			ShopDataModel shopData = (ShopDataModel)dataModel;
+			if (shopData != null)
+			{
+				shopData.TavernTicketBalance = (int)balance;
+			}
 		}
 	}
 

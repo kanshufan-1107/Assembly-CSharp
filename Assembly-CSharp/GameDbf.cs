@@ -1285,7 +1285,7 @@ public class GameDbf : IService
 
 	private static Action[] GetPostProcessDbfActions()
 	{
-		return new Action[23]
+		return new Action[28]
 		{
 			delegate
 			{
@@ -1378,6 +1378,26 @@ public class GameDbf : IService
 			delegate
 			{
 				s_index.PostProcessDbfLoad_CardHero(CardHero);
+			},
+			delegate
+			{
+				s_index.PostProcessDbfLoad_LettuceAbilityTier();
+			},
+			delegate
+			{
+				s_index.PostProcessDbfLoad_MercenarySpecializations();
+			},
+			delegate
+			{
+				s_index.PostProcessDbfLoad_MercenaryAbilities();
+			},
+			delegate
+			{
+				s_index.PostProcessDbfLoad_MercenaryEquipment();
+			},
+			delegate
+			{
+				s_index.PostProcessDbfLoad_MercenaryTreasure();
 			}
 		};
 	}
@@ -1400,6 +1420,12 @@ public class GameDbf : IService
 		RewardItem.AddListeners(s_index.OnRewardItemAdded, s_index.OnRewardItemRemoved);
 		CardSetTiming.AddListeners(s_index.OnCardSetTimingAdded, s_index.OnCardSetTimingRemoved);
 		CardHero.AddListeners(s_index.OnCardHeroAdded, s_index.OnCardHeroRemoved);
+		LettuceAbilityTier.AddListeners(s_index.OnLettuceAbilityTierAdded, s_index.OnLettuceAbilityTierRemoved);
+		MercenaryArtVariation.AddListeners(s_index.OnMercenaryArtVariationAdded, s_index.OnMercenaryArtVariationRemoved);
+		LettuceMercenarySpecialization.AddListeners(s_index.OnMercenarySpecializationAdded, s_index.OnMercenarySpecializationRemoved);
+		LettuceMercenaryAbility.AddListeners(s_index.OnMercenaryAbilityAdded, s_index.OnMercenaryAbilityRemoved);
+		LettuceMercenaryEquipment.AddListeners(s_index.OnMercenaryEquipmentAdded, s_index.OnMercenaryEquipmentRemoved);
+		MercenaryAllowedTreasure.AddListeners(s_index.OnMercenaryTreasureAdded, s_index.OnMercenaryTreasureRemoved);
 	}
 
 	public static void Reload(string name, string xml)

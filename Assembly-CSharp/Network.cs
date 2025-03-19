@@ -52,7 +52,7 @@ public class Network : IHasUpdate, IService
 		public string GetUserAgent()
 		{
 			string userAgent = "Hearthstone/";
-			userAgent = userAgent + "31.6." + 216423 + " (";
+			userAgent = userAgent + "32.0." + 217964 + " (";
 			userAgent = ((PlatformSettings.OS == OSCategory.iOS) ? (userAgent + "iOS;") : ((PlatformSettings.OS == OSCategory.Android) ? (userAgent + "Android;") : ((PlatformSettings.OS == OSCategory.PC) ? (userAgent + "PC;") : ((PlatformSettings.OS != OSCategory.Mac) ? (userAgent + "UNKNOWN;") : (userAgent + "Mac;")))));
 			userAgent = userAgent + CleanUserAgentString(SystemInfo.deviceModel) + ";" + SystemInfo.deviceType.ToString() + ";" + CleanUserAgentString(SystemInfo.deviceUniqueIdentifier) + ";" + SystemInfo.graphicsDeviceID + ";" + CleanUserAgentString(SystemInfo.graphicsDeviceName) + ";" + CleanUserAgentString(SystemInfo.graphicsDeviceVendor) + ";" + SystemInfo.graphicsDeviceVendorID + ";" + CleanUserAgentString(SystemInfo.graphicsDeviceVersion) + ";" + SystemInfo.graphicsMemorySize + ";" + SystemInfo.graphicsShaderLevel + ";" + SystemInfo.npotSupport.ToString() + ";" + CleanUserAgentString(SystemInfo.operatingSystem) + ";" + SystemInfo.processorCount + ";" + CleanUserAgentString(SystemInfo.processorType) + ";" + SystemInfo.supportedRenderTargetCount + ";" + SystemInfo.supports3DTextures + ";" + SystemInfo.supportsAccelerometer + ";" + SystemInfo.supportsComputeShaders + ";" + SystemInfo.supportsGyroscope + ";" + SystemInfo.supportsImageEffects + ";" + SystemInfo.supportsInstancing + ";" + SystemInfo.supportsRenderTextures + ";" + SystemInfo.supportsRenderToCubemap + ";" + SystemInfo.supportsShadows + ";" + SystemInfo.supportsSparseTextures + ";" + SystemInfo.supportsStencil + ";" + SystemInfo.supportsVibration + ";" + SystemInfo.systemMemorySize + ";" + SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.ARGBHalf) + ";" + SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.ARGB4444) + ";" + SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.Depth) + ";" + SystemInfo.graphicsDeviceVersion.StartsWith("Metal") + ";" + Screen.currentResolution.width + ";" + Screen.currentResolution.height + ";" + Screen.dpi + ";";
 			userAgent = ((!PlatformSettings.IsMobile()) ? (userAgent + "Desktop;") : ((!UniversalInputManager.UsePhoneUI) ? (userAgent + "Tablet;") : (userAgent + "Phone;")));
@@ -64,7 +64,7 @@ public class Network : IHasUpdate, IService
 
 		public int GetApplicationVersion()
 		{
-			return 216423;
+			return 217964;
 		}
 
 		private string CleanUserAgentString(string data)
@@ -98,7 +98,7 @@ public class Network : IHasUpdate, IService
 
 		public string GetAuroraVersionName()
 		{
-			return 216423.ToString();
+			return 217964.ToString();
 		}
 
 		public string GetLocaleName()
@@ -2231,7 +2231,7 @@ public class Network : IHasUpdate, IService
 
 	public static string TutorialServer = "01";
 
-	public const string CosmeticVersion = "31.6";
+	public const string CosmeticVersion = "32.0";
 
 	public const string CosmeticRevision = "0";
 
@@ -2403,7 +2403,17 @@ public class Network : IHasUpdate, IService
 
 	public IDispatcher QueueDispatcher => m_dispatcherImpl;
 
-	public static string BranchName => string.Format("{0}.{1}{2}", "31.6", "0", "");
+	public static string BranchName
+	{
+		get
+		{
+			if (string.IsNullOrEmpty(""))
+			{
+				return "32.0.0";
+			}
+			return "";
+		}
+	}
 
 	private long FakeIdWaitingForResponse { get; set; }
 
@@ -3173,7 +3183,7 @@ public class Network : IHasUpdate, IService
 
 	public static string ProductVersion()
 	{
-		return 31 + "." + 6 + "." + 0 + "." + 0;
+		return 32 + "." + 0 + "." + 0 + "." + 0;
 	}
 
 	private void CreateNewDispatcher()
@@ -5784,7 +5794,7 @@ public class Network : IHasUpdate, IService
 		m_connectApi.OpenBooster(id, numPacks);
 	}
 
-	public void CreateDeck(DeckType deckType, string name, int heroDatabaseAssetID, PegasusShared.FormatType formatType, long sortOrder, DeckSourceType sourceType, out int? requestId, string pastedDeckHash = null, int brawlLibraryItemId = 0)
+	public void CreateDeck(DeckType deckType, string name, int heroDatabaseAssetID, bool isHeroOverridden, PegasusShared.FormatType formatType, long sortOrder, DeckSourceType sourceType, int? cardBackId, int? cosmeticCoinId, out int? requestId, string pastedDeckHash = null, int brawlLibraryItemId = 0)
 	{
 		if (!IsLoggedIn())
 		{
@@ -5793,7 +5803,7 @@ public class Network : IHasUpdate, IService
 		}
 		requestId = GetNextCreateDeckRequestId();
 		Log.Net.Print($"Network.CreateDeck hero={heroDatabaseAssetID}");
-		m_connectApi.CreateDeck(deckType, name, heroDatabaseAssetID, formatType, sortOrder, sourceType, pastedDeckHash, brawlLibraryItemId, requestId);
+		m_connectApi.CreateDeck(deckType, name, heroDatabaseAssetID, isHeroOverridden, formatType, sortOrder, sourceType, cardBackId, cosmeticCoinId, pastedDeckHash, brawlLibraryItemId, requestId);
 	}
 
 	private int GetNextCreateDeckRequestId()
@@ -6539,7 +6549,7 @@ public class Network : IHasUpdate, IService
 			OnFinishedCreatingDecksFromOfflineDataCache(ref data);
 			return;
 		}
-		CreateDeck(deckInfo.DeckType, deckInfo.Name, deckInfo.Hero, deckInfo.FormatType, deckInfo.SortOrder, deckInfo.SourceType, out var requestId, deckInfo.PastedDeckHash);
+		CreateDeck(deckInfo.DeckType, deckInfo.Name, deckInfo.Hero, deckInfo.HeroOverride, deckInfo.FormatType, deckInfo.SortOrder, deckInfo.SourceType, deckInfo.CardBack, deckInfo.CosmeticCoin, out var requestId, deckInfo.PastedDeckHash);
 		if (requestId.HasValue)
 		{
 			m_state.InTransitOfflineCreateDeckRequestIds.Add(requestId.Value);
@@ -9128,6 +9138,11 @@ public class Network : IHasUpdate, IService
 			player1.AddAttributes(BnetAttribute.CreateAttribute("cheat_player_tags", Cheats.Get().GetPlayerTags()));
 		}
 		Cheats.Get().ClearAllPlayerTags();
+		CosmeticCoinManager.Get().FindCoinToUse(player1DeckId, out var cosmeticCoinToUse, out var deckCosmeticCoin);
+		if (cosmeticCoinToUse != deckCosmeticCoin)
+		{
+			player1.AddAttributes(BnetAttribute.CreateAttribute("cosmetic_coin_id", cosmeticCoinToUse));
+		}
 		BnetMatchmakingPlayer player2 = new BnetMatchmakingPlayer(BnetGameAccountId.GetGameAccountHandle(player2GameAccountId), BnetAttribute.CreateAttribute("type", bnetGameType), BnetAttribute.CreateAttribute("scenario", scenarioId), BnetAttribute.CreateAttribute("deck_share_state", (long)player2DeckShareState), BnetAttribute.CreateAttribute("deck", player2DeckId), BnetAttribute.CreateAttribute("player_type", 2L), BnetAttribute.CreateAttribute("season_id", seasonId));
 		if (player2HeroCardDbId.HasValue)
 		{

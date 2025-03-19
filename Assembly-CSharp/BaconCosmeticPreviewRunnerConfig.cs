@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CustomEditClass]
 [CreateAssetMenu(menuName = "ScriptableObjects/Bacon Cosmetic Preview Config")]
+[CustomEditClass]
 public class BaconCosmeticPreviewRunnerConfig : ScriptableObject
 {
 	public int boardId;

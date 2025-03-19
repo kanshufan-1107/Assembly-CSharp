@@ -683,10 +683,10 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 			{
 				string[] versionStrSplit = Application.version.Split('.');
 				m_installedVersionCode = int.Parse(versionStrSplit[2]);
-				if (m_installedVersionCode != 216423)
+				if (m_installedVersionCode != 217964)
 				{
 					Log.Downloader.PrintError("Application.version is different from our setting");
-					m_installedVersionCode = 216423;
+					m_installedVersionCode = 217964;
 				}
 			}
 			catch (Exception ex)
@@ -760,7 +760,7 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 
 	private bool ShouldReportBGDownloadResult { get; set; }
 
-	private bool PrintStageDownloadInfo => Vars.Key("Debug.PrintStageDownloadInfo").GetBool(def: true);
+	private bool PrintStageDownloadInfo => Vars.Key("Debug.PrintStageDownloadInfo").GetBool(def: false);
 
 	public AssetDownloaderState State
 	{
@@ -2306,7 +2306,7 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 	private bool ShouldCheckBinaryUpdate(out bool hasNewBinary)
 	{
 		hasNewBinary = false;
-		int[] binaryVersionInt = new int[4] { 31, 6, 0, GetInstalledVersionCode };
+		int[] binaryVersionInt = new int[4] { 32, 0, 0, GetInstalledVersionCode };
 		int diff = 0;
 		try
 		{
@@ -3313,10 +3313,10 @@ public class RuntimeAssetDownloader : ICallbackHandler, IAssetDownloader
 
 	private bool IsDisabledAPKUpdateVersion()
 	{
-		bool disabled = m_disabledAPKUpdates != null && Array.Exists(m_disabledAPKUpdates, (int s) => s == 216423);
+		bool disabled = m_disabledAPKUpdates != null && Array.Exists(m_disabledAPKUpdates, (int s) => s == 217964);
 		if (disabled)
 		{
-			Log.Downloader.PrintInfo("The current version-{0} is disabled for APK update.", 216423);
+			Log.Downloader.PrintInfo("The current version-{0} is disabled for APK update.", 217964);
 		}
 		return disabled;
 	}

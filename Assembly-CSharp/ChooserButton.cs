@@ -39,12 +39,12 @@ public abstract class ChooserButton : AdventureGenericButton
 	[SerializeField]
 	public iTween.EaseType m_ActivateEaseType = iTween.EaseType.easeOutBounce;
 
-	[CustomEditField(Sections = "Sub Button Settings")]
 	[SerializeField]
+	[CustomEditField(Sections = "Sub Button Settings")]
 	public iTween.EaseType m_DeactivateEaseType = iTween.EaseType.easeOutSine;
 
-	[CustomEditField(Sections = "Sub Button Settings")]
 	[SerializeField]
+	[CustomEditField(Sections = "Sub Button Settings")]
 	public float m_SubButtonVisibilityPadding = 5f;
 
 	[SerializeField]

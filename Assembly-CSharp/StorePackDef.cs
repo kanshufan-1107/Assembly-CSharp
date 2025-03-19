@@ -27,8 +27,8 @@ public class StorePackDef : MonoBehaviour
 	[CustomEditField(T = EditType.TEXTURE)]
 	public string m_miniSetAccentTextureName;
 
-	[Tooltip("Defaults to logo texture if left blank")]
 	[CustomEditField(T = EditType.TEXTURE)]
+	[Tooltip("Defaults to logo texture if left blank")]
 	public string m_sellableDeckLogoTextureName;
 
 	[CustomEditField(T = EditType.MATERIAL)]

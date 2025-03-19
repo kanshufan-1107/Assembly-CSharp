@@ -1,14 +1,14 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Get the Entity's game object from an Entity ID")]
+[ActionCategory("Pegasus")]
 public class GetEntityActorAction : FsmStateAction
 {
 	public FsmInt m_EntityId;
 
 	[RequiredField]
-	[Tooltip("Stores the Entity's actor in this output variable.")]
 	[UIHint(UIHint.Variable)]
+	[Tooltip("Stores the Entity's actor in this output variable.")]
 	public FsmGameObject m_EntityActor;
 
 	public override void Reset()

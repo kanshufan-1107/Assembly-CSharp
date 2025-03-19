@@ -20,6 +20,8 @@ public class PerformanceAnalytics : IService
 
 	private string m_location = string.Empty;
 
+	private readonly float LOW_MEMORY_THRESHOLD = 100f;
+
 	public IEnumerator<IAsyncJobResult> Initialize(ServiceLocator serviceLocator)
 	{
 		BeginStartupTimer();
@@ -28,6 +30,8 @@ public class PerformanceAnalytics : IService
 			m_location = BattleNet.GetAccountCountry();
 		}
 		SendDisconnectAndTimeoutEvents();
+		SceneMgr.Get().RegisterSceneLoadedEvent(OnSceneLoaded);
+		SceneMgr.Get().RegisterSceneUnloadedEvent(OnSceneUnloaded);
 		yield break;
 	}
 
@@ -38,6 +42,11 @@ public class PerformanceAnalytics : IService
 
 	public void Shutdown()
 	{
+		if (SceneMgr.Get() != null)
+		{
+			SceneMgr.Get().UnregisterSceneLoadedEvent(OnSceneLoaded);
+			SceneMgr.Get().UnregisterSceneUnloadedEvent(OnSceneUnloaded);
+		}
 	}
 
 	public static PerformanceAnalytics Get()
@@ -157,5 +166,13 @@ public class PerformanceAnalytics : IService
 			return "LAN";
 		}
 		return "None";
+	}
+
+	private void OnSceneLoaded(SceneMgr.Mode mode, PegasusScene scene, object userData)
+	{
+	}
+
+	private void OnSceneUnloaded(SceneMgr.Mode prevMode, PegasusScene prevScene, object userData)
+	{
 	}
 }

@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Plays an Animation on a Game Object and waits for the animation to finish.")]
+[ActionCategory("Pegasus")]
 public class AnimationPlayAction : FsmStateAction
 {
 	[RequiredField]
-	[Tooltip("Game Object to play the animation on.")]
 	[CheckForComponent(typeof(Animation))]
+	[Tooltip("Game Object to play the animation on.")]
 	public FsmOwnerDefault m_GameObject;
 
-	[Tooltip("The name of the animation to play.")]
 	[UIHint(UIHint.Animation)]
+	[Tooltip("The name of the animation to play.")]
 	public FsmString m_AnimName;
 
 	public FsmString m_PhoneAnimName;

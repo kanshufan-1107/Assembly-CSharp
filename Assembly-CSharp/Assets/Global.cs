@@ -24,7 +24,8 @@ public static class Global
 		MANA,
 		HEALTH,
 		ARMOR,
-		CORPSES
+		CORPSES,
+		OPPONENTS_HEALTH
 	}
 
 	public enum Costcolor

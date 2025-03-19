@@ -734,9 +734,12 @@ public class SceneMgr : IService, IHasUpdate
 		{
 			yield return null;
 		}
-		m_scene.Unload();
-		m_scene = null;
-		m_sceneLoaded = false;
+		if (m_scene != null)
+		{
+			m_scene.Unload();
+			m_scene = null;
+			m_sceneLoaded = false;
+		}
 		FireSceneUnloadedEvent(m_previousScene);
 		PostUnloadCleanup(m_previousScene.SceneName);
 		LoadModeFromModeSwitch();

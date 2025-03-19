@@ -304,13 +304,13 @@ public class CardColorSwitcher : MonoBehaviour
 		switch (cardType)
 		{
 		case TAG_CARDTYPE.MINION:
+		case TAG_CARDTYPE.BATTLEGROUND_HERO_BUDDY:
 			textures = minionCardTextures;
 			break;
 		case TAG_CARDTYPE.LOCATION:
 			textures = locationCardTextures;
 			break;
 		case TAG_CARDTYPE.SPELL:
-		case TAG_CARDTYPE.BATTLEGROUND_CLICKABLE_BUTTON:
 			textures = spellCardTextures;
 			break;
 		case TAG_CARDTYPE.HERO:

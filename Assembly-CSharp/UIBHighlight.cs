@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PegUIElement))]
 [CustomEditClass]
+[RequireComponent(typeof(PegUIElement))]
 public class UIBHighlight : MonoBehaviour
 {
 	[CustomEditField(Sections = "Highlight Objects")]
@@ -37,8 +37,8 @@ public class UIBHighlight : MonoBehaviour
 	[SerializeField]
 	private bool m_EnableResponse = true;
 
-	[Tooltip("Note: Allowing selection and allowing dragging are mutually exclusive.")]
 	[CustomEditField(Sections = "Allow Selection", Label = "Enable")]
+	[Tooltip("Note: Allowing selection and allowing dragging are mutually exclusive.")]
 	public bool m_AllowSelection;
 
 	[CustomEditField(Parent = "m_AllowSelection")]
@@ -47,8 +47,8 @@ public class UIBHighlight : MonoBehaviour
 	[CustomEditField(Parent = "m_AllowSelection")]
 	public GameObject m_MouseOverSelectedHighlight;
 
-	[Tooltip("Note: Allowing selection and allowing dragging are mutually exclusive.")]
 	[CustomEditField(Sections = "Allow Dragging", Label = "Enable")]
+	[Tooltip("Note: Allowing selection and allowing dragging are mutually exclusive.")]
 	public bool m_AllowDragging;
 
 	[CustomEditField(Parent = "m_AllowDragging")]

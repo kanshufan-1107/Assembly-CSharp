@@ -86,7 +86,7 @@ public static class TextUtils
 
 	public static string TransformCardText(string text, TransformCardTextParams parameters = null)
 	{
-		return GameStrings.ParseLanguageRules(TransformCardTextImpl(text, parameters));
+		return GameStrings.ParseLanguageRules(DoesStringRequireTransformation(text) ? TransformCardTextImpl(text, parameters) : text);
 	}
 
 	public static string ToHexString(this byte[] bytes)
@@ -187,6 +187,15 @@ public static class TextUtils
 			return input;
 		}
 		return Regex.Replace(input, "<.*?>", string.Empty);
+	}
+
+	private static bool DoesStringRequireTransformation(string powersText)
+	{
+		if (!powersText.Contains("$", StringComparison.Ordinal))
+		{
+			return powersText.Contains("#", StringComparison.Ordinal);
+		}
+		return true;
 	}
 
 	private static string TransformCardTextImpl(string powersText, TransformCardTextParams parameters = null)

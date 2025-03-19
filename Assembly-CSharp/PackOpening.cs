@@ -136,8 +136,8 @@ public class PackOpening : MonoBehaviour
 
 	private int m_massPackOpeningHooverChunkSize;
 
-	[Header("Mass Pack Opening Hoovering PlayMaker Variable Names")]
 	[Tooltip("The PlayMaker script being used for hoovering")]
+	[Header("Mass Pack Opening Hoovering PlayMaker Variable Names")]
 	public PlayMakerFSM m_hooveringPlayMaker;
 
 	[Tooltip("The PlayMaker script variable for the source stack")]

@@ -36,12 +36,12 @@ public class WidgetTransformAnchor : WidgetPositioningElement
 	[SerializeField]
 	private bool m_stretchY;
 
-	[Header("Anchor Offsets")]
 	[SerializeField]
+	[Header("Anchor Offsets")]
 	private Vector2 m_originOffset;
 
-	[Header("Stretch Offsets")]
 	[SerializeField]
+	[Header("Stretch Offsets")]
 	private float m_leftPercentage = 1f;
 
 	[SerializeField]

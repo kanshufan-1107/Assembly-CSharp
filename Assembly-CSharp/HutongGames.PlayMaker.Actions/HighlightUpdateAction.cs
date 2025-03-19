@@ -6,8 +6,8 @@ namespace HutongGames.PlayMaker.Actions;
 [ActionCategory("Pegasus")]
 public class HighlightUpdateAction : FsmStateAction
 {
-	[Tooltip("GameObject to send highlight states to")]
 	[RequiredField]
+	[Tooltip("GameObject to send highlight states to")]
 	public FsmOwnerDefault m_gameObj;
 
 	private DelayedEvent delayedEvent;

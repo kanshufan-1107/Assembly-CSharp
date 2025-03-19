@@ -179,10 +179,7 @@ public class TeammateGameModeButtonViewer : TeammateViewer
 		UpdateGameModeButton(m_freezeButtonDummyActor, 0, m_freezeEntityID);
 		UpdateGameModeButton(m_refreshButtonDummyActor, m_teammateRefreshCost, m_refreshEntityID);
 		UpdateGameModeButton(m_tavernButtonDummyActor, m_teammateTavernTierCost, m_tavernEntityID);
-		if (m_tavernButtonDummyActor != null && (GetTeammateTechLevelInt() >= GetMaxTechLevel() || IsTechLeveLDisabled()))
-		{
-			m_tavernButtonDummyActor.gameObject.SetActive(value: false);
-		}
+		DisableTechButtonIfNeeded();
 		if (m_teammateManaCrystalCounter != null)
 		{
 			ManaCounter manaCounter = m_teammateManaCrystalCounter.GetComponent<ManaCounter>();
@@ -357,6 +354,7 @@ public class TeammateGameModeButtonViewer : TeammateViewer
 		InitGameModeButton(ref m_refreshButtonDummyActor, REFRESH_BUTTON_DBID, m_refreshPos, m_refreshScale);
 		InitGameModeButton(ref m_tavernButtonDummyActor, TAVERN_TIER_2_BUTTON_DBID, m_tavernTierPos, m_tavernTierScale);
 		InitGameModeButton(ref m_freezeButtonDummyActor, FREEZE_BUTTON_DBID, m_freezePos, m_freezeScale);
+		DisableTechButtonIfNeeded();
 	}
 
 	private void InitGameModeButton(ref Actor buttonActor, int buttonDBID, Vector3 position, Vector3 scale)
@@ -403,6 +401,14 @@ public class TeammateGameModeButtonViewer : TeammateViewer
 			return false;
 		}
 		return GameState.Get().GetGameEntity().HasTag(GAME_TAG.BACON_NO_TIER_UP_BUTTON);
+	}
+
+	private void DisableTechButtonIfNeeded()
+	{
+		if (m_tavernButtonDummyActor != null && (GetTeammateTechLevelInt() >= GetMaxTechLevel() || IsTechLeveLDisabled()))
+		{
+			m_tavernButtonDummyActor.gameObject.SetActive(value: false);
+		}
 	}
 
 	private int GetTeammateTechLevelInt()

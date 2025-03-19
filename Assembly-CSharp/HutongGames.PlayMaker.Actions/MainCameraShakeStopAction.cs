@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("[DEPRECATED - Use CameraShakeStopAction instead.] Stops shaking the Main Camera over time.")]
 [ActionCategory("Pegasus")]
+[Tooltip("[DEPRECATED - Use CameraShakeStopAction instead.] Stops shaking the Main Camera over time.")]
 public class MainCameraShakeStopAction : FsmStateAction
 {
 	public FsmFloat m_Time;

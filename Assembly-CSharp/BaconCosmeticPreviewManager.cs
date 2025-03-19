@@ -411,20 +411,23 @@ public class BaconCosmeticPreviewManager : MonoBehaviour
 
 	private void ResetOpponentRenderers()
 	{
-		Actor opponentActor = m_opposingHeroActor;
-		if (opponentActor.m_portraitMesh != null)
+		if (!(m_opposingHeroActor == null))
 		{
-			opponentActor.m_portraitMesh.GetComponent<Renderer>().enabled = true;
-		}
-		if (opponentActor.m_healthObject != null)
-		{
-			opponentActor.m_healthObject.GetComponentInChildren<Renderer>().enabled = true;
-		}
-		DisableHeroAttack(opponentActor);
-		CustomHeroFrameBehaviour heroFrame = opponentActor.GetComponentInChildren<CustomHeroFrameBehaviour>();
-		if (heroFrame != null)
-		{
-			heroFrame.GetFrame().GetComponentInChildren<Renderer>().enabled = true;
+			Actor opponentActor = m_opposingHeroActor;
+			if (opponentActor.m_portraitMesh != null)
+			{
+				opponentActor.m_portraitMesh.GetComponent<Renderer>().enabled = true;
+			}
+			if (opponentActor.m_healthObject != null)
+			{
+				opponentActor.m_healthObject.GetComponentInChildren<Renderer>().enabled = true;
+			}
+			DisableHeroAttack(opponentActor);
+			CustomHeroFrameBehaviour heroFrame = opponentActor.GetComponentInChildren<CustomHeroFrameBehaviour>();
+			if (heroFrame != null)
+			{
+				heroFrame.GetFrame().GetComponentInChildren<Renderer>().enabled = true;
+			}
 		}
 	}
 

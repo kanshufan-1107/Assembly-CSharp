@@ -12,8 +12,8 @@ using UnityEngine.Rendering;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [WidgetBehaviorDescription(Path = "Hearthstone/Card", UniqueWithinCategory = "asset")]
+[AddComponentMenu("")]
 public class Card : CustomWidgetBehavior
 {
 	private enum RenderObject
@@ -97,16 +97,16 @@ public class Card : CustomWidgetBehavior
 		RenderObject.CustomMaterial
 	};
 
-	[SerializeField]
 	[Tooltip("This is the ID of the card displayed by default.")]
+	[SerializeField]
 	private string m_defaultCardId = "BOT_914h";
 
 	[SerializeField]
 	[Tooltip("If true, it will use the card ID from the 'card' data model whenever bound.")]
 	private bool m_useCardIdFromDataModel = true;
 
-	[SerializeField]
 	[Tooltip("If true, it will use the premium tag from the 'card' data model whenever bound.")]
+	[SerializeField]
 	private PremiumTag m_golden;
 
 	[SerializeField]
@@ -117,44 +117,44 @@ public class Card : CustomWidgetBehavior
 	[Tooltip("Optional: If supported by selected card, asset loading will override with texture render to quad.")]
 	protected GameObject m_displayRenderOverride;
 
-	[Tooltip("Displays the card using the visual treatment it would have in this zone.")]
 	[SerializeField]
+	[Tooltip("Displays the card using the visual treatment it would have in this zone.")]
 	protected TAG_ZONE m_zone = TAG_ZONE.HAND;
 
-	[Tooltip("If true, it will use the Base Render Queue to short the render objects such as the custom material plane, highlight, and shadow.")]
 	[SerializeField]
+	[Tooltip("If true, it will use the Base Render Queue to short the render objects such as the custom material plane, highlight, and shadow.")]
 	private bool m_overrideCustomMaterialRenderQueue;
 
 	[SerializeField]
 	[Tooltip("This is the bas render queue used for the render objects such as the custom material plane, highlight, and shadow.")]
 	private int m_baseCustomMaterialRenderQueue = -3;
 
-	[Tooltip("If true, it will use the stat values set in the data model for attack and health. Otherwise, it will use the EntityDef defaults.")]
 	[SerializeField]
+	[Tooltip("If true, it will use the stat values set in the data model for attack and health. Otherwise, it will use the EntityDef defaults.")]
 	private bool m_useStatsFromDataModel;
 
-	[SerializeField]
 	[Tooltip("If true, attempt to use the card's short name if it exists")]
+	[SerializeField]
 	private bool m_useShortName;
 
-	[SerializeField]
 	[Tooltip("Bacon Reward's minion type")]
+	[SerializeField]
 	private int m_baconRewardMinionType;
 
 	[Tooltip("Bacon Quest Reward is Completed")]
 	[SerializeField]
 	private bool m_baconRewardIsCompleted = true;
 
-	[Tooltip("Bacon Reward card's database ID")]
 	[SerializeField]
+	[Tooltip("Bacon Reward card's database ID")]
 	private int m_baconRewardCardDatabaseID;
 
-	[SerializeField]
 	[Tooltip("Bacon Quest Progress Total")]
+	[SerializeField]
 	private int m_baconQuestProgressTotal;
 
-	[SerializeField]
 	[Tooltip("Bacon Quest Race 1")]
+	[SerializeField]
 	private int m_baconQuestRace1;
 
 	[Tooltip("Bacon Quest Race 2")]
@@ -165,12 +165,12 @@ public class Card : CustomWidgetBehavior
 	[Tooltip("Bacon Hero Buddy ID")]
 	private int m_baconHeroBuddyID;
 
-	[SerializeField]
 	[Tooltip("Bacon Hero Buddy Cost")]
+	[SerializeField]
 	private int m_baconHeroBuddyCost;
 
-	[SerializeField]
 	[Tooltip("Bacon Number Buddies Gained")]
+	[SerializeField]
 	private int m_baconNumBuddiesGained = -1;
 
 	[SerializeField]
@@ -180,8 +180,8 @@ public class Card : CustomWidgetBehavior
 	[Tooltip("If true, hide the gems, such as mana, attack and health.")]
 	public ActorGemObjectVisibility m_actorGemObjectVisibility;
 
-	[Tooltip("If true, it will use the stat values set in the data model for attack and health. Otherwise, it will use the EntityDef defaults.")]
 	[SerializeField]
+	[Tooltip("If true, it will use the stat values set in the data model for attack and health. Otherwise, it will use the EntityDef defaults.")]
 	private bool m_useTagOverridesFromDataModel;
 
 	private bool m_enableHighlight;

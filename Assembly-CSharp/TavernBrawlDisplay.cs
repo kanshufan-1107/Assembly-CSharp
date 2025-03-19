@@ -4,7 +4,9 @@ using Assets;
 using Blizzard.T5.AssetManager;
 using Blizzard.T5.Configuration;
 using Blizzard.T5.MaterialService.Extensions;
+using Hearthstone.DataModels;
 using Hearthstone.DungeonCrawl;
+using Hearthstone.UI;
 using PegasusShared;
 using UnityEngine;
 
@@ -598,6 +600,12 @@ public class TavernBrawlDisplay : MonoBehaviour
 		CancelInvoke("UpdateTimeText");
 		InvokeRepeating("UpdateTimeText", 0.1f, 0.1f);
 		UpdateTimeText();
+		Widget widget = GetComponentInChildren<Widget>();
+		if (widget != null)
+		{
+			TavernBrawlDetailsDataModel model = TavernBrawlManager.Get().CreateTavernBrawlDetailsDataModel(scenarioDbf);
+			widget.BindDataModel(model);
+		}
 	}
 
 	private void RefreshTavernBrawlInfo_ConfirmEnded(AlertPopup.Response response, object userData)

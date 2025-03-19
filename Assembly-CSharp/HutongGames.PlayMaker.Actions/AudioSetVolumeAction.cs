@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus Audio")]
 [Tooltip("Sets the volume of an AudioSource on a Game Object.")]
+[ActionCategory("Pegasus Audio")]
 public class AudioSetVolumeAction : FsmStateAction
 {
 	[RequiredField]

@@ -110,32 +110,35 @@ public class RenderToTextureUtils
 
 	public static void RenderCamera(CommandBuffer cmd, RenderTexture rt, LightWeightCamera camera, RenderCommandLists renderCommands, Shader replacementShader = null, string replacementTag = "")
 	{
-		cmd.SetRenderTarget(rt);
-		cmd.SetViewProjectionMatrices(camera.worldToCameraMatrix, camera.projectionMatrix);
-		cmd.ClearRenderTarget(clearDepth: true, clearColor: true, camera.backgroundColor);
-		if ((bool)replacementShader)
+		using (s_RTTRenderCamera.Auto())
 		{
-			Material tempMat = new Material(replacementShader);
-			string replacementVal = tempMat.GetTag(replacementTag, searchFallbacks: false);
-			foreach (RenderCommand command in renderCommands.OpaqueRenderCommands)
+			cmd.SetRenderTarget(rt);
+			cmd.SetViewProjectionMatrices(camera.worldToCameraMatrix, camera.projectionMatrix);
+			cmd.ClearRenderTarget(clearDepth: true, clearColor: true, camera.backgroundColor);
+			if ((bool)replacementShader)
 			{
-				DrawCommandReplacement(cmd, camera.cullingMask, command, tempMat, replacementTag, replacementVal);
-			}
-			{
-				foreach (RenderCommand command2 in renderCommands.TransparentRenderCommands)
+				Material tempMat = new Material(replacementShader);
+				string replacementVal = tempMat.GetTag(replacementTag, searchFallbacks: false);
+				foreach (RenderCommand command in renderCommands.OpaqueRenderCommands)
 				{
-					DrawCommandReplacement(cmd, camera.cullingMask, command2, tempMat, replacementTag, replacementVal);
+					DrawCommandReplacement(cmd, camera.cullingMask, command, tempMat, replacementTag, replacementVal);
 				}
-				return;
+				{
+					foreach (RenderCommand command2 in renderCommands.TransparentRenderCommands)
+					{
+						DrawCommandReplacement(cmd, camera.cullingMask, command2, tempMat, replacementTag, replacementVal);
+					}
+					return;
+				}
 			}
-		}
-		foreach (RenderCommand command3 in renderCommands.OpaqueRenderCommands)
-		{
-			DrawCommand(cmd, camera.cullingMask, command3);
-		}
-		foreach (RenderCommand command4 in renderCommands.TransparentRenderCommands)
-		{
-			DrawCommand(cmd, camera.cullingMask, command4);
+			foreach (RenderCommand command3 in renderCommands.OpaqueRenderCommands)
+			{
+				DrawCommand(cmd, camera.cullingMask, command3);
+			}
+			foreach (RenderCommand command4 in renderCommands.TransparentRenderCommands)
+			{
+				DrawCommand(cmd, camera.cullingMask, command4);
+			}
 		}
 	}
 }

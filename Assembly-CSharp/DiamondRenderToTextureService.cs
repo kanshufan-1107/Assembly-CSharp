@@ -222,17 +222,20 @@ public class DiamondRenderToTextureService : IService
 
 	private void RenderAllAtlases()
 	{
-		bool hasRealtimeAtlas = false;
-		m_atlasOriginPosition = DEFAULT_ATLAS_POSITION;
-		foreach (DiamondRenderToTextureAtlas atlas in m_atlases)
+		using (s_renderAllAtlasesProfiler.Auto())
 		{
-			if (atlas.Dirty || atlas.IsRealTime)
+			bool hasRealtimeAtlas = false;
+			m_atlasOriginPosition = DEFAULT_ATLAS_POSITION;
+			foreach (DiamondRenderToTextureAtlas atlas in m_atlases)
 			{
-				RenderAtlas(atlas, m_atlasOriginPosition);
+				if (atlas.Dirty || atlas.IsRealTime)
+				{
+					RenderAtlas(atlas, m_atlasOriginPosition);
+				}
+				hasRealtimeAtlas |= atlas.IsRealTime;
 			}
-			hasRealtimeAtlas |= atlas.IsRealTime;
+			m_dirty = hasRealtimeAtlas;
 		}
-		m_dirty = hasRealtimeAtlas;
 	}
 
 	private void RenderAtlas(DiamondRenderToTextureAtlas atlas, Vector3 atlasOrigin)

@@ -551,7 +551,7 @@ public class ChoiceCardMgr : MonoBehaviour
 	public bool ShowSubOptions(Card parentCard, List<int> dynamicSubOptionEntitIds = null)
 	{
 		Entity parentEntity = parentCard.GetEntity();
-		if (parentEntity != null && parentCard.GetEntity().IsTitan() && !parentEntity.IsControlledByFriendlySidePlayer())
+		if (parentEntity != null && !parentEntity.IsControlledByFriendlySidePlayer())
 		{
 			return false;
 		}

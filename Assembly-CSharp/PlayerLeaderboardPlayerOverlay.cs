@@ -57,10 +57,6 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 
 	private const string BG_SECOND_BUDDY = "SecondBuddy";
 
-	private readonly Vector3 BG_SECOND_BUDDY_HIDE_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
-
-	private readonly Vector3 BG_SECOND_BUDDY_SHOW_SCALE = new Vector3(1f, 1f, 1f);
-
 	private const float RECENT_ACTION_PANEL_SCALE = 0.35f;
 
 	[SerializeField]
@@ -661,15 +657,6 @@ public class PlayerLeaderboardPlayerOverlay : MonoBehaviour
 				else
 				{
 					Debug.LogWarning("BG Buddy Reward VFX object is missing from card_hand_ally");
-				}
-				GameObject secondBuddy = GameObjectUtils.FindChildBySubstring(m_heroBuddyActor.gameObject, "SecondBuddy");
-				if (secondBuddy != null)
-				{
-					secondBuddy.gameObject.transform.localScale = ((buddyGained >= 2) ? BG_SECOND_BUDDY_SHOW_SCALE : BG_SECOND_BUDDY_HIDE_SCALE);
-				}
-				else
-				{
-					Debug.LogWarning("BG Second Buddy object is missing from card_hand_ally");
 				}
 				Spell techLevelSpell = m_heroBuddyActor.GetSpell(SpellType.TECH_LEVEL_MANA_GEM);
 				if (techLevelSpell != null)

@@ -31,4 +31,9 @@ public class ReferenceScriptDataNum1CardDBIDCardTextBuilder : CardTextBuilder
 		string formattedText = TextUtils.TryFormat(rawCardTextInHand, name);
 		return TextUtils.TransformCardText(entity, formattedText);
 	}
+
+	public override string BuildCardTextInHand(EntityDef entityDef)
+	{
+		return TextUtils.TryFormat(CardTextBuilder.GetRawCardTextInHand(entityDef.GetCardId()), GameStrings.Get("GAMEPLAY_UNKNOWN_CREATED_BY"));
+	}
 }

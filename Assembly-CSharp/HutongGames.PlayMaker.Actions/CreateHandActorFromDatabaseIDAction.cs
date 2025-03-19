@@ -15,9 +15,9 @@ public class CreateHandActorFromDatabaseIDAction : FsmStateAction
 	[RequiredField]
 	public FsmInt m_DatabaseID;
 
-	[Tooltip("Variable to store the newly created dummy actor.")]
-	[UIHint(UIHint.Variable)]
 	[RequiredField]
+	[UIHint(UIHint.Variable)]
+	[Tooltip("Variable to store the newly created dummy actor.")]
 	public FsmGameObject m_DummyActor;
 
 	[Tooltip("Match the premium of the owner. Set to false to use the next field instead.")]

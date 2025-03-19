@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Used to control TGT Grand Stands")]
+[ActionCategory("Pegasus")]
 public class TGTGrandStandAction : FsmStateAction
 {
 	public enum EMOTE

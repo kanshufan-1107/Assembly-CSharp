@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[ExecuteAlways]
 [AddComponentMenu("")]
+[ExecuteAlways]
 public class PopupRenderer : MonoBehaviour, ILayerOverridable, IVisibleWidgetComponent
 {
 	private GameLayer? m_layerOverride;

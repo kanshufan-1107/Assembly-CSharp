@@ -21,8 +21,8 @@ public class LooperBehaviour : PlayableBehaviour
 	private BreakoutMode m_breakoutMode;
 
 	[Tooltip("How likely is it that the track will loop?\n0 = Never loop.\n1 = Always loop.")]
-	[Range(0f, 1f)]
 	[SerializeField]
+	[Range(0f, 1f)]
 	private float m_chanceToLoop = 1f;
 
 	[Tooltip("The loop/breakout pattern.")]

@@ -1,7 +1,7 @@
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Sends Events based on whether or not an option is enabled by the player.")]
+[ActionCategory("Pegasus")]
 public class IsOptionEnabledAction : FsmStateAction
 {
 	[Tooltip("The option to check.")]

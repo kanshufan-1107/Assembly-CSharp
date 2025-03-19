@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [ExecuteAlways]
+[AddComponentMenu("")]
 public class PopupRoot : MonoBehaviour, IPopupRoot
 {
 	public CustomViewEntryPoint ViewEntryPoint = CustomViewEntryPoint.Count;

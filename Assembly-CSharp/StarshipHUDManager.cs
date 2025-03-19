@@ -49,8 +49,8 @@ public class StarshipHUDManager : MonoBehaviour
 	[SerializeField]
 	private UberText m_manaText;
 
-	[SerializeField]
 	[Header("HUD Mobile Only Variables")]
+	[SerializeField]
 	private Vector3 m_showThreeStarshipPiecesBoneOffsetMobile;
 
 	[SerializeField]
@@ -95,8 +95,8 @@ public class StarshipHUDManager : MonoBehaviour
 	[SerializeField]
 	private float m_adjacentCardXOffsetMobile = 0.75f;
 
-	[Header("HUD Animation References")]
 	[SerializeField]
+	[Header("HUD Animation References")]
 	private Spell m_OpenCloseHudSpell;
 
 	[SerializeField]
@@ -267,6 +267,7 @@ public class StarshipHUDManager : MonoBehaviour
 			int cost = GameUtils.StarshipLaunchCost(player);
 			int cardTagValue = GameUtils.GetCardTagValue(GameUtils.STARSHIP_LAUNCH_CARD_ID, GAME_TAG.COST);
 			m_manaText.Text = Mathf.Max(0, cost).ToString();
+			m_manaText.TextColor = Color.white;
 			if (cardTagValue > cost)
 			{
 				m_manaText.TextColor = Color.green;

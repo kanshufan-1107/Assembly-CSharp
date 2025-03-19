@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Stores the number of races for a card in passed int.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Stores the number of races for a card in passed int.")]
 public class SpellGetCardRaceCountAction : SpellAction
 {
 	public FsmOwnerDefault m_SpellObject;
@@ -11,8 +11,8 @@ public class SpellGetCardRaceCountAction : SpellAction
 	public Which m_WhichCard;
 
 	[UIHint(UIHint.Variable)]
-	[Tooltip("Output variable.")]
 	[RequiredField]
+	[Tooltip("Output variable.")]
 	public FsmInt m_RaceCount;
 
 	protected override GameObject GetSpellOwner()

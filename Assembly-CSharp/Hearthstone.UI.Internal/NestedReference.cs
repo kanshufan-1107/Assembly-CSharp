@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using UnityEngine;
 
@@ -43,8 +44,6 @@ public struct NestedReference
 		public bool IsSuccessful;
 
 		public ResolveError ResolveError;
-
-		public string ErrorFriendlyPath;
 	}
 
 	public enum Scope
@@ -140,7 +139,6 @@ public struct NestedReference
 				return result;
 			}
 			result.IsSuccessful = false;
-			result.ErrorFriendlyPath = property.Target.name + "/" + propertyPath;
 			result.ResolveError = ResolveError.UnableToResolveProperty;
 			return result;
 		}
@@ -161,7 +159,6 @@ public struct NestedReference
 			}
 		}
 		result.IsSuccessful = false;
-		result.ErrorFriendlyPath = property.Target.name + "/" + propertyPath;
 		result.ResolveError = ResolveError.UnableToResolveProperty;
 		return result;
 	}
@@ -239,7 +236,6 @@ public struct NestedReference
 			{
 				result.IsSuccessful = false;
 				result.ResolveError = (info.CheckedAllComponents ? ResolveError.ReferenceMissing : ResolveError.ReferenceNotLoaded);
-				result.ErrorFriendlyPath = nestedResolver.GetPathToObject() + "/???";
 				return result;
 			}
 			nestedResolver = target as INestedReferenceResolver;
@@ -297,5 +293,10 @@ public struct NestedReference
 		{
 			m_readyListener(m_payload);
 		}
+	}
+
+	[Conditional("UNITY_EDITOR")]
+	private static void SetErrorFriendlyPathOnResult(ResolveResult result, string path)
+	{
 	}
 }

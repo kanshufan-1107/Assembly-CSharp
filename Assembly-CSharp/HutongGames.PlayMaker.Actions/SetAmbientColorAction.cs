@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Set scene ambient color")]
+[ActionCategory("Pegasus")]
 public class SetAmbientColorAction : FsmStateAction
 {
 	public FsmColor m_Color;

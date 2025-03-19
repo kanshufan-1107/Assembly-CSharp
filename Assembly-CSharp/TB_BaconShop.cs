@@ -788,22 +788,41 @@ public class TB_BaconShop : MissionEntity
 		return BATTLEGROUNDS_MULLIGAN_ACTOR_SCALE;
 	}
 
+	public bool IsAllHeroesTheSameThisGame()
+	{
+		int anomalyID = GetTag(GAME_TAG.BACON_GLOBAL_ANOMALY_DBID);
+		if (anomalyID == 0)
+		{
+			return false;
+		}
+		using DefLoader.DisposableFullDef anomalyCardDef = DefLoader.Get().GetFullDef(anomalyID);
+		return anomalyCardDef.EntityDef.HasTag(GAME_TAG.BACON_ANOMALY_ALL_HEROES_ARE_THIS_DBID);
+	}
+
 	public override int GetNumberOfFakeMulliganCardsToShowOnLeft(int numOriginalCards)
 	{
-		if (numOriginalCards >= 3)
+		if (!IsAllHeroesTheSameThisGame())
 		{
-			return 0;
+			if (numOriginalCards >= 3)
+			{
+				return 0;
+			}
+			return 1;
 		}
-		return 1;
+		return 0;
 	}
 
 	public override int GetNumberOfFakeMulliganCardsToShowOnRight(int numOriginalCards)
 	{
-		if (numOriginalCards >= 4)
+		if (!IsAllHeroesTheSameThisGame())
 		{
-			return 0;
+			if (numOriginalCards >= 4)
+			{
+				return 0;
+			}
+			return 1;
 		}
-		return 1;
+		return 0;
 	}
 
 	public override void ConfigureFakeMulliganCardActor(Actor actor, bool shown)

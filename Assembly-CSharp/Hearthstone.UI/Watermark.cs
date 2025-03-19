@@ -9,8 +9,8 @@ using UnityEngine;
 
 namespace Hearthstone.UI;
 
-[AddComponentMenu("")]
 [WidgetBehaviorDescription(Path = "Hearthstone/Watermark", UniqueWithinCategory = "asset")]
+[AddComponentMenu("")]
 public class Watermark : CustomWidgetBehavior
 {
 	private struct TextureSource
@@ -35,17 +35,17 @@ public class Watermark : CustomWidgetBehavior
 		public int m_asyncOperationId;
 	}
 
-	[SerializeField]
 	[Tooltip("Base Material to texture with")]
+	[SerializeField]
 	private Material m_baseMaterial;
 
+	[Header("Mutually Exclusive")]
 	[SerializeField]
 	[Tooltip("If set, it will use this texture directly instead of deriving the texture from a bound data model.")]
-	[Header("Mutually Exclusive")]
 	private string m_directTextureReference;
 
-	[Tooltip("If true, it will use data model adventure/pack/product/rewardItem whenever bound.")]
 	[SerializeField]
+	[Tooltip("If true, it will use data model adventure/pack/product/rewardItem whenever bound.")]
 	private bool m_useDataModel = true;
 
 	[Tooltip("Name of Adventure (AdventureDbId) to use the watermark from")]

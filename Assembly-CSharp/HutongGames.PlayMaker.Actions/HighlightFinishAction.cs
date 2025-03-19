@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[ActionCategory("Pegasus")]
 [Tooltip("Tells the Highlight system when the state is finished.")]
+[ActionCategory("Pegasus")]
 public class HighlightFinishAction : FsmStateAction
 {
 	[RequiredField]

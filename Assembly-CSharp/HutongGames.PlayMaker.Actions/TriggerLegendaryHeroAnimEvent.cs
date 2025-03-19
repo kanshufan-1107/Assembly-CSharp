@@ -6,9 +6,9 @@ namespace HutongGames.PlayMaker.Actions;
 [Tooltip("Triggers an event on the FSM of the Legendary Hero object attached to an actor")]
 public class TriggerLegendaryHeroAnimEvent : FsmStateAction
 {
+	[Tooltip("Actors game object")]
 	[RequiredField]
 	[CheckForComponent(typeof(Actor))]
-	[Tooltip("Actors game object")]
 	public FsmOwnerDefault m_GameObject;
 
 	[Tooltip("The animation to play.")]

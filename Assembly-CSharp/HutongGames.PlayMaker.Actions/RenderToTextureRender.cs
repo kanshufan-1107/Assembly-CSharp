@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions;
 
-[Tooltip("Triggers a render to texture to render.")]
 [ActionCategory("Pegasus")]
+[Tooltip("Triggers a render to texture to render.")]
 public class RenderToTextureRender : FsmStateAction
 {
 	[RequiredField]

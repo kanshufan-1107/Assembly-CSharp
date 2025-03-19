@@ -6,7 +6,6 @@ using Blizzard.T5.MaterialService.Extensions;
 using Hearthstone.DataModels;
 using Hearthstone.Store;
 using Hearthstone.UI;
-using PegasusShared;
 using PegasusUtil;
 using UnityEngine;
 
@@ -60,6 +59,7 @@ public class TavernBrawlStore : Store
 
 	protected override void OnDestroy()
 	{
+		base.OnDestroy();
 		s_instance = null;
 	}
 
@@ -81,6 +81,15 @@ public class TavernBrawlStore : Store
 		base.Hide();
 	}
 
+	public override void Close()
+	{
+		Hide();
+		if (StoreManager.Get() != null)
+		{
+			StoreManager.Get().UnloadAndFreeMemory();
+		}
+	}
+
 	public override void OnMoneySpent()
 	{
 		UpdateMoneyButtonState();
@@ -89,6 +98,17 @@ public class TavernBrawlStore : Store
 	public override void OnGoldBalanceChanged(NetCache.NetCacheGoldBalance balance)
 	{
 		UpdateGoldButtonState(balance);
+	}
+
+	public override IEnumerable<CurrencyType> GetVisibleCurrencies()
+	{
+		HashSet<CurrencyType> currencies = GetVisibleCurrenciesImpl();
+		int ticketType = TavernBrawlManager.Get().CurrentMission().ticketType;
+		if (GameDbf.TavernBrawlTicket.GetRecord(ticketType).TicketBehaviorType == TavernBrawlTicket.TicketBehaviorType.ARENA_TAVERN_TICKET)
+		{
+			currencies.Add(CurrencyType.TAVERN_TICKET);
+		}
+		return currencies;
 	}
 
 	protected override void ShowImpl(bool isTotallyFake)
@@ -180,30 +200,39 @@ public class TavernBrawlStore : Store
 
 	private void OnContinuePressed(UIEvent e)
 	{
-		m_ButtonFlipper.SendEvent("Flip");
-		m_PaperEffect.SendEvent("BurnAway");
-		m_ContinueButton.SetEnabled(enabled: false);
-		SetUpBuyButtons();
-		m_infoButton.GetComponent<BoxCollider>().enabled = true;
 		_ = TavernBrawlManager.Get().CurrentSession.SessionCount;
 		_ = TavernBrawlManager.Get().CurrentMission().FreeSessions;
+		TavernBrawlMission currentMission = TavernBrawlManager.Get().CurrentMission();
+		int ticketType = currentMission.ticketType;
+		TavernBrawlTicketDbfRecord ticketRecord = GameDbf.TavernBrawlTicket.GetRecord(ticketType);
 		if (TavernBrawlManager.Get().IsEligibleForFreeTicket())
 		{
 			SetMoneyButtonState(BuyButtonState.DISABLED);
 			SetGoldButtonState(BuyButtonState.DISABLED);
-			AlertPopup.PopupInfo info = new AlertPopup.PopupInfo();
-			info.m_headerText = GameStrings.Get("GLOBAL_BRAWLISEUM");
-			info.m_text = GameStrings.Get("GLUE_BRAWLISEUM_FREE_TICKET_BODY");
-			info.m_responseDisplay = AlertPopup.ResponseDisplay.OK;
-			info.m_alertTextAlignment = UberText.AlignmentOptions.Center;
-			info.m_responseCallback = OnFreePopupClosed;
-			DialogManager.Get().ShowPopup(info);
+			SetVCButtonState(BuyButtonState.DISABLED);
+			if (ticketRecord.TicketBehaviorType == TavernBrawlTicket.TicketBehaviorType.ARENA_TAVERN_TICKET)
+			{
+				AlertPopup.PopupInfo info = new AlertPopup.PopupInfo();
+				info.m_headerText = GameStrings.Get("GLOBAL_BRAWLISEUM");
+				info.m_text = GameStrings.Get("GLUE_BRAWLISEUM_FREE_TICKET_BODY");
+				info.m_responseDisplay = AlertPopup.ResponseDisplay.OK;
+				info.m_alertTextAlignment = UberText.AlignmentOptions.Center;
+				info.m_responseCallback = OnFreePopupClosed;
+				DialogManager.Get().ShowPopup(info);
+			}
+			else
+			{
+				TavernBrawlManager.Get().RequestSessionBegin();
+			}
 		}
 		else
 		{
-			TavernBrawlMission currentMission = TavernBrawlManager.Get().CurrentMission();
-			int ticketType = currentMission.ticketType;
-			if (GameDbf.TavernBrawlTicket.GetRecord(ticketType).TicketBehaviorType == TavernBrawlTicket.TicketBehaviorType.ARENA_TAVERN_TICKET && NetCache.Get().GetNetObject<NetCache.NetPlayerArenaTickets>().Balance >= currentMission.ticketAmount)
+			m_ButtonFlipper.SendEvent("Flip");
+			m_PaperEffect.SendEvent("BurnAway");
+			m_ContinueButton.SetEnabled(enabled: false);
+			SetUpBuyButtons();
+			m_infoButton.GetComponent<BoxCollider>().enabled = true;
+			if (ticketRecord.TicketBehaviorType == TavernBrawlTicket.TicketBehaviorType.ARENA_TAVERN_TICKET && NetCache.Get().GetNetObject<NetCache.NetPlayerArenaTickets>().Balance >= currentMission.ticketAmount)
 			{
 				TavernBrawlManager.Get().RequestSessionBegin();
 			}
@@ -300,23 +329,7 @@ public class TavernBrawlStore : Store
 		if (widget != null)
 		{
 			ScenarioDbfRecord scenarioDbf = GameDbf.Scenario.GetRecord(TavernBrawlManager.Get().CurrentMission().missionId);
-			TavernBrawlMission mission = TavernBrawlManager.Get().GetMission(BrawlType.BRAWL_TYPE_TAVERN_BRAWL);
-			TavernBrawlDetailsDataModel model = new TavernBrawlDetailsDataModel
-			{
-				BrawlType = mission.BrawlType,
-				BrawlMode = mission.brawlMode,
-				FormatType = mission.formatType,
-				TicketType = mission.ticketType,
-				MaxWins = mission.maxWins,
-				MaxLosses = mission.maxLosses,
-				PopupType = mission.tavernBrawlSpec.StorePopupType,
-				Title = scenarioDbf.Name,
-				RulesDesc = (((bool)UniversalInputManager.UsePhoneUI && !string.IsNullOrEmpty(scenarioDbf.ShortDescription)) ? scenarioDbf.ShortDescription : scenarioDbf.Description),
-				RewardDesc = mission.tavernBrawlSpec.RewardDesc,
-				MinRewardDesc = mission.tavernBrawlSpec.MinRewardDesc,
-				MaxRewardDesc = mission.tavernBrawlSpec.MaxRewardDesc,
-				EndConditionDesc = mission.tavernBrawlSpec.EndConditionDesc
-			};
+			TavernBrawlDetailsDataModel model = TavernBrawlManager.Get().CreateTavernBrawlDetailsDataModel(scenarioDbf);
 			widget.BindDataModel(model);
 		}
 	}

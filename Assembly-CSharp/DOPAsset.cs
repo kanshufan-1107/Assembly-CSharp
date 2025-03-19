@@ -7,7 +7,7 @@ public class DOPAsset : ScriptableObject
 	public static DOPAsset GenerateDOPAsset()
 	{
 		DOPAsset dOPAsset = ScriptableObject.CreateInstance<DOPAsset>();
-		dOPAsset.DataVersion = 31600;
+		dOPAsset.DataVersion = 32000;
 		return dOPAsset;
 	}
 }

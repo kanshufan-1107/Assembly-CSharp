@@ -13,16 +13,16 @@ public class ShakeMinionsAction : FsmStateAction
 		SelectedGameObject
 	}
 
-	[Tooltip("Impact Object Location")]
 	[RequiredField]
+	[Tooltip("Impact Object Location")]
 	public FsmOwnerDefault gameObject;
 
 	[Tooltip("Shake Type")]
 	[RequiredField]
 	public ShakeMinionType shakeType = ShakeMinionType.RandomDirection;
 
-	[Tooltip("Minions To Shake")]
 	[RequiredField]
+	[Tooltip("Minions To Shake")]
 	public MinionsToShakeEnum MinionsToShake;
 
 	[RequiredField]
@@ -33,8 +33,8 @@ public class ShakeMinionsAction : FsmStateAction
 	[Tooltip("Custom Shake Intensity 0-1. Used when Shake Size is Custom")]
 	public FsmFloat customShakeIntensity;
 
-	[RequiredField]
 	[Tooltip("Radius - 0 = for all objects")]
+	[RequiredField]
 	public FsmFloat radius;
 
 	public override void Reset()

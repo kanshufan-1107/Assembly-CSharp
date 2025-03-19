@@ -1555,7 +1555,8 @@ public class RewardUtils
 
 	public static bool IsMercenaryRewardPortrait(LettuceMercenaryDataModel rewardData)
 	{
-		MercenaryArtVariationDbfRecord artVariation = GameDbf.LettuceMercenary.GetRecord(rewardData.MercenaryId).MercenaryArtVariations.First((MercenaryArtVariationDbfRecord e) => e.CardRecord.NoteMiniGuid == rewardData.Card.CardId);
+		LettuceMercenaryDbfRecord merc = GameDbf.LettuceMercenary.GetRecord(rewardData.MercenaryId);
+		MercenaryArtVariationDbfRecord artVariation = GameDbf.GetIndex().GetMercenaryArtVariationsByMercenaryID(merc.ID).First((MercenaryArtVariationDbfRecord e) => e.CardRecord.NoteMiniGuid == rewardData.Card.CardId);
 		if (rewardData.Card.Premium <= TAG_PREMIUM.NORMAL)
 		{
 			return !artVariation.DefaultVariation;

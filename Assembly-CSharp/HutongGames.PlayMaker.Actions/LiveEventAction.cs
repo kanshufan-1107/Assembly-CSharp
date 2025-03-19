@@ -6,8 +6,8 @@ public class LiveEventAction : FsmStateAction
 {
 	public FsmOwnerDefault m_EventObject;
 
-	[RequiredField]
 	[CompoundArray("Events", "Special Event", "FSM Event")]
+	[RequiredField]
 	public EventTimingType[] m_SpecialEvents;
 
 	public FsmEvent[] m_FSMEvents;

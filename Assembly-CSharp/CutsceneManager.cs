@@ -15,9 +15,9 @@ public class CutsceneManager : MonoBehaviour
 
 	private static CutsceneManager s_instance;
 
+	[SerializeField]
 	[Header("Manager Config")]
 	[Min(1f)]
-	[SerializeField]
 	[Tooltip("Time (seconds) to wait with no active cutscene data before unloading the cutscene (Min 1sec to avoid race conditions)")]
 	private float m_managerWaitToDestroyTimerSeconds = 10f;
 
@@ -50,12 +50,12 @@ public class CutsceneManager : MonoBehaviour
 	[SerializeField]
 	private CutsceneCardLoader m_opponentHeroPowerCardLoader;
 
-	[SerializeField]
 	[Header("Alternate Form Hero")]
+	[SerializeField]
 	private CutsceneCardLoader m_alternateFormHeroCardLoader;
 
-	[SerializeField]
 	[Header("Scene Setup/Minions")]
+	[SerializeField]
 	private List<CutsceneCardLoader> m_friendlyMinionCardLoaders;
 
 	[SerializeField]

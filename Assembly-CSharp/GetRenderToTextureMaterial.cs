@@ -1,16 +1,16 @@
 using HutongGames.PlayMaker;
 using UnityEngine;
 
-[HutongGames.PlayMaker.Tooltip("Get the material instance from an object with RenderToTexture")]
 [ActionCategory("Pegasus")]
+[HutongGames.PlayMaker.Tooltip("Get the material instance from an object with RenderToTexture")]
 public class GetRenderToTextureMaterial : FsmStateAction
 {
-	[RequiredField]
 	[CheckForComponent(typeof(RenderToTexture))]
+	[RequiredField]
 	public FsmOwnerDefault gameObject;
 
-	[RequiredField]
 	[UIHint(UIHint.Variable)]
+	[RequiredField]
 	public FsmMaterial material;
 
 	[HutongGames.PlayMaker.Tooltip("Get the material instance from an object with RenderToTexture. This is used to get the material of the procedurally generated render plane.")]

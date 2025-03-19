@@ -41,8 +41,8 @@ public class HighlightState : MonoBehaviour
 	[FormerlySerializedAs("m_MultiClassStaticSilouetteTexture")]
 	public Texture2D m_BannerStaticSilouetteTexture;
 
-	[FormerlySerializedAs("m_TriClassBannerStaticSilouetteTextureUnique")]
 	[FormerlySerializedAs("m_MultiClassStaticSilouetteTextureUnique")]
+	[FormerlySerializedAs("m_TriClassBannerStaticSilouetteTextureUnique")]
 	public Texture2D m_BannerStaticSilouetteTextureUnique;
 
 	public Texture2D m_MulticlassStaticSilouetteTexture;

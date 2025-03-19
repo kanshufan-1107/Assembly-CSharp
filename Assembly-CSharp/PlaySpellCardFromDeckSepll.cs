@@ -144,7 +144,7 @@ public class PlaySpellCardFromDeckSepll : Spell
 			return;
 		}
 		string actorName = string.Empty;
-		actorName = (entity.IsHiddenSecret() ? ActorNames.GetHistorySecretActor(entity) : ((!entity.IsHiddenForge()) ? ActorNames.GetHandActor(entity) : ActorNames.GetHistoryForgeActor(entity)));
+		actorName = (entity.IsHiddenSecret() ? ActorNames.GetHistorySecretActor(entity) : ((!entity.IsHiddenForge()) ? ActorNames.GetHandActor(entity) : ActorNames.GetHistoryForgeActor()));
 		GameObject revealedActorGo = AssetLoader.Get().InstantiatePrefab(actorName, AssetLoadingOptions.IgnorePrefabPosition);
 		if (revealedActorGo == null)
 		{

@@ -16,8 +16,8 @@ public class ManagedSprite : MonoBehaviour
 	[HideInInspector]
 	private bool m_usesSpriteAtlas = true;
 
-	[HideInInspector]
 	[SerializeField]
+	[HideInInspector]
 	private string m_spriteAtlasAssetString;
 
 	private AssetReference m_spriteAtlasRef;
