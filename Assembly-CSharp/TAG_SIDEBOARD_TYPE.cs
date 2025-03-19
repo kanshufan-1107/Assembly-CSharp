@@ -1,0 +1,6 @@
+public enum TAG_SIDEBOARD_TYPE
+{
+	NONE,
+	ETC,
+	ZILLIAX
+}

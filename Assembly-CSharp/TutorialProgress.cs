@@ -1,0 +1,7 @@
+public enum TutorialProgress
+{
+	NOTHING_COMPLETE,
+	REXXAR_COMPLETE,
+	GARROSH_COMPLETE,
+	LICH_KING_COMPLETE
+}

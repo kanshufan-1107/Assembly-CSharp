@@ -1,0 +1,32 @@
+using System.Collections.Generic;
+using Blizzard.T5.Jobs;
+using UnityEngine;
+
+public class LoadScenarioOverrideDbfRecords : IJobDependency, IAsyncJobResult
+{
+	private AssetBundleRequest assetBundleRequest;
+
+	public List<ScenarioOverrideDbfRecord> GetRecords()
+	{
+		ScenarioOverrideDbfAsset dbfAsset = assetBundleRequest.asset as ScenarioOverrideDbfAsset;
+		if (dbfAsset != null)
+		{
+			for (int i = 0; i < dbfAsset.Records.Count; i++)
+			{
+				dbfAsset.Records[i].StripUnusedLocales();
+			}
+			return dbfAsset.Records;
+		}
+		return null;
+	}
+
+	public LoadScenarioOverrideDbfRecords(string resourcePath)
+	{
+		assetBundleRequest = DbfShared.GetAssetBundle().LoadAssetAsync(resourcePath, typeof(ScenarioOverrideDbfAsset));
+	}
+
+	public bool IsReady()
+	{
+		return assetBundleRequest.isDone;
+	}
+}

@@ -1,0 +1,12 @@
+public enum CurrencyType
+{
+	NONE,
+	GOLD,
+	DUST,
+	CN_RUNESTONES,
+	REAL_MONEY,
+	CN_ARCANE_ORBS,
+	ROW_RUNESTONES,
+	RENOWN,
+	BG_TOKEN
+}

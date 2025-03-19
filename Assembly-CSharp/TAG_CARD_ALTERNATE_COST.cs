@@ -1,0 +1,7 @@
+public enum TAG_CARD_ALTERNATE_COST
+{
+	MANA,
+	HEALTH,
+	ARMOR,
+	CORPSES
+}

@@ -1,0 +1,8 @@
+public enum TAG_ROLE
+{
+	INVALID,
+	CASTER,
+	FIGHTER,
+	TANK,
+	NEUTRAL
+}

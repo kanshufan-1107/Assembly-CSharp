@@ -1,0 +1,15 @@
+namespace Hearthstone.Core.Streaming;
+
+public enum AssetDownloaderState
+{
+	UNINITIALIZED = -1,
+	ERROR,
+	IDLE,
+	VERSIONING,
+	DOWNLOADING,
+	AGENT_IMPEDED,
+	DISK_FULL,
+	FETCHING_SIZE,
+	AWAITING_WIFI,
+	FIRST_DOWNLOAD_WAIT
+}

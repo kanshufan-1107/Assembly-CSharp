@@ -1,0 +1,9 @@
+public enum PrivacyFeatures
+{
+	INVALID = -1,
+	CHAT = 1,
+	PERSONALIZED_STORE_ITEMS = 3,
+	PUSH_NOTIFICATIONS = 4,
+	ANALYTICS = 5,
+	NEARBY_FRIENDS = 6
+}

@@ -1,0 +1,6 @@
+public enum DeathSpellType
+{
+	NONE,
+	BONELORD_FROSTWHISPER,
+	RIVENDARE_WARRIDER
+}

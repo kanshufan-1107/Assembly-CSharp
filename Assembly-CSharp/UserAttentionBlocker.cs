@@ -1,0 +1,14 @@
+using System;
+
+[Flags]
+public enum UserAttentionBlocker
+{
+	NONE = 0,
+	FATAL_ERROR_SCENE = 1,
+	SET_ROTATION_INTRO = 2,
+	SET_ROTATION_CM_TUTORIALS = 4,
+	INITIAL_DOWNLOAD = 0x10,
+	RPE_LOANER_MESSAGE = 0x20,
+	ALL = -1,
+	ALL_EXCEPT_FATAL_ERROR_SCENE = -2
+}

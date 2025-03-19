@@ -1,0 +1,6 @@
+public enum TAG_COSTCOLOR
+{
+	DEFAULT,
+	GREEN,
+	RED
+}

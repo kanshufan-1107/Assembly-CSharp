@@ -1,0 +1,588 @@
+using System.Collections;
+using System.Collections.Generic;
+
+public class TB_01_BOM_Mercs_Fight_001 : BOM_07_Scabbs_Dungeon
+{
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAD_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAD_01.prefab:44d449d2fe8c49439d5ecd327d9f24ae");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAE_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAE_01.prefab:1684f4b5680b48438e14fb2f982c26a9");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAF_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAF_01.prefab:a990441def904e0fa022a44dd886eec8");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAN_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAN_01.prefab:c04c977e8eac4c7cb21b28eb2f36e5a3");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAO_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAO_01.prefab:678ae55423dc47549b9b91ccd7363f92");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAP_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAP_01.prefab:caaa3b4635cf48a9825f9b7f62b365b5");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAP_03 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAP_03.prefab:674a38edb17a4274af6d4ff8fb0ba7af");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeE_02 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeE_02.prefab:f09b07d2c6e84dd48a8e45417b2acd84");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeM_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeM_01.prefab:8e5b08f4ec7041d6b0b8908536928494");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeN_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeN_01.prefab:d4dfb5f4a3e44d809d94f6989b2e7f26");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeO_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeO_01.prefab:6144535da9b24ba5ad5bd6a6530e3002");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeO_02 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeO_02.prefab:9b576bb7edfa46aab01764ca6c8e416b");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeT_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeT_01.prefab:aa013b66487f4891bef650ae0dd28015");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeU_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeU_01.prefab:917fb4eb1d764360aae433740fc56a69");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeV_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeV_01.prefab:ba2631b3ed7941aab5cad630b53e3658");
+
+	private static readonly AssetReference VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9Select_01 = new AssetReference("VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9Select_01.prefab:7a74c94783944827a02a69067ab43bbf");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeF_02 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeF_02.prefab:cfecf25a4edf4540ac0ae3e8d99ae720");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeG_02 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeG_02.prefab:312e18a1ba9048c09bb8d16076b39b23");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeH_02 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeH_02.prefab:f3d539758ff642039981866eaaad7095");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeH_03 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeH_03.prefab:9e139bebe3034914812e38b02793b3b6");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeI_02 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeI_02.prefab:fa7abf872b9544f0b149bb07432f9a15");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeJ_01 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeJ_01.prefab:8de0e0ae0b884d0fbaf8e11c98be5357");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeK_01 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeK_01.prefab:b9c1933e411b42cc88fe09f08dcb68d0");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeL_03 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeL_03.prefab:5e1cd62fa21f422a9707fc31a3b3836d");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeM_02 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeM_02.prefab:653580b1fafc4fd28e62f70ff5ee9147");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeN_02 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeN_02.prefab:c2c3372b2bc74282b00b22e845d2e7c8");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeO_03 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeO_03.prefab:0d726c8738e1438ebdc878300d8e1655");
+
+	private static readonly AssetReference VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9Select_01 = new AssetReference("VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9Select_01.prefab:be2dfd531dc34577827cbbb6b5c6284e");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAA_01 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAA_01.prefab:2208615f236349fb8d3e6f9f7121580e");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAA_03 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAA_03.prefab:759de0bec5e44c0aab13572005698790");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAB_01 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAB_01.prefab:2659fc16654b4095a1f7e9fb9aa9dbdf");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAB_02 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAB_02.prefab:f048b3b7268bd634e9f42d3053f0c157");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAC_02 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAC_02.prefab:9455083b1f974b52bf85372258565bfb");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAK_02 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAK_02.prefab:b4cd653e83c5462b81a66f318e264bf9");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAL_01 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAL_01.prefab:795450eb385d4736b7ac6b61c96c42e0");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAM_01 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAM_01.prefab:230afdd59693448c969bdb38c24c12aa");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeD_02 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeD_02.prefab:df12765374a5426e9610e3a691aa68d8");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeJ_02 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeJ_02.prefab:15e7b1fff336471e86d2fa53e35f254a");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeK_02 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeK_02.prefab:ce1d4eb17fae4755ad9a21684875f334");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeK_03 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeK_03.prefab:1aaccecd4226431fa7c52a44a3982dc3");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeL_01 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeL_01.prefab:91a812d61cdb4c8589061fdb6aedf716");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeL_02 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeL_02.prefab:cae0e1b3292145cbbc41855d3f22a370");
+
+	private static readonly AssetReference VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9Select_01 = new AssetReference("VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9Select_01.prefab:f8b7c7420882417db081b739ac6ae7c8");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAH_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAH_01.prefab:210f89f9134c41f6a28ac96d90d0d287");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAI_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAI_01.prefab:24b0bf3113764a76942c6003e5f553e0");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAI_03 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAI_03.prefab:94478046434f429697d903f956c2e422");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAJ_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAJ_01.prefab:4affaf7d764a4fd29fe0599e20af1ccd");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeC_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeC_01.prefab:e3b9dad573e84bb78d9af50837cc64e9");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeC_03 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeC_03.prefab:87f1a379fbce4888b9fec27669452b48");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeG_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeG_01.prefab:547676f7f143469c8334364e63042173");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeH_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeH_01.prefab:6e381358b9754fb98012c652f7e4203b");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeI_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeI_01.prefab:fcd6a32920c8445d88c2139c28879fe9");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeQ_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeQ_01.prefab:c0ace840bb904e28967ce21862f9ea0e");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeR_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeR_01.prefab:bcba7d978ed348cbb09391678bb42c03");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeS_02 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeS_02.prefab:aadc312c12f3469eb6722e5167d440e0");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeX_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeX_01.prefab:12844c383c0c4a6faac62f68b0f04717");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeY_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeY_01.prefab:93c711e1dbf94bab8d073eed4b1140bc");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeZ_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeZ_01.prefab:3e58bbe7ebb849e0b17c5b04a430ce65");
+
+	private static readonly AssetReference VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9Select_01 = new AssetReference("VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9Select_01.prefab:1d5f0ebed3b34406a48c62195a712d15");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAG_01 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAG_01.prefab:6f47552a82984e0cb7328efeca50da38");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAH_02 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAH_02.prefab:b2a366f2278f4bf4a37d7935c70f829f");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAI_02 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAI_02.prefab:abcaa689d02e406e87106365fdc6f39b");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAJ_02 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAJ_02.prefab:4062fe5f7493421e8b5639a4b50e9fd2");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAK_01 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAK_01.prefab:3718f8b882484ac48a5e850bceaeb338");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAL_02 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAL_02.prefab:451625792032430995e8ed4eb4f59687");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAM_02 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAM_02.prefab:9160172d746d44d88966c6ae38fd53d7");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAN_02 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAN_02.prefab:61d3b1a664c8445fbaa516f09fd3dbff");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAO_02 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAO_02.prefab:a59b1c9daeca46fe8022d383619ffe33");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAP_02 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAP_02.prefab:e5959d5050154a1da417ae1adfd16e75");
+
+	private static readonly AssetReference VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9Select_01 = new AssetReference("VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9Select_01.prefab:e56fffb932ac4af19d17df25bb8b7020");
+
+	private static readonly AssetReference VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeA_02 = new AssetReference("VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeA_02.prefab:0e55bfb9551b4649b024dff629cd1022");
+
+	private static readonly AssetReference VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeAG_02 = new AssetReference("VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeAG_02.prefab:58b5bf54c7c14e16a6e925e4d2616929");
+
+	private static readonly AssetReference VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeB_02 = new AssetReference("VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeB_02.prefab:a1e39d55c75d20c4c92f41bd1265b0a2");
+
+	private static readonly AssetReference VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeF_01 = new AssetReference("VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeF_01.prefab:92a968c44e97459bbc63f0d1bb8062bd");
+
+	private static readonly AssetReference VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeP_01 = new AssetReference("VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeP_01.prefab:2da1c8390e8641e2a1552ab34facf7ad");
+
+	private static readonly AssetReference VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeW_01 = new AssetReference("VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeW_01.prefab:e0519cf7538e470f9a47c247bc96c3d1");
+
+	private static readonly AssetReference VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9Intro_02 = new AssetReference("VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9Intro_02.prefab:9af8feb6f5d04ee0a0c93a3b37526509");
+
+	private static readonly AssetReference VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9Victory_Tavish_01 = new AssetReference("VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9Victory_Tavish_01.prefab:db630874d6ac4ce790c9ae8648c5e2dc");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAA_02 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAA_02.prefab:5e2003b8c4ae411ea61e37cc763d5bba");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAB_03 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAB_03.prefab:f2205ff62b9f452a83517b6f3d3a5592");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAC_01 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAC_01.prefab:4fed3e7c456c4a278624e42da04c837e");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAD_02 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAD_02.prefab:f2b5094ba685451aa35cc71fdd81a52d");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAE_02 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAE_02.prefab:7c0ebd4fbb87484b8a0d8a0e82b1a1bf");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAF_02 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAF_02.prefab:4132ec6d9e1242b79a8bf0146a9af54c");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeW_02 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeW_02.prefab:144c1ba14534412dada32d34e7e3bdde");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeX_02 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeX_02.prefab:723c3929fe5648b5915cea6e6069458b");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeY_02 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeY_02.prefab:839b17606e4342e7bc226cafbf1cb4bb");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeZ_02 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeZ_02.prefab:c441846f5c4c47da97200b892e9a6a18");
+
+	private static readonly AssetReference VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9Select_01 = new AssetReference("VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9Select_01.prefab:e0108824b0d967a49bce3530f4bb727d");
+
+	private static readonly AssetReference VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeA_01 = new AssetReference("VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeA_01.prefab:1137ba081833453195d163ead8e8e141");
+
+	private static readonly AssetReference VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeB_01 = new AssetReference("VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeB_01.prefab:1b16471c51054a96a0f040a412863b38");
+
+	private static readonly AssetReference VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeC_02 = new AssetReference("VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeC_02.prefab:7ea5e6f9313546bfb8398065c0a6f8a4");
+
+	private static readonly AssetReference VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeC_04 = new AssetReference("VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeC_04.prefab:f69f7f785fc34260bb29501a54e6dda5");
+
+	private static readonly AssetReference VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeD_01 = new AssetReference("VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeD_01.prefab:022ceb5dc8494a7f92b7f12e5c2bdb84");
+
+	private static readonly AssetReference VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeE_01 = new AssetReference("VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeE_01.prefab:c5de4b65a9f24ea98d923f2f08537599");
+
+	private static readonly AssetReference VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9Intro_01 = new AssetReference("VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9Intro_01.prefab:ed6e31c819eb4e49b3a218b42c527b5c");
+
+	private static readonly AssetReference VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9Victory_Rokara_01 = new AssetReference("VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9Victory_Rokara_01.prefab:a6d0866bd1cd47ae8e73d0df1bd4911b");
+
+	private static readonly AssetReference VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeP_02 = new AssetReference("VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeP_02.prefab:a4969a331fd24c089be59890674a81d2");
+
+	private static readonly AssetReference VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeQ_02 = new AssetReference("VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeQ_02.prefab:51f4faf4f53744e3976770cc99ca7043");
+
+	private static readonly AssetReference VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeR_02 = new AssetReference("VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeR_02.prefab:cac80c875a3746b5aa7aacd672e17024");
+
+	private static readonly AssetReference VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeS_01 = new AssetReference("VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeS_01.prefab:77d97e5084a74ebeba5eaffb4f251f3a");
+
+	private static readonly AssetReference VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeT_02 = new AssetReference("VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeT_02.prefab:e818ef680cf54cb2abebaee6064b8d26");
+
+	private static readonly AssetReference VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeU_02 = new AssetReference("VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeU_02.prefab:032119be132c46c99d487a72528c67e2");
+
+	private static readonly AssetReference VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeV_02 = new AssetReference("VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeV_02.prefab:f766abecab844404a15b434e72d564c0");
+
+	private static readonly AssetReference VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9Select_01 = new AssetReference("VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9Select_01.prefab:78e710678f76454fa4b03317697bc43e");
+
+	private List<string> m_VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9SelectLines = new List<string> { VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9Select_01 };
+
+	private HashSet<string> m_playedLines = new HashSet<string>();
+
+	public bool HeroPowerIsBrukan = true;
+
+	public bool HeroPowerIsDawngrasp = true;
+
+	public bool HeroPowerIsGuff = true;
+
+	public bool HeroPowerIsScabbs = true;
+
+	public override void PreloadAssets()
+	{
+		base.PreloadAssets();
+		List<string> m_SoundFiles = new List<string>
+		{
+			VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAD_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAE_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAF_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAN_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAO_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAP_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAP_03, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeE_02, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeM_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeN_01,
+			VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeO_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeO_02, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeT_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeU_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeV_01, VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeF_02, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeG_02, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeH_02, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeH_03,
+			VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeI_02, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeJ_01, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeK_01, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeL_03, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeM_02, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeN_02, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeO_03, VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAA_01, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAA_03,
+			VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAB_01, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAB_02, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAC_02, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAK_02, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAL_01, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAM_01, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeD_02, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeJ_02, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeK_02, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeK_03,
+			VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeL_01, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeL_02, VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAH_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAI_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAI_03, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAJ_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeC_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeC_03, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeG_01,
+			VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeH_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeI_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeQ_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeR_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeS_02, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeX_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeY_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeZ_01, VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9Select_01, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAG_01,
+			VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAH_02, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAI_02, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAJ_02, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAK_01, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAL_02, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAM_02, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAN_02, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAO_02, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAP_02, VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9Select_01,
+			VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeA_02, VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeAG_02, VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeB_02, VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeF_01, VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeP_01, VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeW_01, VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9Intro_02, VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9Victory_Tavish_01, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAA_02, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAB_03,
+			VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAC_01, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAD_02, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAE_02, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAF_02, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeW_02, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeX_02, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeY_02, VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeZ_02, VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeA_01, VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeB_01,
+			VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeC_02, VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeC_04, VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeD_01, VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeE_01, VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9Intro_01, VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9Victory_Rokara_01, VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeP_02, VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeQ_02, VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeR_02, VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeS_01,
+			VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeT_02, VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeU_02, VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeV_02, VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9Select_01
+		};
+		SetBossVOLines(m_SoundFiles);
+		foreach (string soundFile in m_SoundFiles)
+		{
+			PreloadSound(soundFile);
+		}
+	}
+
+	public override void OnCreateGame()
+	{
+		base.OnCreateGame();
+	}
+
+	protected override IEnumerator HandleMissionEventWithTiming(int missionEvent)
+	{
+		while (m_enemySpeaking)
+		{
+			yield return null;
+		}
+		GameState.Get().GetOpposingSidePlayer().GetHero()
+			.GetCard()
+			.GetActor();
+		GameState.Get().GetFriendlySidePlayer().GetHero()
+			.GetCard()
+			.GetActor();
+		switch (missionEvent)
+		{
+		case 514:
+			yield return MissionPlayVO("HERO_05n", VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9Intro_01);
+			yield return MissionPlayVO("HERO_01j", VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9Intro_02);
+			break;
+		case 777:
+			MissionPause(pause: true);
+			yield return MissionPlayVO("HERO_05n", VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9Victory_Rokara_01);
+			MissionPause(pause: false);
+			break;
+		case 778:
+			MissionPause(pause: true);
+			yield return MissionPlayVO("HERO_01j", VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9Victory_Tavish_01);
+			MissionPause(pause: false);
+			break;
+		default:
+			yield return base.HandleMissionEventWithTiming(missionEvent);
+			break;
+		}
+	}
+
+	protected override IEnumerator RespondToFriendlyPlayedCardWithTiming(Entity entity)
+	{
+		yield return base.RespondToFriendlyPlayedCardWithTiming(entity);
+		while (m_enemySpeaking)
+		{
+			yield return null;
+		}
+		while (entity.GetCardType() == TAG_CARDTYPE.INVALID)
+		{
+			yield return null;
+		}
+		if (!m_playedLines.Contains(entity.GetCardId()) || entity.GetCardType() == TAG_CARDTYPE.HERO_POWER)
+		{
+			yield return WaitForEntitySoundToFinish(entity);
+			string cardID = entity.GetCardId();
+			m_playedLines.Add(cardID);
+			GameState.Get().GetOpposingSidePlayer().GetHero()
+				.GetCard()
+				.GetActor();
+			GameState.Get().GetFriendlySidePlayer().GetHero()
+				.GetCard()
+				.GetActor();
+		}
+	}
+
+	protected override IEnumerator RespondToPlayedCardWithTiming(Entity entity)
+	{
+		while (m_enemySpeaking)
+		{
+			yield return null;
+		}
+		while (entity.GetCardType() == TAG_CARDTYPE.INVALID)
+		{
+			yield return null;
+		}
+		if (!m_playedLines.Contains(entity.GetCardId()) || entity.GetCardType() == TAG_CARDTYPE.HERO_POWER)
+		{
+			yield return base.RespondToPlayedCardWithTiming(entity);
+			yield return WaitForEntitySoundToFinish(entity);
+			string cardID = entity.GetCardId();
+			m_playedLines.Add(cardID);
+			GameState.Get().GetOpposingSidePlayer().GetHero()
+				.GetCard()
+				.GetActor();
+			GameState.Get().GetFriendlySidePlayer().GetHero()
+				.GetCard()
+				.GetActor();
+		}
+	}
+
+	protected override IEnumerator HandleStartOfTurnWithTiming(int turn)
+	{
+		while (m_enemySpeaking)
+		{
+			yield return null;
+		}
+		GameState.Get().GetOpposingSidePlayer().GetHero()
+			.GetCard()
+			.GetActor();
+		GameState.Get().GetFriendlySidePlayer().GetHero()
+			.GetCard()
+			.GetActor();
+		GameState.Get().GetFriendlySidePlayer().GetHeroPower()
+			.GetCard()
+			.GetActor();
+		switch (turn)
+		{
+		case 3:
+			yield return MissionPlayVO("HERO_05n", VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeA_01);
+			yield return MissionPlayVO("HERO_01j", VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeA_02);
+			break;
+		case 5:
+			yield return MissionPlayVO("HERO_05n", VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeB_01);
+			yield return MissionPlayVO("HERO_01j", VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeB_02);
+			break;
+		case 7:
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeC_01);
+				yield return MissionPlayVO("HERO_05n", VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeC_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeC_03);
+				yield return MissionPlayVO("HERO_05n", VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeC_04);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("HERO_05n", VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeD_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeD_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null)
+			{
+				yield return MissionPlayVO("HERO_05n", VO_Story_Hero_Tavish_Male_Dwarf_BOM_Scabbs_Mission9ExchangeE_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeE_02);
+			}
+			break;
+		case 9:
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAG_01);
+				yield return MissionPlayVO("HERO_01j", VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeAG_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null)
+			{
+				yield return MissionPlayVO("HERO_01j", VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeF_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeF_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Xyrella_001p") != null)
+			{
+				yield return MissionPlayVO("HERO_01j", VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeP_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Xyrella_001p", VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeP_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null)
+			{
+				yield return MissionPlayVO("HERO_01j", VO_Story_Hero_Rokara_Female_Orc_BOM_Scabbs_Mission9ExchangeW_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeW_02);
+			}
+			break;
+		case 11:
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAD_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAD_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAN_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAN_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeM_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeM_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Xyrella_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeT_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Xyrella_001p", VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeT_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeJ_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeJ_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeG_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeG_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAH_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAH_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Xyrella_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeQ_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Xyrella_001p", VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeQ_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeX_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeX_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAK_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAK_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAA_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAA_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAA_03);
+			}
+			break;
+		case 13:
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAE_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAE_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAO_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAO_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeN_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeN_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Xyrella_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeU_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Xyrella_001p", VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeU_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeK_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeK_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeK_03);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeH_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeH_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeH_03);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAI_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAI_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAI_03);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Xyrella_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeR_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Xyrella_001p", VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeR_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeY_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeY_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAB_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAB_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAB_03);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAL_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAL_02);
+			}
+			break;
+		case 15:
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAF_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAF_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAP_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAP_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeAP_03);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeO_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeO_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeO_03);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Brukan_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Xyrella_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Brukan_001p", VO_Story_Hero_Brukan_Male_Troll_BOM_Scabbs_Mission9ExchangeV_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Xyrella_001p", VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeV_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeI_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeI_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Cariel_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeL_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeL_02);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Cariel_001p", VO_Story_Hero_Cariel_Female_Human_BOM_Scabbs_Mission9ExchangeL_03);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeAJ_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAJ_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeZ_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeZ_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Guff_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Xyrella_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Xyrella_001p", VO_Story_Hero_Xyrella_Female_Draenei_BOM_Scabbs_Mission9ExchangeS_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Guff_001p", VO_Story_Hero_Guff_Male_Tauren_BOM_Scabbs_Mission9ExchangeS_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Scabbs_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Scabbs_001p", VO_Story_Hero_Scabbs_Male_Gnome_BOM_Scabbs_Mission9ExchangeAC_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAC_02);
+			}
+			if (FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Kurtrus_001p") != null && FindActorInPlayByDesignCode("TB_01_BOM_Mercs_Dawngrasp_001p") != null)
+			{
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Dawngrasp_001p", VO_Story_Hero_Dawngrasp_X_BloodElf_BOM_Scabbs_Mission9ExchangeAM_01);
+				yield return MissionPlayVO("TB_01_BOM_Mercs_Kurtrus_001p", VO_Story_Hero_Kurtrus_Male_NightElf_BOM_Scabbs_Mission9ExchangeAM_02);
+			}
+			break;
+		}
+	}
+}
